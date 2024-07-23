@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" href="./img/JoinIcon.png">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./css/fonts.css">
+</head>
+<body>    
+
+    <div id="logInContent">
+        <img id="logo" src="./img/Capa 2.png" alt="Logo">
+        <div class="overlay"></div>
+        <div class="sign-up-box" id="signUpBox">
+            <h4>Not a Join user?</h4>
+            <button onclick="signUp()" class="btn-sign-up">Sign up</button>
+        </div>
+        
+        <div class="login-container" id="loginContainer">
+            <h1>Log in</h1>
+            <div class="separator"></div>
+
+            <form id="loginForm">
+                <div class="input-field">
+                    <input id="loginEmail" class="input-log-in" type="email" placeholder="Email" required>
+                    <img src="./img/mail.png" alt="email icon" class="icon">
+                </div>
+                <div class="input-field">
+                    <input id="loginPassword" class="input-log-in" type="password" placeholder="Password" required>
+                    <img src="./img/lock.png" alt="password icon" class="icon">
+                </div>
+
+                <div class="checkbox">
+                    <label for="rememberMe">
+                        <input class="input-checkbox" type="checkbox" id="rememberMe">
+                        <span class="custom-checkbox"></span>Remember me
+                    </label>
+                </div>
+
+                <div class="log-in-btn-container">
+                    <button type="submit" class="btn-log-in">Log in</button>
+                    <button class="btn-guest-log-in">Guest Log in</button>
+                </div>              
+            </form>
+        </div>
+
+        <div class="signup-container hidden" id="signUpContainer">
+            <img onclick="logIn()" src="./img/Vector.png" alt="" class="arrow-back">
+            <h1>Sign up</h1>
+            <div class="separator"></div>
+
+            <form id="signUpForm">
+                <div class="input-field">
+                    <input required minlength="3" class="input-log-in" type="text" placeholder="Name" id="signUpName">
+                    <img src="./img/user.png" alt="user icon" class="icon">
+                </div>
+                <div class="input-field">
+                    <input required class="input-log-in" type="email" placeholder="Email" id="signUpEmail">
+                    <img src="./img/mail.png" alt="email icon" class="icon">
+                </div>
+                <div class="input-field">
+                    <input required minlength="8" class="input-log-in" type="password" placeholder="Password" id="signUpPassword">
+                    <img src="./img/lock.png" alt="password icon" class="icon">
+                </div>
+                <div class="input-field">
+                    <input required minlength="8" class="input-log-in" type="password" placeholder="Confirm Password" id="signUpConfirmPassword">
+                    <img src="./img/lock.png" alt="password icon" class="icon">                    
+                </div>
+                <div id="confirmPasswordError" class="error-message"></div>
+
+                <div class="checkbox">
+                    <label for="privacy-policy">
+                        <input class="input-checkbox" type="checkbox" id="privacy-policy">
+                        <span class="custom-checkbox"></span>
+                        I accept the<a class="privacy-policy-link" href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <div class="sign-up-btn-container">
+                    <button type="submit" id="signUpButton" class="btn-log-in">Sign up</button>
+                </div>              
+            </form>
+        </div>
+
+        <div class="signup-overlay" id="signup-overlay">
+            <div class="confirm-signup">You Signed Up Successfully</div>
+        </div>
+
+        <div class="terms">
+            <a href="#" class="terms-link">Privacy Policy</a>
+            <a href="#" class="terms-link">Legal Notice</a>
+        </div>
+    </div>    
+
+    <script src="script.js"></script>    
+</body>
+</html>
