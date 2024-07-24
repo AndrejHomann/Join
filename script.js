@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
     const rememberMeCheckbox = document.getElementById('rememberMe');
-    const BASE_URL = 'https://authentification-bd13f-default-rtdb.europe-west1.firebasedatabase.app/';
+    const BASE_URL = 'https://authentification-bd13f-default-rtdb.europe-west1.firebasedatabase.app/'; //(Susanne's Firebase)
 
     let userData = {
         name: '',
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             for (const key in data) {
                 if (data[key].email === email && data[key].password === password) {
-                    alert('Login successful');
+                    window.location.href = './summary/summary_user.html';
                     clearLoginFields()
                     return;
                 }
