@@ -4,17 +4,18 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
-        <link rel="icon" type="image/x-icon" href="./assets/img/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
         <link rel="stylesheet" href="./addTask.css" />
         <link rel="stylesheet" href="./addTask.js" />
+        <link rel="stylesheet" href="/css/fonts.css" />
     </head>
 
     <body onload="includeHTML()">
         <div class="flex container transform50">
-            <nav w3-include-html="./build/templates/navigation.html"></nav>
+            <nav w3-include-html="templates/navigation.html"></nav>
 
             <main class="flex">
-                <header class="flex" w3-include-html="./build/templates/header.html"></header>
+                <header class="flex"></header>
                 <h1>Add Task</h1>
 
                 <form id="content-box-container" onsubmit="(event)=>{addTaskFunktion(event);}">
@@ -50,19 +51,19 @@
                                 <button class="choose-prio-button flex-center-align" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')">
                                     <span id="prio-urgent" class="flex-center-align"
                                         >Urgent
-                                        <img src="./assets/img/urgent-arrows.svg" id="urgent-arrows" />
+                                        <img src="/img/urgent-arrows.svg" id="urgent-arrows" />
                                     </span>
                                 </button>
                                 <button class="choose-prio-button flex-center-align" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
                                     <span id="prio-medium" class="flex-center-align"
                                         >Medium
-                                        <img src="./assets/img/medium-arrows.svg" id="medium-arrows" />
+                                        <img src="/img/medium-arrows.svg" id="medium-arrows" />
                                     </span>
                                 </button>
                                 <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')">
                                     <span id="prio-low" class="flex-center-align"
                                         >Low
-                                        <img src="./assets/img/low-arrows.svg" id="low-arrows" />
+                                        <img src="/img/low-arrows.svg" id="low-arrows" />
                                     </span>
                                 </button>
                             </div>
@@ -84,17 +85,17 @@
                     </div>
                     <div id="interactives-buttons-container">
                         <button id="clear-button" class="flex-center-align">
-                            <span id="clear-button-font" class="contents">Clear<img src="./assets/img/cancel-icon.svg" id="cancel-icon" /></span>
+                            <span id="clear-button-font" class="contents">Clear<img src="/img/cancel-icon.svg" id="cancel-icon" /></span>
                         </button>
                         <button id="create-button" class="flex-center-align" type="submit" onclick="addTask(event)">
-                            <span id="create-task-button-font" class="contents">Create Task<img src="./assets/img/check-icon.svg" id="check-icon" /></span>
+                            <span id="create-task-button-font" class="contents">Create Task<img src="/img/check-icon.svg" id="check-icon" /></span>
                         </button>
                     </div>
                 </form>
             </main>
         </div>
 
-        <script src="./build/js/main.js"></script>
-        <script src="./build/js/addTask.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/addTask/addTask.js"></script>
     </body>
 </html>
