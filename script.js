@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             for (const key in data) {
                 if (data[key].email === email && data[key].password === password) {
-                    window.location.href = './summary/summary_user.html';
+                    window.location.href = './html/summary_user.html';
                     clearLoginFields()
                     return;
                 }
