@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="icon" type="image/x-icon" href="./assets/img/favicon.ico" />
+        <link rel="stylesheet" href="./addTask.css" />
+        <link rel="stylesheet" href="./addTask.js" />
+    </head>
+
+    <body onload="includeHTML()">
+        <div class="flex container transform50">
+            <nav w3-include-html="./build/templates/navigation.html"></nav>
+
+            <main class="flex">
+                <header class="flex" w3-include-html="./build/templates/header.html"></header>
+                <h1>Add Task</h1>
+
+                <form id="content-box-container" onsubmit="(event)=>{addTaskFunktion(event);}">
+                    <div id="content-box-left" class="flex-column">
+                        <div id="title-container" class="flex-column">
+                            <span class="subtitle">Title<span class="asterisk">*</span></span>
+                            <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" required /></div>
+                        </div>
+                        <div id="description-container" class="flex-column">
+                            <span class="subtitle">Description</span>
+                            <div id="textarea-container"><textarea placeholder="Enter a Description" id="textarea-input" required></textarea></div>
+                        </div>
+                        <div id="assigned-container" class="flex-column">
+                            <span class="subtitle">Assigned to</span>
+                            <select name="Select contacts to assign" class="select-container">
+                                <option value="Select contacts to assign">Select contacts to assign</option>
+                                <option value="Sofia Müller (You)" id="selected-name">Sofia Müller (You)</option>
+                                <option value="Anton Mayer">Anton Mayer</option>
+                                <option value="Anja Schulz" selected>Anja Schulz</option>
+                                <option value="Benedikt Ziegler">Benedikt Ziegler</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="border-container"></div>
+                    <div id="content-box-right" class="flex-column">
+                        <div id="date-container" class="flex-column">
+                            <span class="subtitle">Due date<span class="asterisk">*</span></span>
+                            <div id="calender"><input type="date" id="date-input" required /></div>
+                        </div>
+                        <div id="prio-container" class="flex-column">
+                            <span class="subtitle">Prio</span>
+                            <div id="choose-prio-container">
+                                <button class="choose-prio-button flex-center-align" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')">
+                                    <span id="prio-urgent" class="flex-center-align"
+                                        >Urgent
+                                        <img src="./assets/img/urgent-arrows.svg" id="urgent-arrows" />
+                                    </span>
+                                </button>
+                                <button class="choose-prio-button flex-center-align" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
+                                    <span id="prio-medium" class="flex-center-align"
+                                        >Medium
+                                        <img src="./assets/img/medium-arrows.svg" id="medium-arrows" />
+                                    </span>
+                                </button>
+                                <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')">
+                                    <span id="prio-low" class="flex-center-align"
+                                        >Low
+                                        <img src="./assets/img/low-arrows.svg" id="low-arrows" />
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="category-container" class="flex-column">
+                            <span class="subtitle">Cateogory<span class="asterisk">*</span></span>
+                            <select class="select-container">
+                                <option value="Technical Task">Technical Task</option>
+                                <option value="User Story">User Story</option>
+                            </select>
+                        </div>
+                        <div id="substasks-container" class="flex-column">
+                            <span class="subtitle">Subtasks</span>
+                            <input type="text" id="choose-subtasks" placeholder="Add new subtask" required />
+                        </div>
+                    </div>
+                    <div id="required-container">
+                        <span id="required-span"><span class="asterisk">*</span>This field is required</span>
+                    </div>
+                    <div id="interactives-buttons-container">
+                        <button id="clear-button" class="flex-center-align">
+                            <span id="clear-button-font" class="contents">Clear<img src="./assets/img/cancel-icon.svg" id="cancel-icon" /></span>
+                        </button>
+                        <button id="create-button" class="flex-center-align" type="submit" onclick="addTask(event)">
+                            <span id="create-task-button-font" class="contents">Create Task<img src="./assets/img/check-icon.svg" id="check-icon" /></span>
+                        </button>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <script src="./build/js/main.js"></script>
+        <script src="./build/js/addTask.js"></script>
+    </body>
+</html>
