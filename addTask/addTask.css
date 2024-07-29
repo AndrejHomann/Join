@@ -2,6 +2,10 @@
     display: flex;
 }
 
+* {
+    font-family: Inter;
+}
+
 #content-box-left {
     width: 440px;
     height: 376px;
@@ -44,6 +48,11 @@ h1 {
     left: 328px;
     height: 73px;
     width: 278px;
+    font-family: Inter;
+    font-size: 61px;
+    font-weight: 700;
+    line-height: 73.2px;
+    text-align: left;
 }
 
 #title-container {
@@ -98,8 +107,8 @@ h1 {
 }
 
 #assigned-container {
-    width: Fixed 440px;
-    height: Fixed 80px;
+    width: 440px;
+    height: 80px;
     top: 296px;
     gap: 8px;
 }
@@ -162,7 +171,7 @@ h1 {
     gap: 8px;
 }
 
-#prio-urgent {
+#prio-high {
     width: 65px;
     height: 24px;
     font-size: 20px;
@@ -173,11 +182,11 @@ h1 {
     gap: 8px;
 }
 
-.prio-urgent-button-bg-color {
+.prio-high-button-bg-color {
     background-color: #ff3d00;
 }
 
-.prio-urgent-span-color {
+.prio-high-span-color {
     font-weight: 700;
     color: white;
 }
