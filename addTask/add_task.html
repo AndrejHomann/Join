@@ -4,30 +4,24 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Join</title>
-        <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
         <link rel="stylesheet" href="./addTask.css" />
-        <link rel="stylesheet" href="./addTask.js" />
         <link rel="stylesheet" href="/css/fonts.css" />
     </head>
 
     <body>
-        <nav w3-include-html="templates/navigation.html"></nav>
-
         <main>
-            <header></header>
             <h1>Add Task</h1>
-
             <form id="content-box-container" onsubmit="(event)=>{addTaskFunktion(event);}">
                 <div id="content-box-left" class="flex-column">
-                    <div id="title-container">
+                    <div id="title-container" class="flex-column">
                         <span class="subtitle">Title<span class="asterisk">*</span></span>
                         <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" required /></div>
                     </div>
-                    <div id="description-container">
+                    <div id="description-container" class="flex-column">
                         <span class="subtitle">Description</span>
-                        <div id="textarea-container"><textarea placeholder="Enter a Description" id="textarea-input" required></textarea></div>
+                        <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input" required></textarea></div>
                     </div>
-                    <div id="assigned-container">
+                    <div id="assigned-container" class="flex-column">
                         <span class="subtitle">Assigned to</span>
                         <select name="Select contacts to assign" class="select-container">
                             <option value="Select contacts to assign">Select contacts to assign</option>
@@ -40,11 +34,11 @@
                 </div>
                 <div id="border-container"></div>
                 <div id="content-box-right" class="flex-column">
-                    <div id="date-container">
+                    <div id="date-container" class="flex-column">
                         <span class="subtitle">Due date<span class="asterisk">*</span></span>
                         <div id="calender"><input type="date" id="date-input" required /></div>
                     </div>
-                    <div id="prio-container">
+                    <div id="prio-container" class="flex-column">
                         <span class="subtitle">Prio</span>
                         <div id="choose-prio-container">
                             <button class="choose-prio-button flex-center-align" id="prio-high-button" type="button" onclick="choosePrio('prio-high')">
@@ -67,14 +61,14 @@
                             </button>
                         </div>
                     </div>
-                    <div id="category-container">
+                    <div id="category-container" class="flex-column">
                         <span class="subtitle">Cateogory<span class="asterisk">*</span></span>
                         <select class="select-container">
                             <option value="Technical Task">Technical Task</option>
                             <option value="User Story">User Story</option>
                         </select>
                     </div>
-                    <div id="substasks-container">
+                    <div id="substasks-container" class="flex-column">
                         <span class="subtitle">Subtasks</span>
                         <input type="text" id="choose-subtasks" placeholder="Add new subtask" required />
                     </div>

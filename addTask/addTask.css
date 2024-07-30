@@ -1,9 +1,26 @@
-.contentBox {
-    display: flex;
-}
-
 * {
     font-family: Inter;
+}
+
+body {
+    background-color: #f6f7f8;
+}
+
+h1 {
+    position: fixed;
+    top: 206px;
+    left: 328px;
+    height: 73px;
+    width: 278px;
+    font-family: Inter;
+    font-size: 61px;
+    font-weight: 700;
+    line-height: 73.2px;
+    text-align: left;
+}
+
+.contentBox {
+    display: flex;
 }
 
 #content-box-left {
@@ -42,19 +59,6 @@
     color: #2a3647;
 }
 
-h1 {
-    position: fixed;
-    top: 206px;
-    left: 328px;
-    height: 73px;
-    width: 278px;
-    font-family: Inter;
-    font-size: 61px;
-    font-weight: 700;
-    line-height: 73.2px;
-    text-align: left;
-}
-
 #title-container {
     width: 440px;
     height: 96px;
@@ -62,17 +66,15 @@ h1 {
 }
 
 #title-input-container {
-    width: 440px;
-    height: 64px;
 }
 
 #title-input {
-    width: 440px;
+    width: 398px;
     height: 48px;
     padding: 12px 21px 12px 21px;
     gap: 10px;
+    display: flex;
     border-radius: 10px;
-    border: 1px 0px 0px 0px;
     border: 1px solid #d1d1d1;
     font-size: 20px;
     font-weight: 400;
@@ -94,7 +96,6 @@ h1 {
 }
 
 #textarea-input {
-    width: 440px;
     height: 120px;
     padding: 18px 16px 18px 16px;
     gap: 10px;
@@ -117,10 +118,8 @@ h1 {
     width: 440px;
     height: 48px;
     padding: 12px 16px 12px 16px;
-    gap: 0px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
-    justify-content: space-between;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
@@ -134,7 +133,6 @@ h1 {
     top: 327px;
     left: 816.25px;
     position: fixed;
-    gap: 0px;
     border: 1px solid #d1d1d1;
 }
 
@@ -151,13 +149,11 @@ h1 {
 }
 
 #date-input {
-    width: 440px;
+    width: 408px;
     height: 48px;
     padding: 12px 16px 12px 16px;
-    gap: 0px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
-    justify-content: space-between;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
@@ -270,13 +266,11 @@ h1 {
 }
 
 #choose-subtasks {
-    width: 440px;
+    width: 408px;
     height: 48px;
     padding: 12px 16px 12px 16px;
-    gap: 0px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
-    justify-content: space-between;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
@@ -336,7 +330,6 @@ h1 {
 #clear-button-font {
     width: 50px;
     height: 24px;
-    gap: 0px;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
@@ -352,6 +345,7 @@ h1 {
     border-radius: 10px;
     background: #2a3647;
     display: flex;
+    transition: ease-in-out 100ms;
 }
 
 #create-task-button-font {
@@ -364,13 +358,13 @@ h1 {
 }
 
 #cancel-icon {
-    width: 24px;
-    height: 24px;
+    width: 10.49px;
+    height: 10.49px;
 }
 
 #check-icon {
-    width: 24px;
-    height: 24px;
+    width: 15.49px;
+    height: 11.22px;
 }
 
 .asterisk {
