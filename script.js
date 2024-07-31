@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
     const rememberMeCheckbox = document.getElementById('rememberMe');
-    const BASE_URL = 'https://authentification-bd13f-default-rtdb.europe-west1.firebasedatabase.app/'; //(Susanne's Firebase)
+    const BASE_URL = 'https://join-test-4edf7-default-rtdb.europe-west1.firebasedatabase.app/'; //(Andrej's Firebase)
 
     let userData = {
         name: '',
@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         password: ''
     };
 
+    // Call startAnimations with a delay
     setTimeout(startAnimations, 100);
 
     /**
@@ -322,14 +323,20 @@ function startAnimations() {
     const logo = document.getElementById('logo');
     const overlay = document.querySelector('.overlay');
 
-    // Remove animation classes
-    logo.classList.remove('animate-logo');
-    overlay.classList.remove('animate-overlay');
+    if (logo && overlay) {
+        // Remove animation classes
+        logo.classList.remove('animate-logo');
+        overlay.classList.remove('animate-overlay');
 
-    // Trigger reflow to restart the animation
-    void logo.offsetWidth;
+        // Trigger reflow to restart the animation
+        void logo.offsetWidth;
 
-    // Add animation classes back
-    logo.classList.add('animate-logo');
-    overlay.classList.add('animate-overlay');
+        // Add animation classes back
+        logo.classList.add('animate-logo');
+        overlay.classList.add('animate-overlay');
+    }
+}
+
+function goBack() {
+    window.history.back();
 }
