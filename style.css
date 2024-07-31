@@ -74,7 +74,7 @@ body, html {
     position: relative;
 }
 
-.arrow-back{
+.arrow-back-start{
     position: absolute;
     cursor: pointer;
     top: 56px;
@@ -333,4 +333,73 @@ a{
 .overlay.animate-overlay {
     animation: fadeOutOverlay 1s ease-in-out;
     animation-fill-mode: forwards;
+}
+
+.header-legal{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 206px;
+    left: 328px;
+    position: absolute;
+    max-width: 1014px;
+    width: -webkit-fill-available;
+    padding-right: 16px;
+}
+
+.arrow-back{
+    cursor: pointer;
+}
+
+.legal-text, .help-text{
+    gap: 24px;
+    top: 311px;
+    left: 328px;
+    position: absolute;
+    max-width: 1014px;
+    padding-right: 16px;
+}
+
+h2, h3, h4, ul, p{
+    margin-bottom: 0;
+}
+
+p{
+    margin-top: 0;
+}
+h2, h3{
+    margin-top: 24px
+}
+
+.h2-legal{
+    margin-top: 0px;
+}
+
+.a-legal{
+    color: #29ABE2;
+}
+
+.custom-list {
+    list-style: none; /* Entfernt die Standard-Nummerierung */
+    counter-reset: custom-counter; /* Initialisiert einen Zähler */
+    padding-left: 0;
+}
+
+.custom-list li {
+    position: relative;
+    padding-left: 56px; /* Platz für die Nummer */
+}
+
+.custom-list li::before {
+    content: counter(custom-counter) ".";
+    counter-increment: custom-counter;
+    position: absolute;
+    left: 0;
+    font-size: 27px; /* Ändere die Größe der Nummer */
+    font-weight: bold; /* Macht die Nummer fett */
+    color: #000; /* Ändert die Farbe der Nummer */
+}
+
+.help-text h2{
+    margin-bottom: 24px;
 }
