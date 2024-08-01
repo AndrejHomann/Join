@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="img/join_logo.png">
     <title>JOIN - Summary User</title>
-    <link rel="stylesheet" href="/css/summary_user.css">
-    <script src="/js/summary_user.js"></script>
+    <link rel="stylesheet" href="../css/summary_user.css">
+    <script src="../js/summary_user.js"></script>
 </head>
 
 <body onload="init()">
-   
+
     <div includeHTML="../nav/nav.html"></div>
 
     <div id="right">
-        
+
         <div includeHTML="../header/header.html"></div>
-       
+
         <section id="main">
             <div id="mainTitle">
                 <div id="mainTitleLeft">
@@ -27,19 +27,16 @@
                     <span>Key Metrics at a Glance</span>
                 </div>
             </div>
-
+            
             <div id="mainContentContainer">
                 <div id="mainContent">
-
                     <div id="mainContentLine1">
                         <div id="toDo" class="mainContentLinePart transformRight">
                             <div class="mainContentLine1Circle">
-                                <img id="edit" src="/img/summary/edit.png" alt="Edit Icon">
+                                <img id="edit" src="../img/summary/edit.png" alt="Edit Icon">
                             </div>
                             <div class="mainContentLineText">
-                                <div>
-                                    <span class="mainContentLineTextTop">1</span>
-                                </div>
+                                <div id="userToDoAmount"> </div>                                                    <!-- HTML-Template --> 
                                 <div>
                                     <span class="mainContentLineTextBottom">To-do</span>
                                 </div>
@@ -47,64 +44,54 @@
                         </div>
                         <div id="done" class="mainContentLinePart transformLeft">
                             <div class="mainContentLine1Circle">
-                                <img id="check" src="/img/summary/check.png" alt="Checked Icon">
+                                <img id="check" src="../img/summary/check.png" alt="Checked Icon">
                             </div>
                             <div class="mainContentLineText">
-                                <div>
-                                    <span class="mainContentLineTextTop">1</span>
-                                </div>
+                                <div id="userDoneAmount"> </div>                                                    <!-- HTML-Template --> 
                                 <div>
                                     <span class="mainContentLineTextBottom">Done</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div id="mainContentLine2" class="transformBottomRight">
                         <div id="mainContentLinePartLeft">
                             <div id="mainContentLine2Circle">
-                                <img id="arrow" src="/img/summary/arrow_up.png" alt="Arrow Icon">
+                                <img id="priorityIcon" src="../img/summary/arrow_up.png" alt="Priority Icon">
                             </div>
                             <div class="mainContentLineText">
-                                <div>
-                                    <span class="mainContentLineTextTop">1</span>
-                                </div>
-                                <div>
-                                    <span class="mainContentLineTextBottom">Urgent</span>
-                                </div>
+                                <div id="taskPriority"> </div>                                                      <!-- HTML-Template -->
                             </div>
                         </div>
                         <div id="mainContentLine2Middle"></div>
                         <div id="mainContentLine2Right">
-                            <span id="date">October 16, 2022</span>
+                            <div id="deadline"> </div>                                                              <!-- HTML-Template -->
                             <span id="upcoming">Upcoming Deadline</span>
                         </div>
                     </div>
-
                     <div id="mainContentLine3">
                         <div class="mainContentLine3Part transformRight">
-                            <span class="mainContentLine3Number">5</span>
+                            <div id="tasksInBoard"> </div>                                                          <!-- HTML-Template -->
                             <span class="mainContentLine3Text">Tasks <br> in Board</span>
                         </div>
                         <div class="mainContentLine3Part transformCenter">
-                            <span class="mainContentLine3Number">2</span>
+                            <div id="tasksInProgress"> </div>                                                       <!-- HTML-Template -->
                             <span class="mainContentLine3Text">Tasks in <br> Progress</span>
                         </div>
                         <div class="mainContentLine3Part transformLeft">
-                            <span class="mainContentLine3Number">2</span>
+                            <div id="tasksInFeedback"> </div>                                                       <!-- HTML-Template -->
                             <span class="mainContentLine3Text">Awaiting <br> Feedback</span>
                         </div>
                     </div>
-
                 </div>
 
-                <div id="greeting"> </div>      <!-- HTML-Template --> 
+                <div id="greeting"> </div>                                                                          <!-- HTML-Template --> 
 
             </div>
-            
         </section>
+
     </div>
-    
+
 </body>
 
 </html>
