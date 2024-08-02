@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
     const rememberMeCheckbox = document.getElementById('rememberMe');
-    const BASE_URL = 'https://join-test-4edf7-default-rtdb.europe-west1.firebasedatabase.app/'; //(Andrej's Firebase)
+    const BASE_URL = 'https://authentification-bd13f-default-rtdb.europe-west1.firebasedatabase.app/'; //(Susanne's Firebase)
 
     let userData = {
         name: '',
@@ -37,8 +37,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const data = await response.json();
             console.log('Success:', data);
+            await addContact(name, email, true);
             saveSignUpData(email, password); // save sign up data to local storage
             showSignUpOverlay();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    /**
+     * Adds a contact to the Firebase contacts database.
+     * 
+     * @param {string} name - The name of the contact.
+     * @param {string} email - The email of the contact.
+     * @param {boolean} isRegistered - True if the contact is a registered user.
+     * @returns {Promise<void>}
+     * @throws {Error} Throws an error if the data fetching fails.
+     */
+    async function addContact(name, email, isRegistered = false) {
+        const contactData = { name, email, isRegistered };
+        try {
+            const response = await fetch(`${BASE_URL}contacts.json`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(contactData)
+            });
+            if (!response.ok) {
+                throw new Error('Failed to save contact data');
+            }
+            const data = await response.json();
+            console.log('Contact added successfully:', data);
         } catch (error) {
             console.error('Error:', error);
         }
