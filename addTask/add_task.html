@@ -9,9 +9,9 @@
     </head>
 
     <body>
-        <main>
-            <h1>Add Task</h1>
-            <form id="content-box-container" onsubmit="(event)=>{addTaskFunktion(event);}">
+        <h1>Add Task</h1>
+        <form id="content-box-container">
+            <div style="display: flex">
                 <div id="content-box-left" class="flex-column">
                     <div id="title-container" class="flex-column">
                         <span class="subtitle">Title<span class="asterisk">*</span></span>
@@ -73,6 +73,8 @@
                         <input type="text" id="choose-subtasks" placeholder="Add new subtask" required Ö />
                     </div>
                 </div>
+            </div>
+            <div id="interactives-buttons-and-required-container">
                 <div id="required-container">
                     <span id="required-span"><span class="asterisk">*</span>This field is required</span>
                 </div>
@@ -84,9 +86,8 @@
                         <span id="create-task-button-font" class="contents">Create Task<img src="/img/summary/check.png" id="check-icon" /></span>
                     </button>
                 </div>
-            </form>
-        </main>
-
+            </div>
+        </form>
         <script src="/addTask/addTask.js"></script>
     </body>
 </html>

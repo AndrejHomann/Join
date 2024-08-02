@@ -7,45 +7,49 @@
 
 body {
     background-color: #f6f7f8;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-left: 328px;
 }
 
 h1 {
-    position: fixed;
+    /* position: fixed;
     top: 206px;
-    left: 328px;
+    left: 328px; 
     height: 73px;
-    width: 278px;
-    font-family: Inter;
+    width: 278px; */
     font-size: 61px;
-    font-weight: 700;
     line-height: 73.2px;
     text-align: left;
+    margin-bottom: 48px;
+    margin-top: 110px;
 }
 
 #content-box-left {
     width: 440px;
     height: 376px;
-    top: 327px;
+    /*   top: 327px;
     left: 328px;
-    position: fixed;
+    position: fixed; */
     gap: 16px;
 }
 
 #content-box-right {
     width: 440px;
     height: 416px;
-    top: 327px;
+    /*   top: 327px;
     left: 864.25px;
-    position: fixed;
+    position: fixed; */
     gap: 24px;
 }
 
 #content-box-container {
     width: 976.25px;
     height: 424px;
-    top: 327px;
+    /*  top: 327px;
     left: 328px;
-    position: fixed;
+    position: fixed; */
 }
 
 .subtitle {
@@ -60,9 +64,6 @@ h1 {
     width: 440px;
     height: 96px;
     gap: 8px;
-}
-
-#title-input-container {
 }
 
 #title-input {
@@ -127,10 +128,12 @@ h1 {
 #border-container {
     width: 0px;
     height: 424px;
-    top: 327px;
+    /*   top: 327px;
     left: 816.25px;
-    position: fixed;
+    position: fixed; */
     border: 1px solid #d1d1d1;
+    margin-left: 48.25px;
+    margin-right: 48.25px;
 }
 
 #date-container {
@@ -289,12 +292,20 @@ h1 {
     display: contents;
 }
 
+#interactives-buttons-and-required-container {
+    width: 976.25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 138px;
+}
+
 #required-container {
-    position: fixed;
-    width: 170px;
-    height: 27px;
-    top: 926px;
+    /*   position: fixed;
     left: 328px;
+    top: 926px; */
+    height: 27px;
+    width: 170px;
 }
 
 #required-span {
@@ -305,12 +316,12 @@ h1 {
 }
 
 #interactives-buttons-container {
-    position: fixed;
+    /* position: fixed;
+    top: 889px;
+    left: 995.25px; */
+    gap: 16px;
     width: 309px;
     height: 56px;
-    top: 889px;
-    left: 995.25px;
-    gap: 16px;
     display: flex;
 }
 

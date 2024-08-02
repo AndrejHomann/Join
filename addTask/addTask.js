@@ -2,7 +2,7 @@ let tasks = [];
 let participants = [];
 let name, sureName, lastName;
 let selectedPrio = "";
-const BASE_URL = "https://join-249-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = "https://console.firebase.google.com/project/join-projekt-f44bb/database/join-projekt-f44bb-default-rtdb/data/~2F";
 
 async function addTask(event) {
     let response = await fetch(url + ".json");
