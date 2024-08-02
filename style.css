@@ -403,3 +403,9 @@ h2, h3{
 .help-text h2{
     margin-bottom: 24px;
 }
+
+.add-contact-container{
+    top: 330px;
+    left: 300px;
+    position: absolute;
+}
