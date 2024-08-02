@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <link rel="icon" href="/img/JoinIcon.png">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/templates/header_and_sidebar.css">
+    
+</head>
+<body onload="includeHTML()">
+    <div w3-include-html="/templates/header.html"></div>
+
+    <div class="add-contact-container" id="addContactContainer">
+        <h1>Add Contact</h1>
+      
+        <form id="addContactForm">
+            <div class="input-field">
+                <input id="addNewName" class="input-log-in" type="text" placeholder="Name" required>
+                <img src="/img/user.png" alt="email icon" class="icon">
+            </div>
+            <div class="input-field">
+                <input id="addNewEmail" class="input-log-in" type="email" placeholder="Email" required>
+                <img src="/img/mail.png" alt="password icon" class="icon">
+            </div>
+
+            <div class="input-field">
+                <input id="addNewPhone" class="input-log-in" type="tel" placeholder="Phone" required>
+                <img src="/img/phone.png" alt="password icon" class="icon">
+            </div>
+
+    
+
+            <div class="log-in-btn-container">
+                <!-- <button type="submit" class="btn-log-in">cancel</button> -->
+                <button class="btn-guest-log-in">create</button>
+            </div>              
+        </form>
+
+        <script src="/templates/header_and_sidebar.js"></script>
+        <script src="/js/contacts.js"></script>
+</body>
+</html>
