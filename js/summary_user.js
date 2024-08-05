@@ -19,6 +19,7 @@ let tasksInFeedback = 3;
 
 
 async function init() {
+    await includeHTML();
     await loadUserData(); 
     await loadTaskData();
     
@@ -26,20 +27,19 @@ async function init() {
 }
 
 
-
-// async function includeHTML() {
-//     let includeElements = document.querySelectorAll('[includeHTML]');
-//     for (let i = 0; i < includeElements.length; i++) {
-//         const element = includeElements[i];
-//         file = element.getAttribute("includeHTML"); 
-//         let resp = await fetch(file);
-//         if (resp.ok) {
-//             element.innerHTML = await resp.text();
-//         } else {
-//             element.innerHTML = 'Page not found';
-//         }
-//     }
-// }
+async function includeHTML() {
+    let includeElements = document.querySelectorAll('[includeHTML]');
+    for (let i = 0; i < includeElements.length; i++) {
+        const element = includeElements[i];
+        file = element.getAttribute("includeHTML"); 
+        let resp = await fetch(file);
+        if (resp.ok) {
+            element.innerHTML = await resp.text();
+        } else {
+            element.innerHTML = 'Page not found';
+        }
+    }
+}
 
 
 // Requests from user list
