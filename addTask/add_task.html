@@ -9,6 +9,7 @@
     </head>
 
     <body>
+        <div includeHTML="../../header_and_sidebar/header_and_sidebar.html"></div>
         <h1>Add Task</h1>
         <form id="content-box-container">
             <div style="display: flex">
@@ -82,12 +83,11 @@
                     <button id="clear-button" class="flex-center-align">
                         <span id="clear-button-font" class="contents">Clear<img src="/img/Vector.png" id="cancel-icon" /></span>
                     </button>
-                    <button id="create-button" class="flex-center-align" type="submit" onclick="addTask(event)">
+                    <button id="create-button" class="flex-center-align" type="submit" onclick="addTask()">
                         <span id="create-task-button-font" class="contents">Create Task<img src="/img/summary/check.png" id="check-icon" /></span>
                     </button>
                 </div>
             </div>
         </form>
-        <script src="/addTask/addTask.js"></script>
     </body>
 </html>
