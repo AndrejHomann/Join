@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
      * @throws {Error} Throws an error if the data fetching fails.
      */
     async function pushUserData(name, email, password) {
-        userData = { name, email, password };
+        const color = generateRandomColor();
+        userData = { name, email, password, color };
         try {
             const response = await fetch(`${BASE_URL}users.json`, {
                 method: 'POST',
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const data = await response.json();
             console.log('Success:', data);
-            await addContact(name, email, true);
+            await addContact(name, email, color, true);
             saveSignUpData(email, password); // save sign up data to local storage
             showSignUpOverlay();
         } catch (error) {
@@ -54,8 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
      * @returns {Promise<void>}
      * @throws {Error} Throws an error if the data fetching fails.
      */
-    async function addContact(name, email, isRegistered = false) {
-        const contactData = { name, email, isRegistered };
+    async function addContact(name, email, color, isRegistered = false) {
+        const contactData = { name, email, color, isRegistered };
         try {
             const response = await fetch(`${BASE_URL}contacts.json`, {
                 method: 'POST',
