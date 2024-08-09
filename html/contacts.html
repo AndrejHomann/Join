@@ -7,39 +7,71 @@
     <link rel="icon" href="/img/JoinIcon.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="stylesheet" href="/templates/header_and_sidebar.css">
+    <link rel="stylesheet" href="/templates/header.css">
     
 </head>
 <body onload="includeHTML()">
     <div w3-include-html="/templates/header.html"></div>
 
-    <div class="add-contact-container" id="addContactContainer">
-        <h1>Add Contact</h1>
-      
-        <form id="addContactForm">
-            <div class="input-field">
-                <input id="addNewName" class="input-log-in" type="text" placeholder="Name" required>
-                <img src="/img/user.png" alt="email icon" class="icon">
+    <div class="add-contact-pop-up-overlay" id="add-contact-pop-up-overlay">
+        <div class="add-contact-pop-up" id="add-contact-pop-up">
+            <div class="add-contact-pop-up-left">
+                <div class="add-contact-pop-up-left-title">
+                    <img class="add-contact-pop-up-img" src="/img/JoinIcon.png" alt="">
+                    <div>
+                        <h1 class="h1-contact">Add contact</h1>
+                        <p class="p-contact">Tasks are better with a team!</p>
+                        <img src="/img/Vector 5.png" alt="">
+                    </div>
+                </div>            
             </div>
-            <div class="input-field">
-                <input id="addNewEmail" class="input-log-in" type="email" placeholder="Email" required>
-                <img src="/img/mail.png" alt="password icon" class="icon">
+            <div class="add-contact-pop-up-mid">
+                <div class="contact-circle-grey">
+                    <img src="/img/person.png" alt="">
+                </div>
             </div>
-
-            <div class="input-field">
-                <input id="addNewPhone" class="input-log-in" type="tel" placeholder="Phone" required>
-                <img src="/img/phone.png" alt="password icon" class="icon">
+            <div class="close-contact-form" onclick="closePopup()">
+                <img src="/img/close.png" alt="Close">
             </div>
-
+            <div class="add-contact-container" id="addContactContainer">     
+            <form id="addContactForm">
+                <div class="input-field">
+                    <input id="addNewName" class="input-log-in" type="text" placeholder="Name" required>
+                    <img src="/img/user.png" alt="email icon" class="icon">
+                </div>
+                <div class="input-field">
+                    <input id="addNewEmail" class="input-log-in" type="email" placeholder="Email" required>
+                    <img src="/img/mail.png" alt="password icon" class="icon">
+                </div>
     
+                <div class="input-field">
+                    <input id="addNewPhone" class="input-log-in" type="tel" placeholder="Phone" required>
+                    <img src="/img/phone.png" alt="password icon" class="icon">
+                </div>    
+    
+                <div class="contact-form-btn-container">
+                    <button type="submit" class="btn-guest-log-in btn-cancel-contact-form">cancel <svg id="cancel-icon" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.001 6.50008L12.244 11.7431M1.758 11.7431L7.001 6.50008L1.758 11.7431ZM12.244 1.25708L7 6.50008L12.244 1.25708ZM7 6.50008L1.758 1.25708L7 6.50008Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg></button>
+                    <button class="btn-log-in btn-create-contact-form">Create contact <img src="/img/check.png" alt=""></button>
+                </div>              
+            </form>
+    
+            </div>
+        </div>
+    </div>  
+    
+    <div class="contacts">
+        <button onclick="openPopup()" class="btn-log-in btn-add-new-contact">Add new contact <img src="/img/person_add.png" alt=""></button>
+        <div class="contactlist" id="contactList"></div>            
+        </div>
+    </div>
 
-            <div class="log-in-btn-container">
-                <!-- <button type="submit" class="btn-log-in">cancel</button> -->
-                <button class="btn-guest-log-in">create</button>
-            </div>              
-        </form>
+   
 
-        <script src="/templates/header_and_sidebar.js"></script>
-        <script src="/js/contacts.js"></script>
+
+    <script src="/js/utils.js"></script>
+    <script src="/templates/header.js"></script>
+    <script src="/js/contacts.js"></script>
 </body>
 </html>

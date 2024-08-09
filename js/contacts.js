@@ -52,13 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function sortContactsAlphabetically(contacts) {
-        return Object.values(contacts).sort((a, b) => {
-            // Vergleich der Namen in Groß- und Kleinschreibung ignorierend
-            return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-        });
-    }
-
     async function fetchContacts() {
         try {
             const response = await fetch(`${BASE_URL}contacts.json`);
@@ -112,16 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return contactElement;
     }
 
-    function createContactIcon(name, color) {
-        const initials = name.split(' ').map(part => part.charAt(0)).join('').toUpperCase();
+    // function createContactIcon(name, color) {
+    //     const initials = name.split(' ').map(part => part.charAt(0)).join('').toUpperCase();
 
-        const icon = document.createElement('div');
-        icon.className = 'contact-icon';
-        icon.style.backgroundColor = color;
-        icon.textContent = initials;
+    //     const icon = document.createElement('div');
+    //     icon.className = 'contact-icon';
+    //     icon.style.backgroundColor = color;
+    //     icon.textContent = initials;
 
-        return icon;
-    }
+    //     return icon;
+    // }
 
     function displayContacts(contacts) {
         const contactList = document.getElementById('contactList');
