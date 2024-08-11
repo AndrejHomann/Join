@@ -178,10 +178,6 @@ h1 {
     gap: 8px;
 }
 
-.prio-high-button-bg-color {
-    background-color: #ff3d00;
-}
-
 .prio-high-span-color {
     font-weight: 700;
     color: white;
@@ -202,10 +198,6 @@ h1 {
     gap: 8px;
 }
 
-.prio-medium-button-bg-color {
-    background-color: #ffa801;
-}
-
 #prio-low {
     width: 40px;
     height: 24px;
@@ -214,10 +206,6 @@ h1 {
     line-height: 24px;
     text-align: left;
     gap: 8px;
-}
-
-.prio-low-button-bg-color {
-    background-color: #7ae229;
 }
 
 #choose-prio-container {
@@ -235,6 +223,18 @@ h1 {
     border-radius: 10px;
     background: #ffffff;
     box-shadow: 0px 0px 4px 0px #0000001a;
+}
+
+.prio-low-button-bg-color {
+    background-color: #7ae229;
+}
+
+.prio-high-button-bg-color {
+    background-color: #ff3d00;
+}
+
+.prio-medium-button-bg-color {
+    background-color: #ffa801;
 }
 
 #urgent-arrows {

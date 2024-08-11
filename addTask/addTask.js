@@ -1,4 +1,5 @@
-const BASE_URL = "https://join-projekt-f44bb-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
+let selectedPrio = null;
 
 function createTask() {
     let task = {
@@ -6,7 +7,7 @@ function createTask() {
         storyDescrip: document.getElementById("textarea-input").value,
         name: document.getElementById("selected-name").value,
         date: document.getElementById("date-input").value,
-        urgency: selectedPrio,
+        priority: selectedPrio,
         subtask: document.getElementById("choose-subtasks").value,
     };
 
@@ -32,11 +33,10 @@ async function addTask(path, data) {
 function fetchContacts() {}
 
 function choosePrio(prio) {
-    document.getElementById("prio-high-button").style.background = "";
-    document.getElementById("prio-medium-button").style.background = "";
-    document.getElementById("prio-low-button").style.background = "";
-
-    document.getElementById(`prio-${prio}-button`).style.background = "red";
+    document.getElementById("prio-high-button").classList.remove("prio-high-button-bg-color");
+    document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
+    document.getElementById("prio-low-button").classList.remove("prio-low-button-bg-color");
+    document.getElementById(`prio-${prio}-button`).classList.add(`prio-${prio}-button-bg-color`);
     selectedPrio = prio;
 }
 
