@@ -6,12 +6,13 @@
         <title>Join</title>
         <link rel="stylesheet" href="./addTask.css" />
         <link rel="stylesheet" href="/css/fonts.css" />
+        <script src="/addTask/addTask.js"></script>
     </head>
 
     <body>
         <div includeHTML="../../header_and_sidebar/header_and_sidebar.html"></div>
         <h1>Add Task</h1>
-        <form id="content-box-container">
+        <div id="content-box-container">
             <div style="display: flex">
                 <div id="content-box-left" class="flex-column">
                     <div id="title-container" class="flex-column">
@@ -42,19 +43,19 @@
                     <div id="prio-container" class="flex-column">
                         <span class="subtitle">Prio</span>
                         <div id="choose-prio-container">
-                            <button class="choose-prio-button flex-center-align" id="prio-high-button" type="button" onclick="choosePrio('prio-high')">
+                            <button class="choose-prio-button flex-center-align" id="prio-high-button" type="button" onclick="choosePrio('high')">
                                 <span id="prio-high" class="flex-center-align"
                                     >Urgent
                                     <img src="/img/addTask/Capa 3.png" id="urgent-arrows" />
                                 </span>
                             </button>
-                            <button class="choose-prio-button flex-center-align" id="prio-medium-button" type="button" onclick="choosePrio('prio-medium')">
+                            <button class="choose-prio-button flex-center-align" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
                                 <span id="prio-medium" class="flex-center-align"
                                     >Medium
                                     <img src="/img/addTask/Prio media.png" id="medium-arrows" />
                                 </span>
                             </button>
-                            <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('prio-low')">
+                            <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')">
                                 <span id="prio-low" class="flex-center-align"
                                     >Low
                                     <img src="/img/addTask/Capa 2 (1).png" id="low-arrows" />
@@ -83,11 +84,11 @@
                     <button id="clear-button" class="flex-center-align">
                         <span id="clear-button-font" class="contents">Clear<img src="/img/Vector.png" id="cancel-icon" /></span>
                     </button>
-                    <button id="create-button" class="flex-center-align" type="submit" onclick="addTask()">
+                    <button id="create-button" class="flex-center-align" type="submit" onclick="createTask()">
                         <span id="create-task-button-font" class="contents">Create Task<img src="/img/summary/check.png" id="check-icon" /></span>
                     </button>
                 </div>
             </div>
-        </form>
+        </div>
     </body>
 </html>
