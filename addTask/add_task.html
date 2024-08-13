@@ -12,7 +12,7 @@
     <body>
         <div includeHTML="../../header_and_sidebar/header_and_sidebar.html"></div>
         <h1>Add Task</h1>
-        <formÖ id="content-box-container">
+        <form id="content-box-container">
             <div style="display: flex">
                 <div id="content-box-left" class="flex-column">
                     <div id="title-container" class="flex-column">
@@ -24,14 +24,11 @@
                         <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input" required></textarea></div>
                     </div>
                     <div id="assigned-container" class="flex-column">
-                        <span class="subtitle">Assigned to</span>
-                        <select name="Select contacts to assign" class="select-container">
-                            <option value="Select contacts to assign">Select contacts to assign</option>
-                            <option value="Sofia Müller (You)" id="selected-name">Sofia Müller (You)</option>
-                            <option value="Anton Mayer">Anton Mayer</option>
-                            <option value="Anja Schulz" selected>Anja Schulz</option>
-                            <option value="Benedikt Ziegler">Benedikt Ziegler</option>
-                        </select>
+                        <div class="subtitle">Assigned to</div>
+                        <div id="selected-name" class="select-container">
+                            Select contacts to assign
+                            <img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" onclick="fetchContacts()" />
+                        </div>
                     </div>
                 </div>
                 <div id="border-container"></div>
@@ -89,6 +86,6 @@
                     </button>
                 </div>
             </div>
-        </formÖ>
+        </form>
     </body>
 </html>

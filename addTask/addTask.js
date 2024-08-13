@@ -11,11 +11,11 @@ function createTask() {
         subtask: document.getElementById("choose-subtasks").value,
     };
 
-    addTask("/tasks", task);
+    addTask("/tasks.json", task);
 }
 
 async function addTask(path, data) {
-    let response = await fetch(BASE_URL + path + ".json", {
+    let response = await fetch(BASE_URL + path, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -30,7 +30,18 @@ async function addTask(path, data) {
     }
 }
 
-function fetchContacts() {}
+async function fetchContacts() {
+    try {
+        const response = await fetch(`${BASE_URL}contacts.json`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch contacts");
+        }
+        const contacts = await response.json();
+        console.log(contacts);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
 
 function choosePrio(prio) {
     document.getElementById("prio-high-button").classList.remove("prio-high-button-bg-color");
