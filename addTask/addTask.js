@@ -1,5 +1,6 @@
 const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
 let selectedPrio = null;
+let contactNames = [];
 
 function createTask() {
     let task = {
@@ -30,19 +31,6 @@ async function addTask(path, data) {
     }
 }
 
-async function fetchContacts() {
-    try {
-        const response = await fetch(`${BASE_URL}contacts.json`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch contacts");
-        }
-        const contacts = await response.json();
-        console.log(contacts);
-    } catch (error) {
-        console.error("Error:", error);
-    }
-}
-
 function choosePrio(prio) {
     document.getElementById("prio-high-button").classList.remove("prio-high-button-bg-color");
     document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
@@ -51,13 +39,32 @@ function choosePrio(prio) {
     selectedPrio = prio;
 }
 
-async function loadContacts() {
+async function fetchContacts() {
     let response = await fetch(BASE_URL + "/contacts.json");
-    let responseToJson = await response.json();
-    console.log(responseToJson);
+    let contactsData = await response.json();
+    contactNames = [];
 
-    let contactNames = [];
+    for (let id in contactsData) {
+        let contact = contactsData[id];
+        if (contact.name) {
+            contactNames.push(contact.name);
+        }
+    }
     console.log(contactNames);
+    showDropDown();
+}
+
+function showDropDown() {
+    let dropdownList = document.getElementById("dropdown-list");
+
+    // Inhalte leeren, um vorhandene Elemente zu entfernen
+    dropdownList.innerHTML = "";
+
+    for (let i = 0; i < contactNames.length; i++) {
+        let names = document.createElement("div"); // Erstellen eines div für jeden Namen
+        names.textContent = contactNames[i]; // Namen als Textinhalt hinzufügen
+        dropdownList.appendChild(names);
+    }
 }
 
 /**
