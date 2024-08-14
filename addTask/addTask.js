@@ -51,6 +51,15 @@ function choosePrio(prio) {
     selectedPrio = prio;
 }
 
+async function loadContacts() {
+    let response = await fetch(BASE_URL + "/contacts.json");
+    let responseToJson = await response.json();
+    console.log(responseToJson);
+
+    let contactNames = [];
+    console.log(contactNames);
+}
+
 /**
  * 
  * 
@@ -68,16 +77,4 @@ function choosePrio(prio) {
         }
     }
 }
- * 
-function submitTask() {
-    let data = {
-        title: document.getElementById("title-input").value,
-        storyDescrip: document.getElementById("textarea-input").value,
-        name: document.getElementById("selected-name").value,
-        date: document.getElementById("date-input").value,
-        urgency: selectedPrio,
-        subtask: document.getElementById("choose-subtasks").value,
-    };
-    console.log(data);
-} 
  */
