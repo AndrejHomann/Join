@@ -35,7 +35,6 @@ h1 {
     left: 328px;
     position: fixed; */
     gap: 16px;
-    margin-top: 324px;
 }
 
 #content-box-right {
@@ -50,6 +49,7 @@ h1 {
 #content-box-container {
     width: 976.25px;
     height: 424px;
+    margin-left: 324px;
     /*  top: 327px;
     left: 328px;
     position: fixed; */
