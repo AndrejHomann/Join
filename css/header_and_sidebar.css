@@ -78,6 +78,10 @@ display: none;
     box-sizing: content-box !important;
 }
 
+*:not(.sideBar) {
+    box-sizing: border-box;
+}
+
 /* padding-top: 64px; */
 /* padding-bottom: 64px; */
 
