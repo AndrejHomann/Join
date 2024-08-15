@@ -25,6 +25,7 @@ h1 {
     text-align: left;
     margin-bottom: 48px;
     margin-top: 110px;
+    margin-left: 324px;
 }
 
 #content-box-left {
@@ -34,6 +35,7 @@ h1 {
     left: 328px;
     position: fixed; */
     gap: 16px;
+    margin-top: 324px;
 }
 
 #content-box-right {
