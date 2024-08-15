@@ -24,7 +24,7 @@ function activateLink(linkId, imgSrc = null) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // Standardmäßig den "Summary"-Button aktivieren
-    activateLink('summary');
+    activateLink('addTask');
 
     // Event Listener zu jedem Button hinzufügen
     const menuLinks = document.querySelectorAll('.sideBarMenuButtons');
