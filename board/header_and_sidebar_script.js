@@ -30,8 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuLinks = document.querySelectorAll('.sideBarMenuButtons');
     menuLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Verhindert die Standardaktion
             activateLink(link.id);
+            window.location.href = link.href; // Navigiert zur neuen Seite
         });
     });
 
@@ -39,8 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const policyLinks = document.querySelectorAll('.policyHref, .noticeHref');
     policyLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Verhindert die Standardaktion
             activateLink(link.id);
+            window.location.href = link.href; // Navigiert zur neuen Seite
         });
     });
 });
