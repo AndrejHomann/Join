@@ -10,7 +10,6 @@ body {
 }
 body a {
     text-decoration: none;
-    color: black;
 }
 
 
@@ -167,11 +166,12 @@ body a {
     font-size: 64px;
     font-weight: 600;
     text-align: center;
+    color: black;
 }
 .mainContentLineTextBottom {
     font-size: 20px;
     font-weight: 400;
-    
+    color: black;
 }
 .center {
     text-align: center;
@@ -233,6 +233,7 @@ body a {
     align-items: flex-start;
     padding-right: 50px;
     gap: 10px;
+    color: black;
 }
 #date {
     font-size: 21px;
@@ -263,11 +264,13 @@ body a {
 .mainContentLine3Number {
     font-size: 64px;
     font-weight: 600;
+    color: black;
 }
 .mainContentLine3Text {
     font-size: 21px;
     font-weight: 400;
     text-align: center;
+    color: black;
 }
 
 #greeting {

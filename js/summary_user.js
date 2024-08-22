@@ -21,7 +21,7 @@ let tasksInFeedback = 3;
 
 // initializes the listed functions after the HTML-Body was loaded
 async function init() {
-    loadRememberedLogin();
+    // loadRememberedLogin();       // uncomment as soon as function loadRememberedLogin() is active again
     await includeHTML();
     await loadUserData(); 
     await loadTaskData();
@@ -242,7 +242,6 @@ function changeDoneLogoColorOnHover() {
 }
 
 
-// does not work
 function changePriorityLogoAndColor(nextTaskPriority) { 
     let priorityLogo = document.getElementById('priorityIcon');
     let priorityLogoBackground = document.getElementById('mainContentLine2Circle');
