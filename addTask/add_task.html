@@ -4,12 +4,52 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Join</title>
+        <link rel="icon" href="/img/JoinIcon.png" />
         <link rel="stylesheet" href="./addTask.css" />
         <link rel="stylesheet" href="/css/fonts.css" />
+        <link rel="stylesheet" href="/css/header_and_sidebar.css" />
+        <script src="/addTask/addTask.js"></script>
+        <script src="./hover_effekt_add_task.js"></script>
     </head>
 
     <body>
-        <div includeHTML="../../header_and_sidebar/header_and_sidebar.html"></div>
+
+        <header>   
+            <div class="headerContent">
+                <div class="headerLogoMobile">
+                    <a href="">
+                        <img src="./assets/icons/headerLogoMobile.png" alt="">
+                    </a>
+                </div>
+                <span class="headerSpan">Kanban Project Management Tool</span>
+                <div class="helpAndUserProfile">
+                    <div class="helpDiv">
+                        <a href="/html/help.html"><img src="./assets/icons/help.png" alt=""></a>
+                    </div>
+                    <div class="userProfile">G</div>
+                </div>
+            </div>
+        </header>
+    
+    <div class="sideBar">
+        <div class="imgWrapper"><img src="./assets/icons/logo.svg" alt=""></div>
+    
+    
+    <div class="sideBarMenu">
+        <a href="/summary/summary_user.html" id="summary" class="sideBarMenuButtons"><img src="./assets/icons/summaryIcon.png" alt=""> Summary</a>
+        <a href="/addTask/add_task.html" id="addTask" class="sideBarMenuButtons"><img src="./assets/icons/edit_square.png" alt=""> Add Task</a>
+        <a href="/board/board.html" id="board" class="sideBarMenuButtons"><img src="./assets/icons/boardIcon.png" alt=""> Board</a>
+        <a href="/html/contacts.html" id="contacts" class="sideBarMenuButtons"><img src="./assets/icons/contactsIcon.png" alt=""> Contacts</a>
+    </div>
+    
+    <div class="sideBarPolicyAndNotice">
+        <a href="#" id="privacyPolicy" class="policyHref">Privacy Policy</a>
+        <a href="#" id="legalNotice" class="noticeHref">Legal notice</a>
+    
+    </div>
+    
+    </div>
+
         <h1>Add Task</h1>
         <form id="content-box-container">
             <div style="display: flex">
@@ -23,14 +63,12 @@
                         <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input" required></textarea></div>
                     </div>
                     <div id="assigned-container" class="flex-column">
-                        <span class="subtitle">Assigned to</span>
-                        <select name="Select contacts to assign" class="select-container">
-                            <option value="Select contacts to assign">Select contacts to assign</option>
-                            <option value="Sofia Müller (You)" id="selected-name">Sofia Müller (You)</option>
-                            <option value="Anton Mayer">Anton Mayer</option>
-                            <option value="Anja Schulz" selected>Anja Schulz</option>
-                            <option value="Benedikt Ziegler">Benedikt Ziegler</option>
-                        </select>
+                        <div class="subtitle">Assigned to</div>
+                        <div id="selected-name" class="select-container">
+                            Select contacts to assign
+                            <img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" onclick="fetchContacts()" />
+                        </div>
+                        <div id="dropdown-list"></div>
                     </div>
                 </div>
                 <div id="border-container"></div>
@@ -42,19 +80,19 @@
                     <div id="prio-container" class="flex-column">
                         <span class="subtitle">Prio</span>
                         <div id="choose-prio-container">
-                            <button class="choose-prio-button flex-center-align" id="prio-high-button" type="button" onclick="choosePrio('prio-high')">
+                            <button class="choose-prio-button flex-center-align" id="prio-high-button" type="button" onclick="choosePrio('high')">
                                 <span id="prio-high" class="flex-center-align"
                                     >Urgent
                                     <img src="/img/addTask/Capa 3.png" id="urgent-arrows" />
                                 </span>
                             </button>
-                            <button class="choose-prio-button flex-center-align" id="prio-medium-button" type="button" onclick="choosePrio('prio-medium')">
+                            <button class="choose-prio-button flex-center-align" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
                                 <span id="prio-medium" class="flex-center-align"
                                     >Medium
                                     <img src="/img/addTask/Prio media.png" id="medium-arrows" />
                                 </span>
                             </button>
-                            <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('prio-low')">
+                            <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')">
                                 <span id="prio-low" class="flex-center-align"
                                     >Low
                                     <img src="/img/addTask/Capa 2 (1).png" id="low-arrows" />
@@ -83,7 +121,7 @@
                     <button id="clear-button" class="flex-center-align">
                         <span id="clear-button-font" class="contents">Clear<img src="/img/Vector.png" id="cancel-icon" /></span>
                     </button>
-                    <button id="create-button" class="flex-center-align" type="submit" onclick="addTask()">
+                    <button id="create-button" class="flex-center-align" type="submit" onclick="createTask()">
                         <span id="create-task-button-font" class="contents">Create Task<img src="/img/summary/check.png" id="check-icon" /></span>
                     </button>
                 </div>
