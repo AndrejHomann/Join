@@ -10,6 +10,7 @@ body {
 }
 body a {
     text-decoration: none;
+    color: black;
 }
 
 
@@ -52,7 +53,7 @@ body a {
     margin-bottom: 40px;
 }
 #mainTitleLeft span {
-    font-size: 61px;
+    font-size: 47px;
     font-weight: 700;
     border-right: 3px solid rgba(41, 171, 226, 1);
     padding-right: 30px;
@@ -170,6 +171,7 @@ body a {
 .mainContentLineTextBottom {
     font-size: 20px;
     font-weight: 400;
+    
 }
 .center {
     text-align: center;

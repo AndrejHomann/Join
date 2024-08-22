@@ -1,6 +1,7 @@
 const baseUrl = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
 
-let email = 'andrej@join.com';
+let email;
+let password; 
 let firebaseUserId;
 let firebaseTaskId;
 let userName;
@@ -20,10 +21,25 @@ let tasksInFeedback = 3;
 
 // initializes the listed functions after the HTML-Body was loaded
 async function init() {
+    loadRememberedLogin();
     await includeHTML();
     await loadUserData(); 
     await loadTaskData();
     loadHtmlTemplates();
+    console.log('logged in user:', email);
+}
+
+
+/**
+ * Loads saved user data from the local storage and fills the login form with it.
+ * Also checks the "Remember me" checkbox if data is present.
+ */
+function loadRememberedLogin() {
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+    if (rememberMe) {
+        email = localStorage.getItem('email');
+        password = localStorage.getItem('password');
+    }
 }
 
 
