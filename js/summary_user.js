@@ -1,7 +1,7 @@
 const baseUrl = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
 
-let email;
-let password; 
+let email = "andrej@join.com";      // email-adress needs to be deleted as soon as function loadRememberedLogin() is active again
+let password;
 let firebaseUserId;
 let firebaseTaskId;
 let userName;
@@ -34,13 +34,14 @@ async function init() {
  * Loads saved user data from the local storage and fills the login form with it.
  * Also checks the "Remember me" checkbox if data is present.
  */
-function loadRememberedLogin() {
-    const rememberMe = localStorage.getItem('rememberMe') === 'true';
-    if (rememberMe) {
-        email = localStorage.getItem('email');
-        password = localStorage.getItem('password');
-    }
-}
+
+// function loadRememberedLogin() {
+//     const rememberMe = localStorage.getItem('rememberMe') === 'true';
+//     if (rememberMe) {
+//         email = localStorage.getItem('email');
+//         password = localStorage.getItem('password');
+//     }
+// }
 
 
 // loads the HTML-templates for the sidebar-nav and the header
