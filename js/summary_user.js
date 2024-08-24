@@ -21,7 +21,7 @@ let tasksInFeedback = 3;
 
 // initializes the listed functions after the HTML-Body was loaded
 async function init() {
-    // loadRememberedLogin();       // uncomment as soon as function loadRememberedLogin() is active again
+    // loadRememberedLogin();                                       // uncomment as soon as function loadRememberedLogin() is active again
     await includeHTML();
     await loadUserData(); 
     await loadTaskData();
@@ -44,7 +44,7 @@ async function init() {
 // }
 
 
-// loads the HTML-templates for the sidebar-nav and the header
+// loads the HTML-templates for the sidebar navigation and the header
 async function includeHTML() {
     let includeElements = document.querySelectorAll('[includeHTML]');
     for (let i = 0; i < includeElements.length; i++) {
@@ -71,9 +71,9 @@ async function loadUserData() {
 async function findUserIdByEmail(email) {
     try {
         const response = await fetch(`${baseUrl}/user.json`);   // HTTP-Request in user list
-        const data = await response.json();
-        for (const userId in data) {
-            if (data[userId].email === email) {
+        const userData = await response.json();
+        for (const userId in userData) {
+            if (userData[userId].email === email) {
             console.log("The Firebase user id is:", userId);
             firebaseUserId = userId;
             return userId;
@@ -92,8 +92,8 @@ async function findUserIdByEmail(email) {
 async function showUserNameById(id) {
     try {
         const response = await fetch(`${baseUrl}/user.json`);   // HTTP-Request in user list
-        const data = await response.json();
-        userName = data[firebaseUserId].name;
+        const userData = await response.json();
+        userName = userData[firebaseUserId].name;
         console.log("The user name is:", userName);
         return userName;
     } catch (error) {
@@ -105,6 +105,9 @@ async function showUserNameById(id) {
 
 // This function requests the tasks from the database
 async function loadTaskData() {
+    await countTasks();
+    // await countTasksAssignedToUser(email);
+    await amountOfTasksAssignedToUser(email);
     await findTaskIdByEmail(email);
     await showTaskStatusById(firebaseTaskId);
     amountTaskStatus(taskStatus);
@@ -114,20 +117,131 @@ async function loadTaskData() {
 }
 
 
+async function countTasks() {
+    let taskArrayLength;
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        
+        console.log('baseUrl Daten: ', data);
+        // Überprüfe, ob das "tasks"-Objekt existiert und nicht null oder undefined ist
+        if (data && data.tasks) {
+            // Zähle die Schlüssel im "tasks"-Objekt
+            taskArrayLength = Object.keys(data.tasks).length;
+            console.log("tasks in board:", taskArrayLength);
+        } else {
+            console.error("JSON does not include 'tasks' object or is invalid.");
+        }
+    } catch (error) {
+        console.error("error whilte fetching task data:", error);
+    }
+    return taskArrayLength;
+}
+
+
+// async function countTasksAssignedToUser(email) {
+//     let count = 0;
+
+//     try {
+//       const response = await fetch(`${baseUrl}.json`);
+//       const data = await response.json();
+  
+//       if (data && data.tasks) {
+//         // Filtere die Aufgaben, die "andrej@join.com" zugewiesen sind
+//         const filteredTasks = Object.values(data.tasks).filter(task => task.assignment === email);
+  
+//         // Zähle die gefilterten Aufgaben
+//         count = filteredTasks.length;
+//         console.log(`amount of tasks for user: ' ${email}:`, count);
+//       } else {
+//         console.error("JSON does not include 'tasks' object or is invalid.");
+//       }
+//     } catch (error) {
+//       console.error("error whilte fetching task data:", error);
+//     }
+//     console.log('amoount of user to do tasks: ', count);
+//     return count;
+// }
+
+
+async function amountOfTasksAssignedToUser(email) {
+    let count = 0;
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        if (data && data.tasks) {
+            Object.values(data.tasks).forEach(task => {
+                if (task.assignment) {
+                    const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+                    if (Array.isArray(assignments)) {
+                        assignments.forEach(assignment => {
+                            if(assignment.email === email) {
+                                count++;
+                            }
+                        });
+                    } 
+                } 
+            });
+        } else {
+          console.error("Das JSON enthält kein 'tasks'-Objekt oder ist ungültig.");
+        }
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Aufgaben:", error);
+      }
+    console.log('User related tasks in board ', count);
+}
+
+
+async function amountOfToDoTasksAssignedToUser(email) {
+    let count = 0;
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+    
+        if (data && data.tasks) {
+          Object.values(data.tasks).forEach(task => {
+            if (task.assignment && task.status === "todo") {
+              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+              if (Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                  if (assignment.email === "andrej@join.com") {
+                    count++;
+                  }
+                });
+              }
+            }
+          });
+    
+          console.log("Anzahl der Aufgaben für Andrej mit Status 'todo':", count);
+        } else {
+          console.error("Das JSON enthält kein 'tasks'-Objekt oder ist ungültig.");
+        }
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Aufgaben:", error);
+      }
+      console.log('User related to do tasks', count);
+    }
+    
+
+
 // This function finds the tasks by referencing the user email
 async function findTaskIdByEmail(email) {
     try {
-        const response = await fetch(`${baseUrl}/tasks.json`);   // HTTP-Request in task list
-        const data = await response.json();
-        for (const taskId in data) {
-            if (data[taskId].assignment === email) {
+        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
+        const taskData = await response.json();
+        // Loop through each task in the data
+    for (const taskId in taskData) {
+        const task = taskData[taskId];
+        const assignmentsArray = JSON.parse(task.assignment);       // Parse the stringified array
+        // Loop through each assignment within the task
+        for (const assignment of assignmentsArray) {
+            if (assignment.email === email) {
             console.log("The Firebase task id is:", taskId);
             firebaseTaskId = taskId;
-            return firebaseTaskId;
+            return firebaseTaskId;                                  // Return immediately after finding a match
             }
         }
-        console.log("task not found");
-        return null;
+    }
     } catch (error) {
         console.error("Error while fetching data:", error);
         return null;
@@ -138,10 +252,9 @@ async function findTaskIdByEmail(email) {
 //This function shows the task status by referencing the user ID
 async function showTaskStatusById(firebaseTaskId) {
     try {
-        const response = await fetch(`${baseUrl}/tasks.json`);   // HTTP-Request in task list
-        const data = await response.json();
-        taskStatus = data[firebaseTaskId].status;
-        console.log("The task status is:", taskStatus);
+        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
+        const taskData = await response.json();
+        taskStatus = taskData[firebaseTaskId].status;
         return taskStatus;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -157,25 +270,23 @@ function amountTaskStatus(taskStatus) {
     } else if (taskStatus == 'done') {
         done++;
     }
-    console.log("toDos:", toDo);
-    console.log("done:", done);
     return {toDo, done};
 }
 
 
-// This function show the task priority by referencing the user ID
+// This function shows the task priority by referencing the user ID
 async function showTaskPriorityById(firebaseTaskId) {
     try {
-        const response = await fetch(`${baseUrl}/tasks.json`);   // HTTP-Request in task list
+        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
         const data = await response.json();
         taskPriority = data[firebaseTaskId].priority;
-        console.log("The task priority is:", taskPriority);
         return taskPriority;
     } catch (error) {
         console.error("Error while fetching data:", error);
         return null;
     }
 }
+
 
 // This function counts the amount of tasks by priority type 
 function amountPriority(taskPriority, urgent, medium, low) {
@@ -186,20 +297,16 @@ function amountPriority(taskPriority, urgent, medium, low) {
     } else if (taskPriority == 'low') {
         low++;
     }
-    console.log("amount of urgent priority tasks:", urgent);
-    console.log("amount of medium priority tasks:", medium);
-    console.log("amount of low priority tasks:", low);
     return {urgent, medium, low};
 }
 
 
-// This function show the task deadline by referencing the user ID
+// This function shows the task deadline by referencing the user ID
 async function showTaskDeadlineById(firebaseTaskId) {
     try {
-        const response = await fetch(`${baseUrl}/tasks.json`);   // HTTP-Request in task list
+        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
         const data = await response.json();
         taskDeadline = data[firebaseTaskId].date;
-        console.log("The task deadline is:", taskDeadline);
         return taskDeadline;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -207,57 +314,6 @@ async function showTaskDeadlineById(firebaseTaskId) {
     }
 }
 
-
-
-
-
-// Change images on hover
-document.addEventListener('DOMContentLoaded', function() { //this code will be executed as soon as all referenced HTML elements are loaded
-    changeToDoLogoColorOnHover();
-    changeDoneLogoColorOnHover();
-});
-
-    
-function changeToDoLogoColorOnHover() {
-    const toDo = document.getElementById('toDo');
-    const editImage = document.getElementById('edit');
-    toDo.addEventListener('mouseover', function() {
-        editImage.src = '../img/summary/edit_hover.svg';
-    });
-    toDo.addEventListener('mouseout', function() {
-        editImage.src = '../img/summary/edit.png';
-    });
-}
-
-
-function changeDoneLogoColorOnHover() {
-    const done = document.getElementById('done');
-    const checkImage = document.getElementById('check');
-    done.addEventListener('mouseover', function() {
-        checkImage.src = '../img/summary/check_hover.svg';
-    });
-    done.addEventListener('mouseout', function() {
-        checkImage.src = '../img/summary/check.png';
-    });
-}
-
-
-function changePriorityLogoAndColor(nextTaskPriority) { 
-    let priorityLogo = document.getElementById('priorityIcon');
-    let priorityLogoBackground = document.getElementById('mainContentLine2Circle');
-    if (nextTaskPriority == 'urgent') {
-        priorityLogo.src = '../img/summary/urgent_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(255, 60, 0)';
-    } else if (nextTaskPriority == 'medium') {
-        priorityLogo.src = '../img/summary/medium_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(255, 166, 0)';
-    } else if (nextTaskPriority == 'low') {
-        priorityLogo.src = '../img/summary/low_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(121, 227, 41)';
-    }
-    console.log('priorityColorAndLogo is called')
-    return;
-}
 
 
 
@@ -280,7 +336,7 @@ function loadHtmlTemplates() {
 function toDoUser(toDo) {
     let toDoAmount = document.getElementById('userToDoAmount');
     toDoAmount.innerHTML = /*html*/ `
-        <span class="mainContentLineTextTop">${toDo}</span>
+        <div class="mainContentLineTextTop">${toDo}</div>
     `;
 }
 
@@ -351,5 +407,55 @@ function createPriorityLogoAndColor() {
         </div>
     `;
     changePriorityLogoAndColor(nextTaskPriority);
-    console.log('PriorityTemplate works');
+}
+
+
+
+
+
+// Change images on hover
+document.addEventListener('DOMContentLoaded', function() {          //this code will be executed as soon as all referenced HTML elements are loaded
+    changeToDoStatsOnHover();
+    changeDoneStatsOnHover();
+});
+
+
+function changeToDoStatsOnHover() {
+    const toDo = document.getElementById('toDo');
+    const editImage = document.getElementById('edit');
+    toDo.addEventListener('mouseover', function() {
+        editImage.src = '../img/summary/edit_hover.svg';
+    });
+    toDo.addEventListener('mouseout', function() {
+        editImage.src = '../img/summary/edit.png';
+    });
+}
+
+
+function changeDoneStatsOnHover() {
+    const done = document.getElementById('done');
+    const checkImage = document.getElementById('check');
+    done.addEventListener('mouseover', function() {
+        checkImage.src = '../img/summary/check_hover.svg';
+    });
+    done.addEventListener('mouseout', function() {
+        checkImage.src = '../img/summary/check.png';
+    });
+}
+
+
+function changePriorityLogoAndColor(nextTaskPriority) { 
+    let priorityLogo = document.getElementById('priorityIcon');
+    let priorityLogoBackground = document.getElementById('mainContentLine2Circle');
+    if (nextTaskPriority == 'urgent') {
+        priorityLogo.src = '../img/summary/urgent_white.svg';
+        priorityLogoBackground.style = 'background-color: rgb(255, 60, 0)';
+    } else if (nextTaskPriority == 'medium') {
+        priorityLogo.src = '../img/summary/medium_white.svg';
+        priorityLogoBackground.style = 'background-color: rgb(255, 166, 0)';
+    } else if (nextTaskPriority == 'low') {
+        priorityLogo.src = '../img/summary/low_white.svg';
+        priorityLogoBackground.style = 'background-color: rgb(121, 227, 41)';
+    }
+    return;
 }
