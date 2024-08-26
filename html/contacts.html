@@ -6,47 +6,13 @@
     <title>Contacts</title>
     <link rel="icon" href="/img/JoinIcon.png">
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/contacts.css">
     <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="stylesheet" href="/css/header_and_sidebar.css">
-    <script src="./hover_effekt_contacts.js"></script>
+    <link rel="stylesheet" href="/templates/header.css">
     
 </head>
 <body onload="includeHTML()">
-
-    <header>   
-        <div class="headerContent">
-            <div class="headerLogoMobile">
-                <a href="">
-                    <img src="/assets/icons/headerLogoMobile.png" alt="">
-                </a>
-            </div>
-            <span class="headerSpan">Kanban Project Management Tool</span>
-            <div class="helpAndUserProfile">
-                <div class="helpDiv">
-                    <a href="/html/help.html"><img src="/assets/icons/help.png" alt=""></a>
-                </div>
-                <div class="userProfile">G</div>
-            </div>
-        </div>
-    </header>
-
-<div class="sideBar">
-    <div class="imgWrapper"><img src="/assets/icons/logo.svg" alt=""></div>
-
-
-<div class="sideBarMenu">
-    <a href="/summary/summary_user.html" id="summary" class="sideBarMenuButtons"><img src="/assets/icons/summaryIcon.png" alt=""> Summary</a>
-    <a href="/addTask/add_task.html" id="addTask" class="sideBarMenuButtons"><img src="/assets/icons/edit_square.png" alt=""> Add Task</a>
-    <a href="/board/board.html" id="board" class="sideBarMenuButtons"><img src="/assets/icons/boardIcon.png" alt=""> Board</a>
-    <a href="/html/contacts.html" id="contacts" class="sideBarMenuButtons"><img src="/assets/icons/contactsIcon.png" alt=""> Contacts</a>
-</div>
-
-<div class="sideBarPolicyAndNotice">
-    <a href="/html/legal matters/privacypolicy.html" id="privacyPolicy" class="policyHref">Privacy Policy</a>
-    <a href="/html/legal matters/legalnotice.html" id="legalNotice" class="noticeHref">Legal notice</a>
-</div>
-
-</div>
+    <div w3-include-html="/templates/header.html"></div>
 
     <div class="add-contact-pop-up-overlay" id="add-contact-pop-up-overlay">
         <div class="add-contact-pop-up" id="add-contact-pop-up">
@@ -56,7 +22,7 @@
                     <div>
                         <h1 class="h1-contact">Add contact</h1>
                         <p class="p-contact">Tasks are better with a team!</p>
-                        <img src="/img/Vector 5.png" alt="">
+                        <img src="/img/Vector_5.png" alt="">
                     </div>
                 </div>            
             </div>
@@ -72,16 +38,16 @@
             <form id="addContactForm">
                 <div class="input-field">
                     <input id="addNewName" class="input-log-in" type="text" placeholder="Name" required>
-                    <img src="/img/user.png" alt="email icon" class="icon">
+                    <img src="/img/user.png" alt="user icon" class="icon">
                 </div>
                 <div class="input-field">
                     <input id="addNewEmail" class="input-log-in" type="email" placeholder="Email" required>
-                    <img src="/img/mail.png" alt="password icon" class="icon">
+                    <img src="/img/mail.png" alt="mail icon" class="icon">
                 </div>
     
                 <div class="input-field">
                     <input id="addNewPhone" class="input-log-in" type="tel" placeholder="Phone" required>
-                    <img src="/img/phone.png" alt="password icon" class="icon">
+                    <img src="/img/phone.png" alt="phone icon" class="icon">
                 </div>    
     
                 <div class="contact-form-btn-container">
@@ -96,17 +62,81 @@
         </div>
     </div>  
     
-    <div class="contacts">
-        <button onclick="openPopup()" class="btn-log-in btn-add-new-contact">Add new contact <img src="/img/person_add.png" alt=""></button>
-        <div class="contactlist" id="contactList"></div>            
+    <div class="edit-contact-pop-up-overlay" id="edit-contact-pop-up-overlay">
+        <div class="edit-contact-pop-up" id="edit-contact-pop-up">
+            <div class="add-contact-pop-up-left">
+                <div class="add-contact-pop-up-left-title">
+                    <img class="add-contact-pop-up-img" src="/img/JoinIcon.png" alt="">
+                    <div>
+                        <h1 class="h1-contact">Edit contact</h1>
+                        <img src="/img/Vector_5.png" alt="">
+                    </div>
+                </div>            
+            </div>
+            <div class="add-contact-pop-up-mid" id="editContactIcon"></div>
+
+            <div class="close-contact-form" onclick="closeEditPopup()">
+                <img src="/img/close.png" alt="Close">
+            </div>
+            <div class="add-contact-container" id="addContactContainer">     
+            <form id="editContactForm">
+                <div class="input-field">
+                    <input id="editName" class="input-log-in" type="text" placeholder="Name" required>
+                    <img src="/img/user.png" alt="user icon" class="icon">
+                </div>
+                <div class="input-field">
+                    <input id="editEmail" class="input-log-in" type="email" placeholder="Email" required>
+                    <img src="/img/mail.png" alt="mail icon" class="icon">
+                </div>
+    
+                <div class="input-field">
+                    <input id="editPhone" class="input-log-in" type="tel" placeholder="Phone" required>
+                    <img src="/img/phone.png" alt="phone icon" class="icon">
+                </div>  
+
+                <input type="hidden" id="editIsRegistered" name="isRegistered">
+    
+                <div class="contact-form-btn-container">
+                    <button type="button" id="deleteContactButton" class="btn-guest-log-in btn-cancel-contact-form">Delete</button>
+                    <button type="submit" id="updateButton" class="btn-log-in btn-create-contact-form">Save <img src="/img/check.png" alt=""></button>
+                </div>              
+            </form>
+    
+            </div>
         </div>
     </div>
+    
 
+
+    <div class="contacts-container">
+        <div class="contacts">
+            <button onclick="openPopup('add-contact-pop-up-overlay', '.add-contact-pop-up')" class="btn-log-in btn-add-new-contact">Add new contact <img src="/img/person_add.png" alt=""></button>
+            <div class="contactlist" id="contactList"></div>            
+        </div>
+    
+        <div class="contact-detail-section">
+            <div class="contact-details-header">
+                <p>Contacts</p>
+                <div></div>
+                <span>Better with a team</span>
+            </div> 
+            
+            <div class="contact-detail-information" id="contactDetailInformation"></div> 
+             
+            <div id="successAlert" class="success-alert-container">
+                <div class="success-alert">Contact successfully created</div>
+            </div>      
+        </div>    
+    </div>  
+            
    
-
 
     <script src="/js/utils.js"></script>
     <script src="/templates/header.js"></script>
+    <script src="/js/contactsHTML.js"></script>
+    <script src="/js/contactsUI.js"></script>
     <script src="/js/contacts.js"></script>
+    <script src="/js/contactHandling.js"></script>   
+
 </body>
 </html>
