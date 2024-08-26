@@ -1,183 +1,232 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const addContactForm = document.getElementById('addContactForm');
-    const BASE_URL = 'https://authentification-bd13f-default-rtdb.europe-west1.firebasedatabase.app/'; // Susanne's Firebase
+const BASE_URL = 'https://joindev-9be03-default-rtdb.europe-west1.firebasedatabase.app/';
 
-    let contactData = {
-        name: '',
-        email: '',
-        phone: ''
-    };
+const addContactForm = document.getElementById('addContactForm');
+let contactsArray = [];
+let currentContactId = null;
 
-    addContactForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const name = document.getElementById('addNewName').value;
-        const email = document.getElementById('addNewEmail').value;
-        const phone = document.getElementById('addNewPhone').value;
+/**
+ * Initializes the application once the DOM content is fully loaded.
+ *
+ * This event listener waits for the complete loading of the DOM tree before 
+ * executing the `fetchContacts` function. This ensures that all necessary 
+ * elements are available in the DOM before trying to interact with them.
+ *
+ * @event DOMContentLoaded
+ * @function
+ */
+document.addEventListener("DOMContentLoaded", () => {
+    fetchContacts();
+});
 
-        const color = generateRandomColor();
-        pushContactData(name, email, phone, color);
+/**
+ * Fetches contacts from the server and processes them.
+ *
+ * This asynchronous function sends a GET request to the server to retrieve 
+ * contacts data in JSON format. It then maps the received data into an array 
+ * of contact objects, each containing an `id` and the corresponding contact details.
+ * The contacts are then sorted alphabetically by name and displayed on the UI.
+ *
+ * @async
+ * @function fetchContacts
+ * @returns {Promise<void>} Returns a promise that resolves when the contacts 
+ * are fetched and displayed.
+ * @throws {Error} Logs an error message to the console if the fetch operation fails.
+ */
+async function fetchContacts() {
+    try {
+        const response = await fetch(`${BASE_URL}contacts.json`);
+        const data = await response.json();
+        contactsArray = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+        const sortedContacts = sortContactsAlphabetically(contactsArray);
+        displayContacts(sortedContacts);
+    } catch (error) {
+        console.error("Error fetching contacts:", error);
+    }
+}
+
+/**
+ * Listens for the submission event of the contact form, prevents the default form submission,
+ * retrieves input values for the new contact, generates a random color, and triggers the 
+ * pushContactData() function to save the contact data to the database.
+ *
+ * @param {Event} event - The event object representing the form submission.
+ * @listens submit - The event type being listened for on the form element.
+ */
+addContactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const name = document.getElementById('addNewName').value;
+    const email = document.getElementById('addNewEmail').value;
+    const phone = document.getElementById('addNewPhone').value;
+
+    const color = generateRandomColor();
+    pushContactData(name, email, phone, color);
+});
+
+/**
+ * Adds a newly created contact to the Firebase contacts database.
+ *
+ * This function sends the contact data to the Firebase database by making
+ * a POST request. Upon successful submission, the contact list is refreshed, 
+ * and additional steps like processing the new contact and displaying a success 
+ * alert are triggered.
+ *
+ * @async
+ * @param {string} name - The name of the contact.
+ * @param {string} email - The email address of the contact.
+ * @param {string} phone - The phone number of the contact.
+ * @param {string} color - The generated color code associated with the contact.
+ * @param {boolean} [isRegistered=false] - Indicates whether the contact is a registered user.
+ * 
+ * @throws {Error} Throws an error if the contact data could not be saved.
+ */
+async function pushContactData(name, email, phone, color, isRegistered = false) {
+    contactData = { name, email, phone, color, isRegistered };
+    try {
+        const response = await fetch(`${BASE_URL}contacts.json`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, phone, color, isRegistered })
+        });
+
+        if (!response.ok) throw new Error('Failed to save contact data');
+
+        const data = await response.json();
+        await handleContactAdd(); // Refresh the contact list
+        processNewContact(data, contactData);
+        showSuccessAlert();
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+/**
+ * Handles the process after a contact has been added. This function resets the contact form fields,
+ * closes the pop-up form, and updates the contact list by fetching the latest contacts from the database.
+ *
+ * @async
+ * @function handleContactAdd
+ * @returns {Promise<void>} - A promise that resolves when the contact list has been successfully updated.
+ *
+ * @description
+ * After a contact is added, the form fields are cleared to prepare for the next entry.
+ * The pop-up form is then closed to return the user to the main view. Finally, the contact list
+ * is refreshed by retrieving the updated list of contacts from the database, ensuring that the
+ * newly added contact is displayed.
+ */
+async function handleContactAdd() {
+    addContactForm.reset();
+    closePopup();
+    await fetchContacts();
+}
+
+/**
+ * Updates an existing contact in the global `contactsArray` with new data.
+ * 
+ * This function searches for a contact in the `contactsArray` by its `contactId`.
+ * If the contact is found, it replaces the existing contact data with the new `updatedContact` data.
+ * 
+ * @param {string} contactId - The unique identifier of the contact, provided by Firebase.
+ * @param {Object} updatedContact - An object containing the updated contact data.
+ * @throws {Error} Will throw an error if the contactId does not exist in the array.
+ */
+function updateContactInArray(contactId, updatedContact) {
+    const contactIndex = contactsArray.findIndex(contact => contact.id === contactId);
+    if (contactIndex !== -1) {
+        contactsArray[contactIndex] = { id: contactId, ...updatedContact };
+    }
+}
+
+/**
+ * Sends an update request to the Firebase database to modify an existing contact's data.
+ * 
+ * This function communicates with the Firebase database to update the specified contact's 
+ * information using the `PUT` method. If the request is successful, the contact data is updated in Firebase.
+ * 
+ * @param {string} contactId - The unique identifier of the contact, provided by Firebase.
+ * @param {Object} updatedContact - An object containing the updated contact data.
+ * @throws {Error} Will throw an error if the update request to Firebase fails.
+ * @returns {Promise<void>} - Returns a promise that resolves when the update is complete.
+ */
+async function sendUpdateRequest(contactId, updatedContact) {
+    const response = await fetch(`${BASE_URL}contacts/${contactId}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedContact)
     });
 
-    /**
-     * Pushes contact data to the Firebase database.
-     * 
-     * @param {string} name - The name of the contact.
-     * @param {string} email - The email of the contact.
-     * @param {string} phone - The phone number of the contact.
-     * @returns {Promise<void>}
-     * @throws {Error} Throws an error if the data fetching fails.
-     */
-    async function pushContactData(name, email, phone, color, isRegistered = false) {
-        contactData = { name, email, phone, color, isRegistered };
-        try {
-            const response = await fetch(`${BASE_URL}contacts.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(contactData)
-            });
+    if (!response.ok) throw new Error('Failed to update contact');
+}
 
-            if (!response.ok) {
-                throw new Error('Failed to save contact data');
-            }
-
-            const data = await response.json();
-            console.log('Success:', data);
-            alert('Contact added successfully!');
-            addContactForm.reset(); // Reset the form fields
-            fetchContacts(); // Refresh the contact list
-        } catch (error) {
-            console.error('Error:', error);
-        }
+/**
+ * Updates an existing contact by sending the collected updated contact data to Firebase and 
+ * updating the local array.
+ * 
+ * The function accesses the current contact ID to identify the corresponding entry and replace 
+ * the old data with the new data. After a successful update, the handleContactUpdate() function 
+ * is called to refresh the contact list and close the edit pop-up.
+ * 
+ * @throws {Error} Throws an error if the update fails.
+ * @returns {Promise<void>} Returns a promise that resolves when the update is complete.
+ */
+async function updateContact() {
+    try {
+        const updatedContact = getUpdatedContactData();
+        updateContactInArray(currentContactId, updatedContact);
+        await sendUpdateRequest(currentContactId, updatedContact);
+        handleContactUpdate();
+    } catch (error) {
+        console.error('Error:', error);
     }
+}
 
-    async function fetchContacts() {
-        try {
-            const response = await fetch(`${BASE_URL}contacts.json`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch contacts');
-            }
-            const contacts = await response.json();
-            const sortedContacts = sortContactsAlphabetically(contacts);
-            displayContacts(sortedContacts);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    function groupContactsByFirstLetter(contacts) {
-        return contacts.reduce((acc, contact) => {
-            const firstLetter = contact.name.charAt(0).toUpperCase();
-            if (!acc[firstLetter]) {
-                acc[firstLetter] = [];
-            }
-            acc[firstLetter].push(contact);
-            return acc;
-        }, {});
-    }
-
-    function createSectionTitle(letter) {
-        const sectionTitle = document.createElement('p');
-        sectionTitle.className = 'abc-order';
-        sectionTitle.textContent = letter;
-        return sectionTitle;
-    }
-
-    function createSeparator() {
-        const separator = document.createElement('div');
-        separator.className = 'underline';
-        return separator;
-    }
-
-    function createContactElement(contact) {
-        const contactElement = document.createElement('div');
-        contactElement.className = 'contact-item';
-        const contactIcon = createContactIcon(contact.name, contact.color);
-        contactElement.innerHTML = `
-            <div class="contact-header">
-                ${contactIcon.outerHTML}
-                </div>
-            <h3>${contact.name}</h3>
-            <p>Email: ${contact.email}</p>
-            <p>Phone: ${contact.phone}</p>
-        `;
-        return contactElement;
-    }
-
-    // function createContactIcon(name, color) {
-    //     const initials = name.split(' ').map(part => part.charAt(0)).join('').toUpperCase();
-
-    //     const icon = document.createElement('div');
-    //     icon.className = 'contact-icon';
-    //     icon.style.backgroundColor = color;
-    //     icon.textContent = initials;
-
-    //     return icon;
-    // }
-
-    function displayContacts(contacts) {
-        const contactList = document.getElementById('contactList');
-        contactList.innerHTML = ''; // Clear any existing contacts
-
-        const groupedContacts = groupContactsByFirstLetter(contacts);
-
-        Object.keys(groupedContacts).sort().forEach(letter => {
-            const sectionTitle = createSectionTitle(letter);
-            const separator = createSeparator();
-
-            contactList.appendChild(sectionTitle);
-            contactList.appendChild(separator);
-
-            groupedContacts[letter].forEach(contact => {
-                const contactElement = createContactElement(contact);
-                contactList.appendChild(contactElement);
-            });
+/**
+ * Deletes an existing contact from the Firebase database using the 'DELETE' method.
+ * Upon successful deletion, the contact list and the UI are refreshed.
+ *
+ * @throws {Error} Throws an error if the deletion from Firebase fails.
+ * @returns {Promise<void>} Returns a promise that resolves when the contact is deleted.
+ */
+async function deleteContact() {
+    const url = `${BASE_URL}contacts/${currentContactId}.json`;
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE'
         });
+        if (response.ok) {
+            handleDeleteContact();
+        } else {
+            console.error('Failed to delete contact');
+        }
+    } catch (error) {
+        console.error('Error:', error);
     }
-
-    fetchContacts();
-
-});
-
-//Funktionen zum Öffnen und Schließen des Popups
-function openPopup() {
-    const overlay = document.getElementById('add-contact-pop-up-overlay');
-    const popup = document.querySelector('.add-contact-pop-up');
-
-    // Reset animations
-    overlay.classList.remove('active');
-    popup.classList.remove('animate');
-    void overlay.offsetWidth; // Force reflow to reset animation
-    void popup.offsetWidth; // Force reflow to reset animation
-
-    // Show overlay and start animations
-    overlay.style.display = 'flex';
-    setTimeout(() => {
-        overlay.classList.add('active');
-        popup.classList.add('animate');
-    }, 10);
 }
 
-function closePopup() {
-    const overlay = document.getElementById('add-contact-pop-up-overlay');
-    const popup = document.querySelector('.add-contact-pop-up');
+/**
+ * Handles the deletion of a contact by updating the UI and refreshing the contact list.
+ * - Fetches the updated contact list from Firebase, which also updates the local array.
+ * - Hides the contact details if the currently displayed contact is deleted.
+ * - Removes the active state from the deleted contact's list element in the UI.
+ * - Triggers a click event on the contact list to ensure the UI is updated.
+ * 
+ * @returns {Promise<void>} Returns a promise that resolves when the contact data is fetched and the UI is updated.
+ */
+async function handleDeleteContact() {
+    await fetchContacts();
 
-    // Start closing animations
-    popup.classList.add('closing');
-    overlay.classList.add('closing');
-
-    // Warte, bis die Animationen abgeschlossen sind, bevor das Element entfernt wird
-    setTimeout(() => {
-        popup.classList.remove('animate', 'closing'); // Reset Pop-up-Animationen
-        overlay.classList.remove('active', 'closing'); // Reset Overlay-Animationen
-        overlay.style.display = 'none'; // Overlay verstecken
-    }, 500); // 500ms passt zur Dauer der Animationen
-}
-
-// Popup schließen, wenn außerhalb des Popups geklickt wird
-document.getElementById('add-contact-pop-up-overlay').addEventListener('click', (event) => {
-    if (event.target === document.getElementById('add-contact-pop-up-overlay')) {
-        closePopup();
+    if (currentlyDisplayedContact) {
+        hideContactDetails();
+        currentlyDisplayedContact = null;
     }
-});
+    const contactList = document.querySelector('.contact-list');
+    if (contactList) {
+        const deletedContactElement = contactList.querySelector(`[data-contact-id="${currentContactId}"]`);
+        if (deletedContactElement) {
+            deletedContactElement.classList.remove('active');
+        }
+    }
+    if (contactList) {
+        contactList.click();
+    }
+}
