@@ -1,4 +1,4 @@
-const BASE_URL = 'https://joindev-9be03-default-rtdb.europe-west1.firebasedatabase.app/';
+const BASE_URL = 'https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/';
 
 const addContactForm = document.getElementById('addContactForm');
 let contactsArray = [];
