@@ -14,19 +14,19 @@ let urgent = 0;
 let medium = 0;
 let low = 0;
 let nextTaskPriority = 'urgent';
-let tasksInBoard = 4;
-let tasksInProgress = 1;
-let tasksInFeedback = 3;
+let tasksInBoard = 0;
+let tasksInProgress = 0;
+let tasksInFeedback = 0;
 
 
 // initializes the listed functions after the HTML-Body was loaded
 async function init() {
     // loadRememberedLogin();                                       // uncomment as soon as function loadRememberedLogin() is active again
+    console.log('logged in user:', email);
     await includeHTML();
     await loadUserData(); 
     await loadTaskData();
     loadHtmlTemplates();
-    console.log('logged in user:', email);
 }
 
 
@@ -60,6 +60,9 @@ async function includeHTML() {
 }
 
 
+
+
+
 // Requests from user list
 async function loadUserData() {
     await findUserIdByEmail(email);
@@ -70,11 +73,10 @@ async function loadUserData() {
 // This function finds the user ID by referencing the user email
 async function findUserIdByEmail(email) {
     try {
-        const response = await fetch(`${baseUrl}/user.json`);   // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
         const userData = await response.json();
         for (const userId in userData) {
             if (userData[userId].email === email) {
-            console.log("The Firebase user id is:", userId);
             firebaseUserId = userId;
             return userId;
             }
@@ -91,10 +93,9 @@ async function findUserIdByEmail(email) {
 // This function finds the user name by referencing the user ID
 async function showUserNameById(id) {
     try {
-        const response = await fetch(`${baseUrl}/user.json`);   // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
         const userData = await response.json();
         userName = userData[firebaseUserId].name;
-        console.log("The user name is:", userName);
         return userName;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -103,17 +104,23 @@ async function showUserNameById(id) {
 }
 
 
+
+
+
 // This function requests the tasks from the database
 async function loadTaskData() {
     await countTasks();
     // await countTasksAssignedToUser(email);
+    await amountOfToDoTasksAssignedToUser(email);
+    await amountOfDoneTasksAssignedToUser(email);
+    await amountOfTasksInProgressAssignedToUser(email);
+    await amountOfTasksAwaitingFeedbackAssignedToUser(email);
     await amountOfTasksAssignedToUser(email);
     await findTaskIdByEmail(email);
     await showTaskStatusById(firebaseTaskId);
-    amountTaskStatus(taskStatus);
     await showTaskPriorityById(firebaseTaskId);
-    amountPriority(urgent, medium, low);
     await showTaskDeadlineById(firebaseTaskId);
+    amountPriority(urgent, medium, low);
 }
 
 
@@ -122,20 +129,19 @@ async function countTasks() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        
-        console.log('baseUrl Daten: ', data);
         // Überprüfe, ob das "tasks"-Objekt existiert und nicht null oder undefined ist
         if (data && data.tasks) {
             // Zähle die Schlüssel im "tasks"-Objekt
             taskArrayLength = Object.keys(data.tasks).length;
-            console.log("tasks in board:", taskArrayLength);
         } else {
             console.error("JSON does not include 'tasks' object or is invalid.");
         }
+        console.log("tasks in board:", taskArrayLength);
+        tasksInBoard = taskArrayLength;
+        return tasksInBoard;
     } catch (error) {
         console.error("error whilte fetching task data:", error);
     }
-    return taskArrayLength;
 }
 
 
@@ -183,12 +189,13 @@ async function amountOfTasksAssignedToUser(email) {
                 } 
             });
         } else {
-          console.error("Das JSON enthält kein 'tasks'-Objekt oder ist ungültig.");
+          console.error("there is no 'tasks' object or it is invalid.");
         }
+        console.log('tasks assigned to user:', count);
+        return count;
       } catch (error) {
-        console.error("Fehler beim Abrufen der Aufgaben:", error);
+        console.error("Error while fetching data:", error);
       }
-    console.log('User related tasks in board ', count);
 }
 
 
@@ -204,24 +211,113 @@ async function amountOfToDoTasksAssignedToUser(email) {
               const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
               if (Array.isArray(assignments)) {
                 assignments.forEach(assignment => {
-                  if (assignment.email === "andrej@join.com") {
+                  if (assignment.email === email) {
                     count++;
                   }
                 });
               }
             }
           });
-    
-          console.log("Anzahl der Aufgaben für Andrej mit Status 'todo':", count);
         } else {
-          console.error("Das JSON enthält kein 'tasks'-Objekt oder ist ungültig.");
+          console.error("there is no 'tasks' object or it is invalid.");
         }
-      } catch (error) {
-        console.error("Fehler beim Abrufen der Aufgaben:", error);
-      }
-      console.log('User related to do tasks', count);
+        console.log("tasks assigned to user with status 'todo':", count);
+        toDo = count;
+        return toDo;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
     }
-    
+}
+
+
+async function amountOfDoneTasksAssignedToUser(email) {
+    let count = 0;
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        if (data && data.tasks) {
+          Object.values(data.tasks).forEach(task => {
+            if (task.assignment && task.status === "done") {
+              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+              if (Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                  if (assignment.email === email) {
+                    count++;
+                  }
+                });
+              }
+            }
+          });
+        } else {
+          console.error("there is no 'tasks' object or it is invalid.");
+        }
+        console.log("tasks assigned to user with status 'done':", count);
+        done = count;
+        return done;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}
+
+
+async function amountOfTasksInProgressAssignedToUser(email) {
+    let count = 0;
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        if (data && data.tasks) {
+          Object.values(data.tasks).forEach(task => {
+            if (task.assignment && task.status === "progress") {
+              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+              if (Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                  if (assignment.email === email) {
+                    count++;
+                  }
+                });
+              }
+            }
+          });
+        } else {
+          console.error("there is no 'tasks' object or it is invalid.");
+        }
+        console.log("tasks assigned to user with status 'progress':", count);
+        tasksInProgress = count;
+        return tasksInProgress;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}
+
+
+async function amountOfTasksAwaitingFeedbackAssignedToUser(email) {
+    let count = 0;
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        if (data && data.tasks) {
+          Object.values(data.tasks).forEach(task => {
+            if (task.assignment && task.status === "feedback") {
+              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+              if (Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                  if (assignment.email === email) {
+                    count++;
+                  }
+                });
+              }
+            }
+          });
+        } else {
+          console.error("there is no 'tasks' object or it is invalid.");
+        }
+        console.log("tasks assigned to user with status 'feedback':", count);
+        tasksInFeedback = count;
+        return tasksInFeedback;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}
 
 
 // This function finds the tasks by referencing the user email
@@ -230,22 +326,23 @@ async function findTaskIdByEmail(email) {
         const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
         const taskData = await response.json();
         // Loop through each task in the data
-    for (const taskId in taskData) {
-        const task = taskData[taskId];
-        const assignmentsArray = JSON.parse(task.assignment);       // Parse the stringified array
-        // Loop through each assignment within the task
-        for (const assignment of assignmentsArray) {
-            if (assignment.email === email) {
-            console.log("The Firebase task id is:", taskId);
-            firebaseTaskId = taskId;
-            return firebaseTaskId;                                  // Return immediately after finding a match
+        for (const taskId in taskData) {
+            const task = taskData[taskId];
+            const assignmentsArray = JSON.parse(task.assignment);       // Parse the stringified array
+            // Loop through each assignment within the task
+            for (const assignment of assignmentsArray) {
+                if (assignment.email === email) {
+                firebaseTaskId = taskId;
+                return firebaseTaskId;                                  // Return immediately after finding a match
+                }
             }
         }
-    }
+        return taskId;
     } catch (error) {
         console.error("Error while fetching data:", error);
         return null;
     }
+    // console.log("The Firebase task id is:", taskId);
 }
 
 
@@ -260,17 +357,6 @@ async function showTaskStatusById(firebaseTaskId) {
         console.error("Error while fetching data:", error);
         return null;
     }
-}
-
-
-// This function counts the amount of tasks by status type 
-function amountTaskStatus(taskStatus) {
-    if (taskStatus == 'todo') {
-        toDo++;
-    } else if (taskStatus == 'done') {
-        done++;
-    }
-    return {toDo, done};
 }
 
 
@@ -413,7 +499,7 @@ function createPriorityLogoAndColor() {
 
 
 
-// Change images on hover
+// After HTML content was loaded, change images on hover
 document.addEventListener('DOMContentLoaded', function() {          //this code will be executed as soon as all referenced HTML elements are loaded
     changeToDoStatsOnHover();
     changeDoneStatsOnHover();
