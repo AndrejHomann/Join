@@ -14,6 +14,8 @@ let urgent = 0;
 let medium = 0;
 let low = 0;
 let nextTaskPriority = 'urgent';
+let deadlineArray = [];
+let earliestDeadline;
 let tasksInBoard = 0;
 let tasksInProgress = 0;
 let tasksInFeedback = 0;
@@ -113,14 +115,11 @@ async function loadTaskData() {
     // await countTasksAssignedToUser(email);
     await amountOfToDoTasksAssignedToUser(email);
     await amountOfDoneTasksAssignedToUser(email);
+    await amountOfUrgentTasksAssignedToUser(email);
     await amountOfTasksInProgressAssignedToUser(email);
     await amountOfTasksAwaitingFeedbackAssignedToUser(email);
     await amountOfTasksAssignedToUser(email);
-    await findTaskIdByEmail(email);
-    await showTaskStatusById(firebaseTaskId);
-    await showTaskPriorityById(firebaseTaskId);
-    await showTaskDeadlineById(firebaseTaskId);
-    amountPriority(urgent, medium, low);
+    await nextTaskDeadlineAssignedToUser(email);
 }
 
 
@@ -260,6 +259,36 @@ async function amountOfDoneTasksAssignedToUser(email) {
 }
 
 
+async function amountOfUrgentTasksAssignedToUser(email) {
+    let count = 0;
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        if (data && data.tasks) {
+          Object.values(data.tasks).forEach(task => {
+            if (task.assignment && task.priority === "urgent" && task.status !== "done") {
+              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+              if (Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                  if (assignment.email === email) {
+                    count++;
+                  }
+                });
+              }
+            }
+          });
+        } else {
+          console.error("there is no 'tasks' object or it is invalid.");
+        }
+        console.log("tasks (=not done) assigned to user with priority 'urgent':", count);
+        urgent = count;
+        return urgent;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}
+
+
 async function amountOfTasksInProgressAssignedToUser(email) {
     let count = 0;
     try {
@@ -320,83 +349,97 @@ async function amountOfTasksAwaitingFeedbackAssignedToUser(email) {
 }
 
 
-// This function finds the tasks by referencing the user email
-async function findTaskIdByEmail(email) {
-    try {
-        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
-        const taskData = await response.json();
-        // Loop through each task in the data
-        for (const taskId in taskData) {
-            const task = taskData[taskId];
-            const assignmentsArray = JSON.parse(task.assignment);       // Parse the stringified array
-            // Loop through each assignment within the task
-            for (const assignment of assignmentsArray) {
-                if (assignment.email === email) {
-                firebaseTaskId = taskId;
-                return firebaseTaskId;                                  // Return immediately after finding a match
-                }
-            }
+// // This function finds the tasks by referencing the user email
+// async function findTaskIdByEmail(email) {
+//     try {
+//         const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
+//         const taskData = await response.json();
+//         // Loop through each task in the data
+//         for (const taskId in taskData) {
+//             const task = taskData[taskId];
+//             const assignmentsArray = JSON.parse(task.assignment);       // Parse the stringified array
+//             // Loop through each assignment within the task
+//             for (const assignment of assignmentsArray) {
+//                 if (assignment.email === email) {
+//                 firebaseTaskId = taskId;
+//                 return firebaseTaskId;                                  // Return immediately after finding a match
+//                 }
+//             }
+//         }
+//         return taskId;
+//     } catch (error) {
+//         console.error("Error while fetching data:", error);
+//         return null;
+//     }
+//     // console.log("The Firebase task id is:", taskId);
+// }
+
+
+function checkIfDeadlineLaterThanToday(deadline) {
+    //transform german date type format (TT.MM.JJJJ) to standard object type format
+    let parts = deadline.split('.');
+    let dividedDeadline = parts[2] + '-' + parts[1] + '-' + parts[0];
+    let newDeadlineFormat = new Date(dividedDeadline);
+    //transform deadline date object to integer
+    let formattedDeadline = newDeadlineFormat.getTime();
+    //define and transform todays date object to integer
+    let today = new Date();
+    let formattedToday = today.getTime();
+    //check if deadline greater than todays date
+    let result = formattedDeadline > formattedToday;
+    return result;
+}
+
+
+function findEarliestDate(dateArray) {
+    let earliestDate = new Date(dateArray[0].split('.').reverse().join('-')); 
+    for (let i = 1; i < dateArray.length; i++) {
+        let currentDate = new Date(dateArray[i].split('.').reverse().join('-'));
+        if (currentDate < earliestDate) {
+        earliestDate = currentDate;
         }
-        return taskId;
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-        return null;
     }
-    // console.log("The Firebase task id is:", taskId);
+    return earliestDate;
 }
 
 
-//This function shows the task status by referencing the user ID
-async function showTaskStatusById(firebaseTaskId) {
-    try {
-        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
-        const taskData = await response.json();
-        taskStatus = taskData[firebaseTaskId].status;
-        return taskStatus;
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-        return null;
-    }
+function formatDate(dateObject) {
+    const date = new Date(dateObject);
+    const day = date.getDate().toString().padStart(2, '0'); 
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
 }
 
 
-// This function shows the task priority by referencing the user ID
-async function showTaskPriorityById(firebaseTaskId) {
+// This function shows the next task deadline by referencing the user ID
+async function nextTaskDeadlineAssignedToUser(email) {
     try {
-        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
+        const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        taskPriority = data[firebaseTaskId].priority;
-        return taskPriority;
+        if (data && data.tasks) {
+            Object.values(data.tasks).forEach(task => {
+                if (task.assignment && checkIfDeadlineLaterThanToday(task.date) === true) {
+                    const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+                    if (Array.isArray(assignments)) {
+                        assignments.forEach(assignment => {
+                            if (assignment.email === email) {
+                                deadlineArray.push(task.date);
+                            }
+                        });
+                    }
+                }
+            });
+        let earliestDeadlineFormatted = findEarliestDate(deadlineArray);
+        earliestDeadline = formatDate(earliestDeadlineFormatted);
+        } else {
+          console.error("there is no 'tasks' object or it is invalid.");
+        }
+        console.log("deadline Array:", deadlineArray);
+        console.log('the next deadline is:', earliestDeadline);
+        return earliestDeadline;
     } catch (error) {
         console.error("Error while fetching data:", error);
-        return null;
-    }
-}
-
-
-// This function counts the amount of tasks by priority type 
-function amountPriority(taskPriority, urgent, medium, low) {
-    if (taskPriority == 'urgent') {
-        urgent++;
-    } else if (taskPriority == 'medium') {
-        medium++;
-    } else if (taskPriority == 'low') {
-        low++;
-    }
-    return {urgent, medium, low};
-}
-
-
-// This function shows the task deadline by referencing the user ID
-async function showTaskDeadlineById(firebaseTaskId) {
-    try {
-        const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
-        const data = await response.json();
-        taskDeadline = data[firebaseTaskId].date;
-        return taskDeadline;
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-        return null;
     }
 }
 
@@ -410,7 +453,7 @@ function loadHtmlTemplates() {
     toDoUser(toDo);
     doneUser(done);
     priorityUser(nextTaskPriority, urgent, medium, low);
-    taskDeadlineUser(taskDeadline);
+    taskDeadlineUser(earliestDeadline);
     tasksInBoardUser(tasksInBoard);
     tasksInProgressUser(tasksInProgress);
     tasksInFeedbackUser(tasksInFeedback);
@@ -438,16 +481,16 @@ function doneUser(done) {
 function priorityUser(nextTaskPriority, urgent, medium, low) {
     let priority = document.getElementById('taskPriority');
     priority.innerHTML = /*html*/ `
-        <div class="center"> <span class="mainContentLineTextTop">${medium}</span> </div>          
+        <div class="center"> <span class="mainContentLineTextTop">${urgent}</span> </div>          
         <div> <span class="mainContentLineTextBottom">${nextTaskPriority}</span> </div>
     `;
 }
 
 
-function taskDeadlineUser(taskDeadline) {
+function taskDeadlineUser(earliestDeadline) {
     let date = document.getElementById('deadline');
     date.innerHTML = /*html*/ `
-        <span id="date">${taskDeadline}</span>
+        <span id="date">${earliestDeadline}</span>
     `;
 }
 
