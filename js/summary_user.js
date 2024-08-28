@@ -19,6 +19,7 @@ let earliestDeadline;
 let tasksInBoard = 0;
 let tasksInProgress = 0;
 let tasksInFeedback = 0;
+let greetingText = greeting();
 
 
 // initializes the listed functions after the HTML-Body was loaded
@@ -29,6 +30,7 @@ async function init() {
     await loadUserData(); 
     await loadTaskData();
     loadHtmlTemplates();
+    greeting();
 }
 
 
@@ -62,7 +64,22 @@ async function includeHTML() {
 }
 
 
-
+function greeting() {
+    let now = new Date();
+    let time = now.getHours();
+    let greeting;
+    if (time >= 0 && time < 6) {
+        greeting = "Good night, ";
+      } else if (time >= 6 && time < 12) {
+        greeting = "Good morning, ";
+      } else if (time >= 12 && time < 18) {
+        greeting = "Good afternoon, ";
+      } else {
+        greeting = "Good evening, ";
+      }
+      // let timeString = now.toLocaleTimeString();                 // shows the current time of the day
+    return greeting;
+}
 
 
 // Requests from user list
@@ -522,7 +539,7 @@ function tasksInFeedbackUser(tasksInFeedback) {
 function greetUser(userName) {                                  
     let greeting = document.getElementById('greeting');
     greeting.innerHTML = /*html*/ `
-        <span id="greetingText">Good morning,</span>
+        <span id="greetingText">${greetingText}</span>
         <span id="greetingName">${userName}</span>
     `;
 }
