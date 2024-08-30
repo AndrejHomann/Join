@@ -3,7 +3,6 @@
     src: url('../fonts/inter-v13-latin-regular.woff2') format('woff2');
 }
 
-
 body {
     margin: 0;
     padding: 0;
@@ -12,16 +11,12 @@ body a {
     text-decoration: none;
 }
 
-
-
 #navSummarySelected {
     background-color: rgb(9, 25, 48);
 }
 #navSummaryTextSelected {
     color: white;
 }
-
-
 
 #right {
     flex: 1;
@@ -31,9 +26,6 @@ body a {
     margin-left: 230px;                        /* new for merging sidebar-nav and header */
     background-color: rgb(245, 246, 247);     /* new for merging sidebar-nav and header */        
 }
-
-
-
 #main {
     flex: 1;
     background-color: rgb(245, 246, 247);
@@ -62,7 +54,6 @@ body a {
     font-weight: 400;
     color: rgba(42, 54, 71, 1);
 }
-
 #mainContentContainer {
     display: flex;
     align-items: center;
@@ -112,7 +103,6 @@ body a {
 .mainContentLine3Part:hover .mainContentLine3Text {
     color: white;
 }
-
 .transformRight:hover {
     cursor: pointer;
     background-color: rgb(42, 54, 71);
@@ -153,14 +143,12 @@ body a {
     transition-timing-function: ease-in-out;
     box-shadow: 0px 5px 2px 0px rgba(0, 0, 0, 0.2);
 }
-
 #mainContentLine2 {
     transition: all 100ms ease-in-out;
 }
 #mainContentLinePartLeft {
     transition: all 100ms ease-in-out;
 }
-
 .mainContentLinePart:hover .mainContentLine1Circle{
     background-color: white;
 }
@@ -236,7 +224,6 @@ body a {
     background-color: rgb(42, 54, 71);
     color: white;
 }
-
 #mainContentLine2Circle {
     background-color: rgb(255, 60, 0);
     border-radius: 100%;
@@ -303,7 +290,6 @@ body a {
     text-align: center;
     color: black;
 }
-
 #greeting {
     display: flex;
     flex-direction: column;
@@ -318,6 +304,21 @@ body a {
     font-weight: 700;
     color: rgba(41, 171, 226, 1);
 }
+#greetingMobile {
+    display: flex;
+    flex-direction: column;
+}
+#greetingTextMobile {
+    font-size: 47px;
+    font-weight: 500;
+    color: rgba(42, 54, 71, 1);
+}
+#greetingNameMobile {
+    font-size: 64px;
+    font-weight: 700;
+    color: rgba(41, 171, 226, 1);
+}
+
 
 
 /* transferred from header_and_sidebar.css */
@@ -325,8 +326,6 @@ body a {
     background-color: #091931;
     color: white;
 }
-
-
 
 
 
@@ -355,10 +354,6 @@ body a {
     }
 }
 
-@media (max-width: 900px) {
-    
-}
-
 @media (max-width: 870px) {
     #right {
         padding-left: 10px;
@@ -373,8 +368,21 @@ body a {
 
 /* RESPONSIVENESS - TABLET */
 @media (max-width: 768px) {
-    #greetingText, #greetingName {
+    #greeting {
         display: none;
+    }
+    #greetingMobile {
+        height: 100vh;
+        width: 100vw;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #F6F7F8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
     #main {
         max-width: 575px;
@@ -383,6 +391,7 @@ body a {
 @media (max-width: 575px) {
     #main {
         max-width: 575px;
+        padding-top: 30px;
     }
     #mainTitleLeft span {
         border-right: none;
@@ -405,6 +414,7 @@ body a {
 @media (max-width: 523px) {
     #main {
         max-width: 400px;
+        padding-top: 25px;
     }
     #mainTitleLeft span {
         font-size: 47px;
@@ -508,6 +518,20 @@ body a {
         width: 300px;
     }
 }
+@media (max-width: 370px) {
+    #greetingTextMobile {
+        font-size: 40px;
+        font-weight: 500;
+        color: rgba(42, 54, 71, 1);
+    }
+    #greetingNameMobile {
+        font-size: 57px;
+        font-weight: 700;
+        color: rgba(41, 171, 226, 1);
+    }
+}
+
+
 
 
 

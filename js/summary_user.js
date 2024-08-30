@@ -31,6 +31,7 @@ async function init() {
     await loadTaskData();
     loadHtmlTemplates();
     greeting();
+    checkIfMobileOrDesktopGreeting();
 }
 
 
@@ -474,7 +475,8 @@ function loadHtmlTemplates() {
     tasksInBoardUser(tasksInBoard);
     tasksInProgressUser(tasksInProgress);
     tasksInFeedbackUser(tasksInFeedback);
-    greetUser(userName);
+    desktopGreetingTextAndName();
+    mobileGreetingTextAndName();
     createPriorityLogoAndColor(nextTaskPriority);
 }
 
@@ -536,11 +538,20 @@ function tasksInFeedbackUser(tasksInFeedback) {
 }
 
 
-function greetUser(userName) {                                  
+function desktopGreetingTextAndName() {                                  
     let greeting = document.getElementById('greeting');
     greeting.innerHTML = /*html*/ `
         <span id="greetingText">${greetingText}</span>
         <span id="greetingName">${userName}</span>
+    `;
+}
+
+
+function mobileGreetingTextAndName() {                                  
+    let greeting = document.getElementById('greetingMobile');
+    greeting.innerHTML = /*html*/ `
+        <span id="greetingTextMobile">${greetingText}</span>
+        <span id="greetingNameMobile">${userName}</span>
     `;
 }
 
@@ -554,6 +565,7 @@ function createPriorityLogoAndColor() {
     `;
     changePriorityLogoAndColor(nextTaskPriority);
 }
+
 
 
 
@@ -604,4 +616,34 @@ function changePriorityLogoAndColor(nextTaskPriority) {
         priorityLogoBackground.style = 'background-color: rgb(121, 227, 41)';
     }
     return;
+}
+
+
+function checkIfMobileOrDesktopGreeting() {
+    if (window.innerWidth <= 768) {
+        mobileGreeting();
+        setTimeout(() => {
+            desktopGreeting();
+          }, 3700);
+    } else if (window.innerWidth > 768) {
+        desktopGreeting();
+    }
+}
+
+
+function mobileGreeting() {                                  
+    let mainContent = document.getElementById('right');
+    let greetingMobile = document.getElementById('greetingMobile');
+    mainContent.style.display = 'none';
+    setTimeout(() => {
+        greetingMobile.style = 'opacity: 0; transition: opacity 3s ease-in-out;';
+      }, 1000);
+}
+
+
+function desktopGreeting() {                                  
+    let mainContent = document.getElementById('right');
+    let greetingMobile = document.getElementById('greetingMobile');
+    mainContent.style.display = 'flex';
+    greetingMobile.style.display = 'none'; 
 }
