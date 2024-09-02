@@ -1,7 +1,7 @@
 const baseUrl = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
 
-let email = "andrej@join.com";      // email-adress needs to be deleted as soon as function loadRememberedLogin() is active again
-let password;
+let email;              
+let userSession;
 let firebaseUserId;
 let firebaseTaskId;
 let userName;
@@ -22,31 +22,32 @@ let tasksInFeedback = 0;
 let greetingText = greeting();
 
 
-// initializes the listed functions after the HTML-Body was loaded
+// initializes the listed functions while loading the HTML-Body
 async function init() {
-    // loadRememberedLogin();                                       // uncomment as soon as function loadRememberedLogin() is active again
-    console.log('logged in user:', email);
-    await includeHTML();
+    loadRememberedLogin();           
     await loadUserData(); 
-    await loadTaskData();
-    loadHtmlTemplates();
-    greeting();
-    checkIfMobileOrDesktopGreeting();
+    if(userSession=='active') {
+        await includeHTML();
+        await loadTaskData();
+        loadHtmlTemplates();
+        greeting();
+        checkIfMobileOrDesktopGreeting();
+    } else {
+        window.location.href = "../index.html";
+    }
 }
 
 
 /**
- * Loads saved user data from the local storage and fills the login form with it.
- * Also checks the "Remember me" checkbox if data is present.
+ * Loads email from local storage.
  */
-
-// function loadRememberedLogin() {
-//     const rememberMe = localStorage.getItem('rememberMe') === 'true';
-//     if (rememberMe) {
-//         email = localStorage.getItem('email');
-//         password = localStorage.getItem('password');
-//     }
-// }
+function loadRememberedLogin() {
+    const rememberMe = localStorage.getItem('rememberMe');
+    if (rememberMe === 'true') {
+        email = localStorage.getItem('email');
+    }
+    console.log('email from local storage:', email);
+}
 
 
 // loads the HTML-templates for the sidebar navigation and the header
@@ -85,13 +86,14 @@ function greeting() {
 
 // Requests from user list
 async function loadUserData() {
-    await findUserIdByEmail(email);
-    await showUserNameById(firebaseUserId); 
+    await findUserIdByEmail();
+    await showUserNameById(); 
+    await getUserSessionById();
 }
 
 
 // This function finds the user ID by referencing the user email
-async function findUserIdByEmail(email) {
+async function findUserIdByEmail() {
     try {
         const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
         const userData = await response.json();
@@ -111,7 +113,7 @@ async function findUserIdByEmail(email) {
 
 
 // This function finds the user name by referencing the user ID
-async function showUserNameById(id) {
+async function showUserNameById() {
     try {
         const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
         const userData = await response.json();
@@ -124,13 +126,24 @@ async function showUserNameById(id) {
 }
 
 
+async function getUserSessionById() {
+    try {
+        const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
+        const userData = await response.json();
+        userSession = userData[firebaseUserId].session;
+        console.log('user session is:', userSession);
+        return userSession;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+        return null;
+    }
+}
 
 
 
 // This function requests the tasks from the database
 async function loadTaskData() {
     await countTasks();
-    // await countTasksAssignedToUser(email);
     await amountOfToDoTasksAssignedToUser(email);
     await amountOfDoneTasksAssignedToUser(email);
     await amountOfUrgentTasksAssignedToUser(email);
@@ -160,31 +173,6 @@ async function countTasks() {
         console.error("error whilte fetching task data:", error);
     }
 }
-
-
-// async function countTasksAssignedToUser(email) {
-//     let count = 0;
-
-//     try {
-//       const response = await fetch(`${baseUrl}.json`);
-//       const data = await response.json();
-  
-//       if (data && data.tasks) {
-//         // Filtere die Aufgaben, die "andrej@join.com" zugewiesen sind
-//         const filteredTasks = Object.values(data.tasks).filter(task => task.assignment === email);
-  
-//         // Zähle die gefilterten Aufgaben
-//         count = filteredTasks.length;
-//         console.log(`amount of tasks for user: ' ${email}:`, count);
-//       } else {
-//         console.error("JSON does not include 'tasks' object or is invalid.");
-//       }
-//     } catch (error) {
-//       console.error("error whilte fetching task data:", error);
-//     }
-//     console.log('amoount of user to do tasks: ', count);
-//     return count;
-// }
 
 
 async function amountOfTasksAssignedToUser(email) {
@@ -365,32 +353,6 @@ async function amountOfTasksAwaitingFeedbackAssignedToUser(email) {
         console.error("Error while fetching data:", error);
     }
 }
-
-
-// // This function finds the tasks by referencing the user email
-// async function findTaskIdByEmail(email) {
-//     try {
-//         const response = await fetch(`${baseUrl}/tasks.json`);      // HTTP-Request in task list
-//         const taskData = await response.json();
-//         // Loop through each task in the data
-//         for (const taskId in taskData) {
-//             const task = taskData[taskId];
-//             const assignmentsArray = JSON.parse(task.assignment);       // Parse the stringified array
-//             // Loop through each assignment within the task
-//             for (const assignment of assignmentsArray) {
-//                 if (assignment.email === email) {
-//                 firebaseTaskId = taskId;
-//                 return firebaseTaskId;                                  // Return immediately after finding a match
-//                 }
-//             }
-//         }
-//         return taskId;
-//     } catch (error) {
-//         console.error("Error while fetching data:", error);
-//         return null;
-//     }
-//     // console.log("The Firebase task id is:", taskId);
-// }
 
 
 function checkIfDeadlineLaterThanToday(deadline) {
