@@ -1,5 +1,5 @@
 async function logout() {
-    setUserSessionToInactive();
+    await setUserSessionToInactive();
     window.location.href = "../index.html";
 }
 

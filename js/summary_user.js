@@ -24,8 +24,9 @@ let greetingText = greeting();
 
 // initializes the listed functions while loading the HTML-Body
 async function init() {
-    loadRememberedLogin();           
+    loadRememberedLogin();  
     await loadUserData(); 
+    await setUserSessionToActive(); 
     if(userSession=='active') {
         await includeHTML();
         await loadTaskData();
@@ -67,8 +68,7 @@ async function includeHTML() {
 
 
 function greeting() {
-    let now = new Date();
-    let time = now.getHours();
+    let time = new Date().getHours();
     let greeting;
     if (time >= 0 && time < 6) {
         greeting = "Good night, ";
@@ -79,7 +79,6 @@ function greeting() {
       } else {
         greeting = "Good evening, ";
       }
-      // let timeString = now.toLocaleTimeString();                 // shows the current time of the day
     return greeting;
 }
 
@@ -88,6 +87,7 @@ function greeting() {
 async function loadUserData() {
     await findUserIdByEmail();
     await showUserNameById(); 
+    await setUserSessionToActive();
     await getUserSessionById();
 }
 
@@ -100,11 +100,9 @@ async function findUserIdByEmail() {
         for (const userId in userData) {
             if (userData[userId].email === email) {
             firebaseUserId = userId;
-            return userId;
             }
         }
-        console.log("User not found");
-        return null;
+        return firebaseUserId;
     } catch (error) {
         console.error("Error while fetching data:", error);
         return null;
@@ -119,6 +117,25 @@ async function showUserNameById() {
         const userData = await response.json();
         userName = userData[firebaseUserId].name;
         return userName;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+        return null;
+    }
+}
+
+
+// This function sets the user session to active after successful login
+async function setUserSessionToActive() {
+    try {
+        const response = await fetch(`${baseUrl}/user/${firebaseUserId}.json`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              session: 'active'
+            })
+        });
     } catch (error) {
         console.error("Error while fetching data:", error);
         return null;
@@ -141,6 +158,8 @@ async function getUserSessionById() {
 
 
 
+
+
 // This function requests the tasks from the database
 async function loadTaskData() {
     await countTasks();
@@ -149,85 +168,52 @@ async function loadTaskData() {
     await amountOfUrgentTasksAssignedToUser(email);
     await amountOfTasksInProgressAssignedToUser(email);
     await amountOfTasksAwaitingFeedbackAssignedToUser(email);
-    await amountOfTasksAssignedToUser(email);
     await nextTaskDeadlineAssignedToUser(email);
 }
 
 
+// This function counts the amount of keys in the "tasks" object
 async function countTasks() {
-    let taskArrayLength;
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        // Überprüfe, ob das "tasks"-Objekt existiert und nicht null oder undefined ist
         if (data && data.tasks) {
-            // Zähle die Schlüssel im "tasks"-Objekt
-            taskArrayLength = Object.keys(data.tasks).length;
+            tasksInBoard = Object.keys(data.tasks).length;
         } else {
             console.error("JSON does not include 'tasks' object or is invalid.");
         }
-        console.log("tasks in board:", taskArrayLength);
-        tasksInBoard = taskArrayLength;
+        console.log("tasks in board:", tasksInBoard);
         return tasksInBoard;
     } catch (error) {
-        console.error("error whilte fetching task data:", error);
+        console.error("error while fetching task data:", error);
     }
 }
 
 
-async function amountOfTasksAssignedToUser(email) {
-    let count = 0;
-    try {
-        const response = await fetch(`${baseUrl}.json`);
-        const data = await response.json();
-        if (data && data.tasks) {
-            Object.values(data.tasks).forEach(task => {
-                if (task.assignment) {
-                    const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-                    if (Array.isArray(assignments)) {
-                        assignments.forEach(assignment => {
-                            if(assignment.email === email) {
-                                count++;
-                            }
-                        });
-                    } 
-                } 
-            });
-        } else {
-          console.error("there is no 'tasks' object or it is invalid.");
-        }
-        console.log('tasks assigned to user:', count);
-        return count;
-      } catch (error) {
-        console.error("Error while fetching data:", error);
-      }
+async function checkStatusOfTasksAssignedToUser(email, data, statusValue) {
+    let statusCount=0;
+    if (data && data.tasks) {
+        Object.values(data.tasks).forEach(task => {
+            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+            if (task.assignment && task.status === `${statusValue}` && Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                    if (assignment.email === email) {
+                        statusCount++;
+                    }
+                });
+            }
+        });
+    } 
+    return statusCount;
 }
 
 
 async function amountOfToDoTasksAssignedToUser(email) {
-    let count = 0;
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-    
-        if (data && data.tasks) {
-          Object.values(data.tasks).forEach(task => {
-            if (task.assignment && task.status === "todo") {
-              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-              if (Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                  if (assignment.email === email) {
-                    count++;
-                  }
-                });
-              }
-            }
-          });
-        } else {
-          console.error("there is no 'tasks' object or it is invalid.");
-        }
-        console.log("tasks assigned to user with status 'todo':", count);
-        toDo = count;
+        toDo = await checkStatusOfTasksAssignedToUser(email, data, 'todo');
+        console.log("tasks assigned to user with status 'todo':", toDo);
         return toDo;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -236,28 +222,11 @@ async function amountOfToDoTasksAssignedToUser(email) {
 
 
 async function amountOfDoneTasksAssignedToUser(email) {
-    let count = 0;
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        if (data && data.tasks) {
-          Object.values(data.tasks).forEach(task => {
-            if (task.assignment && task.status === "done") {
-              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-              if (Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                  if (assignment.email === email) {
-                    count++;
-                  }
-                });
-              }
-            }
-          });
-        } else {
-          console.error("there is no 'tasks' object or it is invalid.");
-        }
-        console.log("tasks assigned to user with status 'done':", count);
-        done = count;
+        done = await checkStatusOfTasksAssignedToUser(email, data, 'done');
+        console.log("tasks assigned to user with status 'done':", done);
         return done;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -265,59 +234,12 @@ async function amountOfDoneTasksAssignedToUser(email) {
 }
 
 
-async function amountOfUrgentTasksAssignedToUser(email) {
-    let count = 0;
-    try {
-        const response = await fetch(`${baseUrl}.json`);
-        const data = await response.json();
-        if (data && data.tasks) {
-          Object.values(data.tasks).forEach(task => {
-            if (task.assignment && task.priority === "urgent" && task.status !== "done") {
-              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-              if (Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                  if (assignment.email === email) {
-                    count++;
-                  }
-                });
-              }
-            }
-          });
-        } else {
-          console.error("there is no 'tasks' object or it is invalid.");
-        }
-        console.log("tasks (=not done) assigned to user with priority 'urgent':", count);
-        urgent = count;
-        return urgent;
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-    }
-}
-
-
 async function amountOfTasksInProgressAssignedToUser(email) {
-    let count = 0;
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        if (data && data.tasks) {
-          Object.values(data.tasks).forEach(task => {
-            if (task.assignment && task.status === "progress") {
-              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-              if (Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                  if (assignment.email === email) {
-                    count++;
-                  }
-                });
-              }
-            }
-          });
-        } else {
-          console.error("there is no 'tasks' object or it is invalid.");
-        }
-        console.log("tasks assigned to user with status 'progress':", count);
-        tasksInProgress = count;
+        tasksInProgress = await checkStatusOfTasksAssignedToUser(email, data, 'progress');
+        console.log("tasks assigned to user with status 'progress':", tasksInProgress);
         return tasksInProgress;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -326,33 +248,50 @@ async function amountOfTasksInProgressAssignedToUser(email) {
 
 
 async function amountOfTasksAwaitingFeedbackAssignedToUser(email) {
-    let count = 0;
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        if (data && data.tasks) {
-          Object.values(data.tasks).forEach(task => {
-            if (task.assignment && task.status === "feedback") {
-              const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-              if (Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                  if (assignment.email === email) {
-                    count++;
-                  }
-                });
-              }
-            }
-          });
-        } else {
-          console.error("there is no 'tasks' object or it is invalid.");
-        }
-        console.log("tasks assigned to user with status 'feedback':", count);
-        tasksInFeedback = count;
+        tasksInFeedback = await checkStatusOfTasksAssignedToUser(email, data, 'feedback');
+        console.log("tasks assigned to user with status 'feedback':", tasksInFeedback);
         return tasksInFeedback;
     } catch (error) {
         console.error("Error while fetching data:", error);
     }
 }
+
+
+async function checkPriorityOfTasksAssignedToUser(email, data, priorityValue) {
+    let priorityCount=0;
+    if (data && data.tasks) {
+        Object.values(data.tasks).forEach(task => {
+            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+            if (task.assignment && task.priority === `${priorityValue}` && task.status !== "done" && Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                    if (assignment.email === email) {
+                        priorityCount++;
+                    }
+                });
+            }
+        });
+    } 
+    return priorityCount;
+}
+
+
+async function amountOfUrgentTasksAssignedToUser(email) {
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        urgent = await checkPriorityOfTasksAssignedToUser(email, data, 'urgent');
+        console.log("tasks assigned to user with priority 'urgent':", urgent);
+        return urgent;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}
+
+
+
 
 
 function checkIfDeadlineLaterThanToday(deadline) {
@@ -392,29 +331,30 @@ function formatDate(dateObject) {
 }
 
 
+async function pushDatesIntoDeadlineArray(email, data) {
+    if (data && data.tasks) {
+        Object.values(data.tasks).forEach(task => {
+            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+            if (task.assignment && checkIfDeadlineLaterThanToday(task.date) === true && Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                    if (assignment.email === email) {
+                        deadlineArray.push(task.date);
+                    }
+                });
+            }
+        });
+    } 
+}
+
+
 // This function shows the next task deadline by referencing the user ID
 async function nextTaskDeadlineAssignedToUser(email) {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        if (data && data.tasks) {
-            Object.values(data.tasks).forEach(task => {
-                if (task.assignment && checkIfDeadlineLaterThanToday(task.date) === true) {
-                    const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-                    if (Array.isArray(assignments)) {
-                        assignments.forEach(assignment => {
-                            if (assignment.email === email) {
-                                deadlineArray.push(task.date);
-                            }
-                        });
-                    }
-                }
-            });
+        await pushDatesIntoDeadlineArray(email, data);
         let earliestDeadlineFormatted = findEarliestDate(deadlineArray);
         earliestDeadline = formatDate(earliestDeadlineFormatted);
-        } else {
-          console.error("there is no 'tasks' object or it is invalid.");
-        }
         console.log("deadline Array:", deadlineArray);
         console.log('the next deadline is:', earliestDeadline);
         return earliestDeadline;
@@ -422,7 +362,6 @@ async function nextTaskDeadlineAssignedToUser(email) {
         console.error("Error while fetching data:", error);
     }
 }
-
 
 
 
