@@ -1,10 +1,11 @@
 const baseUrl = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let email;              
-let userSession;
+let userSessionStatus;
 let firebaseUserId;
 let firebaseTaskId;
 let userName;
+let tasks;
 let taskDeadline;
 let taskStatus;
 let toDo = 0;
@@ -19,21 +20,28 @@ let earliestDeadline;
 let tasksInBoard = 0;
 let tasksInProgress = 0;
 let tasksInFeedback = 0;
-let greetingText = greeting();
 
 
 // initializes the listed functions while loading the HTML-Body
 async function init() {
     loadRememberedLogin();  
-    await loadUserData(); 
-    await setUserSessionToActive(); 
-    if(userSession=='active') {
+    await loadUserData();
+    await createActiveUserSession(); 
+    await checkIfUserOrGuest();
+}
+
+
+async function checkIfUserOrGuest() {
+    if (userSessionStatus == 'active') {
         await includeHTML();
-        await loadTaskData();
-        loadHtmlTemplates();
-        greeting();
-        checkIfMobileOrDesktopGreeting();
-    } else {
+        if (email != "guest@join.com") {
+            await userSession();
+        } 
+        else if (email == "guest@join.com") {
+            await guestSession();
+        } 
+    }
+    else {
         window.location.href = "../index.html";
     }
 }
@@ -67,27 +75,11 @@ async function includeHTML() {
 }
 
 
-function greeting() {
-    let time = new Date().getHours();
-    let greeting;
-    if (time >= 0 && time < 6) {
-        greeting = "Good night, ";
-      } else if (time >= 6 && time < 12) {
-        greeting = "Good morning, ";
-      } else if (time >= 12 && time < 18) {
-        greeting = "Good afternoon, ";
-      } else {
-        greeting = "Good evening, ";
-      }
-    return greeting;
-}
-
-
 // Requests from user list
 async function loadUserData() {
     await findUserIdByEmail();
     await showUserNameById(); 
-    await setUserSessionToActive();
+    await createActiveUserSession();
     await getUserSessionById();
 }
 
@@ -125,7 +117,7 @@ async function showUserNameById() {
 
 
 // This function sets the user session to active after successful login
-async function setUserSessionToActive() {
+async function createActiveUserSession() {
     try {
         const response = await fetch(`${baseUrl}/user/${firebaseUserId}.json`, {
             method: 'PATCH',
@@ -143,13 +135,21 @@ async function setUserSessionToActive() {
 }
 
 
+async function userSession() {
+    await loadTaskData();
+    loadHtmlTemplates();
+    greeting();
+    checkIfMobileOrDesktopGreeting();
+}
+
+
 async function getUserSessionById() {
     try {
         const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
         const userData = await response.json();
-        userSession = userData[firebaseUserId].session;
-        console.log('user session is:', userSession);
-        return userSession;
+        userSessionStatus = userData[firebaseUserId].session;
+        console.log('user session is:', userSessionStatus);
+        return userSessionStatus;
     } catch (error) {
         console.error("Error while fetching data:", error);
         return null;
@@ -157,12 +157,9 @@ async function getUserSessionById() {
 }
 
 
-
-
-
 // This function requests the tasks from the database
 async function loadTaskData() {
-    await countTasks();
+    await countTasksAssignedToUser();
     await amountOfToDoTasksAssignedToUser(email);
     await amountOfDoneTasksAssignedToUser(email);
     await amountOfUrgentTasksAssignedToUser(email);
@@ -173,19 +170,33 @@ async function loadTaskData() {
 
 
 // This function counts the amount of keys in the "tasks" object
-async function countTasks() {
+async function checkAmountOfTasksAssignedToUser(email, data) {
+    let taskCount=0;
+    if (data && data.tasks) {
+        Object.values(data.tasks).forEach(task => {
+            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
+            if (task.assignment && Array.isArray(assignments)) {
+                assignments.forEach(assignment => {
+                    if (assignment.email === email) {
+                        taskCount++;
+                    }
+                });
+            }
+        });
+    } 
+    return taskCount;
+}
+
+
+async function countTasksAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        if (data && data.tasks) {
-            tasksInBoard = Object.keys(data.tasks).length;
-        } else {
-            console.error("JSON does not include 'tasks' object or is invalid.");
-        }
-        console.log("tasks in board:", tasksInBoard);
+        tasksInBoard = await checkAmountOfTasksAssignedToUser(email, data);
+        console.log("tasks assigned to user:", tasksInBoard);
         return tasksInBoard;
     } catch (error) {
-        console.error("error while fetching task data:", error);
+        console.error("Error while fetching data:", error);
     }
 }
 
@@ -291,9 +302,6 @@ async function amountOfUrgentTasksAssignedToUser(email) {
 }
 
 
-
-
-
 function checkIfDeadlineLaterThanToday(deadline) {
     //transform german date type format (TT.MM.JJJJ) to standard object type format
     let parts = deadline.split('.');
@@ -361,190 +369,4 @@ async function nextTaskDeadlineAssignedToUser(email) {
     } catch (error) {
         console.error("Error while fetching data:", error);
     }
-}
-
-
-
-
-
-// HTML Templates
-function loadHtmlTemplates() {
-    toDoUser(toDo);
-    doneUser(done);
-    priorityUser(nextTaskPriority, urgent, medium, low);
-    taskDeadlineUser(earliestDeadline);
-    tasksInBoardUser(tasksInBoard);
-    tasksInProgressUser(tasksInProgress);
-    tasksInFeedbackUser(tasksInFeedback);
-    desktopGreetingTextAndName();
-    mobileGreetingTextAndName();
-    createPriorityLogoAndColor(nextTaskPriority);
-}
-
-
-function toDoUser(toDo) {
-    let toDoAmount = document.getElementById('userToDoAmount');
-    toDoAmount.innerHTML = /*html*/ `
-        <div class="mainContentLineTextTop">${toDo}</div>
-    `;
-}
-
-
-function doneUser(done) {
-    let doneAmount = document.getElementById('userDoneAmount');
-    doneAmount.innerHTML = /*html*/ `
-        <span class="mainContentLineTextTop">${done}</span>
-    `;
-}
-
-
-function priorityUser(nextTaskPriority, urgent, medium, low) {
-    let priority = document.getElementById('taskPriority');
-    priority.innerHTML = /*html*/ `
-        <div class="center"> <span class="mainContentLineTextTop">${urgent}</span> </div>          
-        <div> <span class="mainContentLineTextBottom">${nextTaskPriority}</span> </div>
-    `;
-}
-
-
-function taskDeadlineUser(earliestDeadline) {
-    let date = document.getElementById('deadline');
-    date.innerHTML = /*html*/ `
-        <span id="date">${earliestDeadline}</span>
-    `;
-}
-
-
-function tasksInBoardUser(tasksInBoard) {
-    let boardTasks = document.getElementById('tasksInBoard');
-    boardTasks.innerHTML = /*html*/ `
-        <span class="mainContentLine3Number">${tasksInBoard}</span>
-    `;
-}
-
-
-function tasksInProgressUser(tasksInProgress) {
-    let progressTasks = document.getElementById('tasksInProgress');
-    progressTasks.innerHTML = /*html*/ `
-        <span class="mainContentLine3Number">${tasksInProgress}</span>
-    `;
-}
-
-
-function tasksInFeedbackUser(tasksInFeedback) {
-    let feedbackTasks = document.getElementById('tasksInFeedback');
-    feedbackTasks.innerHTML = /*html*/ `
-        <span class="mainContentLine3Number">${tasksInFeedback}</span>
-    `;
-}
-
-
-function desktopGreetingTextAndName() {                                  
-    let greeting = document.getElementById('greeting');
-    greeting.innerHTML = /*html*/ `
-        <span id="greetingText">${greetingText}</span>
-        <span id="greetingName">${userName}</span>
-    `;
-}
-
-
-function mobileGreetingTextAndName() {                                  
-    let greeting = document.getElementById('greetingMobile');
-    greeting.innerHTML = /*html*/ `
-        <span id="greetingTextMobile">${greetingText}</span>
-        <span id="greetingNameMobile">${userName}</span>
-    `;
-}
-
-
-function createPriorityLogoAndColor() {
-    let priority = document.getElementById('createPriorityLogoAndColor');
-    priority.innerHTML = /*html*/ `
-        <div id="mainContentLine2Circle">
-            <img id="priorityIcon" src="../img/summary/urgent_white.svg" alt="Priority Icon">
-        </div>
-    `;
-    changePriorityLogoAndColor(nextTaskPriority);
-}
-
-
-
-
-
-
-// After HTML content was loaded, change images on hover
-document.addEventListener('DOMContentLoaded', function() {          //this code will be executed as soon as all referenced HTML elements are loaded
-    changeToDoStatsOnHover();
-    changeDoneStatsOnHover();
-});
-
-
-function changeToDoStatsOnHover() {
-    const toDo = document.getElementById('toDo');
-    const editImage = document.getElementById('edit');
-    toDo.addEventListener('mouseover', function() {
-        editImage.src = '../img/summary/edit_hover.svg';
-    });
-    toDo.addEventListener('mouseout', function() {
-        editImage.src = '../img/summary/edit.png';
-    });
-}
-
-
-function changeDoneStatsOnHover() {
-    const done = document.getElementById('done');
-    const checkImage = document.getElementById('check');
-    done.addEventListener('mouseover', function() {
-        checkImage.src = '../img/summary/check_hover.svg';
-    });
-    done.addEventListener('mouseout', function() {
-        checkImage.src = '../img/summary/check.png';
-    });
-}
-
-
-function changePriorityLogoAndColor(nextTaskPriority) { 
-    let priorityLogo = document.getElementById('priorityIcon');
-    let priorityLogoBackground = document.getElementById('mainContentLine2Circle');
-    if (nextTaskPriority == 'urgent') {
-        priorityLogo.src = '../img/summary/urgent_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(255, 60, 0)';
-    } else if (nextTaskPriority == 'medium') {
-        priorityLogo.src = '../img/summary/medium_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(255, 166, 0)';
-    } else if (nextTaskPriority == 'low') {
-        priorityLogo.src = '../img/summary/low_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(121, 227, 41)';
-    }
-    return;
-}
-
-
-function checkIfMobileOrDesktopGreeting() {
-    if (window.innerWidth <= 768) {
-        mobileGreeting();
-        setTimeout(() => {
-            desktopGreeting();
-          }, 3700);
-    } else if (window.innerWidth > 768) {
-        desktopGreeting();
-    }
-}
-
-
-function mobileGreeting() {                                  
-    let mainContent = document.getElementById('right');
-    let greetingMobile = document.getElementById('greetingMobile');
-    mainContent.style.display = 'none';
-    setTimeout(() => {
-        greetingMobile.style = 'opacity: 0; transition: opacity 3s ease-in-out;';
-      }, 1000);
-}
-
-
-function desktopGreeting() {                                  
-    let mainContent = document.getElementById('right');
-    let greetingMobile = document.getElementById('greetingMobile');
-    mainContent.style.display = 'flex';
-    greetingMobile.style.display = 'none'; 
 }
