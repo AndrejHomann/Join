@@ -1,3 +1,8 @@
+/**
+ * injects HTML code to create a container and an image element for the task priority logo.
+ * then calls the function changePriorityLogoAndColor() with element 'nextTaskPriority' as paramete to update the logo and background color based on the initial priority.
+ * @param {string} nextTaskPriority - stores the string value of the task priority.
+ */
 function createPriorityLogoAndColor() {
     let priority = document.getElementById('createPriorityLogoAndColor');
     priority.innerHTML = /*html*/ `
@@ -9,6 +14,10 @@ function createPriorityLogoAndColor() {
 }
 
 
+/**
+ * Updates the priority logo and background color based on the provided value stored in `nextTaskPriority`.
+ * @param {string} nextTaskPriority - stores the string value of the task priority.
+ */
 function changePriorityLogoAndColor(nextTaskPriority) { 
     let priorityLogo = document.getElementById('priorityIcon');
     let priorityLogoBackground = document.getElementById('mainContentLine2Circle');
@@ -26,13 +35,18 @@ function changePriorityLogoAndColor(nextTaskPriority) {
 }
 
 
-// After HTML content was loaded, change images on hover
+/** 
+ * After HTML content was loaded, both included functions change images on hover
+ **/ 
 document.addEventListener('DOMContentLoaded', function() {          //this code will be executed as soon as all referenced HTML elements are loaded
     changeToDoStatsOnHover();
     changeDoneStatsOnHover();
 });
 
 
+/**
+ * Uses event listeners to the element 'edit' to change the image source of an element on hover and back on mouseout.
+ */
 function changeToDoStatsOnHover() {
     const toDo = document.getElementById('toDo');
     const editImage = document.getElementById('edit');
@@ -45,6 +59,9 @@ function changeToDoStatsOnHover() {
 }
 
 
+/**
+ * Uses event listeners to the element 'check' to change the image source of an element on hover and back on mouseout.
+ */
 function changeDoneStatsOnHover() {
     const done = document.getElementById('done');
     const checkImage = document.getElementById('check');

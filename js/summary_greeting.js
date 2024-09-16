@@ -1,5 +1,11 @@
 let greetingText = greeting();
 
+
+/** 
+ * greets the user or guest with different texts in dependence of the time of day.
+ * @param {date} time - determines the current time of the day.
+ * @param {string} greeting - contains the greeting text depending on the time of day.
+*/
 function greeting() {
     let time = new Date().getHours();
     let greeting;
@@ -16,6 +22,11 @@ function greeting() {
 }
 
 
+/** 
+ * checks whether the screen width is less than or equal to 768px.
+ * if true it shows the greeting text in mobile format and after a few seconds it shows the user summary.
+ * if false it shows the user summary directly.
+ */
 function checkIfMobileOrDesktopGreeting() {
     if (window.innerWidth <= 768) {
         mobileGreeting();
@@ -28,6 +39,9 @@ function checkIfMobileOrDesktopGreeting() {
 }
 
 
+/**
+ * hides the user summary and shows the mobile greeting text.
+ */
 function mobileGreeting() {                                  
     let mainContent = document.getElementById('right');
     let greetingMobile = document.getElementById('greetingMobile');
@@ -38,6 +52,9 @@ function mobileGreeting() {
 }
 
 
+/**
+ * hides the mobile greeting text and shows the user summary.
+ */
 function desktopGreeting() {                                  
     let mainContent = document.getElementById('right');
     let greetingMobile = document.getElementById('greetingMobile');
