@@ -11,7 +11,7 @@ async function guestSession() {
 
 
 /** 
-* requests the tasks from the database. 
+* requests the tasks from the database by calling several functions.
 */ 
 async function loadTaskDataGuest() {
     await countTasks();
@@ -32,7 +32,6 @@ async function loadTaskDataGuest() {
  * @param {number} tasksInBoard - stores the amount of tasks in the board.
  * @returns {number|undefined} - returns `undefined` in case an error occurred.
  */
-*/ 
 async function countTasks() {
     try {
         const response = await fetch(`${baseUrl}.json`);
