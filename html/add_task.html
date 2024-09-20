@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Join</title>
+        <link rel="icon" href="/img/JoinIcon.png" />
+        <link rel="stylesheet" href="/css/addTask.css" />
+        <link rel="stylesheet" href="/css/fonts.css" />
+        <script src="/js/addTask.js"></script>
+    </head>
+
+    <body>
+        <h1>Add Task</h1>
+        <form id="content-box-container">
+            <div style="display: flex">
+                <div id="content-box-left" class="flex-column">
+                    <div id="title-container" class="flex-column">
+                        <div class="subtitle">Title<span class="asterisk">*</span></div>
+                        <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" required /></div>
+                    </div>
+                    <div id="description-container" class="flex-column">
+                        <div class="subtitle">Description</div>
+                        <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input" required></textarea></div>
+                    </div>
+                    <div id="assigned-container" class="flex-column">
+                        <div class="subtitle">Assigned to</div>
+                        <div id="selected-name" class="select-container">
+                            <span id="assigned-placeholder">Select contacts to assign</span>
+                            <div id="contacts-dropwdown-arrow-container" onclick="checkIfContactsDropdownIsVisible()"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
+                        </div>
+                        <div id="dropdown-list"></div>
+                        <div id="selected-contacts-circle-container"></div>
+                    </div>
+                </div>
+                <div id="border-container"></div>
+                <div id="content-box-right" class="flex-column">
+                    <div id="date-container" class="flex-column">
+                        <div class="subtitle">Due date<span class="asterisk">*</span></div>
+                        <div id="calender"><input type="date" id="date-input" required /></div>
+                    </div>
+                    <div id="prio-container" class="flex-column">
+                        <div class="subtitle">Prio</div>
+                        <div id="choose-prio-container">
+                            <button class="choose-prio-button flex-center-align" id="prio-high-button" type="button" onclick="choosePrio('high')">
+                                <span id="prio-high" class="flex-center-align"
+                                    >Urgent
+                                    <img src="/img/addTask/Capa 3.png" id="urgent-arrows" />
+                                </span>
+                            </button>
+                            <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
+                                <span id="prio-medium" class="flex-center-align"
+                                    >Medium
+                                    <img src="/img/addTask/Prio media.png" id="medium-arrows" />
+                                </span>
+                            </button>
+                            <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')">
+                                <span id="prio-low" class="flex-center-align"
+                                    >Low
+                                    <img src="/img/addTask/Capa 2 (1).png" id="low-arrows" />
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="category-container" class="flex-column">
+                        <div class="subtitle">Category<span class="asterisk">*</span></div>
+
+                        <div id="selected-category" class="select-container">
+                            <span id="category-placeholder">Select task category</span>
+                            <div id="category-dropdown-arrow-container" onclick="checkIfCategoryDropdownIsVisible()"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
+                        </div>
+                        <div id="category-dropdown-list" class="d-none"></div>
+                    </div>
+
+                    <div id="substasks-container" class="flex-column">
+                        <div class="subtitle">Subtasks</div>
+                        <input type="text" id="choose-subtasks" placeholder="Add new subtask" required />
+                    </div>
+                </div>
+            </div>
+            <div id="interactives-buttons-and-required-container">
+                <div id="required-container">
+                    <span id="required-span"><span class="asterisk">*</span>This field is required</span>
+                </div>
+                <div id="interactives-buttons-container">
+                    <button id="clear-button" class="flex-center-align">
+                        <span id="clear-button-font" class="contents">Clear<img src="/img/Vector.png" id="cancel-icon" /></span>
+                    </button>
+                    <button id="create-button" class="flex-center-align" type="submit" onclick="createTask()">
+                        <span id="create-task-button-font" class="contents">Create Task<img src="/img/summary/check.png" id="check-icon" /></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>
