@@ -1,12 +1,13 @@
 const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
 let contactList = [];
-let selectedPrio = "";
+let selectedPrio = "medium";
 let categoryList = ["Technical Task", "User Story"];
 let selectedCategory = null;
 let selectedContact = null;
 let selectedContacts = [];
 let colors = [];
 let selectedColors = [];
+let subtasks = [];
 
 function createTask() {
     let task = {
@@ -15,9 +16,9 @@ function createTask() {
         name: selectedContacts,
         date: document.getElementById("date-input").value,
         priority: selectedPrio,
-        subtask: document.getElementById("choose-subtasks").value,
         category: selectedCategory,
         color: selectedColors,
+        addedSubtasks: subtasks,
     };
     addTask("/tasks.json", task);
 }
@@ -176,6 +177,24 @@ function getRandomColor() {
 }
 
 function choosePrio(prio) {
+    let selectedPioButton = document.getElementById(`prio-${prio}-button`);
+
+    if (selectedPrio === prio) {
+        resetPrio();
+        selectedPrio = "";
+        console.log("No priority selected");
+    } else {
+        resetPrio();
+
+        selectedPioButton.classList.add(`prio-${prio}-button-bg-color`);
+        selectedPioButton.classList.remove("prio-default-text-color");
+
+        selectedPrio = prio;
+        console.log(selectedPrio);
+    }
+}
+
+function resetPrio() {
     document.getElementById("prio-high-button").classList.remove("prio-high-button-bg-color");
     document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
     document.getElementById("prio-low-button").classList.remove("prio-low-button-bg-color");
@@ -183,13 +202,6 @@ function choosePrio(prio) {
     document.getElementById("prio-high-button").classList.add("prio-default-text-color");
     document.getElementById("prio-medium-button").classList.add("prio-default-text-color");
     document.getElementById("prio-low-button").classList.add("prio-default-text-color");
-
-    let selectedButton = document.getElementById(`prio-${prio}-button`);
-    selectedButton.classList.add(`prio-${prio}-button-bg-color`);
-    selectedButton.classList.remove("prio-default-text-color");
-
-    selectedPrio = prio;
-    console.log(selectedPrio);
 }
 
 function checkIfCategoryDropdownIsVisible() {
@@ -243,4 +255,26 @@ function selectCategory(categoryName) {
     selectedCategory = categoryName;
     closeCategoryDropDown();
     console.log(selectedCategory);
+}
+
+function addSubtask() {
+    let newSubtask = document.getElementById("new-subtask-input").value;
+    let subtaskList = document.getElementById("subtask-list");
+
+    if (newSubtask !== "") {
+        subtasks.push(newSubtask);
+
+        let subtaskHTML = /*html*/ `
+            <div class="subtask-item">
+                <li>${newSubtask}</li>
+            </div>`;
+
+        subtaskList.innerHTML += subtaskHTML;
+
+        document.getElementById("new-subtask-input").value = "";
+
+        console.log(subtasks);
+    } else {
+        alert("Bitte eine Subtask hinzufügen!");
+    }
 }

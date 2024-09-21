@@ -138,16 +138,6 @@ h1 {
     gap: 8px;
 }
 
-.prio-high-span-color {
-    font-weight: 700;
-    color: white;
-}
-
-/* #prio-medium-button {
-    background: #ffa800;
-}
-*/
-
 #prio-medium {
     width: 84px;
     height: 24px;
@@ -179,7 +169,7 @@ h1 {
     gap: 8px;
     border-radius: 10px;
     background: #ffffff;
-    box-shadow: 0px 0px 4px 0px #0000001a;
+    box-shadow: 0px 0px 24px 0px #0000001a;
     border: #f6f7f8;
     cursor: pointer;
     color: black;
@@ -204,10 +194,28 @@ h1 {
     font-weight: 700;
 }
 
-#urgent-arrows,
-#medium-arrows,
-#low-arrows {
-    width: 20px;
+.prio-high-arrows {
+    color: #ff3d00;
+}
+
+.prio-medium-arrows {
+    color: #ffa801;
+}
+
+.prio-low-arrows {
+    color: #7ae229;
+}
+
+.prio-high-button-bg-color .prio-high-arrows {
+    color: white;
+}
+
+.prio-medium-button-bg-color .prio-medium-arrows {
+    color: white;
+}
+
+.prio-low-button-bg-color .prio-low-arrows {
+    color: white;
 }
 
 /* Category-Container */
@@ -218,18 +226,38 @@ h1 {
 
 /* Subtask-Container */
 
-#substasks-container {
-    gap: 8px;
-}
-
-#choose-subtasks {
+#new-subtask-contaier {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 12px 16px 12px 16px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
+    background-color: white;
+}
+
+#new-subtask-input {
+    border: none;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
     text-align: left;
+}
+
+#addicon-container {
+    gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#subtask-list {
+    margin-left: 48.25px;
+}
+
+.subtask-item {
+    margin-top: 16px;
 }
 
 /* Clear and AddTask Buttons */
