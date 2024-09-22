@@ -12,6 +12,7 @@ body {
     justify-content: flex-start;
     flex-direction: column;
     margin-left: 328px;
+    height: 100vh;
 }
 
 h1 {
@@ -34,6 +35,11 @@ h1 {
 
 #content-box-container {
     width: 976.25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 100px;
 }
 
 .subtitle {
@@ -78,6 +84,8 @@ h1 {
 
 #assigned-container {
     gap: 8px;
+    position: relative;
+    z-index: 1;
 }
 
 .select-container {
@@ -218,12 +226,6 @@ h1 {
     color: white;
 }
 
-/* Category-Container */
-
-#category-container {
-    gap: 8px;
-}
-
 /* Subtask-Container */
 
 #new-subtask-contaier {
@@ -267,7 +269,6 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 138px;
 }
 
 #required-container {
@@ -348,9 +349,15 @@ h1 {
 /* Dropdown Contacts*/
 
 #dropdown-list {
-    max-height: 144px;
+    max-height: 216px;
     overflow-y: auto;
     overflow-x: hidden;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    top: 100%;
+    background-color: white;
 }
 
 .dropdown-item {
@@ -363,8 +370,8 @@ h1 {
     background-color: white;
     display: flex;
     justify-content: space-between;
-    margin: 2px 0 2px 0;
     align-items: center;
+    border-radius: 10px;
 }
 
 #dropdown-arrow {
@@ -412,11 +419,12 @@ h1 {
     margin-right: 8px;
 }
 
-.invisible {
-    visibility: hidden;
-}
+/* Category-Container */
 
-/* Dropdown Category */
+#category-container {
+    position: relative;
+    gap: 8px;
+}
 
 #category-dropdown-arrow-container {
     width: 24px;
@@ -429,6 +437,15 @@ h1 {
 #category-dropdown-arrow-container:hover {
     background: lightgray;
     border-radius: 100%;
+}
+
+#category-dropdown-list {
+    position: absolute;
+    z-index: 1;
+    width: 440px;
+    top: 100%;
+    border-radius: 10px;
+    background-color: white;
 }
 
 #category-dropdown-list div:hover {
@@ -474,11 +491,11 @@ input[type="date"]:invalid::-webkit-datetime-edit {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: white;
+    border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #a8a8a8;
-    border-radius: 10px;
+    border-radius: 8px;
 }
