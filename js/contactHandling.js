@@ -146,3 +146,68 @@ deleteButton.addEventListener('click', () => {
     deleteContact(); // Kontakt löschen
     closeEditPopup(); // Popup schließen
 });
+
+/**
+ * Attaches an event listener to the "More" button, which toggles the visibility of
+ * the menu providing options to delete or edit a contact. If the menu is open, it also
+ * adds an event listener to close the menu when clicking outside of it.
+ * 
+ * @function showMoreBox
+ * @description This function ensures that the button group is only shown or hidden 
+ *              when the "More" button is clicked. It also prevents the menu from 
+ *              closing unintentionally by stopping event propagation on the button click.
+ */
+function showMoreBox() {
+    const moreButton = document.getElementById('moreButton');
+    const btnGroup = document.querySelector('.contact-information-btn-group');
+
+    if (moreButton && btnGroup) {
+        moreButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Verhindern, dass der Klick auf das Dokument erkannt wird
+
+            // Toggle die Box
+            const isActive = btnGroup.classList.toggle('more-active');
+
+            // Wenn die Box geöffnet wird, füge den Eventlistener zum Schließen hinzu
+            if (isActive) {
+                closeMoreOnClickOutside(); // Keine Parameter mehr übergeben
+            }
+        });
+    }
+}
+
+/**
+ * Closes the button menu when a click occurs outside the box, triggering the closeMoreBox() function.
+ * Ensures the menu does not close if the click occurs inside the form element.
+ * 
+ * @description Adds an event listener to detect clicks outside the '.contact-information-btn-group'.
+ * If the click is outside and not within the '.edit-contact-pop-up-overlay', the menu is closed.
+ */
+function closeMoreOnClickOutside() {
+    const btnGroup = document.querySelector('.contact-information-btn-group');
+
+    if (btnGroup) {
+        document.addEventListener('click', function (event) {
+            // Schließe die Box
+            closeMoreBox();
+        }, { once: true }); // Der Listener wird nur einmal ausgeführt
+    }
+}
+
+/**
+ * Closes the button menue with a visual sliding effect when the close function got triggered. 
+ */
+function closeMoreBox() {
+    const btnGroup = document.querySelector('.contact-information-btn-group');
+
+    if (btnGroup.classList.contains('more-active')) {
+        // Animation für das Ausblenden hinzufügen
+        btnGroup.style.animation = 'slideOutMore 0.5s ease-out forwards';
+
+        // Entferne die 'active'-Klasse nach dem Ende der Animation
+        setTimeout(() => {
+            btnGroup.classList.remove('more-active');
+            btnGroup.style.animation = ''; // Animation entfernen, um sie später erneut zu verwenden
+        }, 500); // Dauer der Animation
+    }
+}

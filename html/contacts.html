@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/css/contacts.css">
     <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="stylesheet" href="/templates/header.css">
+    <link rel="stylesheet" href="/board/header_and_sidebar.css">
+     
     
 </head>
-<body onload="includeHTML()">
-    <div w3-include-html="/templates/header.html"></div>
+<body>
+    <!-- <div w3-include-html="/templates/header_and_sidebar.html"></div> -->
+    <div includeHTML="/header_and_sidebar.html"></div>
 
     <div class="add-contact-pop-up-overlay" id="add-contact-pop-up-overlay">
         <div class="add-contact-pop-up" id="add-contact-pop-up">
@@ -32,7 +34,9 @@
                 </div>
             </div>
             <div class="close-contact-form" onclick="closePopup()">
-                <img src="/img/close.png" alt="Close">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.9998 8.40005L2.0998 13.3C1.91647 13.4834 1.68314 13.575 1.3998 13.575C1.11647 13.575 0.883138 13.4834 0.699805 13.3C0.516471 13.1167 0.424805 12.8834 0.424805 12.6C0.424805 12.3167 0.516471 12.0834 0.699805 11.9L5.5998 7.00005L0.699805 2.10005C0.516471 1.91672 0.424805 1.68338 0.424805 1.40005C0.424805 1.11672 0.516471 0.883382 0.699805 0.700049C0.883138 0.516715 1.11647 0.425049 1.3998 0.425049C1.68314 0.425049 1.91647 0.516715 2.0998 0.700049L6.9998 5.60005L11.8998 0.700049C12.0831 0.516715 12.3165 0.425049 12.5998 0.425049C12.8831 0.425049 13.1165 0.516715 13.2998 0.700049C13.4831 0.883382 13.5748 1.11672 13.5748 1.40005C13.5748 1.68338 13.4831 1.91672 13.2998 2.10005L8.3998 7.00005L13.2998 11.9C13.4831 12.0834 13.5748 12.3167 13.5748 12.6C13.5748 12.8834 13.4831 13.1167 13.2998 13.3C13.1165 13.4834 12.8831 13.575 12.5998 13.575C12.3165 13.575 12.0831 13.4834 11.8998 13.3L6.9998 8.40005Z" fill="white"/>
+                    </svg>
             </div>
             <div class="add-contact-container" id="addContactContainer">     
             <form id="addContactForm">
@@ -51,10 +55,10 @@
                 </div>    
     
                 <div class="contact-form-btn-container">
-                    <button type="submit" class="btn-guest-log-in btn-cancel-contact-form">cancel <svg id="cancel-icon" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button type="submit" class="btn-guest-log-in btn-cancel-contact-form" id="cancelContact">cancel <svg id="cancel-icon" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.001 6.50008L12.244 11.7431M1.758 11.7431L7.001 6.50008L1.758 11.7431ZM12.244 1.25708L7 6.50008L12.244 1.25708ZM7 6.50008L1.758 1.25708L7 6.50008Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg></button>
-                    <button class="btn-log-in btn-create-contact-form">Create contact <img src="/img/check.png" alt=""></button>
+                    <button class="btn-log-in btn-create-contact-form" id="createContact">Create contact <img src="/img/check.png" alt=""></button>
                 </div>              
             </form>
     
@@ -76,7 +80,9 @@
             <div class="add-contact-pop-up-mid" id="editContactIcon"></div>
 
             <div class="close-contact-form" onclick="closeEditPopup()">
-                <img src="/img/close.png" alt="Close">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.9998 8.40005L2.0998 13.3C1.91647 13.4834 1.68314 13.575 1.3998 13.575C1.11647 13.575 0.883138 13.4834 0.699805 13.3C0.516471 13.1167 0.424805 12.8834 0.424805 12.6C0.424805 12.3167 0.516471 12.0834 0.699805 11.9L5.5998 7.00005L0.699805 2.10005C0.516471 1.91672 0.424805 1.68338 0.424805 1.40005C0.424805 1.11672 0.516471 0.883382 0.699805 0.700049C0.883138 0.516715 1.11647 0.425049 1.3998 0.425049C1.68314 0.425049 1.91647 0.516715 2.0998 0.700049L6.9998 5.60005L11.8998 0.700049C12.0831 0.516715 12.3165 0.425049 12.5998 0.425049C12.8831 0.425049 13.1165 0.516715 13.2998 0.700049C13.4831 0.883382 13.5748 1.11672 13.5748 1.40005C13.5748 1.68338 13.4831 1.91672 13.2998 2.10005L8.3998 7.00005L13.2998 11.9C13.4831 12.0834 13.5748 12.3167 13.5748 12.6C13.5748 12.8834 13.4831 13.1167 13.2998 13.3C13.1165 13.4834 12.8831 13.575 12.5998 13.575C12.3165 13.575 12.0831 13.4834 11.8998 13.3L6.9998 8.40005Z" fill="white"/>
+                    </svg>
             </div>
             <div class="add-contact-container" id="addContactContainer">     
             <form id="editContactForm">
@@ -109,16 +115,19 @@
 
 
     <div class="contacts-container">
-        <div class="contacts">
+        <div class="contacts" id="contacts">
             <button onclick="openPopup('add-contact-pop-up-overlay', '.add-contact-pop-up')" class="btn-log-in btn-add-new-contact">Add new contact <img src="/img/person_add.png" alt=""></button>
+            <button onclick="openPopup('add-contact-pop-up-overlay', '.add-contact-pop-up')" class="btn-log-in btn-add-new-contact-mobile"><img src="/img/person_add.png" alt=""></button>
             <div class="contactlist" id="contactList"></div>            
         </div>
     
-        <div class="contact-detail-section">
+        <div class="contact-detail-section" id="contactDetailSection">
             <div class="contact-details-header">
                 <p>Contacts</p>
-                <div></div>
+                <div class="line-full"></div>
                 <span>Better with a team</span>
+                <div class="line-mobile"></div>
+                <img id="backToContactlist" src="/img/Vector_resp.png" alt="Arrow back" onclick="goBackToContactList()">
             </div> 
             
             <div class="contact-detail-information" id="contactDetailInformation"></div> 
@@ -132,7 +141,9 @@
    
 
     <script src="/js/utils.js"></script>
-    <script src="/templates/header.js"></script>
+    <!-- <script src="/templates/header_and_sidebar_script.js"></script> -->
+    <!-- <script>includeHTML();</script> -->
+    <script src="/board/header_and_sidebar_script.js"></script> 
     <script src="/js/contactsHTML.js"></script>
     <script src="/js/contactsUI.js"></script>
     <script src="/js/contacts.js"></script>

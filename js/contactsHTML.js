@@ -1,3 +1,10 @@
+/**
+ * Creates a contact element represented as a string of HTML.
+ * @param {HTMLElement} contactIcon - The icon element of the contact.
+ * @param {string} name - The name of the contact.
+ * @param {string} email - The email of the contact.
+ * @returns {string} - A string containing the HTML representation of the contact element.
+ */
 function createContactElementDiv(contactIcon, name, email) {
     return `
         <div class="contact-header">
@@ -10,6 +17,14 @@ function createContactElementDiv(contactIcon, name, email) {
     `;
 }
 
+/**
+ * Creates an element representing the contact details for a single contact as a string of HTML.
+ * @param {HTMLElement} contactIconLarge - The icon element of the contact.
+ * @param {string} name - The name of the contact.
+ * @param {string} email - The email of the contact.
+ * @param {string} phone - The phone number of the contact.
+ * @returns {string} - A string containing the HTML representation of the contact detail element.
+ */
 function createContactDetailDiv(contactIconLarge, name, email, phone) {
     return `
     <div class="contact-information-header">
@@ -45,5 +60,6 @@ function createContactDetailDiv(contactIconLarge, name, email, phone) {
             <p>${phone}</p>
         </div>                    
     </div>
+    <button id="moreButton" class="btn-log-in btn-add-new-contact-mobile"><img src="/img/more_vert.png" alt=""></button>
     `;
 }

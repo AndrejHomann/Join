@@ -3,6 +3,7 @@ body, html {
     padding: 0; 
     background-color: #f6f7f8;
     font-family: 'Inter', sans-serif;
+    overflow: hidden;
 }
 
 #logInContent,
@@ -45,6 +46,10 @@ body, html {
     gap: 35px;
 }
 
+.sign-up-box h4{
+    margin: 0;
+}
+
 .btn-sign-up{
     color: white;
     background-color: #2A3647;
@@ -75,7 +80,7 @@ body, html {
 
 h1{
     margin: 0;
-    font-size: 47px;
+    font-size: 61px;
     font-weight: 700;
     text-align: center;
 }
@@ -270,7 +275,7 @@ a{
     align-items: center;
     visibility: hidden;
     opacity: 0;
-    transition: opacity 0.8s ease-in-out, visibility 0s 0.8s;
+    transition: opacity 0.8s ease-in-out, visibility 0s 0.8s, transform 0.8s ease-in-out;
     z-index: 1000;
 }
 
@@ -398,4 +403,123 @@ h2, h3{
 
 .help-text h2{
     margin-bottom: 24px;
+}
+
+@media (max-width: 768px){
+    #logo {
+        width: 64px;
+        top: 37px;
+        left: 38px;  
+    }
+    .overlay{
+        background: #2A3647;
+    }
+    @keyframes moveLogo {
+        0% {
+            width: 100.03px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        100% {
+            width: 74px;
+            top: 37px;
+            left: 38px;
+            transform: translate(0, 0);
+        }
+    }
+    
+    @keyframes fadeOutOverlay {
+        0% {
+            background: #2A3647;
+        }
+        100% {
+            background: transparent;
+            display: none;
+        }
+    }
+
+    h1{
+        font-size: 47px;
+    }
+    .separator{
+        width: 88px;
+    }
+    form{
+        width: 364px;
+    }
+    .log-in-btn-container{
+        flex-direction: column;
+        gap: 21px;
+        align-items: center;
+        margin-left: 0;
+    }
+    .log-in-btn-container button{
+        width: 180px;
+    }
+    .sign-up-box{
+        top: 728px;
+        justify-content: center;
+        align-items: center;
+        right: auto;
+    }
+    .login-container,
+    .signup-container{
+        width: 396px;
+        top: 185.5px;
+    }
+    #logInContent,
+    #signUpContent{
+        justify-content: flex-start;
+    }
+    .terms{
+        margin: 0;
+        bottom: 16px;
+        gap: 32px;
+    }
+    .terms-link{
+        font-size: 14px;
+        bottom: 16px;
+    }
+    .btn-sign-up{
+        width: 104px;
+    }
+    .arrow-back-start{
+        left: 28px;
+    }
+    .signup-overlay {
+        justify-content: flex-end; /* Meldung unten im Bild starten */
+        transform: translateY(100%); /* Anfangs außerhalb des Bildschirms */
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .signup-overlay.active {
+        visibility: visible;
+        opacity: 1; /* Sichtbar machen */
+        transform: translateY(0); /* Rein ins Bild sliden */
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in;
+    }
+}
+
+@media (max-width: 425px){
+    h1{
+        font-size: 40px;
+    }
+    form{
+        width: 290px;
+    }
+    .log-in-btn-container{
+        gap: 17px;
+    }
+    .log-in-btn-container button{
+        width: 185.5px;
+    }
+    .button{
+        padding: 12px 21px;
+    }
+    .login-container,
+    .signup-container{
+        width: 310px;
+        top: 174px;
+    }
 }

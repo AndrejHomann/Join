@@ -1,5 +1,5 @@
 let currentlyDisplayedContact = null;
-
+let isContactDetailOpen = false;
 
 /**
  * Displays the contacts grouped by the first letter of their names into alphabetical sections.
@@ -141,7 +141,8 @@ function createContactElement(contact) {
 /**
  * Adds a click event listener to a contact element in the contact list. 
  * When the element is clicked, it triggers the handleContactClick function 
- * to toggle the contact's details visibility and the active state of the element.
+ * to toggle the contact's details visibility and the active state of the element,
+ * It also calls toggleContactView() to adjust the layout based on the current screen size.
  * 
  * @param {HTMLElement} contactElement - The DOM element representing a contact in the list.
  * @param {Object} contact - The contact object containing the contact's details.
@@ -151,12 +152,16 @@ function addContactClickListener(contactElement, contact) {
     contactElement.addEventListener('click', function (event) {
         event.stopPropagation();
         handleContactClick(contactElement, contact); // Übergebe beide Parameter
+        toggleContactView();
     });
 }
 
 /**
  * Handles the click event on a contact element by toggling the visibility 
- * of the contact's details and updating the element's active state.
+ * of the contact's details and updating the element's active state. 
+ * 
+ * Also updates the `isContactDetailOpen` flag to reflect whether the contact 
+ * details are currently open (true) or closed (false).
  * 
  * @param {HTMLElement} contactElement - The DOM element representing the clicked contact.
  * @param {Object} contact - The contact object containing the contact's details.
@@ -167,14 +172,36 @@ function handleContactClick(contactElement, contact) {
         // Verstecke die Details und entferne den Hintergrund
         hideContactDetails();
         currentlyDisplayedContact = null;
+        isContactDetailOpen = false;
         contactElement.classList.remove('active'); // Hintergrundfarbe entfernen
     } else if (!currentlyDisplayedContact) {
         // Wenn kein Kontakt aktuell angezeigt wird, zeige die Details des neuen Kontakts an
         createContactDetail(contact);
         slideInContactDetails();
         currentlyDisplayedContact = contact;
+        isContactDetailOpen = true;
         contactElement.classList.add('active'); // Hintergrundfarbe hinzufügen
     }
+}
+
+/**
+ * Handles the action of returning to the contact list from the contact details view
+ * in responsive design. Hides the contact details, removes the 'active' state from
+ * the contact, and resets the currently displayed contact.
+ * 
+ * This function is primarily triggered when the user clicks the back arrow in the 
+ * contact details header on smaller screens.
+ * 
+ * @param {HTMLElement} contactElement - The DOM element representing the clicked contact.
+ * @param {Object} contact - The contact object containing the contact's details.
+ */
+function goBackToContactList(contactElement, contact) {
+    if (currentlyDisplayedContact === contact) {
+        contactElement.classList.remove('active');
+    }
+    isContactDetailOpen = false;
+    hideContactDetails();
+    toggleContactView();
 }
 
 /**
@@ -205,6 +232,7 @@ function createContactDetail(contact) {
     document.getElementById('deleteFromContactDetail').onclick = function () {
         deleteContact();
     };
+    showMoreBox();
 }
 
 /**
