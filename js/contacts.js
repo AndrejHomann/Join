@@ -16,6 +16,7 @@ let currentContactId = null;
  */
 document.addEventListener("DOMContentLoaded", () => {
     fetchContacts();
+    includeHTML();
 });
 
 /**
@@ -175,6 +176,7 @@ async function updateContact() {
         updateContactInArray(currentContactId, updatedContact);
         await sendUpdateRequest(currentContactId, updatedContact);
         handleContactUpdate();
+        closeMoreBox();
     } catch (error) {
         console.error('Error:', error);
     }
@@ -217,6 +219,7 @@ async function handleDeleteContact() {
 
     if (currentlyDisplayedContact) {
         hideContactDetails();
+        goBackToContactList();
         currentlyDisplayedContact = null;
     }
     const contactList = document.querySelector('.contact-list');
@@ -228,5 +231,27 @@ async function handleDeleteContact() {
     }
     if (contactList) {
         contactList.click();
+    }
+}
+/**
+ * Asynchronously loads and inserts HTML content into elements with the `includeHTML` attribute.
+ * Fetches the HTML file specified in the `includeHTML` attribute and replaces the element's innerHTML.
+ * If the file is not found, it displays 'Page not found'.
+ *
+ * @async
+ * @function includeHTML
+ * @returns {Promise<void>} A promise that resolves when all HTML content has been included.
+ */
+async function includeHTML() {
+    let includeElements = document.querySelectorAll('[includeHTML]');
+    for (let i = 0; i < includeElements.length; i++) {
+        const element = includeElements[i];
+        file = element.getAttribute("includeHTML");
+        let resp = await fetch(file);
+        if (resp.ok) {
+            element.innerHTML = await resp.text();
+        } else {
+            element.innerHTML = 'Page not found';
+        }
     }
 }
