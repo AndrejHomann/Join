@@ -15,44 +15,25 @@ body {
 }
 
 h1 {
-    /* position: fixed;
-    top: 206px;
-    left: 328px; 
-    height: 73px;
-    width: 278px; */
     font-size: 61px;
     line-height: 73.2px;
     text-align: left;
     margin-bottom: 48px;
     margin-top: 110px;
-    margin-left: 324px;
 }
 
 #content-box-left {
     width: 440px;
-    height: 376px;
-    /*   top: 327px;
-    left: 328px;
-    position: fixed; */
-    gap: 16px;
+    gap: 24px;
 }
 
 #content-box-right {
     width: 440px;
-    height: 416px;
-    /*   top: 327px;
-    left: 864.25px;
-    position: fixed; */
     gap: 24px;
 }
 
 #content-box-container {
     width: 976.25px;
-    height: 424px;
-    margin-left: 324px;
-    /*  top: 327px;
-    left: 328px;
-    position: fixed; */
 }
 
 .subtitle {
@@ -64,14 +45,11 @@ h1 {
 }
 
 #title-container {
-    width: 440px;
-    height: 96px;
     gap: 8px;
 }
 
 #title-input {
     width: 440px;
-    height: 48px;
     padding: 12px 21px 12px 21px;
     gap: 10px;
     display: flex;
@@ -84,22 +62,12 @@ h1 {
 }
 
 #description-container {
-    width: 440px;
-    height: 168px;
-    top: 112px;
     gap: 8px;
-}
-
-#textarea-container {
-    width: 440px;
-    height: 136px;
-    gap: 4px;
 }
 
 #textarea-input {
     height: 120px;
     padding: 18px 16px 18px 16px;
-    gap: 10px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
     resize: none;
@@ -109,15 +77,11 @@ h1 {
 }
 
 #assigned-container {
-    width: 440px;
-    height: 80px;
-    top: 296px;
     gap: 8px;
 }
 
 .select-container {
-    width: 440px;
-    height: 48px;
+    min-height: 48px;
     padding: 12px 16px 12px 16px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
@@ -129,34 +93,22 @@ h1 {
     background-color: white;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 #border-container {
     width: 0px;
-    height: 424px;
-    /*   top: 327px;
-    left: 816.25px;
-    position: fixed; */
     border: 1px solid #d1d1d1;
     margin-left: 48.25px;
     margin-right: 48.25px;
 }
 
 #date-container {
-    width: 440px;
-    height: 96px;
     gap: 8px;
-}
-
-#calender {
-    width: 440px;
-    height: 64px;
-    gap: 4px;
 }
 
 #date-input {
     width: 440px;
-    height: 48px;
     padding: 12px 16px 12px 16px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
@@ -167,40 +119,31 @@ h1 {
     cursor: pointer;
 }
 
+/* Prio-Container */
+
 #prio-container {
-    width: 440px;
-    height: 88px;
     gap: 8px;
+}
+
+.prio-default-text-color {
+    color: black;
 }
 
 #prio-high {
     width: 65px;
     height: 24px;
     font-size: 20px;
-    font-weight: 400;
     line-height: 24px;
     text-align: left;
-    color: #000000;
     gap: 8px;
-}
-
-.prio-high-span-color {
-    font-weight: 700;
-    color: white;
-}
-
-#prio-medium-button {
-    background: #ffa800;
 }
 
 #prio-medium {
     width: 84px;
     height: 24px;
     font-size: 21px;
-    font-weight: 700;
     line-height: 25.2px;
     text-align: left;
-    color: #ffffff;
     gap: 8px;
 }
 
@@ -208,14 +151,12 @@ h1 {
     width: 40px;
     height: 24px;
     font-size: 20px;
-    font-weight: 400;
     line-height: 24px;
     text-align: left;
     gap: 8px;
 }
 
 #choose-prio-container {
-    width: 440px;
     height: 56px;
     gap: 16px;
     display: flex;
@@ -228,76 +169,98 @@ h1 {
     gap: 8px;
     border-radius: 10px;
     background: #ffffff;
-    box-shadow: 0px 0px 4px 0px #0000001a;
+    box-shadow: 0px 0px 24px 0px #0000001a;
     border: #f6f7f8;
+    cursor: pointer;
+    color: black;
+    transition: background-color 0.3s, color 0.3s, font-weight 0.3s;
 }
 
 .prio-low-button-bg-color {
     background-color: #7ae229;
+    color: white;
+    font-weight: 700;
 }
 
 .prio-high-button-bg-color {
     background-color: #ff3d00;
+    color: white;
+    font-weight: 700;
 }
 
 .prio-medium-button-bg-color {
     background-color: #ffa801;
+    color: white;
+    font-weight: 700;
 }
 
-#urgent-arrows {
-    width: 20px;
-    height: 14.51px;
+.prio-high-arrows {
+    color: #ff3d00;
 }
 
-#medium-arrows {
-    width: 20px;
-    height: 7.45px;
+.prio-medium-arrows {
+    color: #ffa801;
+}
+
+.prio-low-arrows {
     color: #7ae229;
 }
 
-#low-arrows {
-    width: 20px;
-    height: 14.51px;
+.prio-high-button-bg-color .prio-high-arrows {
+    color: white;
 }
+
+.prio-medium-button-bg-color .prio-medium-arrows {
+    color: white;
+}
+
+.prio-low-button-bg-color .prio-low-arrows {
+    color: white;
+}
+
+/* Category-Container */
 
 #category-container {
-    width: 440px;
-    height: 80px;
     gap: 8px;
 }
 
-#substasks-container {
-    width: 440px;
-    height: 80px;
-    gap: 8px;
-}
+/* Subtask-Container */
 
-#choose-subtasks {
-    width: 440px;
-    height: 48px;
+#new-subtask-contaier {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 12px 16px 12px 16px;
     border-radius: 10px;
     border: 1px solid #d1d1d1;
+    background-color: white;
+}
+
+#new-subtask-input {
+    border: none;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
     text-align: left;
 }
 
-.flex-column {
+#addicon-container {
+    gap: 8px;
     display: flex;
-    flex-direction: column;
-}
-
-.flex-center-align {
-    display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
-.contents {
-    display: contents;
+#subtask-list {
+    margin-left: 48.25px;
 }
+
+.subtask-item {
+    margin-top: 16px;
+}
+
+/* Clear and AddTask Buttons */
 
 #interactives-buttons-and-required-container {
     width: 976.25px;
@@ -308,9 +271,6 @@ h1 {
 }
 
 #required-container {
-    /*   position: fixed;
-    left: 328px;
-    top: 926px; */
     height: 27px;
     width: 170px;
 }
@@ -323,9 +283,6 @@ h1 {
 }
 
 #interactives-buttons-container {
-    /* position: fixed;
-    top: 889px;
-    left: 995.25px; */
     gap: 16px;
     width: 309px;
     height: 56px;
@@ -340,6 +297,7 @@ h1 {
     border-radius: 10px;
     border: 1px solid #2a3647;
     display: flex;
+    cursor: pointer;
 }
 
 #clear-button-font {
@@ -361,6 +319,7 @@ h1 {
     background: #2a3647;
     display: flex;
     transition: ease-in-out 100ms;
+    cursor: pointer;
 }
 
 #create-task-button-font {
@@ -386,12 +345,140 @@ h1 {
     color: #ff8190;
 }
 
-#dropdown-list div {
-    padding: 8px 16px;
-    border: 1px solid #d1d1d1;
-    border-radius: 5px;
-    margin-top: 4px;
-    background-color: #f9f9f9;
-    font-size: 18px;
+/* Dropdown Contacts*/
+
+#dropdown-list {
+    max-height: 144px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dropdown-item {
+    padding: 12px 16px 12px 16px;
+    font-size: 20px;
     font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0 2px 0;
+    align-items: center;
+}
+
+#dropdown-arrow {
+    width: 7.21px;
+    height: 4.6px;
+}
+
+#contacts-dropwdown-arrow-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#contacts-dropwdown-arrow-container:hover {
+    background: lightgray;
+    border-radius: 100%;
+}
+
+#dropdown-list div:not(.contactListBackground):hover {
+    background: lightgray;
+    border-radius: 10px;
+}
+
+.dropdown-list-hover {
+    background: lightgray;
+    border-radius: 100%;
+}
+
+.uncheckedBox {
+    height: 20px;
+    width: 20px;
+}
+
+.circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+/* Dropdown Category */
+
+#category-dropdown-arrow-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#category-dropdown-arrow-container:hover {
+    background: lightgray;
+    border-radius: 100%;
+}
+
+#category-dropdown-list div:hover {
+    background: lightgray;
+    border-radius: 10px;
+}
+
+/* classes */
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contents {
+    display: contents;
+}
+
+/* Scrolbar */
+
+::placeholder {
+    color: #d1d1d1;
+}
+
+input[type="date"]:invalid::-webkit-datetime-edit {
+    color: #d1d1d1;
+}
+
+.d-none {
+    display: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #a8a8a8;
+    border-radius: 10px;
 }
