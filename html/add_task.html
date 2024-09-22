@@ -8,12 +8,11 @@
         <link rel="stylesheet" href="/css/addTask.css" />
         <link rel="stylesheet" href="/css/fonts.css" />
         <script src="/js/addTask.js"></script>
-        <script src="/js/hover_effekt_contacts.js"></script>
     </head>
 
     <body>
         <h1>Add Task</h1>
-        <form id="content-box-container">
+        <form id="content-box-container" onsubmit="createTask(event)">
             <div style="display: flex">
                 <div id="content-box-left" class="flex-column">
                     <div id="title-container" class="flex-column">
@@ -115,7 +114,7 @@
                     <button id="clear-button" class="flex-center-align">
                         <span id="clear-button-font" class="contents">Clear<img src="/img/Vector.png" id="cancel-icon" /></span>
                     </button>
-                    <button id="create-button" class="flex-center-align" type="submit" onclick="createTask()">
+                    <button id="create-button" class="flex-center-align" type="submit">
                         <span id="create-task-button-font" class="contents">Create Task<img src="/img/summary/check.png" id="check-icon" /></span>
                     </button>
                 </div>

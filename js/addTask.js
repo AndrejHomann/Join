@@ -1,4 +1,4 @@
-const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app";
 let contactList = [];
 let selectedPrio = "medium";
 let categoryList = ["Technical Task", "User Story"];
@@ -9,16 +9,17 @@ let colors = [];
 let selectedColors = [];
 let subtasks = [];
 
-function createTask() {
+function createTask(event) {
+    event.preventDefault();
     let task = {
-        title: document.getElementById("title-input").value,
-        taskDescription: document.getElementById("textarea-input").value,
         name: selectedContacts,
-        date: document.getElementById("date-input").value,
         priority: selectedPrio,
         category: selectedCategory,
         color: selectedColors,
         addedSubtasks: subtasks,
+        title: document.getElementById("title-input").value,
+        taskDescription: document.getElementById("textarea-input").value,
+        date: document.getElementById("date-input").value,
     };
     addTask("/tasks.json", task);
 }
@@ -35,7 +36,7 @@ async function addTask(path, data) {
         let responseToJson = await response.json();
         console.log(responseToJson);
     } else {
-        console.error("Error adding task:", response.statusText);
+        console.error("Error");
     }
 }
 
