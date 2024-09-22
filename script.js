@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
     const rememberMeCheckbox = document.getElementById('rememberMe');
-    const BASE_URL = 'https://authentification-bd13f-default-rtdb.europe-west1.firebasedatabase.app/'; //(Susanne's Firebase)
+    const BASE_URL = 'https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/'; //(Susanne's Firebase)
 
     let userData = {
         name: '',
@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
      * @returns {Promise<void>}
      * @throws {Error} Throws an error if the data fetching fails.
      */
-    async function pushUserData(name, email, password) {
+    async function pushUserData(name, email, password, isRegistered = true) {
         const color = generateRandomColor();
-        userData = { name, email, password, color };
+        userData = { name, email, password, color, isRegistered };
         try {
-            const response = await fetch(`${BASE_URL}users.json`, {
+            const response = await fetch(`${BASE_URL}contacts.json`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,38 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const data = await response.json();
             console.log('Success:', data);
-            await addContact(name, email, color, true);
             saveSignUpData(email, password); // save sign up data to local storage
             showSignUpOverlay();
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    /**
-     * Adds a contact to the Firebase contacts database.
-     * 
-     * @param {string} name - The name of the contact.
-     * @param {string} email - The email of the contact.
-     * @param {boolean} isRegistered - True if the contact is a registered user.
-     * @returns {Promise<void>}
-     * @throws {Error} Throws an error if the data fetching fails.
-     */
-    async function addContact(name, email, color, isRegistered = false) {
-        const contactData = { name, email, color, isRegistered };
-        try {
-            const response = await fetch(`${BASE_URL}contacts.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(contactData)
-            });
-            if (!response.ok) {
-                throw new Error('Failed to save contact data');
-            }
-            const data = await response.json();
-            console.log('Contact added successfully:', data);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -84,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function isEmailRegistered(email) {
         try {
-            const response = await fetch(`${BASE_URL}users.json`);
+            const response = await fetch(`${BASE_URL}contacts.json`);
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
@@ -111,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function loginUser(email, password) {
         try {
-            const response = await fetch(`${BASE_URL}users.json`);
+            const response = await fetch(`${BASE_URL}contacts.json`);
             if (!response.ok) throw new Error('Failed to fetch data');
             const data = await response.json();
             for (const key in data) {
@@ -127,6 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred during login');
         }
     }
+
+    /**
+    * Eventlistener for the Guest-Login-Button.
+    * 
+    * This function redirects the user directly to the ‘Summary’ page without requiring login data. 
+    * It prevents the form from being sent, ignores existing entries in the email and password fields 
+    * and resets the ‘Remember me’ function.
+    *
+    * @param {Event} event - The click event of the guest login button to prevent the default behaviour (form submission).
+     */
+    document.querySelector('.btn-guest-log-in').addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const emailField = document.getElementById('loginEmail');
+        const passwordField = document.getElementById('loginPassword');
+
+        emailField.value = '';
+        passwordField.value = '';
+        document.getElementById('rememberMe').checked = false;
+
+        window.location.href = './html/summary_user.html';
+    });
 
     /**
      * Clears input fields in log in section after succesful log in.
@@ -368,6 +360,11 @@ function startAnimations() {
     }
 }
 
+/**
+ * Redirects the user to the previous page (typically the log in page) when the button is clicked.
+ * 
+ * This function uses the browser's history to navigate back to the previous page.
+ */
 function goBack() {
     window.history.back();
 }
