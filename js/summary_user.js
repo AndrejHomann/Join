@@ -42,7 +42,7 @@ async function loadUserData() {
  */
 async function findUserIdByEmail() {
     try {
-        const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/contacts.json`);               // HTTP-Request in user list
         const userData = await response.json();
         for (const userId in userData) {
             if (userData[userId].email === email) {
@@ -66,7 +66,7 @@ async function findUserIdByEmail() {
  */
 async function showUserNameById() {
     try {
-        const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/contacts.json`);               // HTTP-Request in user list
         const userData = await response.json();
         userName = userData[firebaseUserId].name;
         return userName;
@@ -86,7 +86,7 @@ async function showUserNameById() {
  */
 async function createActiveUserSession() {
     try {
-        const response = await fetch(`${baseUrl}/user/${firebaseUserId}.json`, {
+        const response = await fetch(`${baseUrl}/contacts/${firebaseUserId}.json`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -112,7 +112,7 @@ async function createActiveUserSession() {
  */
 async function getUserSessionById() {
     try {
-        const response = await fetch(`${baseUrl}/user.json`);               // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/contacts.json`);               // HTTP-Request in user list
         const userData = await response.json();
         userSessionStatus = userData[firebaseUserId].session;
         console.log('user session is:', userSessionStatus);
@@ -140,12 +140,12 @@ async function userSession() {
  */
 async function loadTaskData() {
     await countTasksAssignedToUser();
-    await amountOfToDoTasksAssignedToUser(email);
-    await amountOfDoneTasksAssignedToUser(email);
-    await amountOfUrgentTasksAssignedToUser(email);
-    await amountOfTasksInProgressAssignedToUser(email);
-    await amountOfTasksAwaitingFeedbackAssignedToUser(email);
-    await nextTaskDeadlineAssignedToUser(email);
+    await amountOfToDoTasksAssignedToUser();
+    await amountOfDoneTasksAssignedToUser();
+    await amountOfUrgentTasksAssignedToUser();
+    await amountOfTasksInProgressAssignedToUser();
+    await amountOfTasksAwaitingFeedbackAssignedToUser();
+    await nextTaskDeadlineAssignedToUser();
 }
 
 
@@ -155,20 +155,17 @@ async function loadTaskData() {
  * @param {object} data - The user data object.
  * @returns {number} - The number of tasks assigned to the user.
  */
-async function checkAmountOfTasksAssignedToUser(email, data) {
+async function checkAmountOfTasksAssignedToUser(userName, data) {
     let taskCount=0;
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-            if (task.assignment && Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                    if (assignment.email === email) {
-                        taskCount++;
-                    }
-                });
+            if (task.name) {
+                if (task.name.includes(userName)) {
+                    taskCount++;
+                }
             }
         });
-    } 
+    }
     return taskCount;
 }
 
@@ -185,7 +182,7 @@ async function countTasksAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        tasksInBoard = await checkAmountOfTasksAssignedToUser(email, data);
+        tasksInBoard = await checkAmountOfTasksAssignedToUser(userName, data);
         console.log("tasks assigned to user:", tasksInBoard);
         return tasksInBoard;
     } catch (error) {
@@ -200,20 +197,19 @@ async function countTasksAssignedToUser() {
  * @param {number} statusCount - stores the amount of tasks that match the specified status value.
  * @returns {number} - returns the value stored in 'statusCount'
  */
-async function checkStatusOfTasksAssignedToUser(email, data, statusValue) {
+async function checkStatusOfTasksAssignedToUser(data, statusValue) {
     let statusCount=0;
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-            if (task.assignment && task.status === `${statusValue}` && Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                    if (assignment.email === email) {
+            if (task.name) {
+                if (task.name.includes(userName)) {
+                    if (task.status === statusValue) {
                         statusCount++;
                     }
-                });
+                }
             }
         });
-    } 
+    }
     return statusCount;
 }
 
@@ -226,11 +222,11 @@ async function checkStatusOfTasksAssignedToUser(email, data, statusValue) {
  * @param {number} toDo - stores the amount of tasks that match the value 'todo'.
  * @returns {number} - returns the value stored in 'toDo'.
  */
-async function amountOfToDoTasksAssignedToUser(email) {
+async function amountOfToDoTasksAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        toDo = await checkStatusOfTasksAssignedToUser(email, data, 'todo');
+        toDo = await checkStatusOfTasksAssignedToUser(data, 'todo');
         console.log("tasks assigned to user with status 'todo':", toDo);
         return toDo;
     } catch (error) {
@@ -247,11 +243,11 @@ async function amountOfToDoTasksAssignedToUser(email) {
  * @param {number} done - stores the amount of tasks that match the value 'done'.
  * @returns {number} - returns the value stored in 'done'.
  */
-async function amountOfDoneTasksAssignedToUser(email) {
+async function amountOfDoneTasksAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        done = await checkStatusOfTasksAssignedToUser(email, data, 'done');
+        done = await checkStatusOfTasksAssignedToUser(data, 'done');
         console.log("tasks assigned to user with status 'done':", done);
         return done;
     } catch (error) {
@@ -268,11 +264,11 @@ async function amountOfDoneTasksAssignedToUser(email) {
  * @param {number} tasksInProgress - stores the amount of tasks that match the value 'progress'.
  * @returns {number} - returns the value stored in 'progress'.
  */
-async function amountOfTasksInProgressAssignedToUser(email) {
+async function amountOfTasksInProgressAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        tasksInProgress = await checkStatusOfTasksAssignedToUser(email, data, 'progress');
+        tasksInProgress = await checkStatusOfTasksAssignedToUser(data, 'progress');
         console.log("tasks assigned to user with status 'progress':", tasksInProgress);
         return tasksInProgress;
     } catch (error) {
@@ -289,11 +285,11 @@ async function amountOfTasksInProgressAssignedToUser(email) {
  * @param {number} tasksInFeedback - stores the amount of tasks that match the value 'feedback'.
  * @returns {number} - returns the value stored in 'feedback'.
  */
-async function amountOfTasksAwaitingFeedbackAssignedToUser(email) {
+async function amountOfTasksAwaitingFeedbackAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        tasksInFeedback = await checkStatusOfTasksAssignedToUser(email, data, 'feedback');
+        tasksInFeedback = await checkStatusOfTasksAssignedToUser(data, 'feedback');
         console.log("tasks assigned to user with status 'feedback':", tasksInFeedback);
         return tasksInFeedback;
     } catch (error) {
@@ -310,20 +306,19 @@ async function amountOfTasksAwaitingFeedbackAssignedToUser(email) {
  * @param {number} priorityCount - stores the amount of tasks that match the specified priority value.
  * @returns {number} - returns the value stored in 'priorityCount'
  */
-async function checkPriorityOfTasksAssignedToUser(email, data, priorityValue) {
+async function checkPriorityOfTasksAssignedToUser(data, priorityValue) {
     let priorityCount=0;
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-            if (task.assignment && task.priority === `${priorityValue}` && task.status !== "done" && Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                    if (assignment.email === email) {
+            if (task.name) {
+                if (task.name.includes(userName)) {
+                    if (task.priority === priorityValue) {
                         priorityCount++;
                     }
-                });
+                }
             }
         });
-    } 
+    }
     return priorityCount;
 }
 
@@ -336,11 +331,11 @@ async function checkPriorityOfTasksAssignedToUser(email, data, priorityValue) {
  * @param {number} urgent - stores the amount of tasks that match the value 'urgent'.
  * @returns {number} - returns the value stored in 'urgent'.
  */
-async function amountOfUrgentTasksAssignedToUser(email) {
+async function amountOfUrgentTasksAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        urgent = await checkPriorityOfTasksAssignedToUser(email, data, 'urgent');
+        urgent = await checkPriorityOfTasksAssignedToUser(data, 'urgent');
         console.log("tasks assigned to user with priority 'urgent':", urgent);
         return urgent;
     } catch (error) {

@@ -7,9 +7,7 @@
  * @returns {boolean} - true if the deadline is after today, false otherwise.
  */
 function checkIfDeadlineLaterThanToday(deadline) {
-    let parts = deadline.split('.');
-    let dividedDeadline = parts[2] + '-' + parts[1] + '-' + parts[0];
-    let newDeadlineFormat = new Date(dividedDeadline);
+    let newDeadlineFormat = new Date(deadline);
     let formattedDeadline = newDeadlineFormat.getTime();
     let today = new Date();
     let formattedToday = today.getTime();
@@ -24,11 +22,11 @@ function checkIfDeadlineLaterThanToday(deadline) {
  * @returns {date} - the next upcoming date in the array.
  */
 function findEarliestDate(dateArray) {
-    let earliestDate = new Date(dateArray[0].split('.').reverse().join('-')); 
+    let earliestDate = new Date(dateArray[0]); 
     for (let i = 1; i < dateArray.length; i++) {
-        let currentDate = new Date(dateArray[i].split('.').reverse().join('-'));
+        let currentDate = new Date(dateArray[i]);
         if (currentDate < earliestDate) {
-        earliestDate = currentDate;
+            earliestDate = currentDate;
         }
     }
     return earliestDate;
@@ -56,19 +54,18 @@ function formatDate(dateObject) {
  * @param {Array} deadlineArray - stores the pushed date objects.
  * @returns {void} - doesn't return a value.
  */
-async function pushDatesIntoDeadlineArray(email, data) {
+async function pushDatesIntoDeadlineArray(data) {
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-            if (task.assignment && checkIfDeadlineLaterThanToday(task.date) === true && Array.isArray(assignments)) {
-                assignments.forEach(assignment => {
-                    if (assignment.email === email) {
+            if (task.name && task.date) {
+                if (task.name.includes(userName)) {
+                    if (checkIfDeadlineLaterThanToday(task.date) === true) {
                         deadlineArray.push(task.date);
                     }
-                });
+                }
             }
         });
-    } 
+    }
 }
 
 
@@ -81,11 +78,11 @@ async function pushDatesIntoDeadlineArray(email, data) {
  * @param {date} earliestDeadline - formats the earliest upcoming date object.
  * @returns {string} - returns stored and formatted string value in 'earliestDeadline' or `undefined` if an error occurred.
  */
-async function nextTaskDeadlineAssignedToUser(email) {
+async function nextTaskDeadlineAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        await pushDatesIntoDeadlineArray(email, data);
+        pushDatesIntoDeadlineArray(data);
         let earliestDeadlineFormatted = findEarliestDate(deadlineArray);
         earliestDeadline = formatDate(earliestDeadlineFormatted);
         console.log("deadline Array:", deadlineArray);
