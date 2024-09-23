@@ -110,13 +110,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.btn-guest-log-in').addEventListener('click', (event) => {
         event.preventDefault();
 
+        // Local Storage für den Gast-Login aktualisieren
+        localStorage.setItem('email', 'guest@join.com');
+        localStorage.setItem('password', '');
+
+        // Gast-Email setzen
         const emailField = document.getElementById('loginEmail');
         const passwordField = document.getElementById('loginPassword');
 
-        emailField.value = '';
+        emailField.value = 'guest@join.com';
         passwordField.value = '';
+
         document.getElementById('rememberMe').checked = false;
 
+        // Weiterleitung zur Summary-Seite
         window.location.href = './html/summary_user.html';
     });
 
