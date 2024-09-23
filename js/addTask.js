@@ -20,6 +20,7 @@ function createTask(event) {
         title: document.getElementById("title-input").value,
         taskDescription: document.getElementById("textarea-input").value,
         date: document.getElementById("date-input").value,
+        status: "todo",
     };
     addTask("/tasks.json", task);
 }
@@ -35,9 +36,11 @@ async function addTask(path, data) {
     if (response.ok) {
         let responseToJson = await response.json();
         console.log(responseToJson);
+        showSuccessMessage();
     } else {
         console.error("Error");
     }
+    resetTaskForm();
 }
 
 async function fetchContacts() {
@@ -268,4 +271,44 @@ function addSubtask() {
     } else {
         alert("Bitte eine Subtask hinzufügen!");
     }
+}
+
+function resetTaskForm() {
+    document.getElementById("title-input").value = "";
+    document.getElementById("textarea-input").value = "";
+    document.getElementById("date-input").value = "";
+    document.getElementById("new-subtask-input").value = "";
+
+    document.getElementById("subtask-list").innerHTML = "";
+
+    document.getElementById("category-placeholder").innerHTML = "Select task category";
+    document.getElementById("assigned-placeholder").innerHTML = "Select contacts to assign";
+    document.getElementById("selected-contacts-circle-container").innerHTML = "";
+
+    selectedContacts = [];
+    selectedColors = [];
+    selectedCategory = null;
+    subtasks = [];
+    selectedPrio = "medium";
+
+    resetPrio();
+    document.getElementById("prio-medium-button").classList.add("prio-medium-button-bg-color");
+    document.getElementById("prio-medium-button").classList.remove("prio-default-text-color");
+}
+
+function showSuccessMessage() {
+    setTimeout(addDisplayFlex, 500);
+
+    setTimeout(hideSuccessMessage, 2500);
+}
+
+function addDisplayFlex() {
+    let successMessage = document.getElementById("success-message-container");
+    successMessage.classList.add("slide-in");
+}
+
+function hideSuccessMessage() {
+    let successMessage = document.getElementById("success-message-container");
+    successMessage.classList.remove("slide-in");
+    successMessage.classList.add("slide-out");
 }

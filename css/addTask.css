@@ -40,6 +40,7 @@ h1 {
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 100px;
+    position: relative;
 }
 
 .subtitle {
@@ -394,7 +395,6 @@ h1 {
 
 #dropdown-list div:not(.contactListBackground):hover {
     background: lightgray;
-    border-radius: 10px;
 }
 
 .dropdown-list-hover {
@@ -417,6 +417,10 @@ h1 {
     color: white;
     font-size: 12px;
     margin-right: 8px;
+}
+
+.circle:hover {
+    border-radius: 50%;
 }
 
 /* Category-Container */
@@ -450,7 +454,6 @@ h1 {
 
 #category-dropdown-list div:hover {
     background: lightgray;
-    border-radius: 10px;
 }
 
 /* classes */
@@ -470,6 +473,41 @@ h1 {
     display: contents;
 }
 
+/* addTask submit icon */
+
+.style-effects-success-message-container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(100vh);
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+#success-message {
+    width: 326px;
+    height: 74px;
+    align-items: center;
+    background-color: #2a3647;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 29.5px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.slide-in {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+}
+
+.slide-out {
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
+}
+
 /* Scrolbar */
 
 ::placeholder {
@@ -484,17 +522,14 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     display: none;
 }
 
-/* width */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     border-radius: 10px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #a8a8a8;
     border-radius: 8px;
