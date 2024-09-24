@@ -80,18 +80,19 @@ addContactForm.addEventListener('submit', (event) => {
  * 
  * @throws {Error} Throws an error if the contact data could not be saved.
  */
-async function pushContactData(name, email, phone, color, isRegistered = false) {
-    contactData = { name, email, phone, color, isRegistered };
+async function pushContactData(name, email, phone, color, isRegistered = false, session = 'inactive') {
+    contactData = { name, email, phone, color, isRegistered, session };
     try {
         const response = await fetch(`${BASE_URL}contacts.json`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, phone, color, isRegistered })
+            body: JSON.stringify({ name, email, phone, color, isRegistered, session })
         });
 
         if (!response.ok) throw new Error('Failed to save contact data');
 
         const data = await response.json();
+        console.log('Success:', contactData);
         await handleContactAdd(); // Refresh the contact list
         processNewContact(data, contactData);
         showSuccessAlert();
