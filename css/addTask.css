@@ -54,6 +54,7 @@ h1 {
 
 #title-container {
     gap: 8px;
+    position: relative;
 }
 
 #title-input {
@@ -115,6 +116,7 @@ h1 {
 
 #date-container {
     gap: 8px;
+    position: relative;
 }
 
 #date-input {
@@ -470,10 +472,6 @@ h1 {
     align-items: center;
 }
 
-.contents {
-    display: contents;
-}
-
 /* addTask submit icon */
 
 .style-effects-success-message-container {
@@ -504,9 +502,18 @@ h1 {
     transform: translate(-50%, -50%) translateY(0);
 }
 
-.slide-out {
-    opacity: 0;
-    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
+/* validation style */
+
+.validationStyle {
+    color: #ff8190;
+    position: absolute;
+    top: 100%;
+    display: flex;
+    font-size: 12px;
+}
+
+.validationBorder {
+    border: 1px solid #ff8190;
 }
 
 /* Scrolbar */

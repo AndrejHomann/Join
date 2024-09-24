@@ -9,8 +9,14 @@ let colors = [];
 let selectedColors = [];
 let subtasks = [];
 
-function createTask(event) {
-    event.preventDefault();
+function createTask() {
+    if (!selectedCategory || !document.getElementById("title-input").value || !document.getElementById("date-input").value) {
+        checkIfCategoryIsSelected();
+        checkIfTitleIsEntered();
+        checkIfDateIsSelected();
+        return;
+    }
+
     let task = {
         name: selectedContacts,
         priority: selectedPrio,
@@ -23,6 +29,7 @@ function createTask(event) {
         status: "todo",
     };
     addTask("/tasks.json", task);
+    checkIfRequiredFieldsAreEnteredAgain();
 }
 
 async function addTask(path, data) {
@@ -68,10 +75,15 @@ function checkIfContactsDropdownIsVisible() {
 
 async function showContactsDropDown() {
     await fetchContacts();
-    document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="dropdown-arrow"/>`;
 
     let assignedPlaceholder = document.getElementById("assigned-placeholder");
-    assignedPlaceholder.innerHTML = "";
+    if (selectedContacts.length > 0) {
+        assignedPlaceholder.innerHTML = "An";
+    } else {
+        assignedPlaceholder.innerHTML = "";
+    }
+
+    document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="dropdown-arrow"/>`;
 
     let dropdownList = document.getElementById("dropdown-list");
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
@@ -101,7 +113,6 @@ function closeContactsDropDown() {
 
     document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
     document.getElementById("dropdown-list").classList.add("d-none");
-
     document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
 
     showCirclesOfSelectedContacts();
@@ -109,6 +120,8 @@ function closeContactsDropDown() {
 
 function selectContact(contactName, index) {
     let checkBox = document.getElementById(`unchecked-box-${index}`);
+    let assignedPlaceholder = document.getElementById("assigned-placeholder");
+
     let selectedContactColor = colors[index];
 
     if (checkBox.src.includes("unchecked.png")) {
@@ -116,6 +129,7 @@ function selectContact(contactName, index) {
         if (!selectedContacts.includes(contactName)) {
             selectedContacts.push(contactName);
             selectedColors.push(selectedContactColor);
+            assignedPlaceholder.innerHTML = /*html*/ `<span id="assigned-placeholder">An</span>`;
         }
     } else {
         checkBox.src = "/img/unchecked.png";
@@ -238,7 +252,6 @@ function closeCategoryDropDown() {
     } else {
         categoryPlaceholder.innerHTML = /*html*/ `Select task category`;
         selectedCategory = null;
-        showCategoryDropDown();
     }
 
     document.getElementById("category-dropdown-arrow-container").innerHTML = /*html*/ `<div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow"></div>`;
@@ -249,6 +262,56 @@ function selectCategory(categoryName) {
     selectedCategory = categoryName;
     closeCategoryDropDown();
     console.log(selectedCategory);
+}
+
+function checkIfRequiredFieldsAreEnteredAgain() {
+    checkIfCategoryIsSelected();
+    checkIfTitleIsEntered();
+    checkIfDateIsSelected();
+}
+
+function checkIfCategoryIsSelected() {
+    let missingCategoryMessage = document.getElementById("missing-category-message");
+    let categoryOptions = document.getElementById("selected-category");
+    if (!selectedCategory) {
+        categoryOptions.classList.add("validationBorder");
+        missingCategoryMessage.classList.add("validationStyle");
+        missingCategoryMessage.classList.remove("d-none");
+    } else {
+        categoryOptions.classList.remove("validationBorder");
+        missingCategoryMessage.classList.remove("validationStyle");
+        missingCategoryMessage.classList.add("d-none");
+    }
+}
+
+function checkIfTitleIsEntered() {
+    let missingTitleMessage = document.getElementById("missing-title-message");
+    let titleInput = document.getElementById("title-input");
+
+    if (!titleInput.value) {
+        titleInput.style.border = "1px solid #ff8190";
+        missingTitleMessage.classList.add("validationStyle");
+        missingTitleMessage.classList.remove("d-none");
+    } else {
+        titleInput.style.border = "";
+        missingTitleMessage.classList.remove("validationStyle");
+        missingTitleMessage.classList.add("d-none");
+    }
+}
+
+function checkIfDateIsSelected() {
+    let missingDateMessage = document.getElementById("missing-date-message");
+    let dateInput = document.getElementById("date-input");
+
+    if (!dateInput.value) {
+        dateInput.style.border = "1px solid #ff8190";
+        missingDateMessage.classList.add("validationStyle");
+        missingDateMessage.classList.remove("d-none");
+    } else {
+        dateInput.style.border = "";
+        missingDateMessage.classList.remove("validationStyle");
+        missingDateMessage.classList.add("d-none");
+    }
 }
 
 function addSubtask() {
@@ -294,6 +357,8 @@ function resetTaskForm() {
     resetPrio();
     document.getElementById("prio-medium-button").classList.add("prio-medium-button-bg-color");
     document.getElementById("prio-medium-button").classList.remove("prio-default-text-color");
+    closeContactsDropDown();
+    closeCategoryDropDown();
 }
 
 function showSuccessMessage() {
@@ -310,5 +375,29 @@ function addDisplayFlex() {
 function hideSuccessMessage() {
     let successMessage = document.getElementById("success-message-container");
     successMessage.classList.remove("slide-in");
-    successMessage.classList.add("slide-out");
+}
+
+function clearFields() {
+    document.getElementById("title-input").value = "";
+    document.getElementById("textarea-input").value = "";
+    document.getElementById("date-input").value = "";
+    document.getElementById("new-subtask-input").value = "";
+
+    document.getElementById("subtask-list").innerHTML = "";
+
+    document.getElementById("category-placeholder").innerHTML = "Select task category";
+    document.getElementById("assigned-placeholder").innerHTML = "Select contacts to assign";
+    document.getElementById("selected-contacts-circle-container").innerHTML = "";
+
+    selectedContacts = [];
+    selectedColors = [];
+    selectedCategory = null;
+    subtasks = [];
+    selectedPrio = "medium";
+
+    resetPrio();
+    document.getElementById("prio-medium-button").classList.add("prio-medium-button-bg-color");
+    document.getElementById("prio-medium-button").classList.remove("prio-default-text-color");
+    closeContactsDropDown();
+    closeCategoryDropDown();
 }
