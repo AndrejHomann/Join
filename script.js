@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
      * @returns {Promise<void>}
      * @throws {Error} Throws an error if the data fetching fails.
      */
-    async function pushUserData(name, email, password, isRegistered = true) {
+    async function pushUserData(name, email, password, isRegistered = true, session = 'inactive') {
         const color = generateRandomColor();
-        userData = { name, email, password, color, isRegistered };
+        userData = { name, email, password, color, isRegistered, session };
         try {
             const response = await fetch(`${BASE_URL}contacts.json`, {
                 method: 'POST',
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to save data');
             }
             const data = await response.json();
-            console.log('Success:', data);
+            console.log('Success:', userData);
             saveSignUpData(email, password); // save sign up data to local storage
             showSignUpOverlay();
         } catch (error) {
