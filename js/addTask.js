@@ -9,6 +9,20 @@ let colors = [];
 let selectedColors = [];
 let subtasks = [];
 
+async function includeHTML() {
+    let includeElements = document.querySelectorAll("[includeHTML]");
+    for (let i = 0; i < includeElements.length; i++) {
+        const element = includeElements[i];
+        file = element.getAttribute("includeHTML");
+        let resp = await fetch(file);
+        if (resp.ok) {
+            element.innerHTML = await resp.text();
+        } else {
+            element.innerHTML = "Page not found";
+        }
+    }
+}
+
 function createTask() {
     if (!selectedCategory || !document.getElementById("title-input").value || !document.getElementById("date-input").value) {
         checkIfCategoryIsSelected();

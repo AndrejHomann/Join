@@ -22,6 +22,7 @@ h1 {
     text-align: left;
     margin-bottom: 48px;
     margin-top: 110px;
+    margin-left: 324px;
 }
 
 #content-box-left {
@@ -41,6 +42,7 @@ h1 {
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 100px;
+    margin-left: 324px;
     position: relative;
 }
 
