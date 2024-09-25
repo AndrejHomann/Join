@@ -143,7 +143,7 @@ h1 {
     color: black;
 }
 
-#prio-high {
+#prio-urgent {
     width: 65px;
     height: 24px;
     font-size: 20px;
@@ -196,7 +196,7 @@ h1 {
     font-weight: 700;
 }
 
-.prio-high-button-bg-color {
+.prio-urgent-button-bg-color {
     background-color: #ff3d00;
     color: white;
     font-weight: 700;
@@ -208,7 +208,7 @@ h1 {
     font-weight: 700;
 }
 
-.prio-high-arrows {
+.prio-urgent-arrows {
     color: #ff3d00;
 }
 
@@ -220,7 +220,7 @@ h1 {
     color: #7ae229;
 }
 
-.prio-high-button-bg-color .prio-high-arrows {
+.prio-urgent-button-bg-color .prio-urgent-arrows {
     color: white;
 }
 

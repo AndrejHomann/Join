@@ -217,11 +217,11 @@ function choosePrio(prio) {
 }
 
 function resetPrio() {
-    document.getElementById("prio-high-button").classList.remove("prio-high-button-bg-color");
+    document.getElementById("prio-urgent-button").classList.remove("prio-urgent-button-bg-color");
     document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
     document.getElementById("prio-low-button").classList.remove("prio-low-button-bg-color");
 
-    document.getElementById("prio-high-button").classList.add("prio-default-text-color");
+    document.getElementById("prio-urgent-button").classList.add("prio-default-text-color");
     document.getElementById("prio-medium-button").classList.add("prio-default-text-color");
     document.getElementById("prio-low-button").classList.add("prio-default-text-color");
 }
