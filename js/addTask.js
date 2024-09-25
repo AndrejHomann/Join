@@ -344,24 +344,29 @@ function checkIfDateIsSelected() {
 }
 
 function addSubtask() {
-    let newSubtask = document.getElementById("new-subtask-input").value;
+    let newSubtaskInput = document.getElementById("new-subtask-input");
     let subtaskList = document.getElementById("subtask-list");
+    let missingSubtaskMessage = document.getElementById("missing-subtask-message");
+    let subtaskContainer = document.getElementById("new-subtask-contaier");
 
-    if (newSubtask !== "") {
-        subtasks.push(newSubtask);
+    if (newSubtaskInput.value !== "") {
+        subtasks.push(newSubtaskInput.value);
 
         let subtaskHTML = /*html*/ `
             <div class="subtask-item">
-                <li>${newSubtask}</li>
+                <li>${newSubtaskInput.value}</li>
             </div>`;
 
         subtaskList.innerHTML += subtaskHTML;
 
-        document.getElementById("new-subtask-input").value = "";
-
-        console.log(subtasks);
+        newSubtaskInput.value = "";
+        subtaskContainer.style.border = "";
+        missingSubtaskMessage.classList.add("d-none");
+        missingSubtaskMessage.classList.remove("validationStyleSubtasks");
     } else {
-        alert("Bitte eine Subtask hinzufügen!");
+        subtaskContainer.style.border = "1px solid #ff8190";
+        missingSubtaskMessage.classList.remove("d-none");
+        missingSubtaskMessage.classList.add("validationStyleSubtasks");
     }
 }
 
@@ -429,4 +434,31 @@ function clearFields() {
     document.getElementById("prio-medium-button").classList.remove("prio-default-text-color");
     closeContactsDropDown();
     closeCategoryDropDown();
+
+    resetRequiredNotifications();
+}
+
+function resetRequiredNotifications() {
+    let missingDateMessage = document.getElementById("missing-date-message");
+    missingDateMessage.classList.add("d-none");
+    missingDateMessage.classList.remove("validationStyle");
+    document.getElementById("date-input").style.border = "";
+
+    let missingSubtaskMessage = document.getElementById("missing-subtask-message");
+    missingSubtaskMessage.classList.add("d-none");
+    missingSubtaskMessage.classList.remove("validationStyleSubtasks");
+
+    let missingTitleMessage = document.getElementById("missing-title-message");
+    let titleInput = document.getElementById("title-input");
+
+    titleInput.style.border = "";
+    missingTitleMessage.classList.remove("validationStyle");
+    missingTitleMessage.classList.add("d-none");
+
+    let missingCategoryMessage = document.getElementById("missing-category-message");
+    let categoryOptions = document.getElementById("selected-category");
+
+    categoryOptions.classList.remove("validationBorder");
+    missingCategoryMessage.classList.remove("validationStyle");
+    missingCategoryMessage.classList.add("d-none");
 }

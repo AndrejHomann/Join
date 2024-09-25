@@ -41,7 +41,6 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 100px;
     margin-left: 324px;
     position: relative;
 }
@@ -52,10 +51,10 @@ h1 {
     line-height: 24px;
     text-align: left;
     color: #2a3647;
+    margin-bottom: 8px;
 }
 
 #title-container {
-    gap: 8px;
     position: relative;
 }
 
@@ -72,10 +71,6 @@ h1 {
     text-align: left;
 }
 
-#description-container {
-    gap: 8px;
-}
-
 #textarea-input {
     height: 120px;
     padding: 18px 16px 18px 16px;
@@ -88,7 +83,6 @@ h1 {
 }
 
 #assigned-container {
-    gap: 8px;
     position: relative;
     z-index: 1;
 }
@@ -117,7 +111,6 @@ h1 {
 }
 
 #date-container {
-    gap: 8px;
     position: relative;
 }
 
@@ -134,10 +127,6 @@ h1 {
 }
 
 /* Prio-Container */
-
-#prio-container {
-    gap: 8px;
-}
 
 .prio-default-text-color {
     color: black;
@@ -258,6 +247,18 @@ h1 {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    height: 24px;
+    width: 24px;
+}
+
+#addicon-container:hover {
+    background: lightgray;
+    border-radius: 100%;
+}
+
+#add-icon {
+    width: 14px;
+    height: 14px;
 }
 
 #subtask-list {
@@ -275,6 +276,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 40px;
 }
 
 #required-container {
@@ -355,7 +357,7 @@ h1 {
 /* Dropdown Contacts*/
 
 #dropdown-list {
-    max-height: 216px;
+    max-height: 180px;
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 10px;
@@ -412,6 +414,10 @@ h1 {
     width: 20px;
 }
 
+#selected-contacts-circle-container {
+    margin-top: 12px;
+}
+
 .circle {
     display: inline-flex;
     align-items: center;
@@ -422,6 +428,7 @@ h1 {
     color: white;
     font-size: 12px;
     margin-right: 8px;
+    border: 2px solid white;
 }
 
 .circle:hover {
@@ -432,7 +439,6 @@ h1 {
 
 #category-container {
     position: relative;
-    gap: 8px;
 }
 
 #category-dropdown-arrow-container {
@@ -508,8 +514,14 @@ h1 {
 
 .validationStyle {
     color: #ff8190;
+    display: flex;
+    font-size: 12px;
     position: absolute;
     top: 100%;
+}
+
+.validationStyleSubtasks {
+    color: #ff8190;
     display: flex;
     font-size: 12px;
 }
