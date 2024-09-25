@@ -177,6 +177,9 @@ function showCirclesOfSelectedContacts() {
 
 function templateContactsHTMLDropdownList() {
     let dropdownHTML = "";
+
+    sortContactsByFirstName(contactList);
+
     for (let i = 0; i < contactList.length; i++) {
         let contact = contactList[i];
         let [firstName, lastName] = contact.split(" ");
@@ -196,6 +199,18 @@ function templateContactsHTMLDropdownList() {
             </div>`;
     }
     return dropdownHTML;
+}
+
+function sortContactsByFirstName(contactList) {
+    contactList.sort(function (a, b) {
+        if (a < b) {
+            return -1;
+        }
+        if (a > b) {
+            return 1;
+        }
+        return 0;
+    });
 }
 
 function choosePrio(prio) {

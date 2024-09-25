@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
-        <div includeHTML="../html/header_and_sidebar.html"></div>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Join</title>
@@ -10,9 +9,9 @@
         <link rel="stylesheet" href="/css/fonts.css" />
         <link rel="stylesheet" type="text/css" href="../css/header_and_sidebar.css" />
         <script src="/js/addTask.js"></script>
-        <script src="../js/header_and_sidebar_script.js"></script>
     </head>
     <body>
+        <div includeHTML="../html/header_and_sidebar.html"></div>
         <h1>Add Task</h1>
         <div id="content-box-container">
             <div style="display: flex">
@@ -126,6 +125,7 @@
                 </div>
             </div>
         </div>
+
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 includeHTML();
