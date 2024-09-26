@@ -366,12 +366,3 @@ function startAnimations() {
         overlay.classList.add('animate-overlay');
     }
 }
-
-/**
- * Redirects the user to the previous page (typically the log in page) when the button is clicked.
- * 
- * This function uses the browser's history to navigate back to the previous page.
- */
-function goBack() {
-    window.history.back();
-}
