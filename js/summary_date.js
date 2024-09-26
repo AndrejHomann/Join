@@ -83,12 +83,31 @@ async function nextTaskDeadlineAssignedToUser() {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
         pushDatesIntoDeadlineArray(data);
-        let earliestDeadlineFormatted = findEarliestDate(deadlineArray);
-        earliestDeadline = formatDate(earliestDeadlineFormatted);
+        checkIfDeadlineArrayEmpty(deadlineArray);
         console.log("deadline Array:", deadlineArray);
         console.log('the next deadline is:', earliestDeadline);
-        return earliestDeadline;
+        return {earliestDeadline, deadlineText};
     } catch (error) {
         console.error("Error while fetching data:", error);
+    }
+}
+
+
+/**
+ * checks if the deadline array is empty or not and according to the result it changes the deadline and text and styles
+ * @param {*} deadlineArray - contains all deadlines assigned to logged in user 
+ */
+async function checkIfDeadlineArrayEmpty(deadlineArray) {
+    if(deadlineArray != "") {
+        let earliestDeadlineFormatted = findEarliestDate(deadlineArray);
+        earliestDeadline = formatDate(earliestDeadlineFormatted);
+        deadlineText = "Upcoming Deadline";
+        mainContentLine2Middle.style = "padding-right: 8px";
+        mainContentLine2Right.style = "padding-right: 50px";
+    } else {
+        earliestDeadline = "No tasks";
+        deadlineText = "No deadline";
+        mainContentLine2Middle.style = "padding-right: 10px";
+        mainContentLine2Right.style = "padding-right: 107px";
     }
 }

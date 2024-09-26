@@ -20,6 +20,8 @@ let earliestDeadline;
 let tasksInBoard = 0;
 let tasksInProgress = 0;
 let tasksInFeedback = 0;
+let deadlineDate;
+let deadlineText;
 
 
 /**
@@ -145,7 +147,7 @@ async function loadTaskData() {
     await amountOfUrgentTasksAssignedToUser();
     await amountOfTasksInProgressAssignedToUser();
     await amountOfTasksAwaitingFeedbackAssignedToUser();
-    await nextTaskDeadlineAssignedToUser();
+    deadlineDate = await nextTaskDeadlineAssignedToUser();
 }
 
 
