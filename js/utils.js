@@ -73,9 +73,9 @@ function toggleContactView() {
 }
 
 // Event listener to adjust the view when the window is resized
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
     const contactSection = document.getElementById('contacts');
-    if (contactSection) { 
+    if (contactSection) {
         // Nur ausführen, wenn der Kontaktbereich existiert
         toggleContactView();
     }
@@ -85,8 +85,45 @@ window.addEventListener('resize', function() {
 // window.onload = function () {
 //     const contactsElement = document.getElementById('contacts');
 //     const contactDetailElement = document.getElementById('contactDetailSection');
-    
+
 //     if (contactsElement && contactDetailElement) {
 //         toggleContactView();
 //     }
 // };
+
+/**
+ * Asynchronously loads and inserts HTML content into elements with the `includeHTML` attribute.
+ * Fetches the HTML file specified in the `includeHTML` attribute and replaces the element's innerHTML.
+ * If the file is not found, it displays 'Page not found'.
+ *
+ * @async
+ * @function includeHTML
+ * @returns {Promise<void>} A promise that resolves when all HTML content has been included.
+ */
+async function includeHTML() {
+    let includeElements = document.querySelectorAll('[includeHTML]');
+    for (let i = 0; i < includeElements.length; i++) {
+        const element = includeElements[i];
+        file = element.getAttribute("includeHTML");
+        let resp = await fetch(file);
+        if (resp.ok) {
+            element.innerHTML = await resp.text();
+        } else {
+            element.innerHTML = 'Page not found';
+        }
+    }
+}
+
+/**
+ * Redirects the user to the previous page (typically the log in page) when the button is clicked.
+ * 
+ * This function uses the browser's history to navigate back to the previous page.
+ */
+function goBack() {
+    if (document.referrer) {
+        window.location.href = document.referrer; // Leitet zur vorherigen Seite zurück
+    } else {
+        window.location.href = 'index.html'; // Fallback: Zur Hauptseite leiten, falls keine Referrer vorhanden ist
+    }
+    window.close();
+}
