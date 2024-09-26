@@ -3,7 +3,7 @@ body, html {
     padding: 0; 
     background-color: #f6f7f8;
     font-family: 'Inter', sans-serif;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #logInContent,
@@ -336,13 +336,21 @@ a{
     animation-fill-mode: forwards;
 }
 
+.legal-text-container,
+.help-text-container{
+    display: flex;
+    max-height: calc(100vh - 100px);
+    overflow: auto;
+    flex-direction: column;
+}
+
 .header-legal{
     display: flex;
     align-items: center;
     justify-content: space-between;
     top: 206px;
     left: 328px;
-    position: absolute;
+    position: relative;
     max-width: 1014px;
     width: -webkit-fill-available;
     padding-right: 16px;
@@ -356,7 +364,7 @@ a{
     gap: 24px;
     top: 311px;
     left: 328px;
-    position: absolute;
+    position: relative;
     max-width: 1014px;
     padding-right: 16px;
 }
@@ -403,6 +411,44 @@ h2, h3{
 
 .help-text h2{
     margin-bottom: 24px;
+}
+
+@media(max-width:1360px){
+    .header-legal,
+    .legal-text,
+    .help-text{
+        left: 0px;
+        margin-left: 16px;
+    }
+    .header-legal{
+        top: 44px;
+    }
+    .help-text,
+    .legal-text{
+        top: 105px;
+    }
+    .header-legal h1{
+        font-size: 47px;
+    }
+    .legal-text-container{
+        max-height: calc(100vh - 164px);
+    }
+    .legal-text-container h1{
+        font-size: 28px;
+    }
+    .legal-text-container h2{
+        font-size: 20px;
+    }
+    .legal-text-container h3{
+        font-size: 18px;
+    }
+    .legal-text-container h4{
+        font-size: 15px;
+    }
+    .legal-text-container p{
+        font-size: 15px;
+    }
+
 }
 
 @media (max-width: 768px){
