@@ -15,7 +15,7 @@ async function logout() {
 */
 async function setUserSessionToInactive() {
     try {
-        const response = await fetch(`${baseUrl}/user/${firebaseUserId}.json`, {
+        const response = await fetch(`${baseUrl}/contacts/${firebaseUserId}.json`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
