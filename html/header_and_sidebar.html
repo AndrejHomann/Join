@@ -1,49 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./header_and_sidebar.css">
-    <script src="./header_and_sidebar_script.js"></script>
-</head>
-<body>
+<!-- removed <html> + <head> + <body> -->
 
-    <header>
-        <div class="headerContent">
-            <div class="headerLogoMobile">
-                <a href="">
-                    <img src="./assets/icons/headerLogoMobile.png" alt="">
-                </a>
-            </div>
-            <span class="headerSpan">Kanban Project Management Tool</span>
-            <div class="helpAndUserProfile">
-                <div class="helpDiv">
-                    <a href="help.html"><img src="./assets/icons/help.png" alt=""></a>
-                </div>
-                <div class="userProfile">G</div>
-            </div>
+<header>
+    <div class="headerContent">
+        <div class="headerLogoMobile">
+            <a href="">
+                <img src="../img/icons/headerLogoMobile.png" alt="">
+            </a>
         </div>
-    </header>
+        <span class="headerSpan">Kanban Project Management Tool</span>
+        <div class="helpAndUserProfile">
+            <div class="helpDiv">
+                <a href="help.html"><img src="../img/icons/help.png" alt=""></a>
+            </div>
+            <div class="userProfile">G</div>                                                                                                <!-- needs to be rendered dynamically -->
+        </div>
+    </div>
+</header>
 
 <div class="sideBar">
-    <div class="imgWrapper"><img src="./assets/icons/logo.svg" alt=""></div>
-
-
-<div class="sideBarMenu">
-    <a href="#" onclick="openSummary()" id="summary" class="sideBarMenuButtons"><img src="./assets/icons/summaryIcon.png" alt=""> Summary</a>
-    <a href="#" onclick="openAddtask()" id="addTask" class="sideBarMenuButtons"><img src="./assets/icons/edit_square.png" alt=""> Add Task</a>
-    <a href="#" onclick="openBoard()" id="board" class="sideBarMenuButtons"><img src="./assets/icons/boardIcon.png" alt=""> Board</a>
-    <a href="#" onclick="openContacts()" id="contacts" class="sideBarMenuButtons"><img src="./assets/icons/contactsIcon.png" alt=""> Contacts</a>
+    <div class="imgWrapper"><img src="../img/icons/logo.svg" alt=""></div>
+    <div class="sideBarMenu">
+        <a href="summary_user.html" id="summary" class="sideBarMenuButtons"><img src="../img/icons/summaryIcon.png" alt=""> Summary</a>     <!-- removed onclick-function and changed href + img src-->
+        <a href="add_task.html" id="addTask" class="sideBarMenuButtons"><img src="../img/icons/edit_square.png" alt=""> Add Task</a>        <!-- removed onclick-function and changed href + img src-->
+        <a href="board.html" id="board" class="sideBarMenuButtons"><img src="../img/icons/boardIcon.png" alt=""> Board</a>                  <!-- removed onclick-function and changed href + img src-->
+        <a href="contacts.html" id="contacts" class="sideBarMenuButtons"><img src="../img/icons/contactsIcon.png" alt=""> Contacts</a>      <!-- removed onclick-function and changed href + img src-->
+    </div>
+    <div class="sideBarPolicyAndNotice">
+        <a href="legal matters/privacypolicy.html" id="privacyPolicy" class="policyHref">Privacy Policy</a>                                 <!-- changed href -->
+        <a href="legal matters/legalnotice.html" id="legalNotice" class="noticeHref">Legal notice</a>                                       <!-- changed href -->
+    </div>
 </div>
-
-<div class="sideBarPolicyAndNotice">
-    <a href="#" id="privacyPolicy" class="policyHref">Privacy Policy</a>
-    <a href="#" id="legalNotice" class="noticeHref">Legal notice</a>
-
-</div>
-
-</div>
-    
-</body>
-</html>
