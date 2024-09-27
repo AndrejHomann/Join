@@ -1,3 +1,5 @@
+let emailAvailable;
+
 /**
  * calls listed functions sequentially to perform the initial application setup.
  * - `loadRememberedLogin` - Checks local storage for login information.
@@ -6,9 +8,13 @@
  * - `checkIfUserOrGuest` - Determines user or guest status and redirects if necessary.
  */
 async function init() {
-    loadRememberedLogin();  
-    await loadUserData();
-    await checkIfUserOrGuest();
+    loadLoginData();
+    if(emailAvailable == true) {
+        await loadUserData();
+        await checkIfUserSessionActive();
+    }  else {
+        console.log("no user email in local storage");
+    }
 }
 
 
@@ -17,32 +23,26 @@ async function init() {
  * This function checks if the "rememberMe" key exists in local storage.
  * If it exists and is set to "true", it retrieves the email address from the "email" key.
  */
-function loadRememberedLogin() {
-    const rememberMe = localStorage.getItem('rememberMe');
-    if (rememberMe === 'true') {
-        email = localStorage.getItem('email');
+function loadLoginData() {
+    let storedEmail = localStorage.getItem('email');
+    if (storedEmail && storedEmail !== '') {
+        emailAvailable = true;
+        email = storedEmail;
+        console.log('email from local storage:', email);
+    } else {
+        emailAvailable = false;
+        console.error("no user email found in local storage", error);
     }
-    console.log('email from local storage:', email);
+    return emailAvailable;
 } 
 
 
 /**
- * Determines whether the user is logged in or a guest and redirects accordingly.
- * This function checks the user session status and performs actions based on the result:
- * - If the session is active (user is logged in): Includes necessary HTML templates (`includeHTML`).
- * - If the email is not "guest@join.com": starts a user session (`userSession`).
- * - If the email is "guest@join.com": starts a guest session (`guestSession`).
- * - If the session is not active: redirects the user to the login page (`index.html`).
+ * checks if the user session is active. if true, the header_and_sidebar.html will be loaded by the includeHTML() function
  */
-async function checkIfUserOrGuest() {
+async function checkIfUserSessionActive() {
     if (userSessionStatus == 'active') {
         await includeHTML();
-        if (email != "guest@join.com") {
-            await userSession();
-        } 
-        else if (email == "guest@join.com") {
-            await guestSession();
-        } 
     }
     else {
         window.location.href = "../index.html";

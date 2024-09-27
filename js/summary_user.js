@@ -27,11 +27,20 @@ let deadlineText;
 /**
  * calls listed functions sequentially to load and process the user data.
  */
-async function loadUserData() {
-    await findUserIdByEmail();
-    await showUserNameById(); 
-    await createActiveUserSession();
-    await getUserSessionById();
+async function loadUserData() { 
+    if(email!="guest@join.com") {
+        await findUserIdByEmail(`contacts`);
+        await showUserNameById(`contacts`); 
+        await createActiveUserSession(`contacts`);
+        await getUserSessionById(`contacts`);
+        await userSession();
+    } else {
+        await findUserIdByEmail(`guest`);
+        await showUserNameById(`guest`); 
+        await createActiveUserSession(`guest`);
+        await getUserSessionById(`guest`);
+        await guestSession();
+    }
 }
 
 
@@ -42,15 +51,16 @@ async function loadUserData() {
  * @param {string} email - The user's email address.
  * @returns {string|null} - user ID if found, null otherwise.
  */
-async function findUserIdByEmail() {
+async function findUserIdByEmail(arrayName) {
     try {
-        const response = await fetch(`${baseUrl}/contacts.json`);               // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/${arrayName}.json`);               // HTTP-Request in user list
         const userData = await response.json();
         for (const userId in userData) {
             if (userData[userId].email === email) {
             firebaseUserId = userId;
             }
         }
+        console.log("user ID is: ", firebaseUserId);
         return firebaseUserId;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -66,9 +76,9 @@ async function findUserIdByEmail() {
  * @param {string} firebaseUserId - the individual user ID for the logged in user or guest.
  * @returns {string|null} The user name if found, null otherwise.
  */
-async function showUserNameById() {
+async function showUserNameById(arrayName) {
     try {
-        const response = await fetch(`${baseUrl}/contacts.json`);               // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/${arrayName}.json`);               // HTTP-Request in user list
         const userData = await response.json();
         userName = userData[firebaseUserId].name;
         return userName;
@@ -86,9 +96,9 @@ async function showUserNameById() {
  * @param {object} session - this object contains the new session status.
  * @param {Error} error - logs the error to the console and returns `null` to indicate that the operation failed.
  */
-async function createActiveUserSession() {
+async function createActiveUserSession(arrayName) {
     try {
-        const response = await fetch(`${baseUrl}/contacts/${firebaseUserId}.json`, {
+        const response = await fetch(`${baseUrl}/${arrayName}/${firebaseUserId}.json`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -112,9 +122,9 @@ async function createActiveUserSession() {
  * @param {string} userSessionStatus - stores the current status of the logged in user.
  * @returns {string|null} - The user session status ("active" or "inactive") if found, null otherwise.
  */
-async function getUserSessionById() {
+async function getUserSessionById(arrayName) {
     try {
-        const response = await fetch(`${baseUrl}/contacts.json`);               // HTTP-Request in user list
+        const response = await fetch(`${baseUrl}/${arrayName}.json`);               // HTTP-Request in user list
         const userData = await response.json();
         userSessionStatus = userData[firebaseUserId].session;
         console.log('user session is:', userSessionStatus);

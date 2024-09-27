@@ -2,7 +2,7 @@
 * @param {string} userName - contains the user name or the name 'guest'.
 */ 
 async function guestSession() {
-    userName = "Guest";
+    console.log("user name: ", userName);
     await loadTaskDataGuest();
     loadHtmlTemplates();
     greeting();
@@ -20,7 +20,7 @@ async function loadTaskDataGuest() {
     await amountOfUrgentTasks();
     await amountOfTasksInProgress();
     await amountOfTasksAwaitingFeedback();
-    await nextTaskDeadline();
+    deadlineDate = await nextTaskDeadline();
 }
 
 
@@ -61,12 +61,13 @@ async function checkStatusOfTasks(data, statusValue) {
     let statusCount=0;
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-            if (task.assignment && task.status === `${statusValue}`) {
-                statusCount++;
+            if (task.name) {
+                if (task.status === statusValue) {
+                    statusCount++;
+                }
             }
         });
-    } 
+    }
     return statusCount;
 }
 
@@ -167,12 +168,13 @@ async function checkPriorityOfTasks(data, priorityValue) {
     let priorityCount=0;
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-            if (task.assignment && task.priority === `${priorityValue}` && task.status !== "done") {
-                priorityCount++;
+            if (task.name) {
+                if (task.priority === priorityValue) {
+                    priorityCount++;
+                }
             }
         });
-    } 
+    }
     return priorityCount;
 }
 
@@ -207,12 +209,13 @@ async function amountOfUrgentTasks() {
 async function pushDatesIntoDeadlineArrayGuest(data) {
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            const assignments = typeof task.assignment === 'string' ? JSON.parse(task.assignment) : task.assignment;
-            if (task.assignment && checkIfDeadlineLaterThanToday(task.date) === true) {
-                deadlineArray.push(task.date);
+            if (task.name && task.date) {
+                if (checkIfDeadlineLaterThanToday(task.date) === true) {
+                    deadlineArray.push(task.date);
+                }
             }
         });
-    } 
+    }
 }
 
 
@@ -230,11 +233,10 @@ async function nextTaskDeadline() {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
         await pushDatesIntoDeadlineArrayGuest(data);
-        let earliestDeadlineFormatted = findEarliestDate(deadlineArray);
-        earliestDeadline = formatDate(earliestDeadlineFormatted);
+        checkIfDeadlineArrayEmpty(deadlineArray);
         console.log("deadline Array:", deadlineArray);
         console.log('the next deadline is:', earliestDeadline);
-        return earliestDeadline;
+        return {earliestDeadline, deadlineText};
     } catch (error) {
         console.error("Error while fetching data:", error);
     }
