@@ -80,7 +80,9 @@ async function fetchContacts() {
 }
 
 function checkIfContactsDropdownIsVisible() {
-    if (document.getElementById("dropdown-list").classList.contains("d-none")) {
+    let dropdownList = document.getElementById("dropdown-list");
+
+    if (dropdownList.classList.contains("d-none")) {
         showContactsDropDown();
     } else {
         closeContactsDropDown();
@@ -188,7 +190,7 @@ function templateContactsHTMLDropdownList() {
         let color = colors[i];
 
         dropdownHTML += /*html*/ `
-            <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}')">
+            <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" > 
             <div>  
                 <div class="circle" style="background-color: ${color};">
                     ${firstLetter}${lastLetter}
@@ -461,4 +463,25 @@ function resetRequiredNotifications() {
     categoryOptions.classList.remove("validationBorder");
     missingCategoryMessage.classList.remove("validationStyle");
     missingCategoryMessage.classList.add("d-none");
+}
+
+function addOrClearSubtask() {
+    let subtaskInput = document.getElementById("");
+}
+
+function doNotCloseDropdown(event) {
+    event.stopPropagation();
+}
+
+function closeDropdowns() {
+    let contactsDropdownList = document.getElementById("dropdown-list");
+    let categoryDropdownList = document.getElementById("category-dropdown-list");
+
+    if (!categoryDropdownList.classList.contains("d-none")) {
+        closeCategoryDropDown();
+    }
+
+    if (!contactsDropdownList.classList.contains("d-none")) {
+        closeContactsDropDown();
+    }
 }

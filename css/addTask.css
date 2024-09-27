@@ -241,7 +241,7 @@ h1 {
     text-align: left;
 }
 
-#addicon-container {
+#subtask-icon-container {
     gap: 8px;
     display: flex;
     align-items: center;
@@ -251,7 +251,7 @@ h1 {
     width: 24px;
 }
 
-#addicon-container:hover {
+#subtask-icon-container:hover {
     background: lightgray;
     border-radius: 100%;
 }
@@ -528,6 +528,14 @@ h1 {
 
 .validationBorder {
     border: 1px solid #ff8190;
+}
+
+#subtask-relative-container {
+    position: relative;
+}
+
+#missing-subtask-message {
+    position: absolute;
 }
 
 /* Scrolbar */

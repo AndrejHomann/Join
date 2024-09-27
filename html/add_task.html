@@ -10,7 +10,7 @@
         <link rel="stylesheet" type="text/css" href="../css/header_and_sidebar.css" />
         <script src="/js/addTask.js"></script>
     </head>
-    <body>
+    <body onclick="closeDropdowns()">
         <div includeHTML="../html/header_and_sidebar.html"></div>
         <h1>Add Task</h1>
         <div id="content-box-container">
@@ -92,7 +92,7 @@
                     </div>
                     <div id="category-container" class="flex-column">
                         <div class="subtitle">Category<span class="asterisk">*</span></div>
-                        <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible()">
+                        <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), doNotCloseDropdown(event)">
                             <span id="category-placeholder">Select task category</span>
                             <div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                         </div>
@@ -101,11 +101,13 @@
                     </div>
                     <div id="substasks-container" class="flex-column">
                         <div class="subtitle">Subtasks</div>
-                        <div id="new-subtask-contaier">
-                            <input type="text" id="new-subtask-input" placeholder="Add new subtask" />
-                            <div id="addicon-container" onclick="addSubtask()"><img src="/img/addTask/add.png" id="add-icon" alt="add-icon" /></div>
+                        <div id="subtask-relative-container">
+                            <div id="new-subtask-contaier" onclick="addOrClearSubtask()">
+                                <input type="text" id="new-subtask-input" placeholder="Add new subtask" />
+                                <div id="subtask-icon-container" onclick="addSubtask()"><img src="/img/addTask/add.png" id="add-icon" alt="add-icon" /></div>
+                            </div>
+                            <span id="missing-subtask-message" class="validationStyleSubtasks d-none">This field is required</span>
                         </div>
-                        <span id="missing-subtask-message" class="validationStyleSubtasks d-none">This field is required</span>
                         <ul id="subtask-list"></ul>
                     </div>
                 </div>
