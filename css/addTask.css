@@ -239,6 +239,7 @@ h1 {
     font-weight: 400;
     line-height: 24px;
     text-align: left;
+    width: 100%;
 }
 
 #subtask-icon-container {
@@ -248,17 +249,52 @@ h1 {
     justify-content: center;
     cursor: pointer;
     height: 24px;
-    width: 24px;
 }
 
-#subtask-icon-container:hover {
+#check-icon-container,
+#close-icon-container,
+#plus-icon-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#border-subtask-container {
+    border: 0.5px solid #2a3648;
+    width: 0;
+    height: 100%;
+}
+
+.circleHoverEffect:hover {
     background: lightgray;
     border-radius: 100%;
 }
 
-#add-icon {
+/* Styling für den Container um das Icon herum */
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; /* Gleiche Größe wie das Plus-Icon */
+    height: 24px;
+    cursor: pointer;
+}
+
+#check-subtask {
     width: 14px;
     height: 14px;
+}
+
+#clear-subtask {
+    width: 14px;
+    height: 14px;
+}
+
+.addAndcloseIconHover:hover {
+    background: lightgray;
+    border-radius: 100%;
 }
 
 #subtask-list {

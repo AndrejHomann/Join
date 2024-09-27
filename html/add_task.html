@@ -10,7 +10,7 @@
         <link rel="stylesheet" type="text/css" href="../css/header_and_sidebar.css" />
         <script src="/js/addTask.js"></script>
     </head>
-    <body onclick="closeDropdowns()">
+    <body>
         <div includeHTML="../html/header_and_sidebar.html"></div>
         <h1>Add Task</h1>
         <div id="content-box-container">
@@ -102,9 +102,11 @@
                     <div id="substasks-container" class="flex-column">
                         <div class="subtitle">Subtasks</div>
                         <div id="subtask-relative-container">
-                            <div id="new-subtask-contaier" onclick="addOrClearSubtask()">
+                            <div id="new-subtask-contaier" onclick="addOrCloseSubtask()">
                                 <input type="text" id="new-subtask-input" placeholder="Add new subtask" />
-                                <div id="subtask-icon-container" onclick="addSubtask()"><img src="/img/addTask/add.png" id="add-icon" alt="add-icon" /></div>
+                                <div id="subtask-icon-container">
+                                    <div id="plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
+                                </div>
                             </div>
                             <span id="missing-subtask-message" class="validationStyleSubtasks d-none">This field is required</span>
                         </div>

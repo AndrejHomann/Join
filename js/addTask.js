@@ -64,6 +64,8 @@ async function addTask(path, data) {
     resetTaskForm();
 }
 
+// Contacts
+
 async function fetchContacts() {
     let response = await fetch(BASE_URL + "/contacts.json");
     let contactsData = await response.json();
@@ -215,6 +217,8 @@ function sortContactsByFirstName(contactList) {
     });
 }
 
+// Prio
+
 function choosePrio(prio) {
     let selectedPioButton = document.getElementById(`prio-${prio}-button`);
 
@@ -242,6 +246,8 @@ function resetPrio() {
     document.getElementById("prio-medium-button").classList.add("prio-default-text-color");
     document.getElementById("prio-low-button").classList.add("prio-default-text-color");
 }
+
+// Category
 
 function checkIfCategoryDropdownIsVisible() {
     if (document.getElementById("category-dropdown-list").classList.contains("d-none")) {
@@ -295,54 +301,35 @@ function selectCategory(categoryName) {
     console.log(selectedCategory);
 }
 
-function checkIfRequiredFieldsAreEnteredAgain() {
-    checkIfCategoryIsSelected();
-    checkIfTitleIsEntered();
-    checkIfDateIsSelected();
+// Subtasks
+
+function addOrCloseSubtask() {
+    let subtaskIconContainer = document.getElementById("subtask-icon-container");
+
+    subtaskIconContainer.classList.remove("plusIconHover");
+
+    subtaskIconContainer.innerHTML = /*html*/ `            
+        <div id="close-icon-container" onclick="closeSubtaskDraw()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask" /></div>
+        <div id="border-subtask-container"></div>
+        <div id="check-icon-container" onclick="addSubtask()"><img src="/img/addTask/check.png" alt="check" id="check-subtask" /></div>`;
+
+    let checkIconContainer = document.getElementById("check-icon-container");
+    checkIconContainer.classList.add("circleHoverEffect");
+    let closeIconContainer = document.getElementById("close-icon-container");
+    closeIconContainer.classList.add("circleHoverEffect");
 }
 
-function checkIfCategoryIsSelected() {
-    let missingCategoryMessage = document.getElementById("missing-category-message");
-    let categoryOptions = document.getElementById("selected-category");
-    if (!selectedCategory) {
-        categoryOptions.classList.add("validationBorder");
-        missingCategoryMessage.classList.add("validationStyle");
-        missingCategoryMessage.classList.remove("d-none");
-    } else {
-        categoryOptions.classList.remove("validationBorder");
-        missingCategoryMessage.classList.remove("validationStyle");
-        missingCategoryMessage.classList.add("d-none");
+let newSubtask = document.getElementById("new-subtask-input");
+newSubtask.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("check-icon-container").click();
     }
-}
+});
 
-function checkIfTitleIsEntered() {
-    let missingTitleMessage = document.getElementById("missing-title-message");
-    let titleInput = document.getElementById("title-input");
-
-    if (!titleInput.value) {
-        titleInput.style.border = "1px solid #ff8190";
-        missingTitleMessage.classList.add("validationStyle");
-        missingTitleMessage.classList.remove("d-none");
-    } else {
-        titleInput.style.border = "";
-        missingTitleMessage.classList.remove("validationStyle");
-        missingTitleMessage.classList.add("d-none");
-    }
-}
-
-function checkIfDateIsSelected() {
-    let missingDateMessage = document.getElementById("missing-date-message");
-    let dateInput = document.getElementById("date-input");
-
-    if (!dateInput.value) {
-        dateInput.style.border = "1px solid #ff8190";
-        missingDateMessage.classList.add("validationStyle");
-        missingDateMessage.classList.remove("d-none");
-    } else {
-        dateInput.style.border = "";
-        missingDateMessage.classList.remove("validationStyle");
-        missingDateMessage.classList.add("d-none");
-    }
+function closeSubtaskDraw() {
+    let subtaskDraw = document.getElementById("new-subtask-input");
+    subtaskDraw.value = ``;
 }
 
 function addSubtask() {
@@ -440,6 +427,56 @@ function clearFields() {
     resetRequiredNotifications();
 }
 
+function checkIfRequiredFieldsAreEnteredAgain() {
+    checkIfCategoryIsSelected();
+    checkIfTitleIsEntered();
+    checkIfDateIsSelected();
+}
+
+function checkIfCategoryIsSelected() {
+    let missingCategoryMessage = document.getElementById("missing-category-message");
+    let categoryOptions = document.getElementById("selected-category");
+    if (!selectedCategory) {
+        categoryOptions.classList.add("validationBorder");
+        missingCategoryMessage.classList.add("validationStyle");
+        missingCategoryMessage.classList.remove("d-none");
+    } else {
+        categoryOptions.classList.remove("validationBorder");
+        missingCategoryMessage.classList.remove("validationStyle");
+        missingCategoryMessage.classList.add("d-none");
+    }
+}
+
+function checkIfTitleIsEntered() {
+    let missingTitleMessage = document.getElementById("missing-title-message");
+    let titleInput = document.getElementById("title-input");
+
+    if (!titleInput.value) {
+        titleInput.style.border = "1px solid #ff8190";
+        missingTitleMessage.classList.add("validationStyle");
+        missingTitleMessage.classList.remove("d-none");
+    } else {
+        titleInput.style.border = "";
+        missingTitleMessage.classList.remove("validationStyle");
+        missingTitleMessage.classList.add("d-none");
+    }
+}
+
+function checkIfDateIsSelected() {
+    let missingDateMessage = document.getElementById("missing-date-message");
+    let dateInput = document.getElementById("date-input");
+
+    if (!dateInput.value) {
+        dateInput.style.border = "1px solid #ff8190";
+        missingDateMessage.classList.add("validationStyle");
+        missingDateMessage.classList.remove("d-none");
+    } else {
+        dateInput.style.border = "";
+        missingDateMessage.classList.remove("validationStyle");
+        missingDateMessage.classList.add("d-none");
+    }
+}
+
 function resetRequiredNotifications() {
     let missingDateMessage = document.getElementById("missing-date-message");
     missingDateMessage.classList.add("d-none");
@@ -449,39 +486,41 @@ function resetRequiredNotifications() {
     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
     missingSubtaskMessage.classList.add("d-none");
     missingSubtaskMessage.classList.remove("validationStyleSubtasks");
+    document.getElementById("new-subtask-contaier").style.border = "";
 
     let missingTitleMessage = document.getElementById("missing-title-message");
     let titleInput = document.getElementById("title-input");
-
     titleInput.style.border = "";
     missingTitleMessage.classList.remove("validationStyle");
     missingTitleMessage.classList.add("d-none");
 
     let missingCategoryMessage = document.getElementById("missing-category-message");
     let categoryOptions = document.getElementById("selected-category");
-
     categoryOptions.classList.remove("validationBorder");
     missingCategoryMessage.classList.remove("validationStyle");
     missingCategoryMessage.classList.add("d-none");
-}
-
-function addOrClearSubtask() {
-    let subtaskInput = document.getElementById("");
 }
 
 function doNotCloseDropdown(event) {
     event.stopPropagation();
 }
 
-function closeDropdowns() {
-    let contactsDropdownList = document.getElementById("dropdown-list");
-    let categoryDropdownList = document.getElementById("category-dropdown-list");
+function clickOutsideOfDropdown(event) {
+    let contactsDropdown = document.getElementById("dropdown-list");
+    let categoryDropdown = document.getElementById("category-dropdown-list");
 
-    if (!categoryDropdownList.classList.contains("d-none")) {
-        closeCategoryDropDown();
-    }
+    let clickedInsideContacts = contactsDropdown.contains(event.target);
+    let clickedInsideCategory = categoryDropdown.contains(event.target);
 
-    if (!contactsDropdownList.classList.contains("d-none")) {
-        closeContactsDropDown();
+    if (!clickedInsideContacts && !clickedInsideCategory) {
+        if (!contactsDropdown.classList.contains("d-none")) {
+            closeContactsDropDown();
+        }
+
+        if (!categoryDropdown.classList.contains("d-none")) {
+            closeCategoryDropDown();
+        }
     }
 }
+
+document.addEventListener("click", clickOutsideOfDropdown);
