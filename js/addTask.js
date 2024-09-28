@@ -8,6 +8,7 @@ let selectedContacts = [];
 let colors = [];
 let selectedColors = [];
 let subtasks = [];
+let isSubtaskResetting = false;
 
 async function includeHTML() {
     let includeElements = document.querySelectorAll("[includeHTML]");
@@ -61,7 +62,7 @@ async function addTask(path, data) {
     } else {
         console.error("Error");
     }
-    resetTaskForm();
+    clearFields();
 }
 
 // Contacts
@@ -304,6 +305,8 @@ function selectCategory(categoryName) {
 // Subtasks
 
 function addOrCloseSubtask() {
+    if (isSubtaskResetting) return;
+
     let subtaskIconContainer = document.getElementById("subtask-icon-container");
 
     subtaskIconContainer.classList.remove("plusIconHover");
@@ -319,17 +322,10 @@ function addOrCloseSubtask() {
     closeIconContainer.classList.add("circleHoverEffect");
 }
 
-let newSubtask = document.getElementById("new-subtask-input");
-newSubtask.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        document.getElementById("check-icon-container").click();
-    }
-});
-
 function closeSubtaskDraw() {
     let subtaskDraw = document.getElementById("new-subtask-input");
     subtaskDraw.value = ``;
+    resetSubtaskIcon();
 }
 
 function addSubtask() {
@@ -357,32 +353,55 @@ function addSubtask() {
         missingSubtaskMessage.classList.remove("d-none");
         missingSubtaskMessage.classList.add("validationStyleSubtasks");
     }
+    resetSubtaskIcon();
 }
 
-function resetTaskForm() {
-    document.getElementById("title-input").value = "";
-    document.getElementById("textarea-input").value = "";
-    document.getElementById("date-input").value = "";
-    document.getElementById("new-subtask-input").value = "";
+function addSubtaskByEnterKey(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addSubtask();
+    }
+}
 
+function showCloseOrDeleteIconByDrawingSubtask() {
+    if (this.value) {
+        addOrCloseSubtask();
+    } else {
+        resetSubtaskIcon();
+    }
+}
+
+function waitingForSubtaskEnterOrDrawEvent() {
+    let newSubtaskInput = document.getElementById("new-subtask-input");
+
+    newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
+    newSubtaskInput.addEventListener("input", showCloseOrDeleteIconByDrawingSubtask);
+}
+
+waitingForSubtaskEnterOrDrawEvent();
+
+function resetSubtaskIcon() {
+    isSubtaskResetting = true;
+
+    let subtaskIconContainer = document.getElementById("subtask-icon-container");
+
+    subtaskIconContainer.innerHTML = /*html*/ `
+        <div id="plus-icon-container" class="circleHoverEffect" onclick="addOrCloseSubtask()">
+            <img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" />
+        </div>`;
+
+    setTimeout(resetSubtaskClearButton, 1);
+}
+
+function resetSubtaskClearButton() {
+    isSubtaskResetting = false;
+}
+
+function resetSubtaskList() {
     document.getElementById("subtask-list").innerHTML = "";
-
-    document.getElementById("category-placeholder").innerHTML = "Select task category";
-    document.getElementById("assigned-placeholder").innerHTML = "Select contacts to assign";
-    document.getElementById("selected-contacts-circle-container").innerHTML = "";
-
-    selectedContacts = [];
-    selectedColors = [];
-    selectedCategory = null;
-    subtasks = [];
-    selectedPrio = "medium";
-
-    resetPrio();
-    document.getElementById("prio-medium-button").classList.add("prio-medium-button-bg-color");
-    document.getElementById("prio-medium-button").classList.remove("prio-default-text-color");
-    closeContactsDropDown();
-    closeCategoryDropDown();
 }
+
+// User Action Add task
 
 function showSuccessMessage() {
     setTimeout(addDisplayFlex, 500);
@@ -400,23 +419,17 @@ function hideSuccessMessage() {
     successMessage.classList.remove("slide-in");
 }
 
-function clearFields() {
-    document.getElementById("title-input").value = "";
-    document.getElementById("textarea-input").value = "";
-    document.getElementById("date-input").value = "";
-    document.getElementById("new-subtask-input").value = "";
+// Clearing fields
 
-    document.getElementById("subtask-list").innerHTML = "";
+function clearFields() {
+    clearInputFields();
+    setBackArrays();
+    resetSubtaskIcon();
+    resetSubtaskList();
 
     document.getElementById("category-placeholder").innerHTML = "Select task category";
     document.getElementById("assigned-placeholder").innerHTML = "Select contacts to assign";
     document.getElementById("selected-contacts-circle-container").innerHTML = "";
-
-    selectedContacts = [];
-    selectedColors = [];
-    selectedCategory = null;
-    subtasks = [];
-    selectedPrio = "medium";
 
     resetPrio();
     document.getElementById("prio-medium-button").classList.add("prio-medium-button-bg-color");
@@ -425,6 +438,21 @@ function clearFields() {
     closeCategoryDropDown();
 
     resetRequiredNotifications();
+}
+
+function clearInputFields() {
+    document.getElementById("title-input").value = "";
+    document.getElementById("textarea-input").value = "";
+    document.getElementById("date-input").value = "";
+    document.getElementById("new-subtask-input").value = "";
+}
+
+function setBackArrays() {
+    selectedContacts = [];
+    selectedColors = [];
+    selectedCategory = null;
+    subtasks = [];
+    selectedPrio = "medium";
 }
 
 function checkIfRequiredFieldsAreEnteredAgain() {
@@ -500,6 +528,8 @@ function resetRequiredNotifications() {
     missingCategoryMessage.classList.remove("validationStyle");
     missingCategoryMessage.classList.add("d-none");
 }
+
+// Close dropdown
 
 function doNotCloseDropdown(event) {
     event.stopPropagation();
