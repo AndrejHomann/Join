@@ -245,26 +245,24 @@ h1 {
 #subtask-icon-container {
     gap: 8px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    height: 24px;
 }
 
 #check-icon-container,
 #close-icon-container,
-#plus-icon-container {
+#plus-icon-container,
+#edit-icon-container,
+#delete-icon-container {
     width: 24px;
     height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
-#border-subtask-container {
+.border-subtask-container {
     border: 0.5px solid #2a3648;
     width: 0;
-    height: 100%;
 }
 
 .circleHoverEffect:hover {
@@ -272,57 +270,30 @@ h1 {
     border-radius: 100%;
 }
 
-.icon-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-}
-
-#check-subtask {
-    width: 14px;
-    height: 14px;
-}
-
-#clear-subtask {
-    width: 14px;
-    height: 14px;
-}
-
-.addAndcloseIconHover:hover {
-    background: lightgray;
-    border-radius: 100%;
+#new-subtask-list-container {
+    margin-top: 16px;
 }
 
 #generated-subtask-list-container {
     margin-left: 48.25px;
 }
 
-#new-subtask-list-container {
-    margin-top: 16px;
-}
-
-.subtask-item {
+.generatedSubtasks {
     display: flex;
     justify-content: space-between;
-    padding: 8px;
+    align-items: center;
+    padding: 8px 16px;
 }
 
-.subtask-item:hover {
+.generatedSubtasks:hover {
     background-color: lightgray;
     border-radius: 10px;
 }
 
-/* .new-subtask-list-item {
-    padding: 8px;
-} */
-
-/* .new-subtask-list-item:hover {
-    background-color: lightgray;
-    border-radius: 10px;
-} */
+.generatedSubtasks:hover #generated-subtask-list-icons {
+    display: flex;
+    gap: 8px;
+}
 
 /* Clear and AddTask Buttons */
 
@@ -558,7 +529,7 @@ h1 {
     font-weight: 400;
 }
 
-.slide-in {
+.slideInFromButton {
     opacity: 1;
     transform: translate(-50%, -50%) translateY(0);
 }

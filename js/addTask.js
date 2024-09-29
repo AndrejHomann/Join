@@ -1,4 +1,4 @@
-const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app";
+let BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app";
 let contactList = [];
 let selectedPrio = "medium";
 let categoryList = ["Technical Task", "User Story"];
@@ -13,7 +13,7 @@ let isSubtaskResetting = false;
 async function includeHTML() {
     let includeElements = document.querySelectorAll("[includeHTML]");
     for (let i = 0; i < includeElements.length; i++) {
-        const element = includeElements[i];
+        let element = includeElements[i];
         file = element.getAttribute("includeHTML");
         let resp = await fetch(file);
         if (resp.ok) {
@@ -48,7 +48,7 @@ function createTask() {
 }
 
 async function addTask(path, data) {
-    let response = await fetch(BASE_URL + path, {
+    const response = await fetch(BASE_URL + path, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -312,9 +312,9 @@ function addOrCloseSubtask() {
     subtaskIconContainer.classList.remove("plusIconHover");
 
     subtaskIconContainer.innerHTML = /*html*/ `            
-        <div id="close-icon-container" onclick="closeSubtaskDraw()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask" /></div>
-        <div id="border-subtask-container"></div>
-        <div id="check-icon-container" onclick="addSubtask()"><img src="/img/addTask/check.png" alt="check" id="check-subtask" /></div>`;
+        <div id="close-icon-container" onclick="closeSubtaskDraft()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask"></div>
+        <div class="border-subtask-container"></div>
+        <div id="check-icon-container" onclick="addSubtask()"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>`;
 
     let checkIconContainer = document.getElementById("check-icon-container");
     checkIconContainer.classList.add("circleHoverEffect");
@@ -322,9 +322,9 @@ function addOrCloseSubtask() {
     closeIconContainer.classList.add("circleHoverEffect");
 }
 
-function closeSubtaskDraw() {
-    let subtaskDraw = document.getElementById("new-subtask-input");
-    subtaskDraw.value = ``;
+function closeSubtaskDraft() {
+    let subtaskDraft = document.getElementById("new-subtask-input");
+    subtaskDraft.value = ``;
     resetSubtaskIcon();
 }
 
@@ -333,15 +333,12 @@ function addSubtask() {
     let subtaskList = document.getElementById("generated-subtask-list-container");
     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
     let subtaskContainer = document.getElementById("new-subtask-contaier");
+    let i = subtasks.length;
 
     if (newSubtaskInput.value !== "") {
         subtasks.push(newSubtaskInput.value);
 
-        let subtaskHTML = /*html*/ `
-            <div class="subtask-item">
-                <li class="new-subtask-list-item">${newSubtaskInput.value}
-                </li><img src="/img/addTask/delete.png" alt="delete" />
-            </div>`;
+        let subtaskHTML = templateCategoryHTMLSubtasksList(i, subtasks[i]);
 
         subtaskList.innerHTML += subtaskHTML;
 
@@ -364,7 +361,7 @@ function addSubtaskByEnterKey(event) {
     }
 }
 
-function showCloseOrDeleteIconByDrawingSubtask() {
+function showCloseOrDeleteIconDuringWritingSubtask() {
     if (this.value) {
         addOrCloseSubtask();
     } else {
@@ -372,18 +369,16 @@ function showCloseOrDeleteIconByDrawingSubtask() {
     }
 }
 
-function waitingForSubtaskEnterOrDrawEvent() {
+function waitingForSubtaskEnterOrDraftEvent() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
 
     newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
-    newSubtaskInput.addEventListener("input", showCloseOrDeleteIconByDrawingSubtask);
+    newSubtaskInput.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtask);
 }
 
-waitingForSubtaskEnterOrDrawEvent();
+waitingForSubtaskEnterOrDraftEvent();
 
 function resetSubtaskIcon() {
-    isSubtaskResetting = true;
-
     let subtaskIconContainer = document.getElementById("subtask-icon-container");
 
     subtaskIconContainer.innerHTML = /*html*/ `
@@ -391,6 +386,7 @@ function resetSubtaskIcon() {
             <img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" />
         </div>`;
 
+    isSubtaskResetting = true;
     setTimeout(resetSubtaskClearButton, 1);
 }
 
@@ -402,22 +398,56 @@ function resetSubtaskList() {
     document.getElementById("generated-subtask-list-container").innerHTML = "";
 }
 
+function deleteSubtask(index) {
+    let newSubtask = document.getElementById(`added-subtask-${index}`);
+    if (newSubtask) {
+        newSubtask.remove();
+    }
+    subtasks.splice(index, 1);
+    updateSubtaskListAfterDelete();
+}
+
+function updateSubtaskListAfterDelete() {
+    let subtaskList = document.getElementById("generated-subtask-list-container");
+
+    subtaskList.innerHTML = "";
+
+    for (let i = 0; i < subtasks.length; i++) {
+        let subtaskHTML = templateCategoryHTMLSubtasksList(i, subtasks[i]);
+        subtaskList.innerHTML += subtaskHTML;
+    }
+}
+
+function templateCategoryHTMLSubtasksList(i, subtask) {
+    return /*html*/ `
+            <div class="generatedSubtasks" id="added-subtask-${i}">
+                <li>${subtask}</li>
+                <div id="generated-subtask-list-icons" class="d-none">     
+                    <div id="edit-icon-container"><img src="/img/addTask/edit.png" alt="edit" /></div>
+                    <div class="border-subtask-container"></div>
+                    <div id="delete-icon-container" onclick="deleteSubtask(${i})">
+                        <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
+                    </div>
+                </div>
+            </div>`;
+}
+
 // User Action Add task
 
 function showSuccessMessage() {
-    setTimeout(addDisplayFlex, 500);
+    setTimeout(successMessageSlidingIn, 500);
 
     setTimeout(hideSuccessMessage, 2500);
 }
 
-function addDisplayFlex() {
+function successMessageSlidingIn() {
     let successMessage = document.getElementById("success-message-container");
-    successMessage.classList.add("slide-in");
+    successMessage.classList.add("slideInFromButton");
 }
 
 function hideSuccessMessage() {
     let successMessage = document.getElementById("success-message-container");
-    successMessage.classList.remove("slide-in");
+    successMessage.classList.remove("slideInFromButton");
 }
 
 // Clearing fields
