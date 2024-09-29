@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             for (const key in data) {
                 if (data[key].email === email && data[key].password === password) {
+                    storeUserInitials(data[key].name);
                     window.location.href = './html/summary_user.html';
                     clearLoginFields()
                     return;
@@ -216,8 +217,31 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {Event} e - Event object from the form submission.
      * @returns {Promise<void>}
      */
+    // async function submitLogin(e) {
+    //     e.preventDefault(); // Prevents the default form submission action.
+    //     const email = document.getElementById('loginEmail').value;
+    //     const password = document.getElementById('loginPassword').value;
+    //     const rememberMe = rememberMeCheckbox.checked;
+
+    //     if (email && password) {
+    //         try {
+    //             await loginUser(email, password);
+    //             if (rememberMe) {
+    //                 saveLoginData(email, password);
+    //             } else {
+    //                 clearSavedLoginData();
+    //             }
+    //         } catch (error) {
+    //             console.error('Error:', error);
+    //             alert('An error occurred during login');
+    //         }
+    //     } else {
+    //         alert('Please fill in all required fields');
+    //     }
+    // }
+
     async function submitLogin(e) {
-        e.preventDefault(); // Prevents the default form submission action.
+        e.preventDefault(); // Verhindert die Standardaktion des Formulars.
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         const rememberMe = rememberMeCheckbox.checked;
@@ -225,11 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (email && password) {
             try {
                 await loginUser(email, password);
-                if (rememberMe) {
-                    saveLoginData(email, password);
-                } else {
-                    clearSavedLoginData();
-                }
+
+                // Anmeldedaten immer speichern
+                saveLoginData(email, password, rememberMe);
             } catch (error) {
                 console.error('Error:', error);
                 alert('An error occurred during login');
@@ -245,10 +267,23 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {string} email - The user's email.
      * @param {*} password - The user's password.
      */
-    function saveLoginData(email, password) {
-        localStorage.setItem('rememberMe', 'true');
+    // function saveLoginData(email, password) {
+    //     localStorage.setItem('rememberMe', 'true');
+    //     localStorage.setItem('email', email);
+    //     localStorage.setItem('password', password);
+    // }
+
+    function saveLoginData(email, password, rememberMe) {
+        // Speichere die Anmeldedaten unabhängig von der Remember-Me Checkbox
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
+
+        // Speichere die Entscheidung der "Remember me"-Checkbox
+        if (rememberMe) {
+            localStorage.setItem('rememberMe', 'true');
+        } else {
+            localStorage.setItem('rememberMe', 'false');
+        }
     }
 
     /**
