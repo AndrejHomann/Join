@@ -413,6 +413,11 @@ h2, h3{
     margin-bottom: 24px;
 }
 
+#contactss{
+    background-color: #091931;
+    color: white;
+}
+
 @media(max-width:1360px){
     .header-legal,
     .legal-text,
