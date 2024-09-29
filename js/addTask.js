@@ -420,10 +420,10 @@ function updateSubtaskListAfterDelete() {
 
 function templateCategoryHTMLSubtasksList(i, subtask) {
     return /*html*/ `
-            <div class="generatedSubtasks" id="added-subtask-${i}">
-                <li>${subtask}</li>
+            <div class="generatedSubtasks" id="generated-subtask-container-${i}">
+                <li id="generated-subtask-list-item-${i}">${subtask}</li>
                 <div id="generated-subtask-list-icons" class="d-none">     
-                    <div id="edit-icon-container"><img src="/img/addTask/edit.png" alt="edit" /></div>
+                    <div id="edit-icon-container" onclick="editSubtask(${i})"><img src="/img/addTask/edit.png" alt="edit" /></div>
                     <div class="border-subtask-container"></div>
                     <div id="delete-icon-container" onclick="deleteSubtask(${i})">
                         <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
@@ -432,6 +432,34 @@ function templateCategoryHTMLSubtasksList(i, subtask) {
             </div>`;
 }
 
+function editSubtask(index) {
+    let toEditSubtask = document.getElementById(`generated-subtask-container-${index}`);
+    let currentSubtaskText = subtasks[index];
+
+    toEditSubtask.classList.add("noHoverEffect");
+
+    toEditSubtask.innerHTML = /*html*/ `
+                            <div id="edit-subtask-container">
+                                    <input type="text" id="edit-subtask-input-${index}" value="${currentSubtaskText}" class="edit-subtask-container-styling">            
+                                    <div id="generated-subtask-list-icons">
+                                            <div id="delete-icon-container" onclick="deleteSubtask(${index})"><img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" /></div>     
+                                            <div class="border-subtask-container"></div>
+                                            <div id="edit-icon-container" onclick="submitSubtask(${index})"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>
+                                    </div>
+                            </div>`;
+}
+
+function submitSubtask(index) {
+    let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
+
+    subtasks[index] = editedSubtaskInput;
+
+    let subtaskContainer = document.getElementById(`generated-subtask-container-${index}`);
+
+    subtaskContainer.classList.remove("noHoverEffect");
+
+    subtaskContainer.innerHTML = templateCategoryHTMLSubtasksList(index, subtasks[index]);
+}
 // User Action Add task
 
 function showSuccessMessage() {

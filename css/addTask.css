@@ -295,6 +295,29 @@ h1 {
     gap: 8px;
 }
 
+#edit-subtask-container {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    width: 100%;
+    border-bottom: 1px solid #c9eaf8;
+    padding: 4px;
+}
+
+#generated-subtask-list-icons {
+    gap: 8px;
+    display: flex;
+}
+
+.edit-subtask-container-styling {
+    border: none;
+    width: 100%;
+}
+
+.noHoverEffect:hover {
+    background: none;
+}
+
 /* Clear and AddTask Buttons */
 
 #interactives-buttons-and-required-container {
