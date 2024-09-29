@@ -330,7 +330,7 @@ function closeSubtaskDraw() {
 
 function addSubtask() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
-    let subtaskList = document.getElementById("subtask-list");
+    let subtaskList = document.getElementById("generated-subtask-list-container");
     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
     let subtaskContainer = document.getElementById("new-subtask-contaier");
 
@@ -339,7 +339,8 @@ function addSubtask() {
 
         let subtaskHTML = /*html*/ `
             <div class="subtask-item">
-                <li>${newSubtaskInput.value}</li>
+                <li class="new-subtask-list-item">${newSubtaskInput.value}
+                </li><img src="/img/addTask/delete.png" alt="delete" />
             </div>`;
 
         subtaskList.innerHTML += subtaskHTML;
@@ -398,7 +399,7 @@ function resetSubtaskClearButton() {
 }
 
 function resetSubtaskList() {
-    document.getElementById("subtask-list").innerHTML = "";
+    document.getElementById("generated-subtask-list-container").innerHTML = "";
 }
 
 // User Action Add task

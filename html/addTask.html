@@ -109,7 +109,7 @@
                             </div>
                             <span id="missing-subtask-message" class="validationStyleSubtasks d-none">This field is required</span>
                         </div>
-                        <ul id="subtask-list"></ul>
+                        <div id="new-subtask-list-container"><div id="generated-subtask-list-container"></div></div>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                     <span id="required-span"><span class="asterisk">*</span>This field is required</span>
                 </div>
                 <div id="interactives-buttons-container">
-                    <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span><img src="/img/Vector.png" id="cancel-icon" /></button>
+                    <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
                     <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
                 </div>
             </div>
@@ -129,7 +129,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 includeHTML();
