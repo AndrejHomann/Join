@@ -127,3 +127,17 @@ function goBack() {
     }
     window.close();
 }
+
+// Funktion zum Speichern der Initialen im Local Storage
+function storeUserInitials(name) {
+    const initials = getInitials(name);
+    localStorage.setItem('userInitials', initials);
+    console.log(`Initialen des Users gespeichert: ${initials}`);
+}
+
+// Funktion zum Ermitteln der Initialen
+function getInitials(name) {
+    const nameParts = name.split(' ');
+    const initials = nameParts.map(part => part[0]).join('');
+    return initials.toUpperCase();
+}
