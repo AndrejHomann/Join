@@ -447,19 +447,23 @@ function editSubtask(index) {
                                             <div id="edit-icon-container" onclick="submitSubtask(${index})"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>
                                     </div>
                             </div>`;
+
+    let editSubtaskInput = document.getElementById(`edit-subtask-input-${index}`);
+    editSubtaskInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            submitSubtask(index);
+        }
+    });
 }
 
 function submitSubtask(index) {
     let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
-
     subtasks[index] = editedSubtaskInput;
 
-    let subtaskContainer = document.getElementById(`generated-subtask-container-${index}`);
-
-    subtaskContainer.classList.remove("noHoverEffect");
-
-    subtaskContainer.innerHTML = templateCategoryHTMLSubtasksList(index, subtasks[index]);
+    updateSubtaskListAfterDelete();
 }
+
 // User Action Add task
 
 function showSuccessMessage() {
