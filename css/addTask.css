@@ -276,6 +276,8 @@ h1 {
 
 #generated-subtask-list-container {
     margin-left: 48.25px;
+    max-height: 120px;
+    overflow-y: scroll;
 }
 
 .generatedSubtasks {
