@@ -3,7 +3,6 @@ body, html {
     padding: 0; 
     background-color: #f6f7f8;
     font-family: 'Inter', sans-serif;
-    /* overflow: hidden; */
 }
 
 #logInContent,
@@ -136,8 +135,8 @@ input.error {
 
 .icon {
     position: absolute;
-    right: 21px; /* Abstand vom rechten Rand des Input-Feldes */
-    pointer-events: none; /* Icon nicht anklickbar machen */
+    right: 21px;
+    pointer-events: none;
 }
 
 .login-container .checkbox{
@@ -396,7 +395,7 @@ h2, h3{
 
 .custom-list li {
     position: relative;
-    padding-left: 56px; /* Platz für die Nummer */
+    padding-left: 56px;
 }
 
 .custom-list li::before {
@@ -404,18 +403,13 @@ h2, h3{
     counter-increment: custom-counter;
     position: absolute;
     left: 0;
-    font-size: 27px; /* Ändere die Größe der Nummer */
-    font-weight: bold; /* Macht die Nummer fett */
-    color: #000; /* Ändert die Farbe der Nummer */
+    font-size: 27px;
+    font-weight: bold;
+    color: #000;
 }
 
 .help-text h2{
     margin-bottom: 24px;
-}
-
-#contactss{
-    background-color: #091931;
-    color: white;
 }
 
 @media(max-width:1360px){
@@ -539,15 +533,15 @@ h2, h3{
         left: 28px;
     }
     .signup-overlay {
-        justify-content: flex-end; /* Meldung unten im Bild starten */
-        transform: translateY(100%); /* Anfangs außerhalb des Bildschirms */
+        justify-content: flex-end;
+        transform: translateY(100%);
         transition: opacity 0.5s ease-in-out;
     }
 
     .signup-overlay.active {
         visibility: visible;
-        opacity: 1; /* Sichtbar machen */
-        transform: translateY(0); /* Rein ins Bild sliden */
+        opacity: 1;
+        transform: translateY(0);
         transition: transform 0.5s ease-in-out, opacity 0.5s ease-in;
     }
 }
