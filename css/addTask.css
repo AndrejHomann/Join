@@ -13,6 +13,7 @@ body {
     flex-direction: column;
     margin-left: 328px;
     height: 100vh;
+    overflow-x: hidden;
 }
 
 #h1-container {
@@ -56,7 +57,6 @@ h1 {
     line-height: 24px;
     text-align: left;
     color: #2a3647;
-    margin-bottom: 8px;
 }
 
 #title-container {
@@ -168,11 +168,11 @@ h1 {
     height: 56px;
     gap: 16px;
     display: flex;
+    justify-content: space-between;
 }
 
 .choose-prio-button {
     width: 136px;
-    height: 56px;
     padding: 16px 10px 16px 10px;
     gap: 8px;
     border-radius: 10px;
@@ -332,7 +332,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    padding: 16px 0 16px 0;
     position: fixed;
     bottom: 20px;
 }
@@ -528,6 +528,7 @@ h1 {
 .flex-column {
     display: flex;
     flex-direction: column;
+    gap: 8px;
 }
 
 .flex-center-align {
@@ -630,19 +631,37 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     }
 
     .responsive-container {
-        display: block !important; /* Override inline style */
+        display: block !important;
+        position: relative;
+        top: 224px;
     }
 
     #h1-container {
         margin-left: 0; /* Center title in mobile view */
         padding: 0 40px;
+        height: 112px;
+        position: fixed;
+        top: 80px;
+        background-color: #f6f7f8;
+        z-index: 2;
+    }
+
+    h1 {
+        font-size: 47px;
+        line-height: 56.4px;
+        margin-top: 48px;
+        font-weight: 700;
     }
 
     #content-box-container {
-        width: 100%; /* Full width for content */
         margin-left: 0; /* Remove left margin */
         flex-direction: column; /* Stack content vertically */
         padding: 0 40px;
+        width: 100%;
+    }
+
+    .subtitle {
+        font-size: 16px;
     }
 
     #border-container {
@@ -653,26 +672,46 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         width: calc(100% - 80px);
         position: fixed;
         bottom: 80px;
+        top: 758px;
         z-index: 99;
-    }
-
-    #clear-button,
-    #create-button {
-        height: 48px;
+        background-color: #f6f7f8;
     }
 
     #content-box-left,
     #content-box-right {
         width: 100%;
+        gap: 16px;
     }
 
     #title-input,
     #date-input {
         width: 100%;
+        font-size: 16px;
+    }
+
+    #choose-prio-container {
+        height: 41px;
     }
 
     .choose-prio-button {
         width: 100%;
+    }
+
+    .prio-urgent-arrows,
+    .prio-medium-arrows,
+    .prio-low-arrows {
+        height: 14.51px;
+        width: 20px;
+    }
+
+    #assigned-placeholder,
+    #category-placeholder,
+    #textarea-input,
+    #new-subtask-input,
+    #prio-urgent,
+    #prio-medium,
+    #prio-low {
+        font-size: 16px;
     }
 
     #new-subtask-list-container,
@@ -682,16 +721,41 @@ input[type="date"]:invalid::-webkit-datetime-edit {
 
     @media (max-width: 1040px) {
         #content-box-container {
-            width: 100%; /* Full width for content */
-            margin-left: 0; /* Remove left margin */
-            flex-direction: column; /* Stack content vertically */
+            width: 100%;
+            margin-left: 0;
+            flex-direction: column;
             padding: 0 40px;
         }
     }
 }
 
-/* @media (max-width: 460px) {
-    .choose-prio-button {
-        width: 28%;
+@media (max-width: 768px) {
+    #clear-button {
+        display: none;
     }
-} */
+
+    #interactives-buttons-container {
+        gap: 16px;
+        width: auto;
+        height: 56px;
+        display: flex;
+    }
+
+    #required-span {
+        font-size: 12px;
+    }
+
+    #create-button {
+        width: 183px;
+        gap: 4px;
+        border-radius: 10px;
+        background: #2a3647;
+        display: flex;
+        transition: ease-in-out 100ms;
+        cursor: pointer;
+    }
+
+    #create-task-button-font {
+        font-size: 12px;
+    }
+}

@@ -7,7 +7,8 @@
         <link rel="icon" href="/img/JoinIcon.png" />
         <link rel="stylesheet" href="/css/addTask.css" />
         <link rel="stylesheet" href="/css/fonts.css" />
-        <link rel="stylesheet" href="/board/header_and_sidebar.css" />
+        <!-- <link rel="stylesheet" href="/board/header_and_sidebar.css" /> -->
+        <link rel="stylesheet" href="/css/header.css" />
     </head>
     <body>
         <div includeHTML="../html/header_and_sidebar.html"></div>
@@ -112,15 +113,14 @@
                         <div id="new-subtask-list-container"><div id="generated-subtask-list-container"></div></div>
                     </div>
                 </div>
-
-                <div id="interactives-buttons-and-required-container">
-                    <div id="required-container">
-                        <span id="required-span"><span class="asterisk">*</span>This field is required</span>
-                    </div>
-                    <div id="interactives-buttons-container">
-                        <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
-                        <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
-                    </div>
+            </div>
+            <div id="interactives-buttons-and-required-container">
+                <div id="required-container">
+                    <span id="required-span"><span class="asterisk">*</span>This field is required</span>
+                </div>
+                <div id="interactives-buttons-container">
+                    <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
+                    <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
                 </div>
             </div>
         </div>
@@ -136,5 +136,7 @@
             });
         </script>
         <script src="/js/addTask.js"></script>
+        <script src="/js/logout.js"></script>
+        <script src="/js/header.js"></script>
     </body>
 </html>

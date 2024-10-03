@@ -5,12 +5,13 @@ body {
 }
 
 header {
-    position: sticky;
+    position: fixed;
+    width: 100%;
     top: 0;
     /* padding: 20px 40px 20px 348px; */
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     background-color: white;
-    z-index: 100
+    z-index: 100;
 }
 
 /* .headerContent {
@@ -40,12 +41,12 @@ header {
 } */
 
 .headerSpan {
-    margin-left: 348px;  /* Abstand nach links */
+    margin-left: 348px; /* Abstand nach links */
 }
 
 .helpAndUserProfile {
-    margin-left: auto;  /* Platz für die Hilfe- und Benutzerprofil-Div schaffen */
-    margin-right: 40px;  /* Abstand nach rechts */
+    margin-left: auto; /* Platz für die Hilfe- und Benutzerprofil-Div schaffen */
+    margin-right: 40px; /* Abstand nach rechts */
 }
 
 .userProfile {
@@ -53,7 +54,7 @@ header {
     border: 2px solid black;
     font-size: 20px;
     font-weight: bold;
-    color: #29ABE2;
+    color: #29abe2;
     cursor: pointer;
     transition: all 100ms ease-in-out;
     height: 56px;
@@ -102,10 +103,10 @@ header {
 }
 
 .sideBarMenu img {
-    Width: 25px;
-    Height: 25px;
-    Top: 2.5px;
-    Left: 2.5px;
+    width: 25px;
+    height: 25px;
+    top: 2.5px;
+    left: 2.5px;
 }
 
 .sideBarMenu {
@@ -134,19 +135,21 @@ header {
 
 .active {
     background-color: #091931;
-  }
-
-.activeGrey {
-    columns: #A8A8A8;
 }
 
-.policyHref.activeGrey:hover, .noticeHref.activeGrey:hover {
-    color: #A8A8A8;
+.activeGrey {
+    columns: #a8a8a8;
+}
+
+.policyHref.activeGrey:hover,
+.noticeHref.activeGrey:hover {
+    color: #a8a8a8;
     font-weight: normal;
     transform: none;
 }
 
-.policyHref:not(.activeGrey):hover, .noticeHref:not(.activeGrey):hover {
+.policyHref:not(.activeGrey):hover,
+.noticeHref:not(.activeGrey):hover {
     color: rgb(41, 171, 226);
     font-weight: bold;
     /* transform: scale(1.05); */
@@ -190,7 +193,7 @@ header {
     /* transform: scale(1.05); */
 }
 
-.user-menu-box{
+.user-menu-box {
     width: 150px;
     height: 158px;
     background-color: #2a3647;
@@ -205,15 +208,15 @@ header {
     padding: 10px 0px 10px 0px;
 }
 
-.user-menu{
+.user-menu {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
 
-.user-menu a{
-    color: #CDCDCD;
+.user-menu a {
+    color: #cdcdcd;
     font-size: 16px;
     font-weight: 400;
     padding: 8px 16px;
@@ -222,11 +225,11 @@ header {
     text-decoration: none;
 }
 
-.user-menu a:hover{
+.user-menu a:hover {
     background-color: #2a3d59;
 }
 
-.help-link{
+.help-link {
     display: none;
 }
 
@@ -243,22 +246,22 @@ header {
     header {
         /* padding: 20px 40px 20px 40px; */
         height: 80px;
-      }
+    }
 
-      .headerContent img {
+    .headerContent img {
         display: block;
-      }
+    }
 
-      .headerSpan {
+    .headerSpan {
         display: none;
-      }
+    }
 
-      .userProfile {
+    .userProfile {
         height: 40px;
         width: 40px;
-      }
+    }
 
-      .sideBar {
+    .sideBar {
         top: auto;
         bottom: 0;
         left: 0;
@@ -272,51 +275,50 @@ header {
         align-items: center;
         padding-top: 0;
         padding-bottom: 0;
-      }
+    }
 
-      .imgWrapper img {
+    .imgWrapper img {
         display: none;
-      }
+    }
 
-      .sideBarMenu {
+    .sideBarMenu {
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
         width: 100%;
         margin-bottom: 0;
         height: 80px;
-      }
+    }
 
-      .sideBarMenuButtons {
+    .sideBarMenuButtons {
         flex-direction: column;
         padding-left: 8px;
         width: auto;
         padding: 8px;
         border-radius: 8px;
-      }
+    }
 
-      .sideBarPolicyAndNotice {
+    .sideBarPolicyAndNotice {
         display: none;
-      }
-      .helpDiv{
+    }
+    .helpDiv {
         display: none;
-      }
-      .help-link{
+    }
+    .help-link {
         display: flex;
     }
-    .user-menu-box{
+    .user-menu-box {
         top: 84px;
         height: 204px;
     }
 }
 
 @media (max-width: 600px) {
-
     .sideBarMenuButtons {
         font-size: 11px;
-      }
-      .sideBarMenu img img {
+    }
+    .sideBarMenu img img {
         width: 20px;
         height: 20px;
-      }
+    }
 }
