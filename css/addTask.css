@@ -13,16 +13,21 @@ body {
     flex-direction: column;
     margin-left: 328px;
     height: 100vh;
-    overflow-y: hidden;
+}
+
+#h1-container {
+    width: 100%;
+    background-color: #f6f7f8;
+    z-index: 1;
+    margin-left: 324px;
+    text-align: left;
 }
 
 h1 {
     font-size: 61px;
     line-height: 73.2px;
-    text-align: left;
     margin-bottom: 48px;
     margin-top: 110px;
-    margin-left: 324px;
 }
 
 #content-box-left {
@@ -328,6 +333,8 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    position: fixed;
+    bottom: 20px;
 }
 
 #required-container {
@@ -613,3 +620,78 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     background: #a8a8a8;
     border-radius: 8px;
 }
+
+/* Responsive */
+
+@media (max-width: 1360px) {
+    body {
+        margin-left: 0; /* Remove left margin */
+        overflow-y: scroll;
+    }
+
+    .responsive-container {
+        display: block !important; /* Override inline style */
+    }
+
+    #h1-container {
+        margin-left: 0; /* Center title in mobile view */
+        padding: 0 40px;
+    }
+
+    #content-box-container {
+        width: 100%; /* Full width for content */
+        margin-left: 0; /* Remove left margin */
+        flex-direction: column; /* Stack content vertically */
+        padding: 0 40px;
+    }
+
+    #border-container {
+        display: none;
+    }
+
+    #interactives-buttons-and-required-container {
+        width: calc(100% - 80px);
+        position: fixed;
+        bottom: 80px;
+        z-index: 99;
+    }
+
+    #clear-button,
+    #create-button {
+        height: 48px;
+    }
+
+    #content-box-left,
+    #content-box-right {
+        width: 100%;
+    }
+
+    #title-input,
+    #date-input {
+        width: 100%;
+    }
+
+    .choose-prio-button {
+        width: 100%;
+    }
+
+    #new-subtask-list-container,
+    #generated-subtask-list-container {
+        overflow-y: scroll;
+    }
+
+    @media (max-width: 1040px) {
+        #content-box-container {
+            width: 100%; /* Full width for content */
+            margin-left: 0; /* Remove left margin */
+            flex-direction: column; /* Stack content vertically */
+            padding: 0 40px;
+        }
+    }
+}
+
+/* @media (max-width: 460px) {
+    .choose-prio-button {
+        width: 28%;
+    }
+} */

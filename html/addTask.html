@@ -11,9 +11,9 @@
     </head>
     <body>
         <div includeHTML="../html/header_and_sidebar.html"></div>
-        <h1>Add Task</h1>
+        <div id="h1-container"><h1>Add Task</h1></div>
         <div id="content-box-container">
-            <div style="display: flex">
+            <div style="display: flex" class="responsive-container">
                 <div id="content-box-left" class="flex-column">
                     <div id="title-container" class="flex-column">
                         <div class="subtitle">Title<span class="asterisk">*</span></div>
@@ -112,21 +112,22 @@
                         <div id="new-subtask-list-container"><div id="generated-subtask-list-container"></div></div>
                     </div>
                 </div>
+
+                <div id="interactives-buttons-and-required-container">
+                    <div id="required-container">
+                        <span id="required-span"><span class="asterisk">*</span>This field is required</span>
+                    </div>
+                    <div id="interactives-buttons-container">
+                        <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
+                        <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
+                    </div>
+                </div>
             </div>
-            <div id="interactives-buttons-and-required-container">
-                <div id="required-container">
-                    <span id="required-span"><span class="asterisk">*</span>This field is required</span>
-                </div>
-                <div id="interactives-buttons-container">
-                    <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
-                    <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
-                </div>
-            </div>
-            <div id="success-message-container" class="style-effects-success-message-container">
-                <div id="success-message" class="hidden-overlay">
-                    <p>Task added to board</p>
-                    <img src="/img/addTask/Icons.png" alt="success" />
-                </div>
+        </div>
+        <div id="success-message-container" class="style-effects-success-message-container">
+            <div id="success-message" class="hidden-overlay">
+                <p>Task added to board</p>
+                <img src="/img/addTask/Icons.png" alt="success" />
             </div>
         </div>
         <script>
