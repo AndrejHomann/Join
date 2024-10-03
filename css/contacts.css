@@ -522,6 +522,11 @@
     opacity: 0; /* Unsichtbar */
 }
 
+#contactsID{
+    background-color: #091931;
+    color: white;
+}
+
 @media (max-width: 1360px) {
     .contacts-container {
         margin-left: 0;
@@ -569,7 +574,7 @@
         justify-content: flex-start;
     }
     .contacts{
-        max-height: calc(100vh - 190px);
+        max-height: calc(100vh - 184px);
     }
 }
 
