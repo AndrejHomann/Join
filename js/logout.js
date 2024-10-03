@@ -3,7 +3,24 @@
  */
 async function logout() {
     await setUserSessionToInactive();
-    window.location.href = "../index.html";
+
+    // Überprüfen, ob die Remember me Funktion deaktiviert ist
+    const rememberMe = localStorage.getItem('rememberMe');
+    if (rememberMe === 'false') {
+        clearSavedLoginData(); // Löscht die gespeicherten Login-Daten
+    }
+
+    window.location.href = "../index.html"; // Leitet den User zur Login-Seite um
+}
+
+/**
+* Removes previoulsy saved data from the local storage.
+*/
+function clearSavedLoginData() {
+    localStorage.removeItem('userInitials');
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    localStorage.removeItem('rememberMe');
 }
 
 /** 
@@ -18,10 +35,10 @@ async function setUserSessionToInactive() {
         const response = await fetch(`${baseUrl}/contacts/${firebaseUserId}.json`, {
             method: 'PATCH',
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              session: 'inactive'
+                session: 'inactive'
             })
         });
     } catch (error) {
