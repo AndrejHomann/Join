@@ -7,11 +7,12 @@
     <link rel="icon" href="/img/JoinIcon.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/css/fonts.css">
-    <link rel="stylesheet" href="/board/header_and_sidebar.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <!-- <link rel="stylesheet" href="/css/legal.css"> -->
     
 </head>
 <body>
-    <div includeHTML="/html/header_and_sidebar.html"></div>
+    <div includeHTML="/html/header.html"></div>
 
     <div class="legal-text-container">
         <div class="header-legal">
@@ -65,16 +66,16 @@
             <p>For any questions or notices, please contact us at <a class="a-legal" href="mailto:beispiel@beispieldomain.de">beispiel@beispieldomain.de</a>.</p><br>
             <p>Date: July 28, 2024</p>
         </div>
-    </div>   
-    
-    <script src="/js/utils.js"></script>
-    <script src="/board/header_and_sidebar_script.js"></script>
-    <script src="/js/hover_effekt_contacts.js"></script>
+    </div>      
+
      <script>
      document.addEventListener("DOMContentLoaded", () => {
             includeHTML();
         });
     </script>
+    <script src="/js/legal.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/header.js"></script>
 
 </body>
 </html>
