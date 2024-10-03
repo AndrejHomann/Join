@@ -274,25 +274,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
 
     function saveLoginData(email, password, rememberMe) {
-        // Speichere die Anmeldedaten unabhängig von der Remember-Me Checkbox
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
 
-        // Speichere die Entscheidung der "Remember me"-Checkbox
         if (rememberMe) {
             localStorage.setItem('rememberMe', 'true');
         } else {
             localStorage.setItem('rememberMe', 'false');
         }
-    }
-
-    /**
-     * Removes previoulsy saved data from the local storage.
-     */
-    function clearSavedLoginData() {
-        localStorage.removeItem('rememberMe');
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
     }
 
     /**
