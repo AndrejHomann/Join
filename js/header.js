@@ -39,7 +39,6 @@ function hideHelpAndUserProfileOnSpecialPages() {
     const helpAndUserProfileDiv = document.querySelector(".helpAndUserProfile");
 
     const currentPage = window.location.pathname.toLowerCase();
-    console.log("Aktuelle Seite:", currentPage);
 
     if (currentPage.includes("legalnotice") || currentPage.includes("privacypolicy")) {
         helpAndUserProfileDiv.style.display = "none";
