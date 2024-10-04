@@ -323,6 +323,8 @@ function addOrCloseSubtask() {
 }
 
 function closeSubtaskDraft() {
+    let newSubtaskContaier = document.getElementById("new-subtask-contaier");
+    removeBorderStyleToValueContainer(newSubtaskContaier);
     let subtaskDraft = document.getElementById("new-subtask-input");
     subtaskDraft.value = ``;
     resetSubtaskIcon();
@@ -362,9 +364,14 @@ function addSubtaskByEnterKey(event) {
 }
 
 function showCloseOrDeleteIconDuringWritingSubtask() {
-    if (this.value) {
+    let subtaskInput = document.getElementById("new-subtask-input");
+    let subtaskContainer = document.getElementById("new-subtask-contaier");
+
+    if (subtaskInput.value) {
+        addBorderStyleToValueContainer(subtaskContainer, "#90D1ED");
         addOrCloseSubtask();
     } else {
+        removeBorderStyleToValueContainerToValueContainer(subtaskContainer);
         resetSubtaskIcon();
     }
 }
@@ -480,6 +487,16 @@ function successMessageSlidingIn() {
 function hideSuccessMessage() {
     let successMessage = document.getElementById("success-message-container");
     successMessage.classList.remove("slideInFromButton");
+}
+
+// Styling
+
+function addBorderStyleToValueContainer(element, color) {
+    element.style.border = `1px solid ${color}`;
+}
+
+function removeBorderStyleToValueContainerToValueContainer(element) {
+    element.style.border = ``;
 }
 
 // Clearing fields
@@ -617,3 +634,69 @@ function clickOutsideOfDropdown(event) {
 }
 
 document.addEventListener("click", clickOutsideOfDropdown);
+
+// date-input
+
+function addBorderStyleToValueContainer(element, color) {
+    element.style.border = `1px solid ${color}`;
+}
+
+function removeBorderStyleToValueContainer(element) {
+    element.style.border = "";
+}
+
+function handleDateInput() {
+    let dateInput = document.getElementById("date-input");
+
+    if (dateInput.value) {
+        addBorderStyleToValueContainer(dateInput, "#90D1ED");
+    } else {
+        removeBorderStyleToValueContainerToValueContainer(dateInput);
+    }
+}
+let dateInput = document.getElementById("date-input");
+dateInput.addEventListener("input", handleDateInput);
+
+// title-input
+
+function handleTitleInput() {
+    let titleInput = document.getElementById("title-input");
+
+    if (titleInput.value) {
+        addBorderStyleToValueContainer(titleInput, "#90D1ED");
+    } else {
+        removeBorderStyleToValueContainerToValueContainer(titleInput);
+    }
+}
+
+let titleInput = document.getElementById("title-input");
+titleInput.addEventListener("input", handleTitleInput);
+
+// description-input
+
+function handleTextareaInput() {
+    let textareaInput = document.getElementById("textarea-input");
+    let textareaContainer = document.getElementById("textarea-container");
+
+    if (textareaInput.value) {
+        addBorderStyleToValueContainer(textareaContainer, "#90D1ED");
+    } else {
+        removeBorderStyleToValueContainer(textareaContainer);
+    }
+}
+
+let textareaInput = document.getElementById("textarea-input");
+textareaInput.addEventListener("input", handleTextareaInput);
+
+function handleAssignedContainer() {
+    let assignedPlaceholder = document.getElementById("selected-name");
+    let dropdownList = document.getElementById("dropdown-list");
+
+    if (!dropdownList.classList.contains("d-none")) {
+        addBorderStyleToValueContainer(assignedPlaceholder, "#90D1ED");
+    } else {
+        removeBorderStyleToValueContainer(assignedPlaceholder);
+    }
+}
+
+document.getElementById("selected-name").addEventListener("click", handleAssignedContainer);

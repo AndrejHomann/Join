@@ -1,105 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="../img/summary/join_logo_summary.png" />
+        <title>JOIN - Summary User</title>
+        <link rel="stylesheet" type="text/css" href="../css/summary_user.css" />
+        <link rel="stylesheet" href="/css/header.css" />
+        <script src="../js/summary_user.js"></script>
+        <script src="../js/summary_guest.js"></script>
+        <script src="../js/summary_stats_design.js"></script>
+        <script src="../js/summary_greeting.js"></script>
+        <script src="../js/summary_html_templates.js"></script>
+        <script src="../js/summary_date.js"></script>
+        <script src="../js/summary_init.js"></script>
+        <script src="../js/logout.js"></script>
+        <script src="/js/header.js"></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../img/summary/join_logo_summary.png">
-    <title>JOIN - Summary User</title>
-    <link rel="stylesheet" type="text/css" href="../css/summary_user.css">
-    <link rel="stylesheet" type="text/css" href="../css/header_and_sidebar.css">
-    <script src="../js/summary_user.js"></script>
-    <script src="../js/summary_guest.js"></script>
-    <script src="../js/summary_stats_design.js"></script>
-    <script src="../js/summary_greeting.js"></script>
-    <script src="../js/summary_html_templates.js"></script>
-    <script src="../js/summary_date.js"></script>
-    <script src="../js/summary_init.js"></script>
-    <script src="../js/logout.js"></script>
-    <script src="../js/header_and_sidebar_script.js"></script>   
-</head>
+    <body onload="init()">
+        <div includeHTML="/html/header.html"></div>
 
-<body onload="init()">
+        <div id="greetingMobile"></div>
 
-    <div includeHTML="../html/header_and_sidebar.html"></div>
-
-    <div id="greetingMobile"> </div>
-
-    <div id="right">
-        
-        <section id="main">
-            <div id="mainTitle">
-                <div id="mainTitleLeft">
-                    <span>Join 360</span>
+        <div id="right">
+            <section id="main">
+                <div id="mainTitle">
+                    <div id="mainTitleLeft">
+                        <span>Join 360</span>
+                    </div>
+                    <div id="mainTitleRight">
+                        <span>Key Metrics at a Glance</span>
+                        <div id="responsiveUnderline"></div>
+                    </div>
                 </div>
-                <div id="mainTitleRight">
-                    <span>Key Metrics at a Glance</span>
-                    <div id="responsiveUnderline"></div>
-                </div>
-            </div>
-            
-            <div id="mainContentContainer">
-                <div id="mainContent">
-                    <div id="mainContentLine1">
-                        <a href="../board/board.html" id="toDo" class="mainContentLinePart transformRight">
-                            <div class="mainContentLine1Circle">
-                                <img id="edit" src="../img/summary/edit.png" alt="Edit Icon">
-                            </div>
+
+                <div id="mainContentContainer">
+                    <div id="mainContent">
+                        <div id="mainContentLine1">
+                            <a href="../board/board.html" id="toDo" class="mainContentLinePart transformRight">
+                                <div class="mainContentLine1Circle">
+                                    <img id="edit" src="../img/summary/edit.png" alt="Edit Icon" />
+                                </div>
                                 <div class="mainContentLineText">
-                                    <div id="userToDoAmount"> </div>                                                <!-- HTML-Template --> 
+                                    <div id="userToDoAmount"></div>
+                                    <!-- HTML-Template -->
                                     <div>
                                         <span id="textToDo" class="mainContentLineTextBottom">To-do</span>
                                     </div>
                                 </div>
-                        </a>
-                        <a href="../board/board.html" id="done" class="mainContentLinePart transformLeft">
-                            <div class="mainContentLine1Circle">
-                                <img id="check" src="../img/summary/check.png" alt="Checked Icon">
-                            </div>
-                            <div class="mainContentLineText">
-                                <div id="userDoneAmount"> </div>                                                    <!-- HTML-Template --> 
-                                <div>
-                                    <span id="textDone" class="mainContentLineTextBottom">Done</span>
+                            </a>
+                            <a href="../board/board.html" id="done" class="mainContentLinePart transformLeft">
+                                <div class="mainContentLine1Circle">
+                                    <img id="check" src="../img/summary/check.png" alt="Checked Icon" />
+                                </div>
+                                <div class="mainContentLineText">
+                                    <div id="userDoneAmount"></div>
+                                    <!-- HTML-Template -->
+                                    <div>
+                                        <span id="textDone" class="mainContentLineTextBottom">Done</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <a href="../board/board.html" id="mainContentLine2" class="transformBottomRight">
+                            <div id="mainContentLinePartLeft">
+                                <div id="createPriorityLogoAndColor"></div>
+                                <!-- HTML-Template -->
+                                <div class="mainContentLineText">
+                                    <div id="taskPriority"></div>
+                                    <!-- HTML-Template -->
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                    <a href="../board/board.html" id="mainContentLine2" class="transformBottomRight">
-                        <div id="mainContentLinePartLeft">
-                            <div id="createPriorityLogoAndColor"> </div>                                            <!-- HTML-Template -->
-                            <div class="mainContentLineText">
-                                <div id="taskPriority"> </div>                                                      <!-- HTML-Template -->
+                            <div id="mainContentLine2Middle"></div>
+                            <div id="mainContentLine2Right">
+                                <div id="deadline"></div>
+                                <!-- HTML-Template -->
+                                <div id="upcoming"></div>
+                                <!-- HTML-Template -->
                             </div>
+                        </a>
+                        <div id="mainContentLine3">
+                            <a href="../board/board.html" class="mainContentLine3Part transformRight">
+                                <div id="tasksInBoard"></div>
+                                <!-- HTML-Template -->
+                                <span class="mainContentLine3Text"
+                                    >Tasks <br />
+                                    in Board</span
+                                >
+                            </a>
+                            <a href="../board/board.html" class="mainContentLine3Part transformCenter">
+                                <div id="tasksInProgress"></div>
+                                <!-- HTML-Template -->
+                                <span class="mainContentLine3Text"
+                                    >Tasks in <br />
+                                    Progress</span
+                                >
+                            </a>
+                            <a href="../board/board.html" class="mainContentLine3Part transformLeft">
+                                <div id="tasksInFeedback"></div>
+                                <!-- HTML-Template -->
+                                <span class="mainContentLine3Text"
+                                    >Awaiting <br />
+                                    Feedback</span
+                                >
+                            </a>
                         </div>
-                        <div id="mainContentLine2Middle"></div>
-                        <div id="mainContentLine2Right">
-                            <div id="deadline"> </div>                                                              <!-- HTML-Template -->
-                            <div id="upcoming"> </div>                                                              <!-- HTML-Template -->
-                        </div>
-                    </a>
-                    <div id="mainContentLine3">
-                        <a href="../board/board.html" class="mainContentLine3Part transformRight">
-                            <div id="tasksInBoard"> </div>                                                          <!-- HTML-Template -->
-                            <span class="mainContentLine3Text">Tasks <br> in Board</span>
-                        </a>
-                        <a href="../board/board.html" class="mainContentLine3Part transformCenter">
-                            <div id="tasksInProgress"> </div>                                                       <!-- HTML-Template -->
-                            <span class="mainContentLine3Text">Tasks in <br> Progress</span>
-                        </a>
-                        <a href="../board/board.html" class="mainContentLine3Part transformLeft">
-                            <div id="tasksInFeedback"> </div>                                                       <!-- HTML-Template -->
-                            <span class="mainContentLine3Text">Awaiting <br> Feedback</span>
-                        </a>
                     </div>
+
+                    <div id="greeting"></div>
+                    <!-- HTML-Template -->
                 </div>
-
-                <div id="greeting"> </div>                                                                          <!-- HTML-Template --> 
-
-            </div>
-        </section>
-
-    </div>
-
-</body>
-
+            </section>
+        </div>
+    </body>
 </html>

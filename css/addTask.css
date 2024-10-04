@@ -16,19 +16,16 @@ body {
     overflow-x: hidden;
 }
 
-#h1-container {
-    width: 100%;
-    background-color: #f6f7f8;
-    z-index: 1;
-    margin-left: 324px;
-    text-align: left;
-}
+/* .responsive-container {
+    margin-top: 100px;
+} */
 
 h1 {
     font-size: 61px;
     line-height: 73.2px;
-    margin-bottom: 48px;
-    margin-top: 110px;
+    z-index: 1;
+    width: 100%;
+    margin-top: 206px;
 }
 
 #content-box-left {
@@ -115,9 +112,9 @@ h1 {
     margin-right: 48.25px;
 }
 
-#date-container {
+/* #date-container {
     position: relative;
-}
+} */
 
 #date-input {
     width: 440px;
@@ -328,18 +325,21 @@ h1 {
 /* Clear and AddTask Buttons */
 
 #interactives-buttons-and-required-container {
-    width: 976.25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 0 16px 0;
-    position: fixed;
-    bottom: 20px;
+    margin-bottom: 4px;
+}
+
+#interactives-buttons-container {
+    display: flex;
+    gap: 16px;
 }
 
 #required-container {
     height: 27px;
-    width: 170px;
+    display: flex;
+    align-items: center;
 }
 
 #required-span {
@@ -347,13 +347,6 @@ h1 {
     font-weight: 400;
     line-height: 19.2px;
     text-align: left;
-}
-
-#interactives-buttons-container {
-    gap: 16px;
-    width: 309px;
-    height: 56px;
-    display: flex;
 }
 
 #clear-button {
@@ -413,7 +406,7 @@ h1 {
 /* Dropdown Contacts*/
 
 #dropdown-list {
-    max-height: 180px;
+    max-height: 190px;
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 10px;
@@ -626,42 +619,48 @@ input[type="date"]:invalid::-webkit-datetime-edit {
 
 @media (max-width: 1360px) {
     body {
-        margin-left: 0; /* Remove left margin */
+        margin-left: 0;
         overflow-y: scroll;
     }
 
     .responsive-container {
         display: block !important;
-        position: relative;
-        top: 224px;
-    }
-
-    #h1-container {
-        margin-left: 0; /* Center title in mobile view */
-        padding: 0 40px;
-        height: 112px;
-        position: fixed;
-        top: 80px;
-        background-color: #f6f7f8;
-        z-index: 2;
+        margin-top: 224px;
     }
 
     h1 {
         font-size: 47px;
         line-height: 56.4px;
-        margin-top: 48px;
         font-weight: 700;
+        position: fixed;
+        padding-top: 48px;
+        z-index: 4;
+        background-color: #f6f7f8;
+        margin-top: 80px;
     }
 
     #content-box-container {
-        margin-left: 0; /* Remove left margin */
-        flex-direction: column; /* Stack content vertically */
+        margin-left: 0;
+        flex-direction: column;
         padding: 0 40px;
         width: 100%;
     }
 
     .subtitle {
         font-size: 16px;
+    }
+
+    .dropdown-item {
+        padding: 8px 12px;
+        font-size: 16px;
+    }
+
+    .circle {
+        font-size: 10px;
+    }
+
+    #selected-contacts-circle-container {
+        margin-top: 0;
     }
 
     #border-container {
@@ -671,22 +670,47 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     #interactives-buttons-and-required-container {
         width: calc(100% - 80px);
         position: fixed;
-        bottom: 80px;
-        top: 758px;
+        margin-top: 758px;
         z-index: 99;
         background-color: #f6f7f8;
+        padding-bottom: 16px;
     }
 
     #content-box-left,
     #content-box-right {
         width: 100%;
-        gap: 16px;
+    }
+
+    #title-container {
+        height: 83px;
+    }
+
+    #description-container {
+        height: 131px;
+    }
+
+    #assigned-container {
+        height: 75px;
+        margin-bottom: 16px;
+    }
+
+    #prio-container {
+        height: 88px;
+    }
+
+    #category-container {
+        height: 75px;
+    }
+
+    #substasks-container {
+        height: 83px;
     }
 
     #title-input,
     #date-input {
         width: 100%;
         font-size: 16px;
+        height: 40px;
     }
 
     #choose-prio-container {
@@ -714,24 +738,37 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         font-size: 16px;
     }
 
+    #textarea-input {
+        height: 88px;
+    }
+
     #new-subtask-list-container,
     #generated-subtask-list-container {
         overflow-y: scroll;
     }
 
-    @media (max-width: 1040px) {
-        #content-box-container {
-            width: 100%;
-            margin-left: 0;
-            flex-direction: column;
-            padding: 0 40px;
-        }
+    #category-dropdown-list {
+        width: 100%;
+    }
+
+    #new-subtask-contaier {
+        padding: 8px 12px;
     }
 }
 
-@media (max-width: 768px) {
-    #clear-button {
-        display: none;
+@media (max-width: 600px) {
+    #create-button {
+        width: 120px;
+        height: 40px;
+        padding: 8px;
+    }
+
+    #create-task-button-font {
+        font-size: 12px;
+    }
+
+    #create-button-font {
+        font-size: 16px;
     }
 
     #interactives-buttons-container {
@@ -739,23 +776,38 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         width: auto;
         height: 56px;
         display: flex;
+        align-items: center;
+    }
+
+    #clear-button {
+        display: none;
     }
 
     #required-span {
         font-size: 12px;
     }
+}
 
-    #create-button {
-        width: 183px;
-        gap: 4px;
-        border-radius: 10px;
-        background: #2a3647;
-        display: flex;
-        transition: ease-in-out 100ms;
-        cursor: pointer;
+@media (max-width: 520px) {
+    .choose-prio-button {
+        width: 28%;
     }
 
-    #create-task-button-font {
-        font-size: 12px;
+    #prio-urgent,
+    #prio-medium,
+    #prio-low {
+        font-size: 14px;
+    }
+
+    .prio-urgent-arrows,
+    .prio-medium-arrows,
+    .prio-low-arrows {
+        display: none;
+    }
+}
+
+@media (max-width: 410px) {
+    #required-span {
+        font-size: 10px;
     }
 }
