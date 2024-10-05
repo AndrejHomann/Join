@@ -196,7 +196,7 @@
     flex-direction: row;
     margin-left: 232px;
     max-width: 1440px;
-    min-height: calc(100vh - 100px);
+    top: 100px;
     box-sizing: border-box;
     position: relative;
 }
@@ -530,6 +530,7 @@
 @media (max-width: 1360px) {
     .contacts-container {
         margin-left: 0;
+        top: 80px;
     }
     .contact-detail-information {
         transform: none; /* Deaktiviere die Transformation */
@@ -603,6 +604,8 @@
     }    
     .contact-detail-section {
         width: 100%;
+        height: calc(100vh - 80px);
+        display: none;
     }
     .contacts {
         width: 100%;
@@ -612,6 +615,7 @@
         overflow-y: scroll; /* Scroll bleibt erhalten */
         -ms-overflow-style: none;  /* IE und Edge */
         scrollbar-width: none;  /* Firefox */
+        overflow-x: hidden;
     }
     .contact-list::-webkit-scrollbar {
         display: none;
