@@ -338,7 +338,7 @@ header {
     text-align: center;
 }
 
-@media screen and (orientation: landscape) {
+@media screen and (max-width: 824px) and (orientation: landscape) {
     #landscape-warning{
         display: flex;
     }
