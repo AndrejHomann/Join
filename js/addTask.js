@@ -323,7 +323,7 @@ function addOrCloseSubtask() {
 }
 
 function closeSubtaskDraft() {
-    let newSubtaskContaier = document.getElementById("new-subtask-contaier");
+    let newSubtaskContaier = document.getElementById("new-subtask-container");
     removeBorderStyleToValueContainer(newSubtaskContaier);
     let subtaskDraft = document.getElementById("new-subtask-input");
     subtaskDraft.value = ``;
@@ -334,7 +334,7 @@ function addSubtask() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
     let subtaskList = document.getElementById("generated-subtask-list-container");
     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
-    let subtaskContainer = document.getElementById("new-subtask-contaier");
+    let subtaskContainer = document.getElementById("new-subtask-container");
     let i = subtasks.length;
 
     if (newSubtaskInput.value !== "") {
@@ -365,7 +365,7 @@ function addSubtaskByEnterKey(event) {
 
 function showCloseOrDeleteIconDuringWritingSubtask() {
     let subtaskInput = document.getElementById("new-subtask-input");
-    let subtaskContainer = document.getElementById("new-subtask-contaier");
+    let subtaskContainer = document.getElementById("new-subtask-container");
 
     if (subtaskInput.value) {
         addBorderStyleToValueContainer(subtaskContainer, "#90D1ED");
@@ -428,8 +428,8 @@ function updateSubtaskListAfterDelete() {
 function templateCategoryHTMLSubtasksList(i, subtask) {
     return /*html*/ `
             <div class="generatedSubtasks" id="generated-subtask-container-${i}">
-                <li id="generated-subtask-list-item-${i}">${subtask}</li>
-                <div id="generated-subtask-list-icons" class="d-none">     
+                <li id="generated-subtask-list-item-${i}" class="subtaskListItemStyle">${subtask}</li>
+                <div id="generated-subtask-list-icons">     
                     <div id="edit-icon-container" onclick="editSubtask(${i})"><img src="/img/addTask/edit.png" alt="edit" /></div>
                     <div class="border-subtask-container"></div>
                     <div id="delete-icon-container" onclick="deleteSubtask(${i})">
@@ -446,9 +446,9 @@ function editSubtask(index) {
     toEditSubtask.classList.add("noHoverEffect");
 
     toEditSubtask.innerHTML = /*html*/ `
-                            <div id="edit-subtask-container">
+                            <div id="edit-subtask-container" >
                                     <input type="text" id="edit-subtask-input-${index}" value="${currentSubtaskText}" class="edit-subtask-container-styling">            
-                                    <div id="generated-subtask-list-icons">
+                                    <div id="generated-subtask-list-icons" class="showSubtaskIconsWhileEditing">
                                             <div id="delete-icon-container" onclick="deleteSubtask(${index})"><img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" /></div>     
                                             <div class="border-subtask-container"></div>
                                             <div id="edit-icon-container" onclick="submitSubtask(${index})"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>
@@ -459,9 +459,18 @@ function editSubtask(index) {
     editSubtaskInput.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            submitSubtask(index);
+            // submitSubtask(index);
+            // addSubtaskByEnterKey(event);
+            addEditedSubtaskByEnterKey(event, index);
         }
     });
+}
+
+function addEditedSubtaskByEnterKey(event, index) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        submitSubtask(index);
+    }
 }
 
 function submitSubtask(index) {
@@ -594,7 +603,7 @@ function resetRequiredNotifications() {
     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
     missingSubtaskMessage.classList.add("d-none");
     missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-    document.getElementById("new-subtask-contaier").style.border = "";
+    document.getElementById("new-subtask-container").style.border = "";
 
     let missingTitleMessage = document.getElementById("missing-title-message");
     let titleInput = document.getElementById("title-input");
