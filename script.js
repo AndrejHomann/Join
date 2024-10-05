@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (const key in data) {
                 if (data[key].email === email && data[key].password === password) {
                     storeUserInitials(data[key].name);
-                    window.location.href = './html/summary_user.html';
+                    window.location.href = './html/summary.html';
                     clearLoginFields()
                     return;
                 }
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rememberMe').checked = false;
 
         // Weiterleitung zur Summary-Seite
-        window.location.href = './html/summary_user.html';
+        window.location.href = './html/summary.html';
     });
 
     /**
