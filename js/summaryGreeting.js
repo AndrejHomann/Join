@@ -28,12 +28,12 @@ function greeting() {
  * if false it shows the user summary directly.
  */
 function checkIfMobileOrDesktopGreeting() {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 840) {
         mobileGreeting();
         setTimeout(() => {
             desktopGreeting();
           }, 3700);
-    } else if (window.innerWidth > 768) {
+    } else if (window.innerWidth > 840) {
         desktopGreeting();
     }
 }
