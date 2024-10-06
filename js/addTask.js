@@ -96,11 +96,12 @@ async function showContactsDropDown() {
     await fetchContacts();
 
     let assignedPlaceholder = document.getElementById("assigned-placeholder");
-    if (selectedContacts.length > 0) {
+    if (selectedContacts.length >= 0) {
         assignedPlaceholder.innerHTML = "An";
-    } else {
-        assignedPlaceholder.innerHTML = "";
     }
+    // else {
+    //     assignedPlaceholder.innerHTML = "";
+    // }
 
     document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="dropdown-arrow"/>`;
 
@@ -110,6 +111,7 @@ async function showContactsDropDown() {
     document.getElementById("dropdown-list").classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").classList.add("d-none");
 
+    setColorOfAssignedContainer();
     showCheckedContactsAfterDropdownClosing();
 }
 
@@ -134,6 +136,7 @@ function closeContactsDropDown() {
     document.getElementById("dropdown-list").classList.add("d-none");
     document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
 
+    removeColorOfBorderAssignedContainer();
     showCirclesOfSelectedContacts();
 }
 
@@ -161,8 +164,16 @@ function selectContact(contactName, index) {
             document.getElementById("assigned-container").classList.remove("heightAuto");
         }
     }
-    console.log(selectedContacts);
-    console.log(selectedColors);
+}
+
+function setColorOfAssignedContainer() {
+    let selectContactsContainer = document.getElementById("selected-name");
+    selectContactsContainer.style.border = "1px solid #90D1ED";
+}
+
+function removeColorOfBorderAssignedContainer() {
+    let selectContactsContainer = document.getElementById("selected-name");
+    selectContactsContainer.style.border = "";
 }
 
 function showCirclesOfSelectedContacts() {
@@ -687,27 +698,26 @@ titleInput.addEventListener("input", handleTitleInput);
 
 function handleTextareaInput() {
     let textareaInput = document.getElementById("textarea-input");
-    let textareaContainer = document.getElementById("textarea-container");
 
     if (textareaInput.value) {
-        addBorderStyleToValueContainer(textareaContainer, "#90D1ED");
+        addBorderStyleToValueContainer(textareaInput, "#90D1ED");
     } else {
-        removeBorderStyleToValueContainer(textareaContainer);
+        removeBorderStyleToValueContainer(textareaInput);
     }
 }
 
-let textareaInput = document.getElementById("textarea-input");
-textareaInput.addEventListener("input", handleTextareaInput);
+// let textareaInput = document.getElementById("textarea-input");
+// textareaInput.addEventListener("input", handleTextareaInput);
 
-function handleAssignedContainer() {
-    let assignedPlaceholder = document.getElementById("selected-name");
-    let dropdownList = document.getElementById("dropdown-list");
+// function handleAssignedContainer() {
+//     let assignedPlaceholder = document.getElementById("selected-name");
+//     let dropdownList = document.getElementById("dropdown-list");
 
-    if (!dropdownList.classList.contains("d-none")) {
-        addBorderStyleToValueContainer(assignedPlaceholder, "#90D1ED");
-    } else {
-        removeBorderStyleToValueContainer(assignedPlaceholder);
-    }
-}
+//     if (!dropdownList.classList.contains("d-none")) {
+//         addBorderStyleToValueContainer(assignedPlaceholder, "#90D1ED");
+//     } else {
+//         removeBorderStyleToValueContainer(assignedPlaceholder);
+//     }
+// }
 
-document.getElementById("selected-name").addEventListener("click", handleAssignedContainer);
+// document.getElementById("selected-name").addEventListener("click", handleAssignedContainer);

@@ -726,7 +726,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     }
 
     #dropdown-list {
-        max-height: 144px;
+        max-height: 236px;
     }
 
     .dropdown-item {
