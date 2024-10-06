@@ -149,6 +149,7 @@ function selectContact(contactName, index) {
             selectedContacts.push(contactName);
             selectedColors.push(selectedContactColor);
             assignedPlaceholder.innerHTML = /*html*/ `<span id="assigned-placeholder">An</span>`;
+            document.getElementById("assigned-container").classList.add("heightAuto");
         }
     } else {
         checkBox.src = "/img/unchecked.png";
@@ -157,6 +158,7 @@ function selectContact(contactName, index) {
         if (indexOfselectedContacts >= 0) {
             selectedContacts.splice(indexOfselectedContacts, 1);
             selectedColors.splice(indexOfSelectedColors, 1);
+            document.getElementById("assigned-container").classList.remove("heightAuto");
         }
     }
     console.log(selectedContacts);
