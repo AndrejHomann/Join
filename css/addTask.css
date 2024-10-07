@@ -197,7 +197,6 @@ h1 {
     gap: 8px;
     border-radius: 10px;
     background: #ffffff;
-    /* box-shadow: 0px 0px 24px 0px #0000001a; */
     border: #f6f7f8;
     cursor: pointer;
     color: black;
@@ -362,14 +361,6 @@ h1 {
 
 /* Clear and AddTask Buttons */
 
-/* #interactives-buttons-and-required-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 976.25px;
-    margin-left: 328px;
-} */
-
 #interactives-buttons-container {
     display: flex;
     gap: 16px;
@@ -512,10 +503,6 @@ h1 {
     width: 20px;
 }
 
-/* #selected-contacts-circle-container {
-    margin-top: 12px;
-} */
-
 .circle {
     display: inline-flex;
     align-items: center;
@@ -556,7 +543,7 @@ h1 {
 #category-dropdown-list {
     position: absolute;
     z-index: 1;
-    width: 440px;
+    width: 100%;
     top: 100%;
     border-radius: 10px;
     background-color: white;
@@ -564,6 +551,11 @@ h1 {
 
 #category-dropdown-list div:hover {
     background: lightgray;
+}
+
+#missing-category-message {
+    position: absolute;
+    top: 100%;
 }
 
 /* classes */
@@ -579,11 +571,27 @@ h1 {
     align-items: center;
 }
 
+.d-none {
+    display: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.gap8px {
+    gap: 8px;
+}
+
+.heightAuto {
+    height: auto !important;
+}
+
 /* addTask submit icon */
 
 .style-effects-success-message-container {
     position: absolute;
-    top: 30%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%) translateY(100vh);
     transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
@@ -617,8 +625,6 @@ h1 {
     color: #ff8190;
     display: flex;
     font-size: 12px;
-    position: absolute;
-    top: 100%;
 }
 
 .validationStyleSubtasks {
@@ -650,24 +656,6 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     color: #d1d1d1;
 }
 
-/* General classes */
-
-.d-none {
-    display: none;
-}
-
-.d-flex {
-    display: flex;
-}
-
-.gap8px {
-    gap: 8px;
-}
-
-.heightAuto {
-    height: auto !important;
-}
-
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -689,7 +677,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         width: 100%;
         position: fixed;
         top: 80px;
-        z-index: 1;
+        z-index: 10;
         background-color: #f6f7f8;
     }
 
@@ -711,7 +699,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         padding-right: 40px;
         gap: 16px;
         height: auto;
-        /* overflow-y: auto; */
+        padding-bottom: 216px;
     }
 
     #content-box-left,
@@ -740,33 +728,6 @@ input[type="date"]:invalid::-webkit-datetime-edit {
 
     #border-container {
         display: none;
-    }
-
-    #interactives-buttons-and-required-container {
-        position: fixed;
-        z-index: 1;
-        background-color: #f6f7f8;
-        bottom: 0;
-        margin-bottom: 80px;
-        padding: 16px 40px 16px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
-    #interactives-buttons-container {
-        position: relative;
-        left: 0;
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: auto;
-    }
-
-    #required-container {
-        position: relative;
-        left: 0;
-        margin-bottom: 0;
     }
 
     #title-input,
@@ -813,7 +774,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     }
 
     #substasks-container {
-        height: 83p;
+        height: 83px;
     }
 
     #choose-prio-container {
@@ -848,8 +809,47 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         height: 88px;
     }
 
+    #missing-category-message {
+        margin-top: -8px;
+    }
+
     #new-subtask-container {
         padding: 8px 12px;
+    }
+
+    .generatedSubtasks {
+        padding: 8px 12px;
+    }
+
+    #generated-subtask-list-container {
+        max-height: 80px;
+    }
+
+    #interactives-buttons-and-required-container {
+        position: fixed;
+        z-index: 1;
+        background-color: #f6f7f8;
+        bottom: 0;
+        margin-bottom: 80px;
+        padding: 16px 40px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    #interactives-buttons-container {
+        position: relative;
+        left: 0;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: auto;
+    }
+
+    #required-container {
+        position: relative;
+        left: 0;
+        margin-bottom: 0;
     }
 }
 
@@ -878,5 +878,21 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     .prio-medium-arrows,
     .prio-low-arrows {
         display: none;
+    }
+}
+
+@media (max-width: 420px) {
+    #required-span {
+        font-size: 8px;
+    }
+
+    #create-button {
+        width: 160px;
+        height: 48px;
+        padding: 12px;
+    }
+
+    #create-task-button-font {
+        font-size: 17px;
     }
 }

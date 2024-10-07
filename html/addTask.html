@@ -16,8 +16,10 @@
             <div id="content-box-left" class="flex-column">
                 <div id="title-container" class="flex-column gap8px">
                     <div class="subtitle">Title<span class="asterisk">*</span></div>
-                    <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" /></div>
-                    <span id="missing-title-message" class="validationStyle d-none">This field is required</span>
+                    <div id="title-input-container">
+                        <input type="text" placeholder="Enter a title" id="title-input" />
+                        <span id="missing-title-message" class="validationStyle" style="display: none">This field is required</span>
+                    </div>
                 </div>
                 <div id="description-container" class="flex-column gap8px">
                     <div class="subtitle">Description</div>
@@ -37,8 +39,10 @@
             <div id="content-box-right" class="flex-column">
                 <div id="date-container" class="flex-column gap8px">
                     <div class="subtitle">Due date<span class="asterisk">*</span></div>
-                    <div id="calender"><input type="date" id="date-input" /></div>
-                    <span id="missing-date-message" class="validationStyle d-none">This field is required</span>
+                    <div id="calender">
+                        <input type="date" id="date-input" />
+                        <span id="missing-date-message" class="validationStyle" style="display: none">This field is required</span>
+                    </div>
                 </div>
                 <div id="prio-container" class="flex-column gap8px">
                     <div class="subtitle">Prio</div>
@@ -92,9 +96,11 @@
                     <div class="subtitle">Category<span class="asterisk">*</span></div>
                     <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), doNotCloseDropdown(event)">
                         <span id="category-placeholder">Select task category</span>
-                        <div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
+                        <div id="category-dropdown-arrow-container">
+                            <img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" />
+                        </div>
                     </div>
-                    <span id="missing-category-message" class="validationStyle d-none">This field is required</span>
+                    <span id="missing-category-message" class="validationStyle" style="display: none">This field is required</span>
                     <div id="category-dropdown-list" class="d-none"></div>
                 </div>
                 <div id="substasks-container" class="flex-column gap8px">
@@ -106,7 +112,7 @@
                                 <div id="plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
                             </div>
                         </div>
-                        <span id="missing-subtask-message" class="validationStyleSubtasks d-none">This field is required</span>
+                        <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">This field is required</span>
                     </div>
                     <div id="new-subtask-list-container"><div id="generated-subtask-list-container"></div></div>
                 </div>
@@ -127,11 +133,16 @@
                 <img src="/img/addTask/Icons.png" alt="success" />
             </div>
         </div>
+
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 includeHTML();
             });
         </script>
+        <script src="/js/addTask3.js"></script>
+        <script src="/js/addTaskContactsFunctions.js"></script>
+        <script src="/js/addTaskValidateAndClearingFunctions.js"></script>
+        <script src="/js/addTaskCategoryFunctions.js"></script>
         <script src="/js/header.js"></script>
         <script src="/js/logout.js"></script>
         <script src="/js/addTask.js"></script>
