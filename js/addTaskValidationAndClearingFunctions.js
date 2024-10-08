@@ -61,6 +61,7 @@ function checkIfTitleIsEntered() {
         titleInput.style.border = "";
         missingTitleMessage.classList.remove("validationStyle");
         missingTitleMessage.style.display = "none";
+        addBorderStyleToValueContainer(titleInput, "#90D1ED");
     }
 }
 

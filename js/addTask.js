@@ -24,7 +24,7 @@ async function includeHTML() {
     }
 }
 
-// Adding tasks
+// adding tasks
 
 function createTask() {
     if (!validateAllInputs()) {
@@ -65,7 +65,7 @@ async function addTask(path, data) {
     clearFields();
 }
 
-// Contacts
+// contacts
 
 function checkIfContactsDropdownIsVisible() {
     let dropdownList = document.getElementById("dropdown-list");
@@ -77,7 +77,7 @@ function checkIfContactsDropdownIsVisible() {
     }
 }
 
-// Subtasks
+// subtasks
 
 function addOrCloseSubtask() {
     if (isSubtaskResetting) return;
@@ -120,7 +120,7 @@ function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer,
     if (newSubtaskInput.value !== "") {
         subtasks.push(newSubtaskInput.value);
 
-        let subtaskHTML = templateCategoryHTMLSubtasksList(i, subtasks[i]);
+        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
         subtaskList.innerHTML += subtaskHTML;
 
         newSubtaskInput.value = "";
@@ -208,12 +208,12 @@ function updateSubtaskListAfterDelete() {
     subtaskList.innerHTML = "";
 
     for (let i = 0; i < subtasks.length; i++) {
-        let subtaskHTML = templateCategoryHTMLSubtasksList(i, subtasks[i]);
+        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
         subtaskList.innerHTML += subtaskHTML;
     }
 }
 
-function templateCategoryHTMLSubtasksList(i, subtask) {
+function templateSubtasksListHTML(i, subtask) {
     return /*html*/ `
             <div class="generatedSubtasks" id="generated-subtask-container-${i}">
                 <li id="generated-subtask-list-item-${i}" class="subtaskListItemStyle">${subtask}</li>
@@ -278,7 +278,7 @@ function submitSubtask(index) {
     updateSubtaskListAfterDelete();
 }
 
-// Border styling
+// border styling
 
 function addBorderStyleToValueContainer(element, color) {
     element.style.border = `1px solid ${color}`;
@@ -290,14 +290,6 @@ function removeBorderStyleToValueContainer(element) {
 
 // date-input
 
-function addBorderStyleToValueContainer(element, color) {
-    element.style.border = `1px solid ${color}`;
-}
-
-function removeBorderStyleToValueContainer(element) {
-    element.style.border = "";
-}
-
 function handleDateInput() {
     let dateInput = document.getElementById("date-input");
     let missingDateMessage = document.getElementById("missing-date-message");
@@ -307,6 +299,7 @@ function handleDateInput() {
         missingDateMessage.style.display = "none";
     } else {
         removeBorderStyleToValueContainer(dateInput);
+        checkIfDateIsSelected();
     }
 }
 
@@ -324,6 +317,7 @@ function handleTitleInput() {
         missingTitleMessage.style.display = "none";
     } else {
         removeBorderStyleToValueContainer(titleInput);
+        checkIfTitleIsEntered();
     }
 }
 
