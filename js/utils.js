@@ -31,7 +31,13 @@ function createContactIcon(name, color, size) {
     const initials = name.split(' ').map(part => part.charAt(0)).join('').toUpperCase();
 
     const icon = document.createElement('div');
-    icon.className = size === 'large' ? 'contact-icon-large' : 'contact-icon';
+    if (size === 'large') {
+        icon.className = 'contact-icon-large';
+    } else if (size === 'small') {
+        icon.className = 'contact-icon-small';
+    } else {
+        icon.className = 'contact-icon'; // Standardgröße
+    }
     icon.style.backgroundColor = color;
     icon.textContent = initials;
 
