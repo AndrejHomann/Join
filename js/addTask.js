@@ -1,15 +1,73 @@
+/**
+ * Base URL for the Firebase Realtime Database.
+ * @type {string}
+ */
 let BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app";
+
+/**
+ * List of contacts.
+ * @type {Array}
+ */
 let contactList = [];
+
+/**
+ * Selected priority for the task.
+ * @type {string}
+ */
 let selectedPrio = "medium";
+
+/**
+ * List of available categories.
+ * @type {Array<string>}
+ */
 let categoryList = ["Technical Task", "User Story"];
+
+/**
+ * Selected category for the task.
+ * @type {string|null}
+ */
 let selectedCategory = null;
+
+/**
+ * Currently selected contact.
+ * @type {string|null}
+ */
 let selectedContact = null;
+
+/**
+ * List of selected contacts.
+ * @type {Array<string>}
+ */
 let selectedContacts = [];
+
+/**
+ * List of colors for selected contacts.
+ * @type {Array<string>}
+ */
 let colors = [];
+
+/**
+ * List of selected colors.
+ * @type {Array<string>}
+ */
 let selectedColors = [];
+
+/**
+ * List of subtasks.
+ * @type {Array<string>}
+ */
 let subtasks = [];
+
+/**
+ * Flag to indicate if the subtask list is resetting.
+ * @type {boolean}
+ */
 let isSubtaskResetting = false;
 
+/**
+ * Includes HTML content by replacing elements with the 'includeHTML' attribute.
+ * Loads the external file and injects its content into the element.
+ */
 async function includeHTML() {
     let includeElements = document.querySelectorAll("[includeHTML]");
     for (let i = 0; i < includeElements.length; i++) {
@@ -24,8 +82,10 @@ async function includeHTML() {
     }
 }
 
-// adding tasks
-
+/**
+ * Creates a new task by validating inputs and gathering form data.
+ * Sends the task to the server and clears form fields.
+ */
 function createTask() {
     if (!validateAllInputs()) {
         return;
@@ -47,6 +107,12 @@ function createTask() {
     checkIfRequiredFieldsAreEnteredAgain();
 }
 
+/**
+ * Sends a POST request to add a new task to the database.
+ *
+ * @param {string} path - The path in the database where the task is stored.
+ * @param {Object} data - The task data to be stored.
+ */
 async function addTask(path, data) {
     const response = await fetch(BASE_URL + path, {
         method: "POST",
@@ -65,8 +131,9 @@ async function addTask(path, data) {
     clearFields();
 }
 
-// contacts
-
+/**
+ * Toggles the visibility of the contacts dropdown.
+ */
 function checkIfContactsDropdownIsVisible() {
     let dropdownList = document.getElementById("dropdown-list");
 
@@ -77,8 +144,9 @@ function checkIfContactsDropdownIsVisible() {
     }
 }
 
-// subtasks
-
+/**
+ * Adds a new subtask or closes the subtask input based on the current state.
+ */
 function addOrCloseSubtask() {
     if (isSubtaskResetting) return;
 
@@ -97,6 +165,9 @@ function addOrCloseSubtask() {
     closeIconContainer.classList.add("circleHoverEffect");
 }
 
+/**
+ * Closes the subtask draft and resets the input field.
+ */
 function closeSubtaskDraft() {
     let newSubtaskContaier = document.getElementById("new-subtask-container");
     removeBorderStyleToValueContainer(newSubtaskContaier);
@@ -105,6 +176,9 @@ function closeSubtaskDraft() {
     resetSubtaskIcon();
 }
 
+/**
+ * Adds a new subtask to the list after validating the input.
+ */
 function addSubtask() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
     let subtaskList = document.getElementById("generated-subtask-list-container");
@@ -116,6 +190,15 @@ function addSubtask() {
     resetSubtaskIcon();
 }
 
+/**
+ * Validates the subtask input and updates the UI accordingly.
+ *
+ * @param {HTMLElement} newSubtaskInput - The input field for the new subtask.
+ * @param {HTMLElement} subtaskList - The container for the list of subtasks.
+ * @param {HTMLElement} subtaskContainer - The container for the subtask input field.
+ * @param {HTMLElement} missingSubtaskMessage - The message shown if the input is empty.
+ * @param {number} i - The index of the new subtask.
+ */
 function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i) {
     if (newSubtaskInput.value !== "") {
         subtasks.push(newSubtaskInput.value);
@@ -134,6 +217,11 @@ function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer,
     }
 }
 
+/**
+ * Adds a subtask when the "Enter" key is pressed.
+ *
+ * @param {KeyboardEvent} event - The key event triggered by pressing a key.
+ */
 function addSubtaskByEnterKey(event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -141,6 +229,9 @@ function addSubtaskByEnterKey(event) {
     }
 }
 
+/**
+ * Toggles between showing the close/delete icon and resetting the subtask input based on the input value.
+ */
 function showCloseOrDeleteIconDuringWritingSubtask() {
     let subtaskInput = document.getElementById("new-subtask-input");
     let subtaskContainer = document.getElementById("new-subtask-container");
@@ -154,6 +245,9 @@ function showCloseOrDeleteIconDuringWritingSubtask() {
     }
 }
 
+/**
+ * Sets up event listeners for the subtask input field to handle enter key press and input changes.
+ */
 function waitingForSubtaskEnterOrDraftEvent() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
 
@@ -163,9 +257,11 @@ function waitingForSubtaskEnterOrDraftEvent() {
         showCloseOrDeleteIconDuringWritingSubtask();
     });
 }
-
 waitingForSubtaskEnterOrDraftEvent();
 
+/**
+ * Resets the notification message for required subtasks.
+ */
 function resetSubtaskRequiredNotification() {
     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
     missingSubtaskMessage.style.display = "none";
@@ -173,6 +269,9 @@ function resetSubtaskRequiredNotification() {
     document.getElementById("new-subtask-container").style.border = "";
 }
 
+/**
+ * Resets the subtask icon to the default state.
+ */
 function resetSubtaskIcon() {
     let subtaskIconContainer = document.getElementById("subtask-icon-container");
 
@@ -185,14 +284,25 @@ function resetSubtaskIcon() {
     setTimeout(resetSubtaskClearButton, 1);
 }
 
+/**
+ * Resets the flag indicating if the subtask clear button is resetting.
+ */
 function resetSubtaskClearButton() {
     isSubtaskResetting = false;
 }
 
+/**
+ * Clears the content of the subtask list container.
+ */
 function resetSubtaskList() {
     document.getElementById("generated-subtask-list-container").innerHTML = "";
 }
 
+/**
+ * Deletes a subtask by index from both the DOM and the subtasks array.
+ *
+ * @param {number} index - The index of the subtask to delete.
+ */
 function deleteSubtask(index) {
     let newSubtask = document.getElementById(`added-subtask-${index}`);
     if (newSubtask) {
@@ -202,6 +312,9 @@ function deleteSubtask(index) {
     updateSubtaskListAfterDelete();
 }
 
+/**
+ * Updates the subtask list container in the DOM after a subtask is deleted.
+ */
 function updateSubtaskListAfterDelete() {
     let subtaskList = document.getElementById("generated-subtask-list-container");
 
@@ -213,6 +326,13 @@ function updateSubtaskListAfterDelete() {
     }
 }
 
+/**
+ * Generates the HTML for a subtask item.
+ *
+ * @param {number} i - The index of the subtask.
+ * @param {string} subtask - The subtask content.
+ * @returns {string} - The HTML for the subtask list item.
+ */
 function templateSubtasksListHTML(i, subtask) {
     return /*html*/ `
             <div class="generatedSubtasks" id="generated-subtask-container-${i}">
@@ -227,6 +347,11 @@ function templateSubtasksListHTML(i, subtask) {
             </div>`;
 }
 
+/**
+ * Enables the editing of a subtask by replacing the subtask's HTML with input fields.
+ *
+ * @param {number} index - The index of the subtask to edit.
+ */
 function editSubtask(index) {
     let toEditSubtask = document.getElementById(`generated-subtask-container-${index}`);
     let currentSubtaskText = subtasks[index];
@@ -238,6 +363,13 @@ function editSubtask(index) {
     setupEditSubtaskInputListener(index);
 }
 
+/**
+ * Generates the HTML for the subtask editing view.
+ *
+ * @param {string} currentSubtaskText - The current text of the subtask.
+ * @param {number} index - The index of the subtask being edited.
+ * @returns {string} - The HTML for the subtask edit view.
+ */
 function templateEditSubtasSubtasksHTML(currentSubtaskText, index) {
     return /*html*/ `
         <div id="edit-subtask-container">
@@ -254,6 +386,11 @@ function templateEditSubtasSubtasksHTML(currentSubtaskText, index) {
         </div>`;
 }
 
+/**
+ * Sets up an event listener for the subtask input field to allow submission via Enter key.
+ *
+ * @param {number} index - The index of the subtask being edited.
+ */
 function setupEditSubtaskInputListener(index) {
     let editSubtaskInput = document.getElementById(`edit-subtask-input-${index}`);
     editSubtaskInput.addEventListener("keydown", function (event) {
@@ -264,6 +401,12 @@ function setupEditSubtaskInputListener(index) {
     });
 }
 
+/**
+ * Handles the submission of the edited subtask via Enter key.
+ *
+ * @param {Event} event - The keyboard event.
+ * @param {number} index - The index of the subtask being edited.
+ */
 function addEditedSubtaskByEnterKey(event, index) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -271,6 +414,11 @@ function addEditedSubtaskByEnterKey(event, index) {
     }
 }
 
+/**
+ * Submits the edited subtask and updates the subtasks array and DOM.
+ *
+ * @param {number} index - The index of the subtask being edited.
+ */
 function submitSubtask(index) {
     let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
     subtasks[index] = editedSubtaskInput;
@@ -278,18 +426,28 @@ function submitSubtask(index) {
     updateSubtaskListAfterDelete();
 }
 
-// border styling
-
+/**
+ * Adds a border style to the given element.
+ *
+ * @param {HTMLElement} element - The element to add a border to.
+ * @param {string} color - The color of the border.
+ */
 function addBorderStyleToValueContainer(element, color) {
     element.style.border = `1px solid ${color}`;
 }
 
+/**
+ * Removes the border style from the given element.
+ *
+ * @param {HTMLElement} element - The element to remove the border from.
+ */
 function removeBorderStyleToValueContainer(element) {
     element.style.border = ``;
 }
 
-// date-input
-
+/**
+ * Handles changes to the date input field and validates its content.
+ */
 function handleDateInput() {
     let dateInput = document.getElementById("date-input");
     let missingDateMessage = document.getElementById("missing-date-message");
@@ -306,8 +464,9 @@ function handleDateInput() {
 let dateInput = document.getElementById("date-input");
 dateInput.addEventListener("change", handleDateInput);
 
-// title-input
-
+/**
+ * Handles changes to the title input field and validates its content.
+ */
 function handleTitleInput() {
     let titleInput = document.getElementById("title-input");
     let missingTitleMessage = document.getElementById("missing-title-message");
@@ -324,8 +483,9 @@ function handleTitleInput() {
 let titleInput = document.getElementById("title-input");
 titleInput.addEventListener("input", handleTitleInput);
 
-// description-input
-
+/**
+ * Handles changes to the description input field and validates its content.
+ */
 function handleTextareaInput() {
     let descriptionInput = document.getElementById("textarea-input");
 
@@ -336,6 +496,11 @@ function handleTextareaInput() {
     }
 }
 
+/**
+ * Adds a border style to the description element.
+ *
+ * @param {HTMLElement} element - The element to add a border too.
+ */
 function removeBorderStyleFromDescriptionContainer(element) {
     element.style.border = ``;
 }
@@ -343,6 +508,9 @@ function removeBorderStyleFromDescriptionContainer(element) {
 let descriptionInput = document.getElementById("textarea-input");
 descriptionInput.addEventListener("input", handleTextareaInput);
 
+/**
+ * Removes the border styles from both the description and category containers.
+ */
 function removeBorderStyleFromDescriptionContainerAndCategoryContainer() {
     let descriptionInput = document.getElementById("textarea-input");
     let categoryContainer = document.getElementById("selected-category");

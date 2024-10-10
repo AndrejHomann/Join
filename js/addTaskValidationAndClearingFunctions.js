@@ -1,3 +1,9 @@
+/**
+ * Validates that all required inputs (category, title, and date) are entered.
+ * If any required field is missing, corresponding validation checks are triggered.
+ *
+ * @returns {boolean} Returns false if any required input is missing; otherwise, true.
+ */
 function validateAllInputs() {
     if (!selectedCategory || !document.getElementById("title-input").value || !document.getElementById("date-input").value) {
         checkIfTitleIsEntered();
@@ -8,6 +14,10 @@ function validateAllInputs() {
     return true;
 }
 
+/**
+ * Clears all input fields and resets the task creation form to its default state.
+ * This includes resetting dropdowns, clearing assigned contacts, priority, and removing any validation messages.
+ */
 function clearFields() {
     clearInputFields();
     setBackArrays();
@@ -28,6 +38,9 @@ function clearFields() {
     removeBorderStyleFromDescriptionContainerAndCategoryContainer();
 }
 
+/**
+ * Clears the values of the input fields for title, description, date, and subtasks.
+ */
 function clearInputFields() {
     document.getElementById("title-input").value = "";
     document.getElementById("textarea-input").value = "";
@@ -35,6 +48,9 @@ function clearInputFields() {
     document.getElementById("new-subtask-input").value = "";
 }
 
+/**
+ * Resets the internal arrays used for managing selected contacts, colors, categories, subtasks, and priority.
+ */
 function setBackArrays() {
     selectedContacts = [];
     selectedColors = [];
@@ -43,12 +59,19 @@ function setBackArrays() {
     selectedPrio = "medium";
 }
 
+/**
+ * Re-checks if the required fields (title, date, category) are filled after they have been previously marked as incomplete.
+ */
 function checkIfRequiredFieldsAreEnteredAgain() {
     checkIfTitleIsEntered();
     checkIfDateIsSelected();
     checkIfCategoryIsSelected();
 }
 
+/**
+ * Checks if the title input field is filled.
+ * If not, adds a validation message and border style; otherwise, removes validation styles.
+ */
 function checkIfTitleIsEntered() {
     let missingTitleMessage = document.getElementById("missing-title-message");
     let titleInput = document.getElementById("title-input");
@@ -65,6 +88,10 @@ function checkIfTitleIsEntered() {
     }
 }
 
+/**
+ * Checks if a date is selected in the date input field.
+ * If no date is selected, adds a validation message and border style; otherwise, removes validation styles.
+ */
 function checkIfDateIsSelected() {
     let missingDateMessage = document.getElementById("missing-date-message");
     let dateInput = document.getElementById("date-input");
@@ -80,6 +107,10 @@ function checkIfDateIsSelected() {
     }
 }
 
+/**
+ * Checks if a category is selected in the category dropdown.
+ * If no category is selected, adds a validation message and styles; otherwise, removes validation styles.
+ */
 function checkIfCategoryIsSelected() {
     let missingCategoryMessage = document.getElementById("missing-category-message");
     let categoryOptions = document.getElementById("selected-category");
@@ -90,12 +121,21 @@ function checkIfCategoryIsSelected() {
     }
 }
 
+/**
+ * Adds a validation border and message for the category dropdown when no category is selected.
+ *
+ * @param {HTMLElement} categoryOptions - The container for the selected category.
+ * @param {HTMLElement} missingCategoryMessage - The element displaying the validation message for the missing category.
+ */
 function addCategoryRequiredNotification(categoryOptions, missingCategoryMessage) {
     categoryOptions.classList.add("validationBorder");
     missingCategoryMessage.classList.add("validationStyle");
     missingCategoryMessage.style.removeProperty("display");
 }
 
+/**
+ * Resets all required field validation messages (title, date, category, subtasks).
+ */
 function resetRequiredNotifications() {
     resetDateRequiredNotification();
     resetSubtaskRequiredNotification();
@@ -103,6 +143,9 @@ function resetRequiredNotifications() {
     resetCategoryRequiredNotification();
 }
 
+/**
+ * Resets the validation message and border for the date input field.
+ */
 function resetDateRequiredNotification() {
     let missingDateMessage = document.getElementById("missing-date-message");
     missingDateMessage.classList.add("d-none");
@@ -110,6 +153,9 @@ function resetDateRequiredNotification() {
     document.getElementById("date-input").style.border = "";
 }
 
+/**
+ * Resets the validation message and border for the title input field.
+ */
 function resetTitleRequiredNotification() {
     let missingTitleMessage = document.getElementById("missing-title-message");
     let titleInput = document.getElementById("title-input");
@@ -118,6 +164,9 @@ function resetTitleRequiredNotification() {
     missingTitleMessage.classList.add("d-none");
 }
 
+/**
+ * Resets the validation message and border for the category dropdown.
+ */
 function resetCategoryRequiredNotification() {
     let missingCategoryMessage = document.getElementById("missing-category-message");
     let categoryOptions = document.getElementById("selected-category");

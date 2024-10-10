@@ -147,7 +147,7 @@ h1 {
     cursor: pointer;
 }
 
-/* Prio-Container */
+/* prio-container */
 
 #prio-container {
     height: 88px;
@@ -245,7 +245,7 @@ h1 {
     color: white;
 }
 
-/* Subtask-Container */
+/* subtask-container */
 
 #substasks-container {
     height: 80px;
@@ -359,7 +359,7 @@ h1 {
     background: none;
 }
 
-/* Clear and AddTask Buttons */
+/* clear and addTask buttons */
 
 #interactives-buttons-container {
     display: flex;
@@ -444,7 +444,7 @@ h1 {
     color: #ff8190;
 }
 
-/* Dropdown Contacts*/
+/* dropdown contacts*/
 
 #dropdown-list {
     max-height: 160px;
@@ -520,7 +520,7 @@ h1 {
     border-radius: 50%;
 }
 
-/* Category-Container */
+/* category-container */
 
 #category-container {
     position: relative;
@@ -647,7 +647,7 @@ h1 {
     position: absolute;
 }
 
-/* Scrolbar */
+/* scrolbar */
 
 ::placeholder {
     color: #d1d1d1;
@@ -670,7 +670,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     border-radius: 8px;
 }
 
-/* Responsive */
+/* responsive */
 
 @media (max-width: 1360px) {
     #h1-container {
