@@ -7,12 +7,12 @@
  * @returns {void}
  */
 function displayTasks() {
-    document.querySelector('#toDoColumn .tasks-container').innerHTML = '';
-    document.querySelector('#inProgressColumn .tasks-container').innerHTML = '';
-    document.querySelector('#awaitFeedbackColumn .tasks-container').innerHTML = '';
-    document.querySelector('#doneColumn .tasks-container').innerHTML = '';
+    document.querySelector("#toDoColumn .tasks-container").innerHTML = "";
+    document.querySelector("#inProgressColumn .tasks-container").innerHTML = "";
+    document.querySelector("#awaitFeedbackColumn .tasks-container").innerHTML = "";
+    document.querySelector("#doneColumn .tasks-container").innerHTML = "";
 
-    tasksArray.forEach(task => {
+    tasksArray.forEach((task) => {
         assignTaskToColumn(task);
     });
     checkEmptyColumns();
@@ -29,12 +29,12 @@ function displayTasks() {
  */
 function checkEmptyColumns() {
     const columns = [
-        { selector: '#toDoColumn', message: 'No tasks To do' },
-        { selector: '#inProgressColumn', message: 'No tasks In progress' },
-        { selector: '#awaitFeedbackColumn', message: 'No tasks Awaiting feedback' },
-        { selector: '#doneColumn', message: 'No tasks Done' }
+        { selector: "#toDoColumn", message: "No tasks To do" },
+        { selector: "#inProgressColumn", message: "No tasks In progress" },
+        { selector: "#awaitFeedbackColumn", message: "No tasks Awaiting feedback" },
+        { selector: "#doneColumn", message: "No tasks Done" },
     ];
-    columns.forEach(column => updateColumnFeedback(column.selector, column.message));
+    columns.forEach((column) => updateColumnFeedback(column.selector, column.message));
 }
 
 /**
@@ -49,10 +49,10 @@ function checkEmptyColumns() {
  */
 function updateColumnFeedback(selector, message) {
     const tasksContainer = document.querySelector(`${selector} .tasks-container`);
-    if (tasksContainer.children.length === 0 || tasksContainer.querySelector('.task') === null) {
+    if (tasksContainer.children.length === 0 || tasksContainer.querySelector(".task") === null) {
         tasksContainer.innerHTML = `<div class="column-feedback"><p class="no-tasks">${message}</p></div>`;
     } else {
-        const placeholder = tasksContainer.querySelector('.column-feedback');
+        const placeholder = tasksContainer.querySelector(".column-feedback");
         if (placeholder) {
             placeholder.remove();
         }
@@ -78,7 +78,7 @@ function assignTaskToColumn(task) {
     const { subtasksDisplay, progressPercentage } = createSubtasksDisplay(task);
     taskDiv.innerHTML = createTaskHTML(task, subtasksDisplay, progressPercentage);
 
-    setCategoryColor(taskDiv.querySelector('.task-category'), task.category);
+    setCategoryColor(taskDiv.querySelector(".task-category"), task.category);
     insertContactIcons(taskDiv, task);
     addProgressBarIfSubtasks(taskDiv, task, progressPercentage);
     assignTaskToContainer(taskDiv, task.status);
@@ -93,8 +93,8 @@ function assignTaskToColumn(task) {
  * @returns {HTMLElement} The created div element representing the task.
  */
 function createTaskElement(task) {
-    const taskDiv = document.createElement('div');
-    taskDiv.classList.add('task');
+    const taskDiv = document.createElement("div");
+    taskDiv.classList.add("task");
     return taskDiv;
 }
 
@@ -107,7 +107,7 @@ function createTaskElement(task) {
  */
 function insertContactIcons(taskDiv, task) {
     const contactIcons = createContactIcons(task);
-    const taskFooter = taskDiv.querySelector('.task-footer');
+    const taskFooter = taskDiv.querySelector(".task-footer");
     if (taskFooter) {
         taskFooter.insertBefore(contactIcons, taskFooter.firstChild);
     }
@@ -122,8 +122,8 @@ function insertContactIcons(taskDiv, task) {
  * @param {Object} task - The task object containing task details.
  */
 function setTaskAttributes(taskDiv, task) {
-    taskDiv.setAttribute('draggable', true);
-    taskDiv.setAttribute('onclick', `openTaskDetail('${task.id}')`);
+    taskDiv.setAttribute("draggable", true);
+    taskDiv.setAttribute("onclick", `openTaskDetail('${task.id}')`);
     taskDiv.id = `task-${task.id}`;
 }
 
@@ -150,14 +150,14 @@ function createTaskHTML(task, subtasksDisplay, progressPercentage) {
  */
 function getPriorityImage(priority) {
     switch (priority) {
-        case 'low':
-            return '/img/lowPrio.png';
-        case 'medium':
-            return '/img/mediumPrio.png';
-        case 'urgent':
-            return '/img/highPrio.png';
+        case "low":
+            return "/img/lowPrio.png";
+        case "medium":
+            return "/img/mediumPrio.png";
+        case "urgent":
+            return "/img/highPrio.png";
         default:
-            return '';
+            return "";
     }
 }
 
@@ -188,16 +188,14 @@ function assignTaskToContainer(taskDiv, taskStatus) {
  */
 function createSubtasksDisplay(task) {
     const totalSubtasks = task.addedSubtasks ? task.addedSubtasks.length : 0;
-    const completedSubtasks = task.addedSubtasks
-        ? task.addedSubtasks.filter(subtaskObj => subtaskObj.status === 'checked').length
-        : 0;
+    const completedSubtasks = task.addedSubtasks ? task.addedSubtasks.filter((subtaskObj) => subtaskObj.status === "checked").length : 0;
 
     const subtasksDisplay = totalSubtasks > 0 ? `${completedSubtasks}/${totalSubtasks} Subtasks` : "";
     const progressPercentage = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
 
     return {
         subtasksDisplay,
-        progressPercentage
+        progressPercentage,
     };
 }
 
@@ -212,15 +210,15 @@ function createSubtasksDisplay(task) {
  * @param {Array} task.addedSubtasks - The array of subtasks associated with the task.
  */
 function addProgressBarIfSubtasks(taskDiv, task) {
-    const subtasksContainer = taskDiv.querySelector('.task-subtasks-container');
+    const subtasksContainer = taskDiv.querySelector(".task-subtasks-container");
     const { subtasksDisplay, progressPercentage } = createSubtasksDisplay(task);
 
     if (task.addedSubtasks && task.addedSubtasks.length > 0) {
-        const progressBar = subtasksContainer.querySelector('.task-progress');
+        const progressBar = subtasksContainer.querySelector(".task-progress");
         progressBar.style.width = `${progressPercentage}%`;
-        subtasksContainer.style.display = 'flex';
+        subtasksContainer.style.display = "flex";
     } else {
-        subtasksContainer.style.display = 'none';
+        subtasksContainer.style.display = "none";
     }
 }
 
@@ -235,9 +233,9 @@ function addProgressBarIfSubtasks(taskDiv, task) {
  * @param {string} [size='small'] - The size of the contact icons (default is 'small').
  * @returns {HTMLElement} The container element with user icons.
  */
-function createContactIcons(task, size = 'small') {
-    const iconsContainer = document.createElement('div');
-    iconsContainer.className = 'contact-icons-container';
+function createContactIcons(task, size = "small") {
+    const iconsContainer = document.createElement("div");
+    iconsContainer.className = "contact-icons-container";
 
     if (Array.isArray(task.name) && Array.isArray(task.color) && task.name.length === task.color.length) {
         task.name.forEach((userName, index) => {
@@ -253,19 +251,19 @@ function createContactIcons(task, size = 'small') {
  * Retrieves the task container element based on the provided task status.
  *
  * @function
- * @param {string} status - The status of the task, which can be one of the following: 
+ * @param {string} status - The status of the task, which can be one of the following:
  * 'todo', 'in-progress', 'await-feedback', or 'done'.
  * @returns {HTMLElement|null} The corresponding tasks container element or null if the status is invalid.
  */
 function getColumnByStatus(status) {
-    if (status === 'todo') {
-        return document.querySelector('#toDoColumn .tasks-container');
-    } else if (status === 'in-progress') {
-        return document.querySelector('#inProgressColumn .tasks-container');
-    } else if (status === 'await-feedback') {
-        return document.querySelector('#awaitFeedbackColumn .tasks-container');
-    } else if (status === 'done') {
-        return document.querySelector('#doneColumn .tasks-container');
+    if (status === "todo") {
+        return document.querySelector("#toDoColumn .tasks-container");
+    } else if (status === "in-progress") {
+        return document.querySelector("#inProgressColumn .tasks-container");
+    } else if (status === "await-feedback") {
+        return document.querySelector("#awaitFeedbackColumn .tasks-container");
+    } else if (status === "done") {
+        return document.querySelector("#doneColumn .tasks-container");
     }
     return null;
 }
@@ -278,12 +276,12 @@ function getColumnByStatus(status) {
  * @param {string} category - The category of the task, which can be 'User Story', 'Technical Task', or any other category.
  */
 function setCategoryColor(element, category) {
-    if (category === 'User Story') {
-        element.classList.add('category-user-story');
-    } else if (category === 'Technical Task') {
-        element.classList.add('category-technical-task');
+    if (category === "User Story") {
+        element.classList.add("category-user-story");
+    } else if (category === "Technical Task") {
+        element.classList.add("category-technical-task");
     } else {
-        element.classList.add('category-default');
+        element.classList.add("category-default");
     }
 }
 
@@ -296,11 +294,11 @@ function setCategoryColor(element, category) {
  * @param {Array} filteredTasks - An array of tasks to display, where each task is an object containing task details.
  */
 function displayFilteredTasks(filteredTasks) {
-    document.querySelector('#toDoColumn .tasks-container').innerHTML = '';
-    document.querySelector('#inProgressColumn .tasks-container').innerHTML = '';
-    document.querySelector('#awaitFeedbackColumn .tasks-container').innerHTML = '';
-    document.querySelector('#doneColumn .tasks-container').innerHTML = '';
-    filteredTasks.forEach(task => {
+    document.querySelector("#toDoColumn .tasks-container").innerHTML = "";
+    document.querySelector("#inProgressColumn .tasks-container").innerHTML = "";
+    document.querySelector("#awaitFeedbackColumn .tasks-container").innerHTML = "";
+    document.querySelector("#doneColumn .tasks-container").innerHTML = "";
+    filteredTasks.forEach((task) => {
         assignTaskToColumn(task);
     });
     addDragAndDropListeners();
@@ -324,25 +322,25 @@ function displayFilteredTasks(filteredTasks) {
  * @param {string} task.category - The category of the task (e.g., User Story, Technical Task).
  */
 function createTaskDetail(task) {
-    const taskDetails = document.getElementById('taskDetails');
+    const taskDetails = document.getElementById("taskDetails");
     if (!taskDetails) return;
     const iconsContainer = createUserIconsContainer(task);
     appendUserIcons(task, iconsContainer);
 
-    const assignedUserContainer = document.querySelector('.assignedUser');
+    const assignedUserContainer = document.querySelector(".assignedUser");
     if (assignedUserContainer) {
         assignedUserContainer.appendChild(iconsContainer);
     }
     const taskDetailHTML = createTaskDetailDiv(iconsContainer, task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderSubtasks(task.addedSubtasks, task.id), task.id);
     taskDetails.innerHTML = taskDetailHTML;
-    setCategoryColor(document.querySelector('#taskDetails .task-category'), task.category);
+    setCategoryColor(document.querySelector("#taskDetails .task-category"), task.category);
     setupEditAndDeleteButtons(task);
 }
 
 /**
  * Creates a container element for user icons associated with a task.
  *
- * This function generates a div element that will hold the user icons 
+ * This function generates a div element that will hold the user icons
  * representing the individuals assigned to the task.
  *
  * @function
@@ -350,7 +348,7 @@ function createTaskDetail(task) {
  * @returns {HTMLDivElement} The div element that serves as the container for user icons.
  */
 function createUserIconsContainer(task) {
-    return document.createElement('div');
+    return document.createElement("div");
 }
 
 /**
@@ -367,11 +365,11 @@ function createUserIconsContainer(task) {
 function appendUserIcons(task, iconsContainer) {
     task.name.forEach((userName, index) => {
         const userColor = task.color[index];
-        const icon = createContactIcon(userName, userColor, 'medium');
-        const contactDiv = document.createElement('div');
-        contactDiv.className = 'contact-detail';
+        const icon = createContactIcon(userName, userColor, "medium");
+        const contactDiv = document.createElement("div");
+        contactDiv.className = "contact-detail";
         contactDiv.appendChild(icon);
-        const nameSpan = document.createElement('span');
+        const nameSpan = document.createElement("span");
         nameSpan.textContent = userName;
         contactDiv.appendChild(nameSpan);
         iconsContainer.appendChild(contactDiv);
@@ -390,8 +388,8 @@ function appendUserIcons(task, iconsContainer) {
  * @param {string} task.id - The unique identifier of the task to be edited or deleted.
  */
 function setupEditAndDeleteButtons(task) {
-    const editButton = document.getElementById('editButton');
-    const deleteButton = document.getElementById('deleteButton');
+    const editButton = document.getElementById("editButton");
+    const deleteButton = document.getElementById("deleteButton");
 
     if (editButton && deleteButton) {
         editButton.onclick = () => editTask(task.id);
@@ -407,14 +405,18 @@ function setupEditAndDeleteButtons(task) {
  * @function
  */
 function closeTaskDetails() {
-    const taskDetails = document.getElementById('taskDetails');
-    taskDetails.classList.remove('task-details-slideIn');
-    taskDetails.classList.add('task-details-slideOut');
+    const taskDetails = document.getElementById("taskDetails");
+    taskDetails.classList.remove("task-details-slideIn");
+    taskDetails.classList.add("task-details-slideOut");
 
-    taskDetails.addEventListener('animationend', () => {
-        taskDetails.style.display = 'none';
-        taskDetails.classList.remove('task-details-slideOut');
-    }, { once: true });
+    taskDetails.addEventListener(
+        "animationend",
+        () => {
+            taskDetails.style.display = "none";
+            taskDetails.classList.remove("task-details-slideOut");
+        },
+        { once: true }
+    );
 }
 
 /**
@@ -428,9 +430,9 @@ function closeTaskDetails() {
  * If no subtasks are provided, it returns a message indicating that no subtasks have been added.
  */
 function renderSubtasks(subtasks, taskId) {
-    if (!subtasks || subtasks.length === 0) return '<p>No subtasks added</p>';
+    if (!subtasks || subtasks.length === 0) return "<p>No subtasks added</p>";
 
-    return subtasks.map((subtaskObj, index) => createSubtaskHTML(subtaskObj, taskId, index)).join('');
+    return subtasks.map((subtaskObj, index) => createSubtaskHTML(subtaskObj, taskId, index)).join("");
 }
 
 /**
@@ -445,7 +447,7 @@ function renderSubtasks(subtasks, taskId) {
  */
 function updateTaskProgress(task) {
     const totalSubtasks = task.addedSubtasks.length;
-    const completedSubtasks = task.addedSubtasks.filter(subtask => subtask.status === "checked").length;
+    const completedSubtasks = task.addedSubtasks.filter((subtask) => subtask.status === "checked").length;
     const progressPercentage = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
 }
 
@@ -463,11 +465,11 @@ function updateTaskProgress(task) {
  */
 function showDeleteConfirmation(taskId) {
     return new Promise((resolve) => {
-        const overlay = document.createElement('div');
-        overlay.classList.add('delete-overlay');
+        const overlay = document.createElement("div");
+        overlay.classList.add("delete-overlay");
 
-        const confirmationDiv = document.createElement('div');
-        confirmationDiv.classList.add('deleteConfirmationDiv');
+        const confirmationDiv = document.createElement("div");
+        confirmationDiv.classList.add("deleteConfirmationDiv");
         confirmationDiv.innerHTML = createDeleteConfirmationHTML();
 
         document.body.appendChild(overlay);
@@ -475,4 +477,8 @@ function showDeleteConfirmation(taskId) {
 
         attachConfirmationHandlers(confirmationDiv, resolve);
     });
+}
+
+function editTask(taskId) {
+    loadEditTaskHTML();
 }

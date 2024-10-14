@@ -91,6 +91,11 @@ function createTask() {
         return;
     }
 
+    subtasks = subtasks.map((subtask) => ({
+        subtask: subtask,
+        status: "unchecked",
+    }));
+
     let task = {
         name: selectedContacts,
         priority: selectedPrio,
