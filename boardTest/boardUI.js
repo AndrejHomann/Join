@@ -391,8 +391,16 @@ function setupEditAndDeleteButtons(task) {
     const editButton = document.getElementById("editButton");
     const deleteButton = document.getElementById("deleteButton");
 
-    if (editButton && deleteButton) {
-        editButton.onclick = () => editTask(task.id);
+    // if (editButton && deleteButton) {
+    //     editButton.onclick = () => editTask(task.id);
+    //     deleteButton.onclick = () => handleDeleteTask(task.id);
+    // }
+
+    if (editButton) {
+        editButton.onclick = () => editTask(task); // Übergibt das gesamte Task-Objekt
+    }
+
+    if (deleteButton) {
         deleteButton.onclick = () => handleDeleteTask(task.id);
     }
 }
@@ -429,6 +437,7 @@ function closeTaskDetails() {
  * This function generates HTML for each subtask in the provided array and returns it as a single string.
  * If no subtasks are provided, it returns a message indicating that no subtasks have been added.
  */
+
 function renderSubtasks(subtasks, taskId) {
     if (!subtasks || subtasks.length === 0) return "<p>No subtasks added</p>";
 
@@ -477,8 +486,4 @@ function showDeleteConfirmation(taskId) {
 
         attachConfirmationHandlers(confirmationDiv, resolve);
     });
-}
-
-function editTask(taskId) {
-    loadEditTaskHTML();
 }
