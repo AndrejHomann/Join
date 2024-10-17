@@ -268,8 +268,10 @@ function editTask(task) {
 
     const contactIcons = createUserIconsContainer(task);
     appendUserIcons(task, contactIcons);
+    // const subtasksHTML = renderSubtasks(task.addedSubtasks, task.id);
+    const subtasksHTML = templateSubtasksListHTML(task.addedSubtasks, task.id);
 
-    loadEditTaskHTML(contactIcons.outerHTML, task.title, task.taskDescription, task.date, task.priority, task.category, task.addedSubtasks, renderSubtasks(task.addedSubtasks, task.id));
+    loadEditTaskHTML(contactIcons.outerHTML, task.title, task.taskDescription, task.date, task.priority, task.category, subtasksHTML);
 }
 
 function loadEditTaskHTML(contactIcons, title, description, date, priority, category, subtasksHTML) {
