@@ -122,7 +122,7 @@ async function amountOfTasksInProgress() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        tasksInProgress = await checkStatusOfTasks(data, 'progress');
+        tasksInProgress = await checkStatusOfTasks(data, 'in-progress');
         return tasksInProgress;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -142,7 +142,7 @@ async function amountOfTasksAwaitingFeedback() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        tasksInFeedback = await checkStatusOfTasks(data, 'feedback');
+        tasksInFeedback = await checkStatusOfTasks(data, 'await-feedback');
         return tasksInFeedback;
     } catch (error) {
         console.error("Error while fetching data:", error);

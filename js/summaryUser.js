@@ -275,7 +275,7 @@ async function amountOfTasksInProgressAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        tasksInProgress = await checkStatusOfTasksAssignedToUser(data, 'progress');
+        tasksInProgress = await checkStatusOfTasksAssignedToUser(data, 'in-progress');
         return tasksInProgress;
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -295,7 +295,7 @@ async function amountOfTasksAwaitingFeedbackAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        tasksInFeedback = await checkStatusOfTasksAssignedToUser(data, 'feedback');
+        tasksInFeedback = await checkStatusOfTasksAssignedToUser(data, 'await-feedback');
         return tasksInFeedback;
     } catch (error) {
         console.error("Error while fetching data:", error);
