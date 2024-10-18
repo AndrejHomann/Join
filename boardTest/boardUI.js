@@ -413,18 +413,14 @@ function setupEditAndDeleteButtons(task) {
  * @function
  */
 function closeTaskDetails() {
-    const taskDetails = document.getElementById("taskDetails");
-    taskDetails.classList.remove("task-details-slideIn");
-    taskDetails.classList.add("task-details-slideOut");
+    const taskDetails = document.getElementById('taskDetailsOverlay');
+    taskDetails.classList.remove('task-details-slideIn');
+    taskDetails.classList.add('task-details-slideOut');
 
-    taskDetails.addEventListener(
-        "animationend",
-        () => {
-            taskDetails.style.display = "none";
-            taskDetails.classList.remove("task-details-slideOut");
-        },
-        { once: true }
-    );
+    taskDetails.addEventListener('animationend', () => {
+        taskDetails.style.display = 'none';
+        taskDetails.classList.remove('task-details-slideOut');
+    }, { once: true });
 }
 
 /**
