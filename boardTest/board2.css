@@ -6,8 +6,7 @@ body{
     display: flex;
     position: relative;
     top: 176px;
-    margin-left: 232px;
-    left: 64px;
+    margin-left: 296px;
     align-items: center;
     justify-content: space-between;
     max-width: 1056px;
@@ -15,23 +14,21 @@ body{
 
 .board-overview{
     display: flex;
-    margin-left: 232px;
-    left: 64px;
+    margin-left: 296px;
     position: relative;
     top: 240px;
     box-sizing: border-box;
     gap: 26px;
-    max-width: 1056px;
+    max-width: 1144px;
     gap: 24px;
+    max-height: calc(100vh - 324px);
+    overflow-y: hidden;
 }
 
 .h1-board{
     display: flex;
     position: relative;
     font-size: 61px;
-    /* left: 64px;
-    top: 188px;
-    margin-left: 232px; */
 }
 
 .search-section{
@@ -46,6 +43,18 @@ body{
     display: flex;
     align-items: center;
     cursor: pointer;
+}
+
+.search-field-responsive{
+    width: 396px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    display: none;
+    position: relative;
+    top: 150px;
+    margin-left: 64px;
 }
 
 .search-input{
@@ -102,7 +111,6 @@ h3{
 .column-header{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .column-header svg:hover path,
@@ -124,6 +132,12 @@ h3{
 
 .no-tasks{
     color: #A8A8A8;
+}
+
+.tasks-container{
+    max-height: 95%;
+    overflow-y: auto;
+    padding-top: 16px;
 }
 
 button{
@@ -184,6 +198,7 @@ button{
     width: fit-content;
     padding: 4px 16px;
     border-radius: 8px;
+    margin-bottom: 24px;
  }
 
 .task h4{
@@ -205,6 +220,7 @@ button{
 
 .contact-icons-container{
     display: flex;
+    margin-top: 12px;
 }
 
 .contact-icon-small{
@@ -273,7 +289,7 @@ button{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -328,7 +344,7 @@ button{
 
 .floating-task-container #content-box-container{
     position: relative;
-    top: 174px;
+    top: 100px;
     left: 74px;
 }
 
@@ -354,6 +370,10 @@ button{
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
+#new-subtask-list-container{
+    background-color: white !important;
+}
+
 .close-add-task-form{
     width: 32px;
     height: 32px;
@@ -373,17 +393,47 @@ button{
     fill: black;
 }
 
-.task-detail-overlay {
+#taskDetailsOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+}
+
+.task-details-slideIn {
+    animation: slideTaskDetailsIn 0.2s ease forwards;
+}
+
+.task-details-slideOut {
+    animation: slideTaskDetailsOut 0.2s ease forwards;
+}
+
+@keyframes slideTaskDetailsIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideTaskDetailsOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
 
 .task-detail-container {
@@ -459,50 +509,6 @@ button{
     fill: #29abe2;
 }
 
-#taskDetails {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    display: none;
-}
-
-.task-details-slideIn {
-    animation: slideTaskDetailsIn 0.2s ease forwards;
-}
-
-.task-details-slideOut {
-    animation: slideTaskDetailsOut 0.2s ease forwards;
-}
-
-@keyframes slideTaskDetailsIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideTaskDetailsOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
-
 .taskDetailsDiv {
     width: 525px;
     max-height: 80vh;
@@ -522,13 +528,6 @@ button{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
-}
-
-.categorieInTaskDetails {
-    font-size: 23px;
-    color: white;
-    padding: 4px 24px 4px 24px;
-    border-radius: 8px;
 }
 
 .closeButtonDiv {
@@ -565,7 +564,7 @@ button{
 }
 
 .descriptionSpan {
-font-size: 19px;
+    font-size: 19px;
 }
 
 .dueDateDiv {
@@ -680,82 +679,10 @@ label{
     background: #c9c8c8; 
 }
 
-.addedSubtasksDiv img {
-    height: 24px;
-    width: 24px;
-}
-
-.subtaskItem{
-    display: flex;
-    align-items: center;
-    padding: 6px 16px 6px 16px;
-    gap: 16px;
-    cursor: pointer;
-}
-
-.deleteAndEditDiv {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    font-size: 16px;
-    color: #2a3647;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.deleteDiv:hover {
-    color: #29abe2;
-    font-weight: 700;
-    cursor: pointer;
-    filter: brightness(0) saturate(100%) invert(62%) sepia(41%) saturate(2398%) hue-rotate(165deg) brightness(93%) contrast(90%);
-}
-
-.editDiv:hover {
-    color: #29abe2;
-    font-weight: 700;
-    cursor: pointer;
-    filter: brightness(0) saturate(100%) invert(62%) sepia(41%) saturate(2398%) hue-rotate(165deg) brightness(93%) contrast(90%);
-}
-
-.deleteAndEditDiv img {
-height: 24px;
-width: 24px;
-}
-
-.deleteDiv {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-    text-decoration: none;
-}
-
-.editDiv {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-    text-decoration: none;
-}
-
-.DeleteEditSeperator {
+.deleteEditSeperator {
     height: 24px;
     width: 1px;
     background-color: #d1d1d1;
-}
-
-
-/* ////// */
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
 }
 
 .deleteConfirmationDiv {
@@ -782,6 +709,12 @@ width: 24px;
     justify-content: space-between;
 }
 
+.style-effects-success-message-container{
+    opacity: 1 !important;
+    display: flex !important;
+    z-index: 1000 !important;
+}
+
 .yesButton, .noButton {
     padding: 10px 20px;
     margin: 5px;
@@ -795,4 +728,180 @@ width: 24px;
 
 .yesButton:hover, .noButton:hover {
     background-color: #29abe2;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+}
+
+@media (max-width: 1360px){
+    .board-header{
+        margin-left: 64px;
+        top: 128px;
+    }
+    .board-overview{
+        flex-direction: column;
+        margin-left: 64px;
+        max-height: calc(100vh - 390px);
+        overflow-y: auto;
+    }
+    .board-column{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .tasks-container{
+        display: flex;
+        overflow-x: auto;
+        /* min-height: 200px; */
+    }
+    .column-header{
+        max-width: 252px;
+    }
+    .task{
+        min-width: 252px;
+        max-width: 252px;
+        margin-right: 16px;
+    }
+    .tasks-container::-webkit-scrollbar{
+    height: 6px !important;
+    width: 6px !important;
+    display: flex;
+    }
+    .tasks-container::-webkit-scrollbar-track {
+    background: #f6f7f8 !important; 
+    border-radius: 5px !important;
+    }
+    .tasks-container::-webkit-scrollbar-thumb {
+    background: #d1d1d1 !important; 
+    border-radius: 10px !important;
+    position: relative;
+    }
+    .tasks-container::-webkit-scrollbar-thumb:hover {
+    background: #c9c8c8 !important; 
+    }
+    #task-form-overlay{
+        background-color: rgba(0, 0, 0, 0);
+    }
+    .floating-task-container{
+        background-color: #f6f7f8;
+        width: 100%;
+        max-height: calc(100vh - 170px);
+        border-radius: 0px;
+        margin-bottom: -12px
+    }
+    .floating-task-container h1{
+        font-size: 47px;
+        line-height: 56.4px;
+        font-weight: 700;
+        position: absolute;
+        left: 16px;
+        top: 48px;
+    }
+    #h1-container{
+        top: 0px !important;
+        display: flex;
+        align-items: center;
+        width: auto !important;
+        justify-content: space-between;
+    }
+    .floating-task-container #content-box-container{
+        top: 110px;
+        left: 0;
+        height: 60vh;
+        overflow-y: auto;
+    }
+    .floating-task-container #interactives-buttons-container{
+        top: 0;
+        left: 0;
+        margin-bottom: auto;
+    }
+    .floating-task-container #required-container{
+        top: 0;
+        left: 0;
+    }
+    #interactives-buttons-and-required-container{
+        margin-bottom: 0px !important;
+        padding: 10px 40px 16px 16px !important;
+    }
+    .close-add-task-form{
+        left: 16px;
+    }
+    #new-subtask-list-container{
+        background-color: #f6f7f8 !important;
+    }
+}
+
+@media (max-width: 1130px){
+    .board-header{
+        width: 396px;
+    }
+    .h1-board{
+        font-size: 47px;
+    }
+    .create-task-from-board{
+       width: 52px;
+    }
+    .create-task-from-board span{
+        display: none;
+    }
+    .search-field{
+        display: none;
+    }
+    .search-field-responsive{
+        display: flex;
+    }
+    .board-overview{
+        top: 200px;
+    }
+}
+
+@media (max-width: 425px){
+    .board-header,
+    .search-field-responsive,
+    .board-overview{
+        margin-left: 16px;
+    }
+    .board-header,
+    .search-field-responsive{
+        width: 290px;
+    }
+    .task-detail-btn-group{
+        justify-content: center;
+    }
+    .titleTaskOverlayH2{
+        font-size: 30px;
+    }
+    .taskDetailsDiv{
+        padding: 44px 36px 44px 36px;
+    }
+    .categorieAndCloseButton,
+    .titleTaskOverlayH2{
+        margin-bottom: 20px;
+    }
+    .dueDateDiv,
+    .dueDateDiv,
+    .dueDateDiv,
+    .subtaskSection{
+        margin-top: 20px;
+    }
+    .sectionAssignedUsers{
+        gap: 8px;
+    }
+    .addedSubtasksDiv{
+        max-height: 62px;
+    }
+}
+
+@media (max-width: 400px){
+    .titleTaskOverlayH2{
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
 }
