@@ -735,6 +735,28 @@ label{
     display: none;
 }
 
+
+
+
+#missing-title-message {
+    display: none; 
+}
+
+#missing-date-message {
+    display: none; 
+}
+
+#prio-urgent {
+    font-weight:400; 
+}
+
+#prio-low-button {
+    font-weight:400; 
+}
+
+
+
+
 @media (max-width: 1360px){
     .board-header{
         margin-left: 64px;
