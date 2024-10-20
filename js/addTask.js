@@ -2,7 +2,7 @@
  * Base URL for the Firebase Realtime Database.
  * @type {string}
  */
-let BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app";
+// let BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
  * List of contacts.

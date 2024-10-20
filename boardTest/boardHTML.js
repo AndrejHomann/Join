@@ -170,6 +170,7 @@ function createTaskFromBoardDiv() {
  * @param {string} renderedSubtasks - The HTML string for rendering the subtasks.
  * @returns {string} An HTML string representing the task details div.
  */
+
 function createTaskDetailDiv(contactIcons, category, title, description, dueDate, priority, addedSubtasks, renderedSubtasks) {
     return /*html*/ `
         <div id="taskDetailsOverlay">
@@ -268,17 +269,30 @@ function editTask(task) {
         console.error("Task nicht gefunden oder undefiniert");
         return;
     }
+    Ö;
 
     const contactIcons = createUserIconsContainer(task);
     appendUserIcons(task, contactIcons);
-    // const subtasksHTML = renderSubtasks(task.addedSubtasks, task.id);
     const subtasksHTML = templateSubtasksListHTML(task.addedSubtasks, task.id);
 
-    loadEditTaskHTML(contactIcons.outerHTML, task.title, task.taskDescription, task.date, task.priority, task.category, subtasksHTML);
+    loadEditTask(contactIcons, task.title, task.taskDescription, task.date, task.priority, task.category, subtasksHTML);
 }
 
-function loadEditTaskHTML(contactIcons, title, description, date, priority, category, subtasksHTML) {
-    document.getElementById("taskDetails").innerHTML = /*html*/ `  
+function loadContacts() {
+    let loadContacts = showCirclesOfSelectedContacts();
+    loadContacts.innerHTML = document.getElementById("selected-contacts-circle-container");
+}
+
+function subtaskx() {}
+
+function loadPrio() {}
+
+function loadEditTask() {
+    loadEditTaskHTML(); // hier kommen die Variablen rein
+}
+
+function loadEditTaskHTML(contactIcons, title, description, date, prio, category, subtasksHTML) {
+    document.getElementById("taskDetailsOverlay").innerHTML = /*html*/ `  
 <div id="content-box-container-edit-task">
     <div id="content-box-left" class="flex-column">
         <div id="title-container" class="flex-column gap8px">
@@ -379,7 +393,9 @@ function loadEditTaskHTML(contactIcons, title, description, date, priority, cate
                 </div>
                 <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">This field is required</span>
             </div>
-            <div id="new-subtask-list-container"><div id="generated-subtask-list-container">${subtasksHTML}</div></div>
+            <div id="new-subtask-list-container"><div id="generated-subtask-list-container"></div></div>
         </div>
+    </div>
+</div>
 `;
 }
