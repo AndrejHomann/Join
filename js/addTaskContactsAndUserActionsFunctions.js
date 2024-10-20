@@ -222,10 +222,23 @@ function sortContactsByFirstName(contactList) {
  * Displays a success message after the task is successfully added.
  * The message is shown for 2.5 seconds before sliding out.
  */
+// function showSuccessMessage() {
+//     setTimeout(successMessageSlidingIn, 500);
+
+//     setTimeout(hideSuccessMessage, 2500);
+// }
+
 function showSuccessMessage() {
     setTimeout(successMessageSlidingIn, 500);
 
-    setTimeout(hideSuccessMessage, 2500);
+    setTimeout(function () {
+        hideSuccessMessage();
+
+        const createTask = document.getElementById('addTaskFromBoard');
+        if (createTask && createTask.classList.contains('board-mode')) {
+            closeBoardAddTaskIfNeeded();
+        }
+    }, 2500);
 }
 
 /**
