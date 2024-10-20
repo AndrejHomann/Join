@@ -305,10 +305,10 @@ button{
     animation: slideIn 0.5s ease-out forwards;
 }
 
-.floating-task-container.show {
+/* .floating-task-container.show {
     left: 50%;
     transform: translate(-50%, -50%);
-}
+} */
 
 @keyframes slideIn {
     0% {
@@ -735,16 +735,15 @@ label{
     display: none;
 }
 
-
-
-
-#missing-title-message {
+#missing-title-message,
+#missing-date-message,
+#missing-category-message {
     display: none; 
 }
 
-#missing-date-message {
-    display: none; 
-}
+/* #missing-subtask-message{
+    display: none;
+} */
 
 #prio-urgent {
     font-weight:400; 
