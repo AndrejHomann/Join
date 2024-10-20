@@ -120,7 +120,7 @@ function createTaskFromBoardDiv() {
                 </div>
                 <div id="category-container" class="flex-column gap8px">
                     <div class="subtitle">Category<span class="asterisk">*</span></div>
-                    <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), doNotCloseDropdown(event)">
+                    <div id="selected-category" class="select-container" onclick="showCategoryDropDown()">
                         <span id="category-placeholder">Select task category</span>
                         <div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                     </div>
@@ -269,32 +269,35 @@ function editTask(task) {
         console.error("Task nicht gefunden oder undefiniert");
         return;
     }
-    Ö;
-
     const contactIcons = createUserIconsContainer(task);
     appendUserIcons(task, contactIcons);
     const subtasksHTML = templateSubtasksListHTML(task.addedSubtasks, task.id);
 
-    loadEditTask(contactIcons, task.title, task.taskDescription, task.date, task.priority, task.category, subtasksHTML);
+    loadEditTask(task.title, task.taskDescription, task.date, task.category);
 }
 
 function loadContacts() {
-    let loadContacts = showCirclesOfSelectedContacts();
-    loadContacts.innerHTML = document.getElementById("selected-contacts-circle-container");
+    let loadedContacts = showCirclesOfSelectedContacts(); // Gehe davon aus, dass dies ein Objekt mit name und color ist
+    loadEditTask("Aufgaben Titel", "Beschreibung", "2024-01-01", "Kategorie", loadedContacts);
 }
 
-function subtaskx() {}
+function loadSubtasks() {}
 
 function loadPrio() {}
 
-function loadEditTask() {
-    loadEditTaskHTML(); // hier kommen die Variablen rein
+function loadEditTask(title, description, date, category, contacts) {
+    loadEditTaskHTML(title, description, date, category); // Kontakte-Container übergeben
 }
 
-function loadEditTaskHTML(contactIcons, title, description, date, prio, category, subtasksHTML) {
+function loadEditTaskHTML(title, description, date, category) {
     document.getElementById("taskDetailsOverlay").innerHTML = /*html*/ `  
 <div id="content-box-container-edit-task">
     <div id="content-box-left" class="flex-column">
+    <div class="closeButton">
+                <div class="closeButtonDiv" onclick="closeTaskDetails()">
+                    <img src="/img/board/assets/icons/closeBtn.png" alt="Close Button">
+                </div>
+            </div>
         <div id="title-container" class="flex-column gap8px">
             <div class="subtitle">Title<span class="asterisk">*</span></div>
             <div id="title-input-container">
@@ -313,7 +316,7 @@ function loadEditTaskHTML(contactIcons, title, description, date, prio, category
                 <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
             </div>
             <div id="dropdown-list" class="d-none"></div>
-            <div id="selected-contacts-circle-container">${contactIcons}</div>
+            <div id="selected-contacts-circle-container"></div>
         </div>
     </div>
     <div id="border-container"></div>
@@ -372,7 +375,7 @@ function loadEditTaskHTML(contactIcons, title, description, date, prio, category
         </div>
         <div id="category-container" class="flex-column gap8px">
             <div class="subtitle">Category<span class="asterisk">*</span></div>
-            <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible()">
+            <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), clickOutsideOfDropdown(event)">
                 <span id="category-placeholder">${category}</span>
                 <div id="category-dropdown-arrow-container">
                     <img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" />

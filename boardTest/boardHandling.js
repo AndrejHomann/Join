@@ -252,39 +252,32 @@ document.querySelector(".search").addEventListener("click", searchTasks);
  * If the task is found, it creates the task detail view and displays it.
  */
 function openTaskDetail(taskId) {
-    const task = tasksArray.find(t => t.id === taskId);
+    const task = tasksArray.find((t) => t.id === taskId);
     if (!task) return;
 
     createTaskDetail(task);
 
-    const taskDetails = document.getElementById('taskDetailsOverlay');
+    const taskDetails = document.getElementById("taskDetailsOverlay");
     if (taskDetails) {
-        taskDetails.style.display = 'flex';
-        taskDetails.classList.remove('task-details-slideOut');
-        taskDetails.classList.add('task-details-slideIn');
+        taskDetails.style.display = "flex";
+        taskDetails.classList.remove("task-details-slideOut");
+        taskDetails.classList.add("task-details-slideIn");
     }
 }
 
 function createTaskFromBoard() {
-    const createTask = document.getElementById('addTaskFromBoard');
+    const createTask = document.getElementById("addTaskFromBoard");
     createTask.innerHTML = createTaskFromBoardDiv();
     loadAddTaskScript();
 }
 
 function loadAddTaskScript() {
-    const scripts = [
-        "/js/addTask.js",
-        "/js/addTaskCategoryFunctions.js",
-        "/js/addTaskContactsAndUserActionsFunctions.js",
-        "/js/addTaskValidationAndClearingFunctions.js"
-    ];
+    const scripts = ["/js/addTask.js", "/js/addTaskCategoryFunctions.js", "/js/addTaskContactsAndUserActionsFunctions.js", "/js/addTaskValidationAndClearingFunctions.js"];
 
-    scripts.forEach(src => {
+    scripts.forEach((src) => {
         let script = document.createElement("script");
         script.src = src;
-        script.onload = function () {
-            console.log(`${src} wurde geladen.`);
-        };
+        script.onload = function () {};
         document.body.appendChild(script);
     });
 }

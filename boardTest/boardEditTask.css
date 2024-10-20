@@ -10,3 +10,16 @@
     flex-direction: column !important;
     overflow-y: scroll;
 }
+
+.closeButton {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 1360px) {
+    #content-box-container-edit-task {
+        gap: 16px;
+    }
+}
