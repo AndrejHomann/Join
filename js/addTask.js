@@ -253,16 +253,34 @@ function showCloseOrDeleteIconDuringWritingSubtask() {
 /**
  * Sets up event listeners for the subtask input field to handle enter key press and input changes.
  */
+// function waitingForSubtaskEnterOrDraftEvent() {
+//     let newSubtaskInput = document.getElementById("new-subtask-input");
+
+//     newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
+//     newSubtaskInput.addEventListener("input", function () {
+//         resetSubtaskRequiredNotification();
+//         showCloseOrDeleteIconDuringWritingSubtask();
+//     });
+// }
+// waitingForSubtaskEnterOrDraftEvent();
+
+document.addEventListener("DOMContentLoaded", function () {
+    waitingForSubtaskEnterOrDraftEvent();
+});
+
 function waitingForSubtaskEnterOrDraftEvent() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
 
-    newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
-    newSubtaskInput.addEventListener("input", function () {
-        resetSubtaskRequiredNotification();
-        showCloseOrDeleteIconDuringWritingSubtask();
-    });
+    if (newSubtaskInput) {
+        newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
+        newSubtaskInput.addEventListener("input", function () {
+            resetSubtaskRequiredNotification();
+            showCloseOrDeleteIconDuringWritingSubtask();
+        });
+    } else {
+        console.error("Element with ID 'new-subtask-input' not found.");
+    }
 }
-waitingForSubtaskEnterOrDraftEvent();
 
 /**
  * Resets the notification message for required subtasks.

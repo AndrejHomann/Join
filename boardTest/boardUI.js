@@ -334,7 +334,7 @@ function createTaskDetail(task) {
     const taskDetailHTML = createTaskDetailDiv(iconsContainer, task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderSubtasks(task.addedSubtasks, task.id), task.id);
     taskDetails.innerHTML = taskDetailHTML;
     setCategoryColor(document.querySelector("#taskDetails .task-category"), task.category);
-    setupEditAndDeleteButtons(task);
+    // setupEditAndDeleteButtons(task);
 }
 
 /**
@@ -390,20 +390,16 @@ function appendUserIcons(task, iconsContainer) {
 function setupEditAndDeleteButtons(task) {
     const editButton = document.getElementById("editButton");
     const deleteButton = document.getElementById("deleteButton");
-
     // if (editButton && deleteButton) {
-    //     editButton.onclick = () => editTask(task.id);
+    //     editButton.onclick = () => editTask(task.id);    // // }
+    // //     deleteButton.onclick = () => handleDeleteTask(task.id);
+    // if (editButton) {
+    //     // editButton.onclick = () => editTask(task);
+    //     loadAddTaskScript(); // Übergibt das gesamte Task-Objekt
+    //     editButton.onclick = () => loadAddTaskScript();      }
+    // if (deleteButton) {
     //     deleteButton.onclick = () => handleDeleteTask(task.id);
     // }
-
-    if (editButton) {
-        editButton.onclick = () => editTask(task);
-        loadAddTaskScript(); // Übergibt das gesamte Task-Objekt
-    }
-
-    if (deleteButton) {
-        deleteButton.onclick = () => handleDeleteTask(task.id);
-    }
 }
 
 /**

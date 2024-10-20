@@ -284,6 +284,30 @@ function createTaskFromBoard() {
     loadAddTaskScript(); // Falls notwendig, die weitere Logik hier hinzufügen
 }
 
+// function loadAddTaskScript() {
+//     const scripts = [
+//         { id: "addTaskScript", src: "/js/addTask.js" },
+//         { id: "addTaskCategoryFunctions", src: "/js/addTaskCategoryFunctions.js" },
+//         { id: "addTaskContactsAndUserActionsFunctions", src: "/js/addTaskContactsAndUserActionsFunctions.js" },
+//         { id: "addTaskValidationAndClearingFunctions", src: "/js/addTaskValidationAndClearingFunctions.js" },
+//     ];
+
+//     scripts.forEach((scriptInfo) => {
+//         // Prüfen, ob das Skript bereits existiert
+//         if (!document.getElementById(scriptInfo.id)) {
+//             let script = document.createElement("script");
+//             script.src = scriptInfo.src;
+//             script.id = scriptInfo.id; // ID zuweisen, um später darauf zu prüfen
+//             script.onload = function () {
+//                 console.log(`${scriptInfo.src} wurde geladen.`);
+//             };
+//             document.body.appendChild(script);
+//         } else {
+//             console.log(`${scriptInfo.src} ist bereits geladen.`);
+//         }
+//     });
+// }
+
 function loadAddTaskScript() {
     const scripts = [
         { id: "addTaskScript", src: "/js/addTask.js" },
@@ -292,20 +316,27 @@ function loadAddTaskScript() {
         { id: "addTaskValidationAndClearingFunctions", src: "/js/addTaskValidationAndClearingFunctions.js" },
     ];
 
-    scripts.forEach((scriptInfo) => {
-        // Prüfen, ob das Skript bereits existiert
-        if (!document.getElementById(scriptInfo.id)) {
-            let script = document.createElement("script");
-            script.src = scriptInfo.src;
-            script.id = scriptInfo.id; // ID zuweisen, um später darauf zu prüfen
-            script.onload = function () {
-                console.log(`${scriptInfo.src} wurde geladen.`);
-            };
-            document.body.appendChild(script);
-        } else {
-            console.log(`${scriptInfo.src} ist bereits geladen.`);
-        }
-    });
+    return Promise.all(
+        scripts.map((scriptInfo) => {
+            return new Promise((resolve, reject) => {
+                // Prüfen, ob das Skript bereits existiert
+                if (!document.getElementById(scriptInfo.id)) {
+                    let script = document.createElement("script");
+                    script.src = scriptInfo.src;
+                    script.id = scriptInfo.id;
+                    script.onload = function () {
+                        resolve();
+                    };
+                    script.onerror = function () {
+                        reject(new Error(`Failed to load script: ${scriptInfo.src}`));
+                    };
+                    document.body.appendChild(script);
+                } else {
+                    resolve();
+                }
+            });
+        })
+    );
 }
 
 /**
