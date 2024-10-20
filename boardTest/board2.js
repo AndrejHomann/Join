@@ -212,3 +212,28 @@ function removeTaskFromDOM(taskId) {
         taskElement.remove();
     }
 }
+
+function createTask() {
+    console.log('createTask Funktion wurde ausgeführt');
+}
+
+function checkInputFields() {
+    const titleInput = document.getElementById('title-input');
+    const dateInput = document.getElementById('date-input');
+    const missingTitleMessage = document.getElementById('missing-title-message');
+    const missingDateMessage = document.getElementById('missing-date-message');
+
+    if (titleInput.value === '' && dateInput.value === '') {
+        missingTitleMessage.style.display = 'flex';
+        missingDateMessage.style.display = 'flex';
+    } else if (titleInput.value === '' && dateInput.value !== '') {
+        missingTitleMessage.style.display = 'flex';
+        missingDateMessage.style.display = 'none';
+    } else if (titleInput.value !== '' && dateInput.value === '') {
+        missingTitleMessage.style.display = 'none';
+        missingDateMessage.style.display = 'flex';
+    } else {
+        missingTitleMessage.style.display = 'none';
+        missingDateMessage.style.display = 'none';
+    }
+}
