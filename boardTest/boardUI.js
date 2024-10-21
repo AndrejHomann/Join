@@ -334,7 +334,7 @@ function createTaskDetail(task) {
     const taskDetailHTML = createTaskDetailDiv(iconsContainer, task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderSubtasks(task.addedSubtasks, task.id), task.id);
     taskDetails.innerHTML = taskDetailHTML;
     setCategoryColor(document.querySelector("#taskDetails .task-category"), task.category);
-    // setupEditAndDeleteButtons(task);
+    setupEditAndDeleteButtons(task);
 }
 
 /**
@@ -387,19 +387,35 @@ function appendUserIcons(task, iconsContainer) {
  * @param {Object} task - The task object for which the buttons will be set up.
  * @param {string} task.id - The unique identifier of the task to be edited or deleted.
  */
+// function setupEditAndDeleteButtons(task) {
+//     const editButton = document.getElementById("editButton");
+//     const deleteButton = document.getElementById("deleteButton");
+//     if (editButton && deleteButton) {
+//         //     editButton.onclick = () => editTask(task.id); // // }
+//         //     deleteButton.onclick = () => handleDeleteTask(task.id);
+//         // if (editButton) {
+//         //     editButton.onclick = () => editTask(task);
+//         //     loadAddTaskScript(); // Übergibt das gesamte Task-Objekt
+//         //     editButton.onclick = () => loadAddTaskScript();
+//         // }
+//         if (deleteButton) {
+//             deleteButton.onclick = () => handleDeleteTask(task.id);
+//         }
+//     }
+//     // }
+// }
+
 function setupEditAndDeleteButtons(task) {
-    const editButton = document.getElementById("editButton");
     const deleteButton = document.getElementById("deleteButton");
-    // if (editButton && deleteButton) {
-    //     editButton.onclick = () => editTask(task.id);    // // }
-    // //     deleteButton.onclick = () => handleDeleteTask(task.id);
-    // if (editButton) {
-    //     // editButton.onclick = () => editTask(task);
-    //     loadAddTaskScript(); // Übergibt das gesamte Task-Objekt
-    //     editButton.onclick = () => loadAddTaskScript();      }
-    // if (deleteButton) {
-    //     deleteButton.onclick = () => handleDeleteTask(task.id);
-    // }
+
+    // Check if the delete button exists before assigning the event
+    if (deleteButton) {
+        // Remove any existing event listeners to avoid multiple calls
+        deleteButton.onclick = null;
+
+        // Assign the new event listener for deleting the task
+        deleteButton.onclick = () => handleDeleteTask(task.id);
+    }
 }
 
 /**
