@@ -209,7 +209,7 @@ function createTaskDetailDiv(contactIcons, category, title, description, dueDate
                 <div class="addedSubtasksDiv">${renderedSubtasks}</div>
             </div>
             <div class="task-detail-btn-group">
-                <button class="btn-edit" id="editButton" onclick="editTask('${title}', '${description}', '${dueDate}',  '${category}')">                    
+                <button class="btn-edit" id="editButton" onclick="editTask('${title}', '${description}', '${dueDate}', '${category}')">                    
                     <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 17H3.4L12.025 8.375L10.625 6.975L2 15.6V17ZM16.3 6.925L12.05 2.725L13.45 1.325C13.8333 0.941667 14.3042 0.75 14.8625 0.75C15.4208 0.75 15.8917 0.941667 16.275 1.325L17.675 2.725C18.0583 3.10833 18.2583 3.57083 18.275 4.1125C18.2917 4.65417 18.1083 5.11667 17.725 5.5L16.3 6.925ZM14.85 8.4L4.25 19H0V14.75L10.6 4.15L14.85 8.4Z" fill="#2A3647"/>
                     </svg>
@@ -249,6 +249,20 @@ function createSubtaskHTML(subtaskObj, taskId, index) {
     `;
 }
 
+function templateSubtasksListEditTaskHTML(subtaskObj, taskId) {
+    return /*html*/ `
+            <div class="generatedSubtasks" id="generated-subtask-container-${taskId}">
+                <li id="generated-subtask-list-item-${taskId}" class="subtaskListItemStyle">${subtaskObj}</li>
+                <div id="generated-subtask-list-icons">     
+                    <div id="edit-icon-container" onclick="editSubtask(${taskId})"><img src="/img/addTask/edit.png" alt="edit" /></div>
+                    <div class="border-subtask-container"></div>
+                    <div id="delete-icon-container" onclick="deleteSubtask(${taskId})">
+                        <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
+                    </div>
+                </div>
+            </div>`;
+}
+
 /**
  * Creates an HTML string for a delete confirmation dialog.
  *
@@ -265,8 +279,8 @@ function createDeleteConfirmationHTML() {
 }
 
 async function editTask(title, description, date, category) {
-    loadEditTask(title, description, date, category); // Erst danach `loadEditTask` aufrufen
-    await loadAddTaskScript(); // Warten, bis alle Skripte geladen sind
+    loadEditTask(title, description, date, category);
+    await loadAddTaskScript();
 }
 
 function loadSubtasks() {}
@@ -280,12 +294,12 @@ function loadEditTask(title, description, date, category) {
 function loadEditTaskHTML(title, description, date, category) {
     document.getElementById("taskDetailsOverlay").innerHTML = /*html*/ `  
 <div id="content-box-container-edit-task">
-    <div id="content-box-left" class="flex-column">
-    <div class="closeButton">
+<div class="closeButton">
                 <div class="closeButtonDiv" onclick="closeTaskDetails()">
                     <img src="/img/board/assets/icons/closeBtn.png" alt="Close Button">
                 </div>
             </div>
+    <div id="content-box-left" class="flex-column">
         <div id="title-container" class="flex-column gap8px">
             <div class="subtitle">Title<span class="asterisk">*</span></div>
             <div id="title-input-container">
@@ -372,7 +386,6 @@ function loadEditTaskHTML(title, description, date, category) {
             <span id="missing-category-message" class="validationStyle" style="display: none">This field is required</span>
             <div id="category-dropdown-list" class="d-none"></div>
         </div>
-
         <div id="substasks-container" class="flex-column gap8px">
             <div class="subtitle">Subtasks</div>
             <div id="subtask-relative-container">
