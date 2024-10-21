@@ -25,6 +25,26 @@
     padding-top: 48px;
 }
 
+#ok-edittask-button-container {
+    padding-bottom: 48px;
+    display: flex;
+    justify-content: end;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    cursor: pointer;
+}
+
+#ok-edittask-button {
+    background-color: #2a3647;
+    color: white;
+    border-radius: 10px;
+    width: 89px;
+    height: 57px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
 @media (max-width: 1360px) {
     #content-box-container-edit-task {
         gap: 16px;
