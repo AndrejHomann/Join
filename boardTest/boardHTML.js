@@ -402,7 +402,7 @@ function loadEditTaskHTML(title, description, date, category) {
          </div>
       </div>
    </div>
-   <div id="ok-edittask-button-container"><div id="ok-edittask-button">Ok</div></div>
+   <div id="ok-edittask-button-container"><div id="ok-edittask-button"><div >Ok</div><img src="/img/addTask/check.png" alt=""></div></div>
 </div>
 `;
 }
