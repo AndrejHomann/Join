@@ -457,6 +457,14 @@ function renderSubtasks(subtasks, taskId) {
     return subtasks.map((subtaskObj, index) => createSubtaskHTML(subtaskObj, taskId, index)).join("");
 }
 
+function renderEditableSubtasks(subtasks, taskId) {
+    if (!subtasks || subtasks.length === 0) {
+        return "<p>No subtasks available to edit</p>";
+    }
+
+    return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
+}
+
 /**
  * Updates the progress percentage of a given task based on its subtasks.
  *
