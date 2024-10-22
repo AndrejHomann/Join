@@ -209,7 +209,7 @@ function createTaskDetailDiv(contactIcons, category, title, description, dueDate
                 <div class="addedSubtasksDiv">${renderedSubtasks}</div>
             </div>
             <div class="task-detail-btn-group">
-                <button class="btn-edit" id="editButton" onclick="editTask('${title}', '${description}', '${dueDate}', '${category}')">                    
+                <button class="btn-edit" id="editButton" onclick="handleEditButtonClick('${taskId}')">                    
                     <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 17H3.4L12.025 8.375L10.625 6.975L2 15.6V17ZM16.3 6.925L12.05 2.725L13.45 1.325C13.8333 0.941667 14.3042 0.75 14.8625 0.75C15.4208 0.75 15.8917 0.941667 16.275 1.325L17.675 2.725C18.0583 3.10833 18.2583 3.57083 18.275 4.1125C18.2917 4.65417 18.1083 5.11667 17.725 5.5L16.3 6.925ZM14.85 8.4L4.25 19H0V14.75L10.6 4.15L14.85 8.4Z" fill="#2A3647"/>
                     </svg>
@@ -249,19 +249,40 @@ function createSubtaskHTML(subtaskObj, taskId, index) {
     `;
 }
 
-function templateSubtasksListEditTaskHTML(subtaskObj, taskId) {
+function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
+    console.log("Subtask Object:", subtaskObj); // Log zur Überprüfung
+
     return /*html*/ `
-            <div class="generatedSubtasks" id="generated-subtask-container-${taskId}">
-                <li id="generated-subtask-list-item-${taskId}" class="subtaskListItemStyle">${subtaskObj}</li>
-                <div id="generated-subtask-list-icons">     
-                    <div id="edit-icon-container" onclick="editSubtask(${taskId})"><img src="/img/addTask/edit.png" alt="edit" /></div>
-                    <div class="border-subtask-container"></div>
-                    <div id="delete-icon-container" onclick="deleteSubtask(${taskId})">
-                        <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
-                    </div>
+        <div class="generatedSubtasks" id="generated-subtask-container-${taskId}-${index}">
+            <li id="generated-subtask-list-item-${taskId}-${index}" class="subtaskListItemStyle">
+                <input type="text" value="${subtaskObj.subtask}" id="subtask-input-${taskId}-${index}" />
+            </li>
+            <div id="generated-subtask-list-icons">
+                <div id="edit-icon-container" onclick="editSubtask(${taskId}, ${index})">
+                    <img src="/img/addTask/edit.png" alt="edit" />
                 </div>
-            </div>`;
+                <div class="border-subtask-container"></div>
+                <div id="delete-icon-container" onclick="deleteSubtask(${taskId}, ${index})">
+                    <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
+                </div>
+            </div>
+        </div>
+    `;
 }
+
+// function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
+//     return /*html*/ `
+//             <div class="generatedSubtasks" id="generated-subtask-container-${taskId}">
+//                 <li id="generated-subtask-list-item-${taskId}" class="subtaskListItemStyle">${subtaskObj}</li>
+//                 <div id="generated-subtask-list-icons">     
+//                     <div id="edit-icon-container" onclick="editSubtask(${taskId})"><img src="/img/addTask/edit.png" alt="edit" /></div>
+//                     <div class="border-subtask-container"></div>
+//                     <div id="delete-icon-container" onclick="deleteSubtask(${taskId})">
+//                         <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
+//                     </div>
+//                 </div>
+//             </div>`;
+// }
 
 /**
  * Creates an HTML string for a delete confirmation dialog.
@@ -278,21 +299,39 @@ function createDeleteConfirmationHTML() {
     `;
 }
 
-async function editTask(title, description, date, category) {
-    loadEditTask(title, description, date, category);
-    await loadAddTaskScript();
+// async function editTask(title, description, date, category, subtasks) {
+//     loadEditTask(title, description, date, category, subtasks);
+//     await loadAddTaskScript();
+// }
+
+// function loadSubtasks() { }
+
+// function loadPrio() { }
+
+// function loadEditTask(title, description, date, category, subtasks) {
+//     loadEditTaskHTML(title, description, date, category, subtasks);
+// }
+
+function handleEditButtonClick(taskId) {
+    const taskToEdit = tasksArray.find(task => task.id === taskId);
+
+    if (taskToEdit) {
+        editTask(taskToEdit);
+    } else {
+        console.error("Aufgabe nicht gefunden!");
+    }
 }
 
-function loadSubtasks() {}
-
-function loadPrio() {}
-
-function loadEditTask(title, description, date, category) {
-    loadEditTaskHTML(title, description, date, category);
+function editTask(task) {
+    loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
+    loadAddTaskScript();
 }
 
-function loadEditTaskHTML(title, description, date, category) {
-    document.getElementById("taskDetailsOverlay").innerHTML = /*html*/ `  
+function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks, taskId) {
+    const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
+    if (!taskDetailsOverlay) return;
+
+    taskDetailsOverlay.innerHTML = /*html*/ `  
 <div id="content-box-container-edit-task">
    <div class="closeButton">
       <div class="closeButtonDiv" onclick="closeTaskDetails()">
@@ -398,7 +437,7 @@ function loadEditTaskHTML(title, description, date, category) {
             <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">This field is required</span>
          </div>
          <div id="new-subtask-list-container">
-            <div id="generated-subtask-list-container"></div>
+            <div id="generated-subtask-list-container">${renderedSubtasks}</div>
          </div>
       </div>
    </div>
