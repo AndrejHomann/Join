@@ -326,22 +326,42 @@ function handleEditButtonClick(taskId) {
     }
 }
 
+// function editTask(task) {
+//     loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
+//     loadAddTaskScript();
+// }
+
 function editTask(task) {
-    loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
+    const editTask = document.getElementById("editTask");
+    if (!editTask) {
+        console.error("Edit-Overlay nicht gefunden");
+        return;
+    }
+    editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
+
+    const iconsContainer = document.querySelector("#selected-contacts-circle-container");
+    if (iconsContainer) {
+        appendEditableUserIcons(task, iconsContainer);
+    } else {
+        console.error("Icons-Container nicht gefunden");
+    }
     loadAddTaskScript();
     taskEditId = task.id;
     taskEditTitle = task.title;
     taskEditDescription = task.taskDescription;
 }
 
-function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks, taskId) {
-    const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
-    if (!taskDetailsOverlay) return;
 
-    taskDetailsOverlay.innerHTML = /*html*/ `  
+function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks, taskId) {
+    // const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
+    // if (!taskDetailsOverlay) return;
+
+    // taskDetailsOverlay.innerHTML = /*html*/ ` 
+    return /*html*/` 
+    <div id="editTaskOverlay" class="edit-task-overlay">
 <div id="content-box-container-edit-task">
    <div class="closeButton">
-      <div class="closeButtonDiv" onclick="closeTaskDetails()">
+      <div class="closeButtonDiv" onclick="closeEditTask()">
          <img src="/img/board/assets/icons/closeBtn.png" alt="Close Button">
       </div>
    </div>
@@ -449,6 +469,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
       </div>
    </div>
    <div id="ok-edittask-button-container"><div id="ok-edittask-button"><div >Ok</div><img src="/img/addTask/check.png" alt=""></div></div>
+</div>
 </div>
 `;
 }
