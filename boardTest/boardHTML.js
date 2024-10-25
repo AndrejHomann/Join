@@ -1,3 +1,7 @@
+let taskEditId; 
+let taskEditTitle;
+let taskEditDescription;
+
 /**
  * Generates the HTML template for a task.
  *
@@ -55,7 +59,7 @@ function createTaskFromBoardDiv() {
                 </div>
                 <div id="assigned-container" class="flex-column gap8px">
                     <div class="subtitle">Assigned to</div>
-                    <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible()">
+                    <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible();matchTaskAssignedUserToCheckedDropdown()">
                         <span id="assigned-placeholder">Select contacts to assign</span>
                         <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                     </div>
@@ -325,6 +329,9 @@ function handleEditButtonClick(taskId) {
 function editTask(task) {
     loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
     loadAddTaskScript();
+    taskEditId = task.id;
+    taskEditTitle = task.title;
+    taskEditDescription = task.taskDescription;
 }
 
 function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks, taskId) {
@@ -352,7 +359,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
       </div>
       <div id="assigned-container" class="flex-column gap8px">
          <div class="subtitle">Assigned to</div>
-         <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible()">
+         <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible();matchTaskAssignedUserToCheckedDropdown()">    <!-- added second function by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts -->
             <span id="assigned-placeholder">Select contacts to assign</span>
             <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
          </div>

@@ -382,3 +382,66 @@ function closeBoardAddTaskIfNeeded() {
     closeAddTaskForm(); // Schließen des Fensters
     loadTasks(); // Board aktualisieren, nachdem das Fenster geschlossen wurde
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
+
+function findContactIndexForTaskName(taskName) {
+    for (let i=0; i<contactsArray.length; i++) {
+        if (contactsArray[i].contact === taskName) {
+            console.log("contact array index is:", i);
+            return i;
+        }
+      }
+    console.log("contact array index could not be calculated");
+    return -1;
+}
+
+
+function checkDropdownListCheckboxStatus(targetTask) {
+    if (targetTask.name) {
+        // iterate through task list of assigned users
+        for (const taskName of targetTask.name) {
+            console.log("forwarded Task-UserName:", taskName);
+            // find contact index in dropdown list by name
+            let contactIndex = findContactIndexForTaskName(taskName);
+            console.log("the contacts array then is:", contactsArray);
+            if (contactIndex !== -1) {
+                // update checkbox via contact array index value
+                const contactElement = document.getElementById(`dropdown-list-contact-${contactIndex}`);
+                const contactTestCheckbox = contactElement.querySelector('img');
+                contactTestCheckbox.src = '/img/checked.png';
+            }
+        }
+    }
+}
+
+
+async function matchTaskAssignedUserToCheckedDropdown() {
+    contactsArray = [];
+    try {
+        const response = await fetch(`${BASE_URL}/.json`);
+        const data = await response.json();
+        // Find the task with the given ID
+        const targetTask = data.tasks[taskEditId];
+        checkDropdownListCheckboxStatus(targetTask);
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+    console.log("checkbox-Funktion erfolgreich ausgeführt");
+}
