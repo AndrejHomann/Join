@@ -45,6 +45,11 @@
     font-weight: 700;
 }
 
+#new-subtask-list-edit-container {
+    background-color: white;
+    width: 100%;
+}
+
 @media (max-width: 1360px) {
     #content-box-container-edit-task {
         gap: 16px;

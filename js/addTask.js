@@ -253,17 +253,6 @@ function showCloseOrDeleteIconDuringWritingSubtask() {
 /**
  * Sets up event listeners for the subtask input field to handle enter key press and input changes.
  */
-// function waitingForSubtaskEnterOrDraftEvent() {
-//     let newSubtaskInput = document.getElementById("new-subtask-input");
-
-//     newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
-//     newSubtaskInput.addEventListener("input", function () {
-//         resetSubtaskRequiredNotification();
-//         showCloseOrDeleteIconDuringWritingSubtask();
-//     });
-// }
-// waitingForSubtaskEnterOrDraftEvent();
-
 document.addEventListener("DOMContentLoaded", function () {
     waitingForSubtaskEnterOrDraftEvent();
 });
@@ -360,7 +349,7 @@ function templateSubtasksListHTML(i, subtask) {
     return /*html*/ `
             <div class="generatedSubtasks" id="generated-subtask-container-${i}">
                 <li id="generated-subtask-list-item-${i}" class="subtaskListItemStyle">${subtask}</li>
-                <div id="generated-subtask-list-icons">     
+                <div id="generated-subtask-list-icons">
                     <div id="edit-icon-container" onclick="editSubtask(${i})"><img src="/img/addTask/edit.png" alt="edit" /></div>
                     <div class="border-subtask-container"></div>
                     <div id="delete-icon-container" onclick="deleteSubtask(${i})">

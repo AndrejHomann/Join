@@ -271,26 +271,6 @@ function doNotCloseDropdown(event) {
  *
  * @param {Event} event - The click event.
  */
-// function clickOutsideOfDropdown(event) {
-//     let contactsDropdown = document.getElementById("dropdown-list");
-//     let categoryDropdown = document.getElementById("category-dropdown-list");
-
-//     let clickedInsideContacts = contactsDropdown.contains(event.target);
-//     let clickedInsideCategory = categoryDropdown.contains(event.target);
-
-//     if (!clickedInsideContacts && !clickedInsideCategory) {
-//         if (!contactsDropdown.classList.contains("d-none")) {
-//             closeContactsDropDown();
-//         }
-
-//         if (!categoryDropdown.classList.contains("d-none")) {
-//             closeCategoryDropDown();
-//         }
-//     }
-// }
-
-// document.addEventListener("click", clickOutsideOfDropdown);
-
 document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("click", clickOutsideOfDropdown);
 });

@@ -120,8 +120,8 @@ function createTaskFromBoardDiv() {
                 </div>
                 <div id="category-container" class="flex-column gap8px">
                     <div class="subtitle">Category<span class="asterisk">*</span></div>
-                    <div id="selected-category" class="select-container" onclick="showCategoryDropDown()">
-                        <span id="category-placeholder">Select task category</span>
+                    <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), doNotCloseDropdown(event)">
+                    <span id="category-placeholder">Select task category</span>
                         <div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                     </div>
                     <span id="missing-category-message" class="validationStyle d-none">This field is required</span>
@@ -250,19 +250,17 @@ function createSubtaskHTML(subtaskObj, taskId, index) {
 }
 
 function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
-    console.log("Subtask Object:", subtaskObj); // Log zur Überprüfung
-
     return /*html*/ `
         <div class="generatedSubtasks" id="generated-subtask-container-${taskId}-${index}">
             <li id="generated-subtask-list-item-${taskId}-${index}" class="subtaskListItemStyle">
-                <input type="text" value="${subtaskObj.subtask}" id="subtask-input-${taskId}-${index}" />
+                ${subtaskObj.subtask}
             </li>
             <div id="generated-subtask-list-icons">
-                <div id="edit-icon-container" onclick="editSubtask(${taskId}, ${index})">
+                <div id="edit-icon-container" onclick="editSubtaskFromBoard('${taskId}', ${index})">
                     <img src="/img/addTask/edit.png" alt="edit" />
                 </div>
                 <div class="border-subtask-container"></div>
-                <div id="delete-icon-container" onclick="deleteSubtask(${taskId}, ${index})">
+                <div id="delete-icon-container" onclick="deleteSubtaskFromBoard('${taskId}', ${index})">
                     <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
                 </div>
             </div>
@@ -270,19 +268,36 @@ function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
     `;
 }
 
-// function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
-//     return /*html*/ `
-//             <div class="generatedSubtasks" id="generated-subtask-container-${taskId}">
-//                 <li id="generated-subtask-list-item-${taskId}" class="subtaskListItemStyle">${subtaskObj}</li>
-//                 <div id="generated-subtask-list-icons">     
-//                     <div id="edit-icon-container" onclick="editSubtask(${taskId})"><img src="/img/addTask/edit.png" alt="edit" /></div>
-//                     <div class="border-subtask-container"></div>
-//                     <div id="delete-icon-container" onclick="deleteSubtask(${taskId})">
-//                         <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
-//                     </div>
-//                 </div>
-//             </div>`;
-// }
+function editSubtaskFromBoard(taskId, index) {
+    let toEditSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
+    let currentSubtaskText = task.addedSubtasks[index];
+
+    toEditSubtask.classList.add("noHoverEffect");
+
+    toEditSubtask.innerHTML = templateEditSubtasSubtasksHTML(currentSubtaskText, taskId, index);
+
+    setupEditSubtaskInputListener(taskId, index);
+}
+
+function deleteSubtaskFromBoard(taskId, index) {
+    let newSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
+    if (newSubtask) {
+        newSubtask.remove();
+    }
+    subtasks.splice(index, 1);
+    updateSubtaskListAfterDeleteFromBoard(taskId);
+}
+
+function updateSubtaskListAfterDeleteFromBoard() {
+    let subtaskList = document.getElementById("generated-subtask-list-container");
+
+    subtaskList.innerHTML = "";
+
+    for (let i = 0; i < subtasks.length; i++) {
+        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
+        subtaskList.innerHTML += subtaskHTML;
+    }
+}
 
 /**
  * Creates an HTML string for a delete confirmation dialog.
@@ -299,21 +314,8 @@ function createDeleteConfirmationHTML() {
     `;
 }
 
-// async function editTask(title, description, date, category, subtasks) {
-//     loadEditTask(title, description, date, category, subtasks);
-//     await loadAddTaskScript();
-// }
-
-// function loadSubtasks() { }
-
-// function loadPrio() { }
-
-// function loadEditTask(title, description, date, category, subtasks) {
-//     loadEditTaskHTML(title, description, date, category, subtasks);
-// }
-
 function handleEditButtonClick(taskId) {
-    const taskToEdit = tasksArray.find(task => task.id === taskId);
+    const taskToEdit = tasksArray.find((task) => task.id === taskId);
 
     if (taskToEdit) {
         editTask(taskToEdit);
@@ -436,7 +438,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
             </div>
             <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">This field is required</span>
          </div>
-         <div id="new-subtask-list-container">
+         <div id="new-subtask-list-edit-container">
             <div id="generated-subtask-list-container">${renderedSubtasks}</div>
          </div>
       </div>
