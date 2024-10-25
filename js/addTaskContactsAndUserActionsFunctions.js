@@ -1,3 +1,5 @@
+let contactsArray = [];             // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
+
 /**
  * Fetches contacts from the server and stores their names and colors in `contactList` and `colors` arrays.
  * This data is used for displaying contacts in the dropdown list.
@@ -186,6 +188,7 @@ function templateContactsHTMLDropdownList() {
         let firstLetter = firstName.charAt(0).toUpperCase();
         let lastLetter = lastName.charAt(0).toUpperCase();
         let color = colors[i];
+        contactsArray.push({index: i, contact: contact});           // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
 
         dropdownHTML += /*html*/ `
             <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
