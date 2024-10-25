@@ -376,6 +376,20 @@ function appendUserIcons(task, iconsContainer) {
     });
 }
 
+function appendEditableUserIcons(task, iconsContainer) {
+    // Prüfen, ob der Icons-Container leer ist, bevor neue Icons hinzugefügt werden
+    if (iconsContainer.innerHTML === "") {
+        task.name.forEach((userName, index) => {
+            const userColor = task.color[index];
+            const icon = createContactIcon(userName, userColor, "small");
+            const contactDiv = document.createElement("div");
+            contactDiv.className = "contact-edit";
+            contactDiv.appendChild(icon);
+            iconsContainer.appendChild(contactDiv);
+        });
+    }
+}
+
 /**
  * Sets up event handlers for the edit and delete buttons associated with a task.
  *
@@ -438,6 +452,11 @@ function closeTaskDetails() {
         },
         { once: true }
     );
+}
+
+function closeEditTask() {
+    const editTask = document.getElementById("editTaskOverlay");
+    editTask.style.display = "none";
 }
 
 /**
