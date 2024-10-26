@@ -362,31 +362,60 @@ function createUserIconsContainer(task) {
  * @param {Object} task - The task object containing user details.
  * @param {HTMLDivElement} iconsContainer - The container to which user icons and names will be appended.
  */
+// function appendUserIcons(task, iconsContainer) {
+//     task.name.forEach((userName, index) => {
+//         const userColor = task.color[index];
+//         const icon = createContactIcon(userName, userColor, "medium");
+//         const contactDiv = document.createElement("div");
+//         contactDiv.className = "contact-detail";
+//         contactDiv.appendChild(icon);
+//         const nameSpan = document.createElement("span");
+//         nameSpan.textContent = userName;
+//         contactDiv.appendChild(nameSpan);
+//         iconsContainer.appendChild(contactDiv);
+//     });
+// }
+
 function appendUserIcons(task, iconsContainer) {
-    task.name.forEach((userName, index) => {
-        const userColor = task.color[index];
-        const icon = createContactIcon(userName, userColor, "medium");
-        const contactDiv = document.createElement("div");
-        contactDiv.className = "contact-detail";
-        contactDiv.appendChild(icon);
-        const nameSpan = document.createElement("span");
-        nameSpan.textContent = userName;
-        contactDiv.appendChild(nameSpan);
-        iconsContainer.appendChild(contactDiv);
-    });
+    if (task.name && task.color && task.name.length > 0) {
+        task.name.forEach((userName, index) => {
+            const userColor = task.color[index];
+            createAndAppendUserIcon(userName, userColor, iconsContainer);
+        });
+    } else {
+        showNoUserMessage(iconsContainer);
+    }
+}
+
+function createAndAppendUserIcon(userName, userColor, iconsContainer) {
+    const icon = createContactIcon(userName, userColor, "medium");
+    const contactDiv = document.createElement("div");
+    contactDiv.className = "contact-detail";
+    contactDiv.appendChild(icon);
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = userName;
+    contactDiv.appendChild(nameSpan);
+
+    iconsContainer.appendChild(contactDiv);
+}
+
+function showNoUserMessage(iconsContainer) {
+    const noUserMessage = document.createElement("div");
+    noUserMessage.className = "no-user-message";
+    noUserMessage.textContent = "currently no user assigned";
+    iconsContainer.appendChild(noUserMessage);
 }
 
 function appendEditableUserIcons(task, iconsContainer) {
-    // Prüfen, ob der Icons-Container leer ist, bevor neue Icons hinzugefügt werden
-    if (iconsContainer.innerHTML === "") {
+    // Überprüfen, ob der Icons-Container leer ist
+    if (iconsContainer.innerHTML === "" && task.name && task.color && task.name.length > 0) {
         task.name.forEach((userName, index) => {
             const userColor = task.color[index];
-            const icon = createContactIcon(userName, userColor, "small");
-            const contactDiv = document.createElement("div");
-            contactDiv.className = "contact-edit";
-            contactDiv.appendChild(icon);
-            iconsContainer.appendChild(contactDiv);
+            const icon = createContactIcon(userName, userColor, "micro");
+            iconsContainer.appendChild(icon);
         });
+        document.getElementById("assigned-container").classList.add("heightAuto");
     }
 }
 
@@ -452,6 +481,28 @@ function closeTaskDetails() {
         },
         { once: true }
     );
+}
+
+function addOverlayClickListener() {
+    const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
+    if (taskDetailsOverlay) {
+        taskDetailsOverlay.addEventListener('click', handleOverlayClick);
+    }
+}
+
+function handleOverlayClick(event) {
+    const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
+    if (event.target === taskDetailsOverlay) {
+        closeTaskDetails();
+        removeOverlayClickListener(); // Entfernt den Listener nach dem Schließen
+    }
+}
+
+function removeOverlayClickListener() {
+    const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
+    if (taskDetailsOverlay) {
+        taskDetailsOverlay.removeEventListener('click', handleOverlayClick);
+    }
 }
 
 function closeEditTask() {
