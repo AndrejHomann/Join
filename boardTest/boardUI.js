@@ -401,24 +401,6 @@ function appendEditableUserIcons(task, iconsContainer) {
  * @param {Object} task - The task object for which the buttons will be set up.
  * @param {string} task.id - The unique identifier of the task to be edited or deleted.
  */
-// function setupEditAndDeleteButtons(task) {
-//     const editButton = document.getElementById("editButton");
-//     const deleteButton = document.getElementById("deleteButton");
-//     if (editButton && deleteButton) {
-//         //     editButton.onclick = () => editTask(task.id); // // }
-//         //     deleteButton.onclick = () => handleDeleteTask(task.id);
-//         // if (editButton) {
-//         //     editButton.onclick = () => editTask(task);
-//         //     loadAddTaskScript(); // Übergibt das gesamte Task-Objekt
-//         //     editButton.onclick = () => loadAddTaskScript();
-//         // }
-//         if (deleteButton) {
-//             deleteButton.onclick = () => handleDeleteTask(task.id);
-//         }
-//     }
-//     // }
-// }
-
 function setupEditAndDeleteButtons(task) {
     const deleteButton = document.getElementById("deleteButton");
 

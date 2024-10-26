@@ -1,4 +1,4 @@
-let contactsArray = [];             // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
+let contactsArray = []; // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
 
 /**
  * Fetches contacts from the server and stores their names and colors in `contactList` and `colors` arrays.
@@ -41,7 +41,8 @@ async function showContactsDropDown() {
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
     document.getElementById("dropdown-list").classList.remove("d-none");
-    document.getElementById("selected-contacts-circle-container").classList.add("d-none");
+    // document.getElementById("selected-contacts-circle-container").classList.add("d-none");
+    document.getElementById("selected-contacts-circle-container").style.display = "none";
 
     setColorOfAssignedContainer();
     showCheckedContactsAfterDropdownClosing();
@@ -72,7 +73,8 @@ function closeContactsDropDown() {
 
     document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
     document.getElementById("dropdown-list").classList.add("d-none");
-    document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
+    // document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
+    document.getElementById("selected-contacts-circle-container").style.display = "";
 
     removeColorOfBorderAssignedContainer();
     showCirclesOfSelectedContacts();
@@ -188,7 +190,7 @@ function templateContactsHTMLDropdownList() {
         let firstLetter = firstName.charAt(0).toUpperCase();
         let lastLetter = lastName.charAt(0).toUpperCase();
         let color = colors[i];
-        contactsArray.push({index: i, contact: contact});           // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
+        contactsArray.push({ index: i, contact: contact }); // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
 
         dropdownHTML += /*html*/ `
             <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
@@ -196,7 +198,7 @@ function templateContactsHTMLDropdownList() {
                 <div class="circle" style="background-color: ${color};">
                     ${firstLetter}${lastLetter}
                 </div>
-                <span>${contact}</span>
+                <span class="contactsDropdownNameSpan">${contact}</span>
             </div>
                 <img src="/img/unchecked.png" alt="unchecked" id="unchecked-box-${i}" class="uncheckedBox">
             </div>`;

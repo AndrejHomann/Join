@@ -284,30 +284,6 @@ function createTaskFromBoard() {
     loadAddTaskScript(); // Falls notwendig, die weitere Logik hier hinzufügen
 }
 
-// function loadAddTaskScript() {
-//     const scripts = [
-//         { id: "addTaskScript", src: "/js/addTask.js" },
-//         { id: "addTaskCategoryFunctions", src: "/js/addTaskCategoryFunctions.js" },
-//         { id: "addTaskContactsAndUserActionsFunctions", src: "/js/addTaskContactsAndUserActionsFunctions.js" },
-//         { id: "addTaskValidationAndClearingFunctions", src: "/js/addTaskValidationAndClearingFunctions.js" },
-//     ];
-
-//     scripts.forEach((scriptInfo) => {
-//         // Prüfen, ob das Skript bereits existiert
-//         if (!document.getElementById(scriptInfo.id)) {
-//             let script = document.createElement("script");
-//             script.src = scriptInfo.src;
-//             script.id = scriptInfo.id; // ID zuweisen, um später darauf zu prüfen
-//             script.onload = function () {
-//                 console.log(`${scriptInfo.src} wurde geladen.`);
-//             };
-//             document.body.appendChild(script);
-//         } else {
-//             console.log(`${scriptInfo.src} ist bereits geladen.`);
-//         }
-//     });
-// }
-
 function loadAddTaskScript() {
     const scripts = [
         { id: "addTaskScript", src: "/js/addTask.js" },
@@ -383,38 +359,23 @@ function closeBoardAddTaskIfNeeded() {
     loadTasks(); // Board aktualisieren, nachdem das Fenster geschlossen wurde
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
 
 function findContactIndexForTaskName(taskName) {
-    for (let i=0; i<contactsArray.length; i++) {
+    for (let i = 0; i < contactsArray.length; i++) {
         if (contactsArray[i].contact === taskName) {
             console.log("contact array index is:", i);
             return i;
         }
-      }
+    }
     console.log("contact array index could not be calculated");
     return -1;
 }
 
-
 function checkDropdownListCheckboxStatus(targetTask) {
     if (targetTask.name) {
+        document.getElementById("assigned-container").classList.add("heightAuto");
+
         // iterate through task list of assigned users
         for (const taskName of targetTask.name) {
             console.log("forwarded Task-UserName:", taskName);
@@ -424,13 +385,12 @@ function checkDropdownListCheckboxStatus(targetTask) {
             if (contactIndex !== -1) {
                 // update checkbox via contact array index value
                 const contactElement = document.getElementById(`dropdown-list-contact-${contactIndex}`);
-                const contactTestCheckbox = contactElement.querySelector('img');
-                contactTestCheckbox.src = '/img/checked.png';
+                const contactTestCheckbox = contactElement.querySelector("img");
+                contactTestCheckbox.src = "/img/checked.png";
             }
         }
     }
 }
-
 
 async function matchTaskAssignedUserToCheckedDropdown() {
     contactsArray = [];

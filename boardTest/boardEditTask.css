@@ -43,11 +43,30 @@
     height: 57px;
     font-size: 21px;
     font-weight: 700;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#ok-submit-container {
+    width: 25px;
+    height: 29px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+#check-submit-container {
+    height: 24px;
+    width: 24px;
 }
 
 #new-subtask-list-edit-container {
     background-color: white;
     width: 100%;
+}
+
+#assigned-container-edit {
+    height: auto;
 }
 
 @media (max-width: 1360px) {

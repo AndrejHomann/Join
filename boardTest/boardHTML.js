@@ -1,4 +1,4 @@
-let taskEditId; 
+let taskEditId;
 let taskEditTitle;
 let taskEditDescription;
 
@@ -328,12 +328,8 @@ function handleEditButtonClick(taskId) {
     }
 }
 
-// function editTask(task) {
-//     loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
-//     loadAddTaskScript();
-// }
-
 function editTask(task) {
+    loadAddTaskScript();
     const editTask = document.getElementById("editTask");
     if (!editTask) {
         console.error("Edit-Overlay nicht gefunden");
@@ -344,22 +340,23 @@ function editTask(task) {
     const iconsContainer = document.querySelector("#selected-contacts-circle-container");
     if (iconsContainer) {
         appendEditableUserIcons(task, iconsContainer);
+        document.getElementById("assigned-container").classList.add("heightAuto");
     } else {
         console.error("Icons-Container nicht gefunden");
     }
-    loadAddTaskScript();
     taskEditId = task.id;
     taskEditTitle = task.title;
     taskEditDescription = task.taskDescription;
 }
 
+function iconsOfSelectedContacts() {}
 
-function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks, taskId) {
+function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks) {
     // const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
     // if (!taskDetailsOverlay) return;
 
-    // taskDetailsOverlay.innerHTML = /*html*/ ` 
-    return /*html*/` 
+    // taskDetailsOverlay.innerHTML = /*html*/ `
+    return /*html*/ ` 
     <div id="editTaskOverlay" class="edit-task-overlay">
 <div id="content-box-container-edit-task">
    <div class="closeButton">
@@ -389,7 +386,6 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
          <div id="selected-contacts-circle-container"></div>
       </div>
    </div>
-   <div id="border-container"></div>
    <div id="content-box-right" class="flex-column">
       <div id="date-container" class="flex-column gap8px">
          <div class="subtitle">Due date<span class="asterisk">*</span></div>
@@ -469,8 +465,13 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
             <div id="generated-subtask-list-container">${renderedSubtasks}</div>
          </div>
       </div>
-   </div>
-   <div id="ok-edittask-button-container"><div id="ok-edittask-button"><div >Ok</div><img src="/img/addTask/check.png" alt=""></div></div>
+    </div>
+    <div id="ok-edittask-button-container"  onclick="closeEditTask()">
+        <div id="ok-edittask-button">
+            <div id="ok-submit-container"><span>Ok</span></div>
+            <div id="check-submit-container"><img src="/img/board/assets/icons/check.png" alt=""/></div>
+        </div>
+    </div>
 </div>
 </div>
 `;
