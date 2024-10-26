@@ -42,6 +42,7 @@ async function showContactsDropDown() {
 
     document.getElementById("dropdown-list").classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").classList.add("d-none");
+    document.getElementById("edit-selected-contacts-container").classList.add("d-none");
 
     setColorOfAssignedContainer();
     showCheckedContactsAfterDropdownClosing();
@@ -188,7 +189,7 @@ function templateContactsHTMLDropdownList() {
         let firstLetter = firstName.charAt(0).toUpperCase();
         let lastLetter = lastName.charAt(0).toUpperCase();
         let color = colors[i];
-        contactsArray.push({index: i, contact: contact});           // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
+        contactsArray.push({ index: i, contact: contact });           // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
 
         dropdownHTML += /*html*/ `
             <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
