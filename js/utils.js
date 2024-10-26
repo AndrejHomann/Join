@@ -35,6 +35,8 @@ function createContactIcon(name, color, size) {
         icon.className = 'contact-icon-large';
     } else if (size === 'small') {
         icon.className = 'contact-icon-small';
+    } else if (size === 'micro') {
+        icon.className = 'contact-icon-micro';
     } else {
         icon.className = 'contact-icon'; // Standardgröße
     }
