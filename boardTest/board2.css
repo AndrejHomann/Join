@@ -237,6 +237,19 @@ button {
     margin-right: -8px;
 }
 
+.contact-icon-micro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    margin-right: 8px;
+    border: 2px solid white;
+}
+
 .contact-icon {
     width: 42px;
     height: 42px;
@@ -863,6 +876,9 @@ label {
     }
     #new-subtask-list-container {
         background-color: #f6f7f8 !important;
+    }
+    .contact-icon-micro{
+        font-size: 10px;
     }
 }
 
