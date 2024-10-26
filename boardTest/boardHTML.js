@@ -337,7 +337,7 @@ function editTask(task) {
     }
     editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
 
-    const iconsContainer = document.getElementById("edit-selected-contacts-container");
+    const iconsContainer = document.getElementById("selected-contacts-circle-container");
     if (iconsContainer) {
         appendEditableUserIcons(task, iconsContainer);
         document.getElementById("assigned-container").classList.add("heightAuto");
@@ -354,10 +354,6 @@ function editTask(task) {
 function iconsOfSelectedContacts() {}
 
 function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks) {
-    // const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
-    // if (!taskDetailsOverlay) return;
-
-    // taskDetailsOverlay.innerHTML = /*html*/ `
     return /*html*/ ` 
     <div id="editTaskOverlay" class="edit-task-overlay">
 <div id="content-box-container-edit-task">
@@ -386,7 +382,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
          </div>
          <div id="dropdown-list" class="d-none"></div>
          <div id="selected-contacts-circle-container"></div>
-         <div id="edit-selected-contacts-container"></div>
+         <!-- <div id="edit-selected-contacts-container"></div> -->
       </div>
    </div>
    <div id="content-box-right" class="flex-column">

@@ -40,9 +40,9 @@ async function showContactsDropDown() {
     let dropdownList = document.getElementById("dropdown-list");
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
-    document.getElementById("dropdown-list").classList.remove("d-none");
-    document.getElementById("selected-contacts-circle-container").classList.add("d-none");
-    document.getElementById("edit-selected-contacts-container").classList.add("d-none");
+    dropdownList.classList.remove("d-none");
+    document.getElementById("selected-contacts-circle-container").style.display = "none";
+    // document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
 
     setColorOfAssignedContainer();
     showCheckedContactsAfterDropdownClosing();
@@ -73,8 +73,8 @@ function closeContactsDropDown() {
 
     document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
     document.getElementById("dropdown-list").classList.add("d-none");
-    // document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "";
+    // document.getElementById("selected-contacts-circle-container").classList.add("d-none");
 
     removeColorOfBorderAssignedContainer();
     showCirclesOfSelectedContacts();
