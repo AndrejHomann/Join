@@ -41,8 +41,8 @@ async function showContactsDropDown() {
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
     document.getElementById("dropdown-list").classList.remove("d-none");
-    // document.getElementById("selected-contacts-circle-container").classList.add("d-none");
-    document.getElementById("selected-contacts-circle-container").style.display = "none";
+    document.getElementById("selected-contacts-circle-container").classList.add("d-none");
+    document.getElementById("edit-selected-contacts-container").classList.add("d-none");
 
     setColorOfAssignedContainer();
     showCheckedContactsAfterDropdownClosing();

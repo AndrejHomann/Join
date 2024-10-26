@@ -266,6 +266,7 @@ function openTaskDetail(taskId) {
         taskDetails.style.display = "flex";
         taskDetails.classList.remove("task-details-slideOut");
         taskDetails.classList.add("task-details-slideIn");
+        addOverlayClickListener();
     }
 }
 
@@ -372,21 +373,35 @@ function findContactIndexForTaskName(taskName) {
     return -1;
 }
 
+// function checkDropdownListCheckboxStatus(targetTask) {
+//     if (targetTask.name) {
+//         // iterate through task list of assigned users
+//         for (const taskName of targetTask.name) {
+//             console.log("forwarded Task-UserName:", taskName);
+//             // find contact index in dropdown list by name
+//             let contactIndex = findContactIndexForTaskName(taskName);
+//             console.log("the contacts array then is:", contactsArray);
+//             if (contactIndex !== -1) {
+//                 // update checkbox via contact array index value
+//                 const contactElement = document.getElementById(`dropdown-list-contact-${contactIndex}`);
+//                 const contactTestCheckbox = contactElement.querySelector('img');
+//                 contactTestCheckbox.src = '/img/checked.png';
+//             }
+//         }
+//     }
+// }
+
 function checkDropdownListCheckboxStatus(targetTask) {
     if (targetTask.name) {
-        document.getElementById("assigned-container").classList.add("heightAuto");
-
-        // iterate through task list of assigned users
         for (const taskName of targetTask.name) {
-            console.log("forwarded Task-UserName:", taskName);
-            // find contact index in dropdown list by name
             let contactIndex = findContactIndexForTaskName(taskName);
-            console.log("the contacts array then is:", contactsArray);
             if (contactIndex !== -1) {
-                // update checkbox via contact array index value
                 const contactElement = document.getElementById(`dropdown-list-contact-${contactIndex}`);
                 const contactTestCheckbox = contactElement.querySelector("img");
                 contactTestCheckbox.src = "/img/checked.png";
+
+                // Füge den markierten Kontakt direkt in den selected-contacts-circle-container hinzu
+                handleContactSelection(taskName, contactIndex);
             }
         }
     }

@@ -337,13 +337,15 @@ function editTask(task) {
     }
     editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
 
-    const iconsContainer = document.querySelector("#selected-contacts-circle-container");
+    const iconsContainer = document.getElementById("edit-selected-contacts-container");
     if (iconsContainer) {
         appendEditableUserIcons(task, iconsContainer);
         document.getElementById("assigned-container").classList.add("heightAuto");
     } else {
         console.error("Icons-Container nicht gefunden");
     }
+
+    loadAddTaskScript();
     taskEditId = task.id;
     taskEditTitle = task.title;
     taskEditDescription = task.taskDescription;
@@ -384,6 +386,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
          </div>
          <div id="dropdown-list" class="d-none"></div>
          <div id="selected-contacts-circle-container"></div>
+         <div id="edit-selected-contacts-container"></div>
       </div>
    </div>
    <div id="content-box-right" class="flex-column">
