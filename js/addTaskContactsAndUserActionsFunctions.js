@@ -234,7 +234,6 @@ function sortContactsByFirstName(contactList) {
 
 //     setTimeout(hideSuccessMessage, 2500);
 // }
-
 function showSuccessMessage() {
     setTimeout(successMessageSlidingIn, 500);
 
