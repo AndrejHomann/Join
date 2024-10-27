@@ -186,7 +186,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
                   <div id="plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
                </div>
             </div>
-            <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">This field is required</span>
+            <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">Please add a subtask 🙂</span>
          </div>
          <div id="edit-new-subtask-list-edit-container">
             <div id="edit-generated-subtask-list-container">${renderedSubtasks}</div>
