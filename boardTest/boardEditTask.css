@@ -25,8 +25,20 @@
     padding-top: 48px;
 }
 
+#edit-content-box-right {
+    width: 440px;
+    gap: 24px;
+}
+
+#edit-generated-subtask-list-container {
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
+}
+
 #ok-edittask-button-container {
     padding-bottom: 48px;
+    padding-top: 24px;
     display: flex;
     justify-content: end;
     position: sticky;
@@ -72,5 +84,10 @@
 @media (max-width: 1360px) {
     #content-box-container-edit-task {
         gap: 16px;
+    }
+
+    #edit-content-box-right {
+        gap: 16px;
+        width: auto;
     }
 }

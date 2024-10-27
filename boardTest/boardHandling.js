@@ -336,11 +336,11 @@ function closeBoardAddTaskIfNeeded() {
 function findContactIndexForTaskName(taskName) {
     for (let i = 0; i < contactsArray.length; i++) {
         if (contactsArray[i].contact === taskName) {
-            console.log("contact array index is:", i);
+            // console.log("contact array index is:", i);
             return i;
         }
     }
-    console.log("contact array index could not be calculated");
+    // console.log("contact array index could not be calculated");
     return -1;
 }
 
@@ -372,7 +372,7 @@ async function matchTaskAssignedUserToCheckedDropdown() {
     } catch (error) {
         console.error("Error while fetching data:", error);
     }
-    console.log("Checkbox function executed successfully");
+    // console.log("Checkbox function executed successfully");
 }
 
 function loadCheckedBoxesInDropdownList() {}

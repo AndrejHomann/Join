@@ -113,7 +113,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
          <!-- <div id="edit-selected-contacts-container"></div> -->
       </div>
    </div>
-   <div id="content-box-right" class="flex-column">
+   <div id="edit-content-box-right" class="flex-column">
       <div id="date-container" class="flex-column gap8px">
          <div class="subtitle">Due date<span class="asterisk">*</span></div>
          <div id="calender">
@@ -177,7 +177,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
          <span id="missing-category-message" class="validationStyle" style="display: none">This field is required</span>
          <div id="category-dropdown-list" class="d-none"></div>
       </div>
-      <div id="substasks-container" class="flex-column gap8px">
+      <div id="edit-substasks-container" class="flex-column gap8px">
          <div class="subtitle">Subtasks</div>
          <div id="subtask-relative-container">
             <div id="new-subtask-container" onclick="addOrCloseSubtask()">
@@ -188,8 +188,8 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
             </div>
             <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">This field is required</span>
          </div>
-         <div id="new-subtask-list-edit-container">
-            <div id="generated-subtask-list-container">${renderedSubtasks}</div>
+         <div id="edit-new-subtask-list-edit-container">
+            <div id="edit-generated-subtask-list-container">${renderedSubtasks}</div>
          </div>
       </div>
     </div>
