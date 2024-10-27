@@ -43,6 +43,7 @@ async function showContactsDropDown() {
     dropdownList.classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "none";
     // document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
+    // document.getElementById("edit-selected-contacts-container").style.display = "none";
 
     setColorOfAssignedContainer();
     showCheckedContactsAfterDropdownClosing();
@@ -75,6 +76,7 @@ function closeContactsDropDown() {
     document.getElementById("dropdown-list").classList.add("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "";
     // document.getElementById("selected-contacts-circle-container").classList.add("d-none");
+    // document.getElementById("edit-selected-contacts-container").style.display = "";
 
     removeColorOfBorderAssignedContainer();
     showCirclesOfSelectedContacts();
