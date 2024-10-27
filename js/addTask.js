@@ -204,24 +204,6 @@ function addSubtask() {
  * @param {HTMLElement} missingSubtaskMessage - The message shown if the input is empty.
  * @param {number} i - The index of the new subtask.
  */
-// function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i) {
-//     if (newSubtaskInput.value !== "") {
-//         subtasks.push(newSubtaskInput.value);
-
-//         let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
-//         subtaskList.innerHTML += subtaskHTML;
-
-//         newSubtaskInput.value = "";
-//         subtaskContainer.style.border = "";
-//         missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-//         missingSubtaskMessage.style.display = "none";
-//     } else {
-//         subtaskContainer.style.border = "1px solid #ff8190";
-//         missingSubtaskMessage.classList.add("validationStyleSubtasks");
-//         missingSubtaskMessage.style.removeProperty("display");
-//     }
-// }
-
 function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i) {
     // Trim the input value to remove leading and trailing spaces
     let trimmedInput = newSubtaskInput.value.trim();

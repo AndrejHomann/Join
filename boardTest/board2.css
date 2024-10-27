@@ -246,7 +246,6 @@ button {
     border-radius: 50%;
     color: white;
     font-size: 12px;
-    margin-right: 8px;
     border: 2px solid white;
 }
 
@@ -768,7 +767,7 @@ label {
     font-weight: 400;
 }
 
-#editTaskOverlay{
+#editTaskOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -877,7 +876,7 @@ label {
     #new-subtask-list-container {
         background-color: #f6f7f8 !important;
     }
-    .contact-icon-micro{
+    .contact-icon-micro {
         font-size: 10px;
     }
 }
