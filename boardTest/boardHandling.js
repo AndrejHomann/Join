@@ -354,7 +354,7 @@ function checkDropdownListCheckboxStatus(targetTask) {
                 contactTestCheckbox.src = "/img/checked.png";
 
                 // Füge den markierten Kontakt direkt in den selected-contacts-circle-container hinzu
-                handleContactSelection(taskName, contactIndex);
+                handleContactSelection(taskName, contactIndex, targetTask);
             }
         }
     }
