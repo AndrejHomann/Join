@@ -373,7 +373,7 @@ function editSubtask(index) {
 
     toEditSubtask.classList.add("noHoverEffect");
 
-    toEditSubtask.innerHTML = templateEditSubtasSubtasksHTML(currentSubtaskText, index);
+    toEditSubtask.innerHTML = templateEditSubtasksHTML(currentSubtaskText, index);
 
     setupEditSubtaskInputListener(index);
 }
@@ -385,7 +385,7 @@ function editSubtask(index) {
  * @param {number} index - The index of the subtask being edited.
  * @returns {string} - The HTML for the subtask edit view.
  */
-function templateEditSubtasSubtasksHTML(currentSubtaskText, index) {
+function templateEditSubtasksHTML(currentSubtaskText, index) {
     return /*html*/ `
         <div id="edit-subtask-container">
             <input type="text" id="edit-subtask-input-${index}" value="${currentSubtaskText}" class="edit-subtask-container-styling">            

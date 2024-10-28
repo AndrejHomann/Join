@@ -468,7 +468,7 @@ function closeTaskDetails() {
 function addOverlayClickListener() {
     const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
     if (taskDetailsOverlay) {
-        taskDetailsOverlay.addEventListener('click', handleOverlayClick);
+        taskDetailsOverlay.addEventListener("click", handleOverlayClick);
     }
 }
 
@@ -483,7 +483,7 @@ function handleOverlayClick(event) {
 function removeOverlayClickListener() {
     const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
     if (taskDetailsOverlay) {
-        taskDetailsOverlay.removeEventListener('click', handleOverlayClick);
+        taskDetailsOverlay.removeEventListener("click", handleOverlayClick);
     }
 }
 
@@ -507,14 +507,6 @@ function renderSubtasks(subtasks, taskId) {
     if (!subtasks || subtasks.length === 0) return "<p>No subtasks added</p>";
 
     return subtasks.map((subtaskObj, index) => createSubtaskHTML(subtaskObj, taskId, index)).join("");
-}
-
-function renderEditableSubtasks(subtasks, taskId) {
-    if (!subtasks || subtasks.length === 0) {
-        return "<p>No subtasks available to edit</p>";
-    }
-
-    return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
 }
 
 /**

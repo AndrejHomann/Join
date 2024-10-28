@@ -1,28 +1,31 @@
 function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
     return /*html*/ `
-        <div class="generatedSubtasks" id="generated-subtask-container-${taskId}-${index}">
-            <li id="generated-subtask-list-item-${taskId}-${index}" class="subtaskListItemStyle">
-                ${subtaskObj.subtask}
-            </li>
-            <div id="generated-subtask-list-icons">
-                <div id="edit-icon-container" onclick="editSubtaskFromBoard('${taskId}', ${index})">
-                    <img src="/img/addTask/edit.png" alt="edit" />
-                </div>
-                <div class="border-subtask-container"></div>
-                <div id="delete-icon-container" onclick="deleteSubtaskFromBoard('${taskId}', ${index})">
-                    <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
-                </div>
-            </div>
-        </div>
-    `;
+       <div class="generatedSubtasks" id="generated-subtask-container-${taskId}-${index}">
+           <li id="generated-subtask-list-item-${taskId}-${index}" class="subtaskListItemStyle">${subtaskObj.subtask}</li>
+           <div id="generated-subtask-list-icons">
+               <div id="edit-icon-container" onclick="editSubtaskFromBoard('${taskId}', ${index}, '${subtaskObj.subtask}')"><img src="/img/addTask/edit.png" alt="edit" /></div>
+               <div class="border-subtask-container"></div>
+               <div id="delete-icon-container" onclick="deleteSubtaskFromBoard('${taskId}', ${index})">
+                   <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
+               </div>
+           </div>
+       </div>
+   `;
 }
 
-function editSubtaskFromBoard(taskId, index) {
+function renderEditableSubtasks(subtasks, taskId) {
+    if (!subtasks || subtasks.length === 0) {
+        return "<p>No subtasks available to edit</p>";
+    }
+
+    return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
+}
+
+function editSubtaskFromBoard(taskId, index, subtaskText) {
     let toEditSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
-    let currentSubtaskText = task.addedSubtasks[index];
 
     toEditSubtask.classList.add("noHoverEffect");
-    toEditSubtask.innerHTML = templateEditSubtasSubtasksHTML(currentSubtaskText, taskId, index);
+    toEditSubtask.innerHTML = templateEditSubtasksHTML(subtaskText, taskId, index);
     setupEditSubtaskInputListener(taskId, index);
 }
 
@@ -63,7 +66,7 @@ function editTask(task) {
         console.error("Edit-Overlay nicht gefunden");
         return;
     }
-    editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, task.addedSubtasks, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
+    editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
 
     const iconsContainer = document.getElementById("selected-contacts-circle-container");
     if (iconsContainer) {
@@ -79,7 +82,7 @@ function editTask(task) {
     taskEditDescription = task.taskDescription;
 }
 
-function loadEditTaskHTML(category, title, description, date, priority, subtasks, renderedSubtasks) {
+function loadEditTaskHTML(category, title, description, date, priority, taskAddedSubtasks) {
     return /*html*/ ` 
     <div id="editTaskOverlay" class="edit-task-overlay">
 <div id="content-box-container-edit-task">
@@ -187,7 +190,7 @@ function loadEditTaskHTML(category, title, description, date, priority, subtasks
             <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">Please add a subtask 🙂</span>
          </div>
          <div id="edit-new-subtask-list-edit-container">
-            <div id="edit-generated-subtask-list-container">${renderedSubtasks}</div>
+            <div id="edit-generated-subtask-list-container">${taskAddedSubtasks}</div>
          </div>
       </div>
     </div>
