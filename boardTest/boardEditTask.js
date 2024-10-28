@@ -22,9 +22,7 @@ function editSubtaskFromBoard(taskId, index) {
     let currentSubtaskText = task.addedSubtasks[index];
 
     toEditSubtask.classList.add("noHoverEffect");
-
     toEditSubtask.innerHTML = templateEditSubtasSubtasksHTML(currentSubtaskText, taskId, index);
-
     setupEditSubtaskInputListener(taskId, index);
 }
 
