@@ -1,22 +1,22 @@
-const BASE_URL = 'https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app';
+const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app";
 
 let selectedPrio = "medium";
 
 function choosePrio(prio) {
     let selectedPioButton = document.getElementById(`prio-${prio}-button`);
 
-    if (selectedPrio === prio) {
-        resetPrio();
-        selectedPrio = "";
-    } else {
-        resetPrio();
+    // if (selectedPrio === prio) {
+    //     // resetPrio();
+    //     selectedPrio = "";
+    // } else {
+    //     resetPrio();
+    resetPrio();
+    selectedPioButton.classList.add(`prio-${prio}-button-bg-color`);
+    selectedPioButton.classList.remove("prio-default-text-color");
 
-        selectedPioButton.classList.add(`prio-${prio}-button-bg-color`);
-        selectedPioButton.classList.remove("prio-default-text-color");
-
-        selectedPrio = prio;
-    }
+    selectedPrio = prio;
 }
+// }
 
 function resetPrio() {
     document.getElementById("prio-urgent-button").classList.remove("prio-urgent-button-bg-color");

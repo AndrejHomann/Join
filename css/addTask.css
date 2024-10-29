@@ -748,7 +748,9 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     }
 
     #title-input,
-    #date-input {
+    #date-input,
+    #edit-date-input,
+    #edit-title-input {
         width: 100%;
         font-size: 16px;
         height: 40px;
@@ -815,6 +817,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     #assigned-placeholder,
     #category-placeholder,
     #textarea-input,
+    #edit-textarea-input,
     #new-subtask-input,
     #prio-urgent,
     #prio-medium,
@@ -822,7 +825,8 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         font-size: 16px;
     }
 
-    #textarea-input {
+    #textarea-input,
+    #edit-textarea-input {
         height: 88px;
     }
 

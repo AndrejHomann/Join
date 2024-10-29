@@ -479,24 +479,24 @@ function removeBorderStyleToValueContainer(element) {
 // let dateInput = document.getElementById("date-input");
 // dateInput.addEventListener("change", handleDateInput);
 
-/**
- * Handles changes to the title input field and validates its content.
- */
-function handleTitleInput() {
-    let titleInput = document.getElementById("title-input");
-    let missingTitleMessage = document.getElementById("missing-title-message");
+// /**
+//  * Handles changes to the title input field and validates its content.
+//  */
+// function handleTitleInput() {
+//     let titleInput = document.getElementById("title-input");
+//     let missingTitleMessage = document.getElementById("missing-title-message");
 
-    if (titleInput.value) {
-        addBorderStyleToValueContainer(titleInput, "#90D1ED");
-        missingTitleMessage.style.display = "none";
-    } else {
-        removeBorderStyleToValueContainer(titleInput);
-        checkIfTitleIsEntered();
-    }
-}
+//     if (titleInput.value) {
+//         addBorderStyleToValueContainer(titleInput, "#90D1ED");
+//         missingTitleMessage.style.display = "none";
+//     } else {
+//         removeBorderStyleToValueContainer(titleInput);
+//         checkIfTitleIsEntered();
+//     }
+// }
 
-let titleInput = document.getElementById("title-input");
-titleInput.addEventListener("input", handleTitleInput);
+// let titleInput = document.getElementById("title-input");
+// titleInput.addEventListener("input", handleTitleInput);
 
 /**
  * Handles changes to the description input field and validates its content.
@@ -511,17 +511,17 @@ function handleTextareaInput() {
     }
 }
 
-/**
- * Adds a border style to the description element.
- *
- * @param {HTMLElement} element - The element to add a border too.
- */
-function removeBorderStyleFromDescriptionContainer(element) {
-    element.style.border = ``;
-}
+// /**
+//  * Adds a border style to the description element.
+//  *
+//  * @param {HTMLElement} element - The element to add a border too.
+//  */
+// function removeBorderStyleFromDescriptionContainer(element) {
+//     element.style.border = ``;
+// }
 
-let descriptionInput = document.getElementById("textarea-input");
-descriptionInput.addEventListener("input", handleTextareaInput);
+// let descriptionInput = document.getElementById("textarea-input");
+// descriptionInput.addEventListener("input", handleTextareaInput);
 
 /**
  * Removes the border styles from both the description and category containers.
