@@ -334,8 +334,8 @@ function closeBoardAddTaskIfNeeded() {
 // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
 
 function findContactIndexForTaskName(taskName) {
-    for (let i = 0; i < contactsArray.length; i++) {
-        if (contactsArray[i].contact === taskName) {
+    for (let i = 0; i < contactsArrayCheckbox.length; i++) {
+        if (contactsArrayCheckbox[i].contact === taskName) {
             // console.log("contact array index is:", i);
             return i;
         }
@@ -354,20 +354,20 @@ function checkDropdownListCheckboxStatus(targetTask) {
                 contactTestCheckbox.src = "/img/checked.png";
 
                 // Füge den markierten Kontakt direkt in den selected-contacts-circle-container hinzu
-                handleContactSelection(taskName, contactIndex, targetTask);
+                //handleContactSelection(taskName, contactIndex, targetTask);
             }
         }
+        contactsArrayCheckbox = [];
     }
 }
 
 async function matchTaskAssignedUserToCheckedDropdown() {
-    contactsArray = [];
     try {
         const response = await fetch(`${BASE_URL}/.json`);
         const data = await response.json();
         // Find the task with the given ID
         const targetTask = data.tasks[taskEditId];
-
+        console.log("task edit ID is:", taskEditId);
         checkDropdownListCheckboxStatus(targetTask);
     } catch (error) {
         console.error("Error while fetching data:", error);
@@ -375,4 +375,3 @@ async function matchTaskAssignedUserToCheckedDropdown() {
     // console.log("Checkbox function executed successfully");
 }
 
-function loadCheckedBoxesInDropdownList() {}
