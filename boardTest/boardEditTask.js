@@ -1,5 +1,5 @@
 function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
-    return /*html*/ `
+   return /*html*/ `
        <div class="generatedSubtasks" id="generated-subtask-container-${taskId}-${index}">
            <li id="generated-subtask-list-item-${taskId}-${index}" class="subtaskListItemStyle">${subtaskObj.subtask}</li>
            <div id="generated-subtask-list-icons">
@@ -14,76 +14,95 @@ function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
 }
 
 function renderEditableSubtasks(subtasks, taskId) {
-    if (!subtasks || subtasks.length === 0) {
-        return "<p>No subtasks available to edit</p>";
-    }
+   if (!subtasks || subtasks.length === 0) {
+      return "<p>No subtasks available to edit</p>";
+   }
 
-    return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
+   return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
 }
 
 function editSubtaskFromBoard(taskId, index, subtaskText) {
-    let toEditSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
+   let toEditSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
 
-    toEditSubtask.classList.add("noHoverEffect");
-    toEditSubtask.innerHTML = templateEditSubtasksHTML(subtaskText, taskId, index);
-    setupEditSubtaskInputListener(taskId, index);
+   toEditSubtask.classList.add("noHoverEffect");
+   toEditSubtask.innerHTML = templateEditSubtasksHTML(subtaskText, taskId, index);
+   setupEditSubtaskInputListener(taskId, index);
 }
 
 function deleteSubtaskFromBoard(taskId, index) {
-    let newSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
-    if (newSubtask) {
-        newSubtask.remove();
-    }
-    subtasks.splice(index, 1);
-    updateSubtaskListAfterDeleteFromBoard(taskId);
+   let newSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
+   if (newSubtask) {
+      newSubtask.remove();
+   }
+   subtasks.splice(index, 1);
+   updateSubtaskListAfterDeleteFromBoard(taskId);
 }
 
 function updateSubtaskListAfterDeleteFromBoard() {
-    let subtaskList = document.getElementById("generated-subtask-list-container");
+   let subtaskList = document.getElementById("generated-subtask-list-container");
 
-    subtaskList.innerHTML = "";
+   subtaskList.innerHTML = "";
 
-    for (let i = 0; i < subtasks.length; i++) {
-        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
-        subtaskList.innerHTML += subtaskHTML;
-    }
+   for (let i = 0; i < subtasks.length; i++) {
+      let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
+      subtaskList.innerHTML += subtaskHTML;
+   }
 }
 
 function handleEditButtonClick(taskId) {
-    const taskToEdit = tasksArray.find((task) => task.id === taskId);
+   const taskToEdit = tasksArray.find((task) => task.id === taskId);
 
-    if (taskToEdit) {
-        editTask(taskToEdit);
-    } else {
-        console.error("Aufgabe nicht gefunden!");
-    }
+   if (taskToEdit) {
+      editTask(taskToEdit);
+   } else {
+      console.error("Aufgabe nicht gefunden!");
+   }
 }
 
 function editTask(task) {
-    loadAddTaskScript();
-    const editTask = document.getElementById("editTask");
-    if (!editTask) {
-        console.error("Edit-Overlay nicht gefunden");
-        return;
-    }
-    editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
+   //  loadAddTaskScript();
+   const editTask = document.getElementById("editTask");
+   if (!editTask) {
+      console.error("Edit-Overlay nicht gefunden");
+      return;
+   }
+   editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
 
-    const iconsContainer = document.getElementById("selected-contacts-circle-container");
-    if (iconsContainer) {
-        appendEditableUserIcons(task, iconsContainer);
-        document.getElementById("assigned-container").classList.add("heightAuto");
-    } else {
-        console.error("Icons-Container nicht gefunden");
-    }
+   highlightPrioButton(task.priority);
 
-    loadAddTaskScript();
-    taskEditId = task.id;
-    taskEditTitle = task.title;
-    taskEditDescription = task.taskDescription;
+   const iconsContainer = document.getElementById("selected-contacts-circle-container");
+   if (iconsContainer) {
+      appendEditableUserIcons(task, iconsContainer);
+      document.getElementById("assigned-container").classList.add("heightAuto");
+   } else {
+      console.error("Icons-Container nicht gefunden");
+   }
+
+   //  loadAddTaskScript();
+   //  taskEditId = task.id;
+   //  taskEditTitle = task.title;
+   //  taskEditDescription = task.taskDescription;
 }
 
-function loadEditTaskHTML(category, title, description, date, priority, taskAddedSubtasks) {
-    return /*html*/ ` 
+function highlightPrioButton(priority) {
+   // Entfernt die Standardfarbe von allen Prio-Buttons
+   resetPrio();
+
+   // Fügt die Hintergrundfarbe zum jeweiligen Prio-Button hinzu
+   const selectedButton = document.getElementById(`prio-${priority}-button`);
+   if (selectedButton) {
+      selectedButton.classList.add(`prio-${priority}-button-bg-color`);
+      selectedPrio = priority;
+   }
+}
+
+
+function loadEditTaskHTML(category, title, description, date, priority, taskAddedSubtasks, taskId) {
+   const urgentClass = priority === "urgent" ? "prio-urgent-button-bg-color" : "";
+   const mediumClass = priority === "medium" ? "prio-medium-button-bg-color" : "";
+   const lowClass = priority === "low" ? "prio-low-button-bg-color" : "";
+
+   return /*html*/ ` 
     <div id="editTaskOverlay" class="edit-task-overlay">
 <div id="content-box-container-edit-task">
    <div class="closeButton">
@@ -95,13 +114,13 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       <div id="title-container" class="flex-column gap8px">
          <div class="subtitle">Title<span class="asterisk">*</span></div>
          <div id="title-input-container">
-            <input type="text" placeholder="Enter a title" id="title-input" value="${title}" />
+            <input type="text" placeholder="Enter a title" id="edit-title-input" value="${title}" />
             <span id="missing-title-message" class="validationStyle" style="display: none">This field is required</span>
          </div>
       </div>
       <div id="description-container" class="flex-column gap8px">
          <div class="subtitle">Description</div>
-         <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input">${description}</textarea></div>
+         <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="edit-textarea-input">${description}</textarea></div>
       </div>
       <div id="assigned-container" class="flex-column gap8px">
          <div class="subtitle">Assigned to</div>
@@ -125,7 +144,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       <div id="prio-container" class="flex-column gap8px">
          <div class="subtitle">Prio</div>
          <div id="choose-prio-container">
-            <button class="choose-prio-button flex-center-align" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')">
+            <button class="choose-prio-button flex-center-align ${urgentClass}" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')">
                <span id="prio-urgent" class="flex-center-align">Urgent </span>
                <svg class="prio-urgent-arrows" id="prio-urgent-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -138,7 +157,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
                      />
                </svg>
             </button>
-            <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
+            <button class="choose-prio-button flex-center-align prio-medium-button-bg-color ${mediumClass}" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
                <span id="prio-medium" class="flex-center-align">Medium </span>
                <svg class="prio-medium-arrows" id="prio-medium-arrows" width="21" height="8" viewBox="0 0 21 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_228141_4295)">
@@ -152,7 +171,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
                   </defs>
                </svg>
             </button>
-            <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')">
+            <button class="choose-prio-button flex-center-align ${lowClass}" id="prio-low-button" type="button" onclick="choosePrio('low')">
                <span id="prio-low" class="flex-center-align"> Low </span>
                <svg class="prio-low-arrows" id="prio-low-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -194,7 +213,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
          </div>
       </div>
     </div>
-    <div id="ok-edittask-button-container"  onclick="closeEditTask()">
+    <div id="ok-edittask-button-container" onclick="updateTask('${taskId}')">
         <div id="ok-edittask-button">
             <div id="ok-submit-container"><span>Ok</span></div>
             <div id="check-submit-container"><img src="/img/board/assets/icons/check.png" alt=""/></div>
@@ -204,3 +223,56 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
 </div>
 `;
 }
+
+async function updateTask(taskId) {
+   try {
+      const updatedTask = {
+         ...tasksArray.find((t) => t.id === taskId),
+         title: document.getElementById("edit-title-input").value,
+         taskDescription: document.getElementById("edit-textarea-input").value,
+         // date: document.getElementById("edit-date-input").value,
+         priority: selectedPrio,
+         // weitere Eigenschaften
+      };
+
+      const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+         method: "PUT",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify(updatedTask),
+      });
+
+      if (!response.ok) throw new Error("Fehler beim Aktualisieren der Task-Daten");
+
+      const data = await response.json();
+      console.log("Task erfolgreich aktualisiert:", data);
+
+   } catch (error) {
+      console.error("Fehler:", error);
+   }
+
+   handleUpdateTask();
+}
+
+function handleUpdateTask() {
+   loadTasks();
+   closeEditTask();
+   closeTaskDetails();
+}
+
+// function handleEditTitleInput() {
+//    const editTitleInput = document.getElementById("edit-title-input");
+//    const missingTitleMessage = document.getElementById("edit-missing-title-message");
+
+//    if (editTitleInput.value) {
+//       editTitleInput.style.borderColor = "#90D1ED"; // Falls du eine spezifische Style-Funktion hast, kannst du sie hier verwenden
+//       if (missingTitleMessage) missingTitleMessage.style.display = "none";
+//    } else {
+//       editTitleInput.style.borderColor = "red";
+//       if (missingTitleMessage) missingTitleMessage.style.display = "block";
+//    }
+// }
+
+// // EventListener für edit-title-input setzen
+// document.getElementById("edit-title-input").addEventListener("input", handleEditTitleInput);
