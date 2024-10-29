@@ -463,21 +463,21 @@ function removeBorderStyleToValueContainer(element) {
 /**
  * Handles changes to the date input field and validates its content.
  */
-function handleDateInput() {
-    let dateInput = document.getElementById("date-input");
-    let missingDateMessage = document.getElementById("missing-date-message");
+// function handleDateInput() {
+//     let dateInput = document.getElementById("date-input");
+//     let missingDateMessage = document.getElementById("missing-date-message");
 
-    if (dateInput.value) {
-        addBorderStyleToValueContainer(dateInput, "#90D1ED");
-        missingDateMessage.style.display = "none";
-    } else {
-        removeBorderStyleToValueContainer(dateInput);
-        checkIfDateIsSelected();
-    }
-}
+//     if (dateInput.value) {
+//         addBorderStyleToValueContainer(dateInput, "#90D1ED");
+//         missingDateMessage.style.display = "none";
+//     } else {
+//         removeBorderStyleToValueContainer(dateInput);
+//         checkIfDateIsSelected();
+//     }
+// }
 
-let dateInput = document.getElementById("date-input");
-dateInput.addEventListener("change", handleDateInput);
+// let dateInput = document.getElementById("date-input");
+// dateInput.addEventListener("change", handleDateInput);
 
 // /**
 //  * Handles changes to the title input field and validates its content.
