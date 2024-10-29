@@ -1,5 +1,5 @@
 function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
-   return /*html*/ `
+    return /*html*/ `
        <div class="generatedSubtasks" id="generated-subtask-container-${taskId}-${index}">
            <li id="generated-subtask-list-item-${taskId}-${index}" class="subtaskListItemStyle">${subtaskObj.subtask}</li>
            <div id="generated-subtask-list-icons">
@@ -14,94 +14,94 @@ function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
 }
 
 function renderEditableSubtasks(subtasks, taskId) {
-   if (!subtasks || subtasks.length === 0) {
-      return "<p>No subtasks available to edit</p>";
-   }
+    if (!subtasks || subtasks.length === 0) {
+        return "<p>No subtasks available to edit</p>";
+    }
 
-   return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
+    return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
 }
 
 function editSubtaskFromBoard(taskId, index, subtaskText) {
-   let toEditSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
+    let toEditSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
 
-   toEditSubtask.classList.add("noHoverEffect");
-   toEditSubtask.innerHTML = templateEditSubtasksHTML(subtaskText, taskId, index);
-   setupEditSubtaskInputListener(taskId, index);
+    toEditSubtask.classList.add("noHoverEffect");
+    toEditSubtask.innerHTML = templateEditSubtasksHTML(subtaskText, taskId, index);
+    setupEditSubtaskInputListener(taskId, index);
 }
 
 function deleteSubtaskFromBoard(taskId, index) {
-   let newSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
-   if (newSubtask) {
-      newSubtask.remove();
-   }
-   subtasks.splice(index, 1);
-   updateSubtaskListAfterDeleteFromBoard(taskId);
+    let newSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
+    if (newSubtask) {
+        newSubtask.remove();
+    }
+    subtasks.splice(index, 1);
+    updateSubtaskListAfterDeleteFromBoard(taskId);
 }
 
 function updateSubtaskListAfterDeleteFromBoard() {
-   let subtaskList = document.getElementById("generated-subtask-list-container");
+    let subtaskList = document.getElementById("generated-subtask-list-container");
 
-   subtaskList.innerHTML = "";
+    subtaskList.innerHTML = "";
 
-   for (let i = 0; i < subtasks.length; i++) {
-      let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
-      subtaskList.innerHTML += subtaskHTML;
-   }
+    for (let i = 0; i < subtasks.length; i++) {
+        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
+        subtaskList.innerHTML += subtaskHTML;
+    }
 }
 
 function handleEditButtonClick(taskId) {
-   const taskToEdit = tasksArray.find((task) => task.id === taskId);
+    const taskToEdit = tasksArray.find((task) => task.id === taskId);
 
-   if (taskToEdit) {
-      editTask(taskToEdit);
-   } else {
-      console.error("Aufgabe nicht gefunden!");
-   }
+    if (taskToEdit) {
+        editTask(taskToEdit);
+    } else {
+        console.error("Aufgabe nicht gefunden!");
+    }
 }
 
 function editTask(task) {
-   loadAddTaskScript();
-   const editTask = document.getElementById("editTask");
-   if (!editTask) {
-      console.error("Edit-Overlay nicht gefunden");
-      return;
-   }
-   editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
+    loadAddTaskScript();
+    const editTask = document.getElementById("editTask");
+    if (!editTask) {
+        console.error("Edit-Overlay nicht gefunden");
+        return;
+    }
+    editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
 
-   highlightPrioButton(task.priority);
+    highlightPrioButton(task.priority);
 
-   const iconsContainer = document.getElementById("selected-contacts-circle-container");
-   if (iconsContainer) {
-      appendEditableUserIcons(task, iconsContainer);
-      document.getElementById("assigned-container").classList.add("heightAuto");
-   } else {
-      console.error("Icons-Container nicht gefunden");
-   }
+    const iconsContainer = document.getElementById("selected-contacts-circle-container");
+    if (iconsContainer) {
+        appendEditableUserIcons(task, iconsContainer);
+        document.getElementById("assigned-container").classList.add("heightAuto");
+    } else {
+        console.error("Icons-Container nicht gefunden");
+    }
 
-   loadAddTaskScript();
-   taskEditId = task.id;
-   taskEditTitle = task.title;
-   taskEditDescription = task.taskDescription;
+    //  loadAddTaskScript();
+    //  taskEditId = task.id;
+    //  taskEditTitle = task.title;
+    //  taskEditDescription = task.taskDescription;
 }
 
 function highlightPrioButton(priority) {
-   // Entfernt die Standardfarbe von allen Prio-Buttons
-   resetPrio();
+    // Entfernt die Standardfarbe von allen Prio-Buttons
+    resetPrio();
 
-   // Fügt die Hintergrundfarbe zum jeweiligen Prio-Button hinzu
-   const selectedButton = document.getElementById(`prio-${priority}-button`);
-   if (selectedButton) {
-      selectedButton.classList.add(`prio-${priority}-button-bg-color`);
-      selectedPrio = priority;
-   }
+    // Fügt die Hintergrundfarbe zum jeweiligen Prio-Button hinzu
+    const selectedButton = document.getElementById(`prio-${priority}-button`);
+    if (selectedButton) {
+        selectedButton.classList.add(`prio-${priority}-button-bg-color`);
+        selectedPrio = priority;
+    }
 }
 
 function loadEditTaskHTML(category, title, description, date, priority, taskAddedSubtasks, taskId) {
-   const urgentClass = priority === "urgent" ? "prio-urgent-button-bg-color" : "";
-   const mediumClass = priority === "medium" ? "prio-medium-button-bg-color" : "";
-   const lowClass = priority === "low" ? "prio-low-button-bg-color" : "";
+    const urgentClass = priority === "urgent" ? "prio-urgent-button-bg-color" : "";
+    const mediumClass = priority === "medium" ? "prio-medium-button-bg-color" : "";
+    const lowClass = priority === "low" ? "prio-low-button-bg-color" : "";
 
-   return /*html*/ ` 
+    return /*html*/ ` 
     <div id="editTaskOverlay" class="edit-task-overlay">
 <div id="content-box-container-edit-task">
    <div class="closeButton">
@@ -224,39 +224,39 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
 }
 
 async function updateTask(taskId) {
-   try {
-      const updatedTask = {
-         ...tasksArray.find((t) => t.id === taskId),
-         title: document.getElementById("edit-title-input").value,
-         taskDescription: document.getElementById("edit-textarea-input").value,
-         date: document.getElementById("edit-date-input").value,
-         priority: selectedPrio,
-         // weitere Eigenschaften
-      };
+    try {
+        const updatedTask = {
+            ...tasksArray.find((t) => t.id === taskId),
+            title: document.getElementById("edit-title-input").value,
+            taskDescription: document.getElementById("edit-textarea-input").value,
+            date: document.getElementById("edit-date-input").value,
+            priority: selectedPrio,
+            // weitere Eigenschaften
+        };
 
-      const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
-         method: "PUT",
-         headers: {
-            "Content-Type": "application/json",
-         },
-         body: JSON.stringify(updatedTask),
-      });
+        const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedTask),
+        });
 
-      if (!response.ok) throw new Error("Fehler beim Aktualisieren der Task-Daten");
+        if (!response.ok) throw new Error("Fehler beim Aktualisieren der Task-Daten");
 
-      const data = await response.json();
-      console.log("Task erfolgreich aktualisiert:", data);
-   } catch (error) {
-      console.error("Fehler:", error);
-   }
+        const data = await response.json();
+        console.log("Task erfolgreich aktualisiert:", data);
+    } catch (error) {
+        console.error("Fehler:", error);
+    }
 
-   handleUpdateTask();
+    handleUpdateTask();
 }
 
 function handleUpdateTask() {
-   loadTasks();
-   closeEditTask();
-   closeTaskDetails();
+    loadTasks();
+    closeEditTask();
+    closeTaskDetails();
 }
 
 // function handleEditTitleInput() {

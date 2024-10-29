@@ -339,6 +339,7 @@ function findContactIndexForTaskName(taskName) {
             // console.log("contact array index is:", i);
             return i;
         }
+        contactsArray = [];
     }
     // console.log("contact array index could not be calculated");
     return -1;
@@ -374,4 +375,7 @@ async function matchTaskAssignedUserToCheckedDropdown() {
     }
     // console.log("Checkbox function executed successfully");
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6790cc46103f31681ca10c9ef70623b0754b0531

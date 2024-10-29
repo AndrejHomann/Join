@@ -144,7 +144,7 @@ button {
     border-radius: 8px;
     padding: 8px 16px;
     cursor: pointer;
-    font-weight: 700;
+    /* font-weight: 700; */
     font-size: 16px;
     box-sizing: border-box;
 }
@@ -759,13 +759,13 @@ label {
     display: none;
 } */
 
-#prio-urgent {
+/* #prio-urgent {
     font-weight: 400;
-}
+} */
 
-#prio-low-button {
+/* #prio-low-button {
     font-weight: 400;
-}
+} */
 
 #editTaskOverlay {
     position: fixed;
