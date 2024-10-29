@@ -362,7 +362,6 @@ function checkDropdownListCheckboxStatus(targetTask) {
 }
 
 async function matchTaskAssignedUserToCheckedDropdown() {
-    contactsArray = [];
     try {
         const response = await fetch(`${BASE_URL}/.json`);
         const data = await response.json();
@@ -375,5 +374,3 @@ async function matchTaskAssignedUserToCheckedDropdown() {
     }
     // console.log("Checkbox function executed successfully");
 }
-
-function loadCheckedBoxesInDropdownList() {}

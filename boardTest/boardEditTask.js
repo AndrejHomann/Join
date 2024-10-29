@@ -60,7 +60,7 @@ function handleEditButtonClick(taskId) {
 }
 
 function editTask(task) {
-    //  loadAddTaskScript();
+    loadAddTaskScript();
     const editTask = document.getElementById("editTask");
     if (!editTask) {
         console.error("Edit-Overlay nicht gefunden");
