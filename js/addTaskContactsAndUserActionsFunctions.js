@@ -307,32 +307,32 @@ document.addEventListener("click", clickOutsideOfDropdown);
  *
  * @param {string} prio - The selected priority ("urgent", "medium", "low").
  */
-function choosePrio(prio) {
-    let selectedPioButton = document.getElementById(`prio-${prio}-button`);
+// function choosePrio(prio) {
+//     let selectedPioButton = document.getElementById(`prio-${prio}-button`);
 
-    if (selectedPrio === prio) {
-        resetPrio();
-        selectedPrio = "";
-    } else {
-        resetPrio();
+//     if (selectedPrio === prio) {
+//         resetPrio();
+//         selectedPrio = "";
+//     } else {
+//         resetPrio();
 
-        selectedPioButton.classList.add(`prio-${prio}-button-bg-color`);
-        selectedPioButton.classList.remove("prio-default-text-color");
+//         selectedPioButton.classList.add(`prio-${prio}-button-bg-color`);
+//         selectedPioButton.classList.remove("prio-default-text-color");
 
-        selectedPrio = prio;
-    }
-}
+//         selectedPrio = prio;
+//     }
+// }
 
 /**
  * Resets the priority selection by removing the background color from all priority buttons
  * and restoring the default text color for each button (urgent, medium, low).
  */
-function resetPrio() {
-    document.getElementById("prio-urgent-button").classList.remove("prio-urgent-button-bg-color");
-    document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
-    document.getElementById("prio-low-button").classList.remove("prio-low-button-bg-color");
+// function resetPrio() {
+//     document.getElementById("prio-urgent-button").classList.remove("prio-urgent-button-bg-color");
+//     document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
+//     document.getElementById("prio-low-button").classList.remove("prio-low-button-bg-color");
 
-    document.getElementById("prio-urgent-button").classList.add("prio-default-text-color");
-    document.getElementById("prio-medium-button").classList.add("prio-default-text-color");
-    document.getElementById("prio-low-button").classList.add("prio-default-text-color");
-}
+//     document.getElementById("prio-urgent-button").classList.add("prio-default-text-color");
+//     document.getElementById("prio-medium-button").classList.add("prio-default-text-color");
+//     document.getElementById("prio-low-button").classList.add("prio-default-text-color");
+// }
