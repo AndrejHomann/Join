@@ -78,10 +78,10 @@ function editTask(task) {
         console.error("Icons-Container nicht gefunden");
     }
 
-    loadAddTaskScript();
-    taskEditId = task.id;
-    taskEditTitle = task.title;
-    taskEditDescription = task.taskDescription;
+    //  loadAddTaskScript();
+    //  taskEditId = task.id;
+    //  taskEditTitle = task.title;
+    //  taskEditDescription = task.taskDescription;
 }
 
 function highlightPrioButton(priority) {
@@ -136,7 +136,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       <div id="date-container" class="flex-column gap8px">
          <div class="subtitle">Due date<span class="asterisk">*</span></div>
          <div id="calender">
-            <input type="date" id="date-input" value="${date}" />
+            <input type="date" id="edit-date-input" value="${date}" />
             <span id="missing-date-message" class="validationStyle" style="display: none">This field is required</span>
          </div>
       </div>
@@ -229,7 +229,7 @@ async function updateTask(taskId) {
             ...tasksArray.find((t) => t.id === taskId),
             title: document.getElementById("edit-title-input").value,
             taskDescription: document.getElementById("edit-textarea-input").value,
-            // date: document.getElementById("edit-date-input").value,
+            date: document.getElementById("edit-date-input").value,
             priority: selectedPrio,
             // weitere Eigenschaften
         };
