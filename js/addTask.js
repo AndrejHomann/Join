@@ -14,7 +14,7 @@ let contactList = [];
  * Selected priority for the task.
  * @type {string}
  */
-let selectedPrio = "medium";
+// let selectedPrio = "medium";
 
 /**
  * List of available categories.
