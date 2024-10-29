@@ -60,7 +60,7 @@ function handleEditButtonClick(taskId) {
 }
 
 function editTask(task) {
-    loadAddTaskScript();
+    //  loadAddTaskScript();
     const editTask = document.getElementById("editTask");
     if (!editTask) {
         console.error("Edit-Overlay nicht gefunden");
@@ -78,10 +78,10 @@ function editTask(task) {
         console.error("Icons-Container nicht gefunden");
     }
 
-    //  loadAddTaskScript();
-    //  taskEditId = task.id;
-    //  taskEditTitle = task.title;
-    //  taskEditDescription = task.taskDescription;
+    loadAddTaskScript();
+    taskEditId = task.id;
+    taskEditTitle = task.title;
+    taskEditDescription = task.taskDescription;
 }
 
 function highlightPrioButton(priority) {

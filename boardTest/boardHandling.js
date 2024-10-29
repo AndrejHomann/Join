@@ -339,6 +339,7 @@ function findContactIndexForTaskName(taskName) {
             // console.log("contact array index is:", i);
             return i;
         }
+        contactsArray = [];
     }
     // console.log("contact array index could not be calculated");
     return -1;
