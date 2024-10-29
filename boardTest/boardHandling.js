@@ -375,7 +375,3 @@ async function matchTaskAssignedUserToCheckedDropdown() {
     }
     // console.log("Checkbox function executed successfully");
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 6790cc46103f31681ca10c9ef70623b0754b0531
