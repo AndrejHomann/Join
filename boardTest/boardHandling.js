@@ -367,7 +367,7 @@ async function matchTaskAssignedUserToCheckedDropdown() {
         const response = await fetch(`${BASE_URL}/.json`);
         const data = await response.json();
         // Find the task with the given ID
-        const targetTask = data.tasks[taskEditId];
+        const targetTask = data.taskId[taskEditId];
         console.log("task edit ID is:", taskEditId);
         checkDropdownListCheckboxStatus(targetTask);
     } catch (error) {
