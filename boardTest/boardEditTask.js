@@ -234,6 +234,7 @@ async function updateTask(taskId) {
          taskDescription: document.getElementById("edit-textarea-input").value,
          date: document.getElementById("edit-date-input").value,
          priority: selectedPrio,
+         category: selectedCategory,
       };
 
       const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
