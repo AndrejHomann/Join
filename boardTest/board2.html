@@ -37,7 +37,7 @@
             <div class="board-column" id="toDoColumn" data-status="todo">
                 <div class="column-header">
                     <h3>To do</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="createTaskFromBoard()">
                         <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2" />
                         <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
                         <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
@@ -49,7 +49,7 @@
             <div class="board-column" id="inProgressColumn" data-status="in-progress">
                 <div class="column-header">
                     <h3>In progress</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="createTaskFromBoard()">
                         <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2" />
                         <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
                         <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
@@ -61,7 +61,7 @@
             <div class="board-column" id="awaitFeedbackColumn" data-status="await-feedback">
                 <div class="column-header">
                     <h3>Await feedback</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="createTaskFromBoard()">
                         <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2" />
                         <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
                         <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
@@ -73,11 +73,6 @@
             <div class="board-column" id="doneColumn" data-status="done">
                 <div class="column-header">
                     <h3>Done</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2" />
-                        <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                        <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                    </svg>
                 </div>
                 <div class="tasks-container"></div>
                 <!-- Aufgaben-Container -->
