@@ -160,6 +160,7 @@ button {
     justify-content: center;
     gap: 8px;
     font-size: 20px;
+    font-weight: 700;
 }
 
 .create-task-from-board:hover {
@@ -902,6 +903,7 @@ label {
     }
     .board-overview {
         top: 200px;
+        max-height: calc(100vh - 350px);
     }
 }
 
