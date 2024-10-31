@@ -326,12 +326,6 @@ function closeBoardAddTaskIfNeeded() {
     loadTasks(); // Board aktualisieren, nachdem das Fenster geschlossen wurde
 }
 
-function closeBoardAddTaskIfNeeded() {
-    closeAddTaskForm(); // Schließen des Fensters
-    loadTasks(); // Board aktualisieren, nachdem das Fenster geschlossen wurde
-}
-
-
 function findContactIndexForTaskName(name) {
     // console.log(contactsArrayCheckbox);
     for (let i = 0; i < contactsArrayCheckbox.length; i++) {
@@ -344,7 +338,6 @@ function findContactIndexForTaskName(name) {
     console.error("contact array index could not be calculated", error);
     return -1;
 }
-
 
 async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
     let taskUserNameList = data.tasks[taskEditCheckboxId].name;
@@ -366,14 +359,13 @@ async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
     }
 }
 
-
 async function matchTaskAssignedUserToCheckedDropdown() {
     await showContactsDropDown();
     try {
         const response = await fetch(`${BASE_URL}/.json`);
         const data = await response.json();
-        let taskTitle = document.getElementById('edit-title-input').value;
-        let description = document.getElementById('edit-textarea-input').value;
+        let taskTitle = document.getElementById("edit-title-input").value;
+        let description = document.getElementById("edit-textarea-input").value;
         // console.log(taskTitle);
         // console.log(description);
         for (const taskId in data.tasks) {
