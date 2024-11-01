@@ -1,5 +1,3 @@
-let contactsArrayCheckbox = []; // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
-
 /**
  * Fetches contacts from the server and stores their names and colors in `contactList` and `colors` arrays.
  * This data is used for displaying contacts in the dropdown list.
@@ -74,7 +72,7 @@ function closeContactsDropDown() {
 
     document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
     document.getElementById("dropdown-list").classList.add("d-none");
-    document.getElementById("selected-contacts-circle-container").style.display = "";
+    document.getElementById("selected-contacts-circle-container").style.display = "flex";
     // document.getElementById("selected-contacts-circle-container").classList.add("d-none");
     // document.getElementById("edit-selected-contacts-container").style.display = "";
 
@@ -192,8 +190,7 @@ function templateContactsHTMLDropdownList() {
         let firstLetter = firstName.charAt(0).toUpperCase();
         let lastLetter = lastName.charAt(0).toUpperCase();
         let color = colors[i];
-        contactsArrayCheckbox.push({ index: i, contact: contact }); // added by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts
-
+        
         dropdownHTML += /*html*/ `
             <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
             <div>
