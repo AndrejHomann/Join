@@ -326,7 +326,6 @@ function closeBoardAddTaskIfNeeded() {
     loadTasks(); // Board aktualisieren, nachdem das Fenster geschlossen wurde
 }
 
-
 function findContactIndexForTaskName(name) {
     for (let i = 0; i < contactList.length; i++) {
         if (contactList[i] === name) {
@@ -340,35 +339,55 @@ function findContactIndexForTaskName(name) {
     return -1;
 }
 
+// async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
+//     let taskUserNameList = data.tasks[taskEditCheckboxId].name;
+//     if (taskUserNameList) {
+//         for (const nameIndex in taskUserNameList) {
+//             let name = taskUserNameList[nameIndex];
+//             let contactIndex = findContactIndexForTaskName(name);
+//             selectContact(name, contactIndex);
+
+//             // if (contactIndex !== -1) {
+//             //     // const contactElement = document.getElementById(`dropdown-list-contact-${contactIndex}`);
+//             //     // const contactTestCheckbox = contactElement.querySelector("img");
+//             //     // contactTestCheckbox.src = "/img/checked.png";
+//             // }
+//         }
+//     }
+// }
+
 async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
     let taskUserNameList = data.tasks[taskEditCheckboxId].name;
+
     if (taskUserNameList) {
         for (const nameIndex in taskUserNameList) {
             let name = taskUserNameList[nameIndex];
             let contactIndex = findContactIndexForTaskName(name);
+
+            // Füge den Namen direkt in das Array selectedContacts hinzu
             if (contactIndex !== -1) {
-                const contactElement = document.getElementById(`dropdown-list-contact-${contactIndex}`);
-                const contactTestCheckbox = contactElement.querySelector("img");
-                contactTestCheckbox.src = "/img/checked.png";;
+                // selectedContacts.push(name);
+                selectContact(name, contactIndex); // Markiert den Kontakt in der Dropdown-Liste als ausgewählt
             }
         }
     }
 }
 
-function emptyDropdownContactListCheckboxes() {
-    for (let i = 0; i < contactList.length; i++) {
-            // console.log("contact array:", contactsArrayCheckbox);
-            // console.log("contact array index:", i);
-            const contactElement = document.getElementById(`dropdown-list-contact-${i}`);
-            const contactTestCheckbox = contactElement.querySelector("img");
-            contactTestCheckbox.src = "/img/unchecked.png";
-            console.log(`checkbox ${i} unchecked`);
-    }
-}
+// function emptyDropdownContactListCheckboxes() {
+//     for (let i = 0; i < contactList.length; i++) {
+//         // console.log("contact array:", contactsArrayCheckbox);
+//         // console.log("contact array index:", i);
+//         const contactElement = document.getElementById(`dropdown-list-contact-${i}`);
+//         const contactTestCheckbox = contactElement.querySelector("img");
+//         contactTestCheckbox.src = "/img/unchecked.png";
+//         // console.log(`checkbox ${i} unchecked`);
+//     }
+// }
 
 async function matchTaskAssignedUserToCheckedDropdown() {
     await showContactsDropDown();
-    emptyDropdownContactListCheckboxes();
+    // emptyDropdownContactListCheckboxes();
+
     try {
         const response = await fetch(`${BASE_URL}/.json`);
         const data = await response.json();

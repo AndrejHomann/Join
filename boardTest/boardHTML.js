@@ -120,6 +120,8 @@ function createSubtaskHTML(subtaskObj, taskId, index) {
                 ${subtaskObj.status === "checked" ? "checked" : ""} 
                 onclick="toggleSubtaskStatus('${taskId}', ${index})"> 
             <span class="custom-checkbox"></span>${subtaskObj.subtask}
+                  
+
         </label>
     `;
 }

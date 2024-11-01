@@ -184,12 +184,27 @@ function closeSubtaskDraft() {
 /**
  * Adds a new subtask to the list after validating the input.
  */
+// function addSubtask() {
+//     let newSubtaskInput = document.getElementById("new-subtask-input");
+//     let subtaskList = document.getElementById("generated-subtask-list-container");
+//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
+//     let subtaskContainer = document.getElementById("new-subtask-container");
+//     let i = subtasks.length;
+
+//     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
+//     resetSubtaskIcon();
+// }
 function addSubtask() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
     let subtaskList = document.getElementById("generated-subtask-list-container");
     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
     let subtaskContainer = document.getElementById("new-subtask-container");
     let i = subtasks.length;
+
+    // Überprüfen, ob der Edit-Container existiert und ihn als subtaskList verwenden
+    if (document.getElementById("edit-generated-subtask-list-container")) {
+        subtaskList = document.getElementById("edit-generated-subtask-list-container");
+    }
 
     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
     resetSubtaskIcon();
@@ -330,8 +345,25 @@ function deleteSubtask(index) {
 /**
  * Updates the subtask list container in the DOM after a subtask is deleted.
  */
+// function updateSubtaskListAfterDelete() {
+//     let subtaskList = document.getElementById("generated-subtask-list-container");
+//     // let subtaskList = document.getElementById("edit-generated-subtask-list-container");
+
+//     subtaskList.innerHTML = "";
+
+//     for (let i = 0; i < subtasks.length; i++) {
+//         let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
+//         subtaskList.innerHTML += subtaskHTML;
+//     }
+// }
+
 function updateSubtaskListAfterDelete() {
     let subtaskList = document.getElementById("generated-subtask-list-container");
+
+    // Überprüfen, ob der editierte Container existiert und verwenden, falls ja
+    if (document.getElementById("edit-generated-subtask-list-container")) {
+        subtaskList = document.getElementById("edit-generated-subtask-list-container");
+    }
 
     subtaskList.innerHTML = "";
 
