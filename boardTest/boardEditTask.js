@@ -1,40 +1,17 @@
-function renderEditableSubtasks(subtasks, taskId) {
-    if (!subtasks || subtasks.length === 0) {
+function renderEditableSubtasks(subtasksFromCurrentTask) {
+    if (!subtasksFromCurrentTask || subtasksFromCurrentTask.length === 0) {
         return "<p>No subtasks available to edit</p>";
     }
-    return subtasks.map((subtaskObj, index) => templateSubtasksListEditTaskHTML(subtaskObj, taskId, index)).join("");
-}
 
-function templateSubtasksListEditTaskHTML(subtaskObj, taskId, index) {
-    return /*html*/ `
-       <div class="generatedSubtasks" id="generated-subtask-container-${index}">
-           <li id="generated-subtask-list-item-${taskId}-${index}" class="subtaskListItemStyle">${subtaskObj.subtask}</li>
-           <div id="generated-subtask-list-icons">
-               <div id="edit-icon-container" onclick="editSubtaskFromBoard(${index}, '${subtaskObj.subtask}')"><img src="/img/addTask/edit.png" alt="edit" /></div>
-               <div class="border-subtask-container"></div>
-               <div id="delete-icon-container" onclick="deleteSubtaskFromBoard('${taskId}', ${index})">
-                   <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
-               </div>
-           </div>
-       </div>
-   `;
-}
+    let subtasksHTML = "";
 
-function editSubtaskFromBoard(index, subtaskText) {
-    let toEditSubtask = document.getElementById(`generated-subtask-container-${index}`);
-
-    toEditSubtask.classList.add("noHoverEffect");
-    toEditSubtask.innerHTML = templateEditSubtasksHTML(subtaskText, index);
-    setupEditSubtaskInputListener(taskId, index);
-}
-
-function deleteSubtaskFromBoard(taskId, index) {
-    let newSubtask = document.getElementById(`generated-subtask-container-${taskId}-${index}`);
-    if (newSubtask) {
-        newSubtask.remove();
+    for (let i = 0; i < subtasksFromCurrentTask.length; i++) {
+        subtasksHTML += templateSubtasksListHTML(i, subtasksFromCurrentTask[i]);
+        let loadedSubtask = subtasksFromCurrentTask[i];
+        subtasks.push(loadedSubtask);
+        console.log("Hinzufügen zu subtasks:", loadedSubtask); // Zum Überprüfen, was hinzugefügt wird.
     }
-    subtasks.splice(index, 1);
-    updateSubtaskListAfterDeleteFromBoard(taskId);
+    return subtasksHTML;
 }
 
 function updateSubtaskListAfterDeleteFromBoard() {
@@ -58,29 +35,30 @@ function handleEditButtonClick(taskId) {
     }
 }
 
-function editTask(task) {
-    loadAddTaskScript();
-    const editTask = document.getElementById("editTask");
-    if (!editTask) {
-        console.error("Edit-Overlay nicht gefunden");
-        return;
+async function editTask(task) {
+    try {
+        await loadAddTaskScript();
+
+        const editTask = document.getElementById("editTask");
+        if (!editTask) {
+            console.error("Edit-Overlay nicht gefunden");
+            return;
+        }
+
+        editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id);
+
+        highlightPrioButton(task.priority);
+
+        const iconsContainer = document.getElementById("selected-contacts-circle-container");
+        if (iconsContainer) {
+            appendEditableUserIcons(task, iconsContainer);
+            document.getElementById("assigned-container").classList.add("heightAuto");
+        } else {
+            console.error("Icons-Container nicht gefunden");
+        }
+    } catch (error) {
+        console.error("Fehler beim Laden der Skripte:", error);
     }
-    editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks, task.id), task.id);
-
-    highlightPrioButton(task.priority);
-
-    const iconsContainer = document.getElementById("selected-contacts-circle-container");
-    if (iconsContainer) {
-        appendEditableUserIcons(task, iconsContainer);
-        document.getElementById("assigned-container").classList.add("heightAuto");
-    } else {
-        console.error("Icons-Container nicht gefunden");
-    }
-
-    //  loadAddTaskScript();
-    //  taskEditId = task.id;
-    //  taskEditTitle = task.title;
-    //  taskEditDescription = task.taskDescription;
 }
 
 function highlightPrioButton(priority) {
@@ -236,6 +214,7 @@ async function updateTask(taskId) {
             category: selectedCategory,
             name: selectedContacts,
             color: selectedColors,
+            addedSubtasks: subtasks,
         };
 
         const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
@@ -257,6 +236,7 @@ async function updateTask(taskId) {
     handleUpdateTask();
     selectedContacts = [];
     selectedColors = [];
+    subtasks = [];
 }
 
 function handleUpdateTask() {

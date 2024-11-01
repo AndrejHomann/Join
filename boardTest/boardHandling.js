@@ -256,7 +256,7 @@ function openTaskDetail(taskId) {
     }
 }
 
-function loadAddTaskScript() {
+async function loadAddTaskScript() {
     const scripts = [
         { id: "addTaskScript", src: "/js/addTask.js" },
         { id: "addTaskCategoryFunctions", src: "/js/addTaskCategoryFunctions.js" },
@@ -267,7 +267,6 @@ function loadAddTaskScript() {
     return Promise.all(
         scripts.map((scriptInfo) => {
             return new Promise((resolve, reject) => {
-                // Prüfen, ob das Skript bereits existiert
                 if (!document.getElementById(scriptInfo.id)) {
                     let script = document.createElement("script");
                     script.src = scriptInfo.src;
