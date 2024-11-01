@@ -326,12 +326,13 @@ function closeBoardAddTaskIfNeeded() {
     loadTasks(); // Board aktualisieren, nachdem das Fenster geschlossen wurde
 }
 
+
 function findContactIndexForTaskName(name) {
-    // console.log(contactsArrayCheckbox);
-    for (let i = 0; i < contactsArrayCheckbox.length; i++) {
-        if (contactsArrayCheckbox[i].contact === name) {
-            // console.log("contact array:", contactsArrayCheckbox);
-            // console.log("contact array index:", i);
+    for (let i = 0; i < contactList.length; i++) {
+        if (contactList[i] === name) {
+            const contactElement = document.getElementById(`dropdown-list-contact-${i}`);
+            const contactTestCheckbox = contactElement.querySelector("img");
+            contactTestCheckbox.src = "/img/unchecked.png";
             return i;
         }
     }
@@ -343,31 +344,36 @@ async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
     let taskUserNameList = data.tasks[taskEditCheckboxId].name;
     if (taskUserNameList) {
         for (const nameIndex in taskUserNameList) {
-            // console.log(taskUserNameList[nameIndex]);
             let name = taskUserNameList[nameIndex];
             let contactIndex = findContactIndexForTaskName(name);
             if (contactIndex !== -1) {
                 const contactElement = document.getElementById(`dropdown-list-contact-${contactIndex}`);
                 const contactTestCheckbox = contactElement.querySelector("img");
-                contactTestCheckbox.src = "/img/checked.png";
-
-                // Füge den markierten Kontakt direkt in den selected-contacts-circle-container hinzu
-                //handleContactSelection(taskUserName, contactIndex, targetTask);
+                contactTestCheckbox.src = "/img/checked.png";;
             }
         }
-        contactsArrayCheckbox = [];
+    }
+}
+
+function emptyDropdownContactListCheckboxes() {
+    for (let i = 0; i < contactList.length; i++) {
+            // console.log("contact array:", contactsArrayCheckbox);
+            // console.log("contact array index:", i);
+            const contactElement = document.getElementById(`dropdown-list-contact-${i}`);
+            const contactTestCheckbox = contactElement.querySelector("img");
+            contactTestCheckbox.src = "/img/unchecked.png";
+            console.log(`checkbox ${i} unchecked`);
     }
 }
 
 async function matchTaskAssignedUserToCheckedDropdown() {
     await showContactsDropDown();
+    emptyDropdownContactListCheckboxes();
     try {
         const response = await fetch(`${BASE_URL}/.json`);
         const data = await response.json();
         let taskTitle = document.getElementById("edit-title-input").value;
         let description = document.getElementById("edit-textarea-input").value;
-        // console.log(taskTitle);
-        // console.log(description);
         for (const taskId in data.tasks) {
             if (data.tasks[taskId].title === taskTitle && data.tasks[taskId].taskDescription === description) {
                 let taskEditCheckboxId = taskId;
