@@ -190,7 +190,7 @@ function templateContactsHTMLDropdownList() {
         let firstLetter = firstName.charAt(0).toUpperCase();
         let lastLetter = lastName.charAt(0).toUpperCase();
         let color = colors[i];
-        
+
         dropdownHTML += /*html*/ `
             <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
             <div>

@@ -235,6 +235,7 @@ async function updateTask(taskId) {
             priority: selectedPrio,
             category: selectedCategory,
             name: selectedContacts,
+            color: selectedColors,
         };
 
         const response = await fetch(`${BASE_URL}/tasks/${taskId}.json`, {
@@ -255,6 +256,7 @@ async function updateTask(taskId) {
 
     handleUpdateTask();
     selectedContacts = [];
+    selectedColors = [];
 }
 
 function handleUpdateTask() {
