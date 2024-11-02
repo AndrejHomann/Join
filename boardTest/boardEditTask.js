@@ -232,7 +232,7 @@ async function updateTask(taskId) {
             taskDescription: document.getElementById("edit-textarea-input").value,
             date: document.getElementById("edit-date-input").value,
             priority: selectedPrio,
-            category: selectedCategory,
+            category: document.getElementById("category-placeholder").textContent || null,
             name: selectedContacts,
             color: selectedColors,
             addedSubtasks: subtasks,
