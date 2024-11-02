@@ -248,6 +248,7 @@ button {
     color: white;
     font-size: 12px;
     border: 2px solid white;
+    margin-right: -8px;
 }
 
 .contact-icon {
