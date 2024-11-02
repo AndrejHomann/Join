@@ -35,9 +35,9 @@ function handleEditButtonClick(taskId) {
     }
 }
 
-async function editTask(task) {
+async function editTask(task, taskId) {
     try {
-        await loadAddTaskScript();
+        await loadAddTaskScript(task);
 
         const editTask = document.getElementById("editTask");
         if (!editTask) {
@@ -46,8 +46,11 @@ async function editTask(task) {
         }
 
         editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id);
-        isDropdownOpen = false;
-        contactsLoaded = false;
+        //   isDropdownOpen = false;
+        //   contactsLoaded = false;
+
+        selectedContacts = task.name || [];
+        selectedColors = task.color || [];
 
         highlightPrioButton(task.priority);
 
@@ -191,8 +194,8 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
          </div>
       </div>
     </div>
-    <div id="ok-edittask-button-container" onclick="validateAndUpdateTask('${taskId}')">
-        <div id="ok-edittask-button">
+    <div id="ok-edittask-button-container" >
+        <div id="ok-edittask-button" onclick="validateAndUpdateTask('${taskId}')">
             <div id="ok-submit-container"><span>Ok</span></div>
             <div id="check-submit-container"><img src="/img/board/assets/icons/check.png" alt=""/></div>
         </div>

@@ -25,8 +25,8 @@ async function fetchContacts() {
  *
  * @async
  */
-let isDropdownOpen = false;
-let contactsLoaded = false;
+// let isDropdownOpen = false;
+// let contactsLoaded = false;
 
 async function showContactsDropDown() {
     await fetchContacts();
@@ -41,12 +41,16 @@ async function showContactsDropDown() {
     let dropdownList = document.getElementById("dropdown-list");
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
-    if (!isDropdownOpen) {
-        if (document.getElementById("edit-selected-name") && !contactsLoaded) {
-            await matchTaskAssignedUserToCheckedDropdown();
-            contactsLoaded = true;
-        }
-        isDropdownOpen = true;
+    // if (!isDropdownOpen) {
+    //     if (document.getElementById("edit-selected-name") && !contactsLoaded) {
+    //         await matchTaskAssignedUserToCheckedDropdown();
+    //         contactsLoaded = true;
+    //     }
+    //     isDropdownOpen = true;
+    // }
+
+    if (document.getElementById("edit-selected-name")) {
+        await matchTaskAssignedUserToCheckedDropdown();
     }
 
     dropdownList.classList.remove("d-none");
@@ -84,7 +88,7 @@ function closeContactsDropDown() {
 
     removeColorOfBorderAssignedContainer();
     showCirclesOfSelectedContacts();
-    isDropdownOpen = false;
+    // isDropdownOpen = false;
 }
 
 /**
