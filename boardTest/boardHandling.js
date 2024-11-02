@@ -374,3 +374,39 @@ async function matchTaskAssignedUserToCheckedDropdown() {
         console.error("Error while fetching data:", error);
     }
 }
+
+function validateRequiredFields() {
+    let isValid = true;
+
+    const titleInputContainer = document.getElementById("title-input-container");
+    const titleInput = document.getElementById("edit-title-input");
+    const titleMessage = titleInputContainer.querySelector(".error-message");
+
+    if (titleInput.value.trim() === "") {
+        titleMessage.style.display = "block";
+        titleInputContainer.classList.add("error");
+        isValid = false;
+    } else {
+        titleMessage.style.display = "none";
+        titleInputContainer.classList.remove("error");
+    }
+
+    const dateContainer = document.getElementById("calender");
+    const dateInput = document.getElementById("edit-date-input");
+    const dateMessage = dateContainer.querySelector(".error-message");
+
+    if (!dateInput.value) {
+        dateMessage.style.display = "block";
+        dateContainer.classList.add("error");
+        isValid = false;
+    } else {
+        dateMessage.style.display = "none";
+        dateContainer.classList.remove("error");
+    }
+
+    if (!selectedCategory || selectedCategory === "Select task category") {
+        isValid = false;
+    }
+
+    return isValid;
+}
