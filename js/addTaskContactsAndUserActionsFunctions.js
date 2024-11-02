@@ -49,10 +49,6 @@ async function showContactsDropDown() {
         isDropdownOpen = true;
     }
 
-    // if (document.getElementById("edit-selected-name")) {
-    //     await matchTaskAssignedUserToCheckedDropdown();
-    // }
-
     dropdownList.classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "none";
 
