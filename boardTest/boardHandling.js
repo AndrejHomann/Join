@@ -354,9 +354,9 @@ function validateRequiredFields() {
         dateContainer.classList.remove("error");
     }
 
-    if (!selectedCategory || selectedCategory === "Select task category") {
+    const categoryPlaceholder = document.getElementById("category-placeholder").innerText;
+    if (!categoryPlaceholder || categoryPlaceholder === "Select task category") {
         isValid = false;
     }
-
     return isValid;
 }
