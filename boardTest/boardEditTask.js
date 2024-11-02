@@ -46,8 +46,8 @@ async function editTask(task, taskId) {
         }
 
         editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id);
-        //   isDropdownOpen = false;
-        //   contactsLoaded = false;
+        isDropdownOpen = false;
+        contactsLoaded = false;
 
         selectedContacts = task.name || [];
         selectedColors = task.color || [];
