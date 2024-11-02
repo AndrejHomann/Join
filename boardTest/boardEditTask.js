@@ -92,8 +92,8 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       <div id="title-container" class="flex-column gap8px">
          <div class="subtitle">Title<span class="asterisk">*</span></div>
          <div id="title-input-container">
-            <input type="text" placeholder="Enter a title" id="edit-title-input" value="${title}" />
-            <span id="missing-title-message" class="validationStyle" style="display: none">This field is required</span>
+            <input type="text" placeholder="Enter a title" id="edit-title-input" oninput="validateRequiredFields()" value="${title}" />
+            <span class="error-message">This field is required</span>
          </div>
       </div>
       <div id="description-container" class="flex-column gap8px">
@@ -115,8 +115,8 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       <div id="date-container" class="flex-column gap8px">
          <div class="subtitle">Due date<span class="asterisk">*</span></div>
          <div id="calender">
-            <input type="date" id="edit-date-input" value="${date}" />
-            <span id="missing-date-message" class="validationStyle" style="display: none">This field is required</span>
+            <input type="date" id="edit-date-input" oninput="validateRequiredFields()" value="${date}" />
+            <span class="error-message">This field is required</span>
          </div>
       </div>
       <div id="prio-container" class="flex-column gap8px">
@@ -191,7 +191,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
          </div>
       </div>
     </div>
-    <div id="ok-edittask-button-container" onclick="updateTask('${taskId}')">
+    <div id="ok-edittask-button-container" onclick="validateAndUpdateTask('${taskId}')">
         <div id="ok-edittask-button">
             <div id="ok-submit-container"><span>Ok</span></div>
             <div id="check-submit-container"><img src="/img/board/assets/icons/check.png" alt=""/></div>
@@ -200,6 +200,13 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
 </div>
 </div>
 `;
+}
+
+function validateAndUpdateTask(taskId) {
+    if (!validateRequiredFields()) {
+        return;
+    }
+    updateTask(taskId);
 }
 
 async function updateTask(taskId) {

@@ -750,11 +750,11 @@ label {
     display: none;
 }
 
-#missing-title-message,
+/* #missing-title-message,
 #missing-date-message,
 #missing-category-message {
     display: none;
-}
+} */
 
 /* #missing-subtask-message{
     display: none;
@@ -767,6 +767,16 @@ label {
 /* #prio-low-button {
     font-weight: 400;
 } */
+
+.error-message {
+    color: #ff8190;
+    font-size: 12px;
+    display: none;
+}
+
+.error input {
+    border: 1px solid #ff8190 !important;
+}
 
 #editTaskOverlay {
     position: fixed;
