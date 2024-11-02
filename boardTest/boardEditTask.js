@@ -46,6 +46,8 @@ async function editTask(task) {
         }
 
         editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id);
+        isDropdownOpen = false;
+        contactsLoaded = false;
 
         highlightPrioButton(task.priority);
 
@@ -100,7 +102,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       </div>
       <div id="assigned-container" class="flex-column gap8px">
          <div class="subtitle">Assigned to</div>
-         <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible();matchTaskAssignedUserToCheckedDropdown()">    <!-- added second function by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts -->
+         <div id="edit-selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible()">    <!-- added second function by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts -->
             <span id="assigned-placeholder">Select contacts to assign</span>
             <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
          </div>
@@ -201,6 +203,15 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
 }
 
 async function updateTask(taskId) {
+    //  if (selectedContacts.length === 0) {
+    //      await matchTaskAssignedUserToCheckedDropdown();
+    //  }
+
+    subtasks = subtasks.map((subtask) => ({
+        subtask: subtask,
+        status: "unchecked",
+    }));
+
     try {
         const taskToUpdate = tasksArray.find((t) => t.id === taskId);
         const { id, ...taskWithoutId } = taskToUpdate;
@@ -229,14 +240,14 @@ async function updateTask(taskId) {
 
         const data = await response.json();
         console.log("Task erfolgreich aktualisiert:", data);
+
+        contactsDeselected = false;
     } catch (error) {
         console.error("Fehler:", error);
     }
-
     handleUpdateTask();
     selectedContacts = [];
     selectedColors = [];
-    subtasks = [];
 }
 
 function handleUpdateTask() {
@@ -260,3 +271,51 @@ function handleUpdateTask() {
 
 // // EventListener für edit-title-input setzen
 // document.getElementById("edit-title-input").addEventListener("input", handleEditTitleInput);
+
+function findContactIndexForTaskName(name) {
+    const i = contactList.indexOf(name);
+    if (i !== -1) {
+        return i;
+    }
+    console.error("contact array index could not be calculated");
+    return -1;
+}
+
+async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
+    let taskUserNameList = data.tasks[taskEditCheckboxId].name;
+    let taskUserNameColors = data.tasks[taskEditCheckboxId].color;
+
+    if (taskUserNameList && taskUserNameColors) {
+        for (let i = 0; i < taskUserNameList.length; i++) {
+            let name = taskUserNameList[i];
+            let color = taskUserNameColors[i];
+
+            let contactIndex = findContactIndexForTaskName(name);
+
+            if (contactIndex !== -1) {
+                selectedContacts.push(name);
+                selectedColors.push(color);
+            }
+        }
+    }
+}
+
+async function matchTaskAssignedUserToCheckedDropdown() {
+    selectedContacts = [];
+    selectedColors = [];
+
+    try {
+        const response = await fetch(`${BASE_URL}/.json`);
+        const data = await response.json();
+        let taskTitle = document.getElementById("edit-title-input").value;
+        let description = document.getElementById("edit-textarea-input").value;
+        for (const taskId in data.tasks) {
+            if (data.tasks[taskId].title === taskTitle && data.tasks[taskId].taskDescription === description) {
+                let taskEditCheckboxId = taskId;
+                checkDropdownListCheckboxStatus(data, taskEditCheckboxId);
+            }
+        }
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}

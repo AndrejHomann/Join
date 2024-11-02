@@ -25,6 +25,9 @@ async function fetchContacts() {
  *
  * @async
  */
+let isDropdownOpen = false;
+let contactsLoaded = false;
+
 async function showContactsDropDown() {
     await fetchContacts();
 
@@ -32,18 +35,23 @@ async function showContactsDropDown() {
     if (selectedContacts.length >= 0) {
         assignedPlaceholder.innerHTML = "An";
     }
-
+    setColorOfAssignedContainer();
     document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="dropdown-arrow"/>`;
 
     let dropdownList = document.getElementById("dropdown-list");
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
+    if (!isDropdownOpen) {
+        if (document.getElementById("edit-selected-name") && !contactsLoaded) {
+            await matchTaskAssignedUserToCheckedDropdown();
+            contactsLoaded = true;
+        }
+        isDropdownOpen = true;
+    }
+
     dropdownList.classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "none";
-    // document.getElementById("selected-contacts-circle-container").classList.remove("d-none");
-    // document.getElementById("edit-selected-contacts-container").style.display = "none";
 
-    setColorOfAssignedContainer();
     showCheckedContactsAfterDropdownClosing();
 }
 
@@ -73,11 +81,10 @@ function closeContactsDropDown() {
     document.getElementById("contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
     document.getElementById("dropdown-list").classList.add("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "flex";
-    // document.getElementById("selected-contacts-circle-container").classList.add("d-none");
-    // document.getElementById("edit-selected-contacts-container").style.display = "";
 
     removeColorOfBorderAssignedContainer();
     showCirclesOfSelectedContacts();
+    isDropdownOpen = false;
 }
 
 /**
@@ -87,14 +94,10 @@ function closeContactsDropDown() {
  * @param {number} index - The index of the contact in the contact list.
  */
 function selectContact(contactName, index) {
-    let checkBox = document.getElementById(`unchecked-box-${index}`);
-
-    if (checkBox.src.includes("unchecked.png")) {
-        checkBox.src = "/img/checked.png";
-        handleContactSelection(contactName, index);
-    } else {
-        checkBox.src = "/img/unchecked.png";
+    if (selectedContacts.includes(contactName)) {
         handleContactDeselection(contactName, index);
+    } else {
+        handleContactSelection(contactName, index);
     }
 }
 
@@ -113,6 +116,7 @@ function handleContactSelection(contactName, index) {
         selectedColors.push(selectedContactColor);
         assignedPlaceholder.innerHTML = /*html*/ `<span id="assigned-placeholder">An</span>`;
         document.getElementById("assigned-container").classList.add("heightAuto");
+        document.getElementById(`unchecked-box-${index}`).src = "/img/checked.png";
     }
 }
 
@@ -125,6 +129,7 @@ function handleContactSelection(contactName, index) {
 function handleContactDeselection(contactName, index) {
     let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
     let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
+    document.getElementById(`unchecked-box-${index}`).src = "/img/unchecked.png";
 
     if (indexOfSelectedContacts >= 0) {
         selectedContacts.splice(indexOfSelectedContacts, 1);
@@ -141,15 +146,24 @@ function handleContactDeselection(contactName, index) {
  */
 function setColorOfAssignedContainer() {
     let selectContactsContainer = document.getElementById("selected-name");
+
+    if (document.getElementById("edit-selected-name")) {
+        selectContactsContainer = document.getElementById("edit-selected-name");
+    }
+
     selectContactsContainer.style.border = "1px solid #90D1ED";
 }
 
 /**
  * Removes the colored border from the assigned contacts container.
  */
-
 function removeColorOfBorderAssignedContainer() {
     let selectContactsContainer = document.getElementById("selected-name");
+
+    if (document.getElementById("edit-selected-name")) {
+        selectContactsContainer = document.getElementById("edit-selected-name");
+    }
+
     selectContactsContainer.style.border = "";
 }
 

@@ -321,56 +321,6 @@ function closeConfirmationDiv(confirmationDiv) {
 }
 
 function closeBoardAddTaskIfNeeded() {
-    closeAddTaskForm(); // Schließen des Fensters
-    loadTasks(); // Board aktualisieren, nachdem das Fenster geschlossen wurde
-}
-
-function findContactIndexForTaskName(name) {
-    for (let i = 0; i < contactList.length; i++) {
-        if (contactList[i] === name) {
-            const contactElement = document.getElementById(`dropdown-list-contact-${i}`);
-            const contactTestCheckbox = contactElement.querySelector("img");
-            contactTestCheckbox.src = "/img/unchecked.png";
-
-            return i;
-        }
-    }
-    console.error("contact array index could not be calculated", error);
-    return -1;
-}
-
-async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
-    let taskUserNameList = data.tasks[taskEditCheckboxId].name;
-    let taskUserNameColors = data.tasks[taskEditCheckboxId].color;
-
-    if (taskUserNameList && taskUserNameColors) {
-        for (let i = 0; i < taskUserNameList.length; i++) {
-            let name = taskUserNameList[i];
-
-            let contactIndex = findContactIndexForTaskName(name);
-
-            if (contactIndex !== -1) {
-                selectContact(name, contactIndex);
-            }
-        }
-    }
-}
-
-async function matchTaskAssignedUserToCheckedDropdown() {
-    await showContactsDropDown();
-
-    try {
-        const response = await fetch(`${BASE_URL}/.json`);
-        const data = await response.json();
-        let taskTitle = document.getElementById("edit-title-input").value;
-        let description = document.getElementById("edit-textarea-input").value;
-        for (const taskId in data.tasks) {
-            if (data.tasks[taskId].title === taskTitle && data.tasks[taskId].taskDescription === description) {
-                let taskEditCheckboxId = taskId;
-                checkDropdownListCheckboxStatus(data, taskEditCheckboxId);
-            }
-        }
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-    }
+    closeAddTaskForm();
+    loadTasks();
 }

@@ -345,18 +345,6 @@ function deleteSubtask(index) {
 /**
  * Updates the subtask list container in the DOM after a subtask is deleted.
  */
-// function updateSubtaskListAfterDelete() {
-//     let subtaskList = document.getElementById("generated-subtask-list-container");
-//     // let subtaskList = document.getElementById("edit-generated-subtask-list-container");
-
-//     subtaskList.innerHTML = "";
-
-//     for (let i = 0; i < subtasks.length; i++) {
-//         let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
-//         subtaskList.innerHTML += subtaskHTML;
-//     }
-// }
-
 function updateSubtaskListAfterDelete() {
     let subtaskList = document.getElementById("generated-subtask-list-container");
 
