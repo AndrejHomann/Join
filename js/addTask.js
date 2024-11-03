@@ -91,11 +91,6 @@ function createTask() {
         return;
     }
 
-    subtasks = subtasks.map((subtask) => ({
-        subtask: subtask,
-        status: "unchecked",
-    }));
-
     let task = {
         name: selectedContacts,
         priority: selectedPrio,
@@ -184,16 +179,6 @@ function closeSubtaskDraft() {
 /**
  * Adds a new subtask to the list after validating the input.
  */
-// function addSubtask() {
-//     let newSubtaskInput = document.getElementById("new-subtask-input");
-//     let subtaskList = document.getElementById("generated-subtask-list-container");
-//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
-//     let subtaskContainer = document.getElementById("new-subtask-container");
-//     let i = subtasks.length;
-
-//     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
-//     resetSubtaskIcon();
-// }
 function addSubtask() {
     let newSubtaskInput = document.getElementById("new-subtask-input");
     let subtaskList = document.getElementById("generated-subtask-list-container");
@@ -201,11 +186,9 @@ function addSubtask() {
     let subtaskContainer = document.getElementById("new-subtask-container");
     let i = subtasks.length;
 
-    // Überprüfen, ob der Edit-Container existiert und ihn als subtaskList verwenden
     if (document.getElementById("edit-generated-subtask-list-container")) {
         subtaskList = document.getElementById("edit-generated-subtask-list-container");
     }
-
     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
     resetSubtaskIcon();
 }
@@ -220,13 +203,13 @@ function addSubtask() {
  * @param {number} i - The index of the new subtask.
  */
 function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i) {
-    // Trim the input value to remove leading and trailing spaces
     let trimmedInput = newSubtaskInput.value.trim();
 
     if (trimmedInput !== "") {
-        subtasks.push(trimmedInput);
+        // subtasks.push(trimmedInput);
+        subtasks.push({ subtask: trimmedInput, status: "unchecked" });
 
-        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
+        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i].subtask);
         subtaskList.innerHTML += subtaskHTML;
 
         newSubtaskInput.value = "";
@@ -334,7 +317,7 @@ function resetSubtaskList() {
  * @param {number} index - The index of the subtask to delete.
  */
 function deleteSubtask(index) {
-    let newSubtask = document.getElementById(`added-subtask-${index}`);
+    let newSubtask = document.getElementById(`generated-subtask-container-${index}`);
     if (newSubtask) {
         newSubtask.remove();
     }
@@ -348,7 +331,6 @@ function deleteSubtask(index) {
 function updateSubtaskListAfterDelete() {
     let subtaskList = document.getElementById("generated-subtask-list-container");
 
-    // Überprüfen, ob der editierte Container existiert und verwenden, falls ja
     if (document.getElementById("edit-generated-subtask-list-container")) {
         subtaskList = document.getElementById("edit-generated-subtask-list-container");
     }
@@ -356,7 +338,7 @@ function updateSubtaskListAfterDelete() {
     subtaskList.innerHTML = "";
 
     for (let i = 0; i < subtasks.length; i++) {
-        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i]);
+        let subtaskHTML = templateSubtasksListHTML(i, subtasks[i].subtask);
         subtaskList.innerHTML += subtaskHTML;
     }
 }
@@ -389,7 +371,7 @@ function templateSubtasksListHTML(i, subtask) {
  */
 function editSubtask(index) {
     let toEditSubtask = document.getElementById(`generated-subtask-container-${index}`);
-    let currentSubtaskText = subtasks[index];
+    let currentSubtaskText = subtasks[index].subtask;
 
     toEditSubtask.classList.add("noHoverEffect");
 
@@ -456,7 +438,7 @@ function addEditedSubtaskByEnterKey(event, index) {
  */
 function submitSubtask(index) {
     let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
-    subtasks[index] = editedSubtaskInput;
+    subtasks[index].subtask = editedSubtaskInput;
 
     updateSubtaskListAfterDelete();
 }

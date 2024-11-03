@@ -3,13 +3,16 @@ function renderEditableSubtasks(subtasksFromCurrentTask) {
         return "<p>No subtasks available to edit</p>";
     }
 
-    let subtasksHTML = "";
+    subtasks = [];
 
+    let subtasksHTML = "";
     for (let i = 0; i < subtasksFromCurrentTask.length; i++) {
-        subtasksHTML += templateSubtasksListHTML(i, subtasksFromCurrentTask[i]);
-        let loadedSubtask = subtasksFromCurrentTask[i];
-        subtasks.push(loadedSubtask);
-        console.log("Hinzufügen zu subtasks:", loadedSubtask); // Zum Überprüfen, was hinzugefügt wird.
+        subtasksHTML += templateSubtasksListHTML(i, subtasksFromCurrentTask[i].subtask);
+
+        let loadedSubtask = subtasksFromCurrentTask[i].subtask;
+        let loadedStatus = subtasksFromCurrentTask[i].status;
+
+        subtasks.push({ subtask: loadedSubtask, status: loadedStatus });
     }
     return subtasksHTML;
 }
@@ -45,7 +48,7 @@ async function editTask(task, taskId) {
             return;
         }
 
-        editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id);
+        editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id, task);
         isDropdownOpen = false;
         contactsLoaded = false;
 
@@ -213,14 +216,14 @@ function validateAndUpdateTask(taskId) {
 }
 
 async function updateTask(taskId) {
-    //  if (selectedContacts.length === 0) {
-    //      await matchTaskAssignedUserToCheckedDropdown();
-    //  }
+    for (let i = 0; i < subtasks.length; i++) {
+        let currentSubtask = subtasks[i];
 
-    subtasks = subtasks.map((subtask) => ({
-        subtask: subtask,
-        status: "unchecked",
-    }));
+        subtasks[i] = {
+            subtask: typeof currentSubtask === "object" ? currentSubtask.subtask : currentSubtask,
+            status: currentSubtask.status === "checked" ? "checked" : "unchecked",
+        };
+    }
 
     try {
         const taskToUpdate = tasksArray.find((t) => t.id === taskId);
@@ -248,8 +251,7 @@ async function updateTask(taskId) {
 
         if (!response.ok) throw new Error("Fehler beim Aktualisieren der Task-Daten");
 
-        const data = await response.json();
-        console.log("Task erfolgreich aktualisiert:", data);
+        await response.json();
 
         contactsDeselected = false;
     } catch (error) {
