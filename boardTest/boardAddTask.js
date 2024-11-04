@@ -12,6 +12,7 @@ function createTaskFromBoard() {
     selectedContacts = [];
     selectedColors = [];
     wasContactsDropdownOpenInCurrentTask = true;
+    isCategoryAvailable = true;
 }
 
 /**
@@ -134,7 +135,7 @@ function createTaskFromBoardDiv() {
             </div>
             <div id="interactives-buttons-container">
                 <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
-                <button id="create-button" class="flex-center-align" type="button" onclick="createTask(); checkInputFields()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
+                <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
             </div>
         </div>
     </div>

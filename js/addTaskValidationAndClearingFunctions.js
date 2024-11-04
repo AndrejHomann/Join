@@ -1,17 +1,71 @@
 /**
+ *
  * Validates that all required inputs (category, title, and date) are entered.
  * If any required field is missing, corresponding validation checks are triggered.
  *
  * @returns {boolean} Returns false if any required input is missing; otherwise, true.
  */
+
+let isCategoryAvailable = true;
+
+// function validateAllInputs() {
+//     let titleInput;
+//     let dateInput;
+
+//     if (document.getElementById("title-input") && document.getElementById("date-input")) {
+//         titleInput = document.getElementById("title-input").value;
+//         dateInput = document.getElementById("date-input").value;
+//     } else {
+//         titleInput = document.getElementById("edit-title-input").value;
+//         dateInput = document.getElementById("edit-date-input").value;
+//     }
+
+//     let isValid = true;
+
+//     if (!selectedCategory || !titleInput || !dateInput) {
+//         checkIfTitleIsEntered();
+//         checkIfDateIsSelected();
+//         if (isCategoryAvailable === true) {
+//             checkIfCategoryIsSelected();
+//         }
+//         isValid = false;
+//     }
+//     return isValid;
+// }
 function validateAllInputs() {
-    if (!selectedCategory || !document.getElementById("title-input").value || !document.getElementById("date-input").value) {
-        checkIfTitleIsEntered();
-        checkIfDateIsSelected();
-        checkIfCategoryIsSelected();
-        return false;
+    let titleInput;
+    let dateInput;
+
+    // Überprüfen, ob wir die normalen oder die Edit-Input-Felder verwenden
+    if (document.getElementById("title-input") && document.getElementById("date-input")) {
+        titleInput = document.getElementById("title-input").value;
+        dateInput = document.getElementById("date-input").value;
+    } else {
+        titleInput = document.getElementById("edit-title-input").value;
+        dateInput = document.getElementById("edit-date-input").value;
     }
-    return true;
+
+    let isValid = true;
+
+    // Überprüfen, ob der Titel eingegeben wurde
+    if (!titleInput) {
+        checkIfTitleIsEntered();
+        isValid = false;
+    }
+
+    // Überprüfen, ob ein Datum ausgewählt wurde
+    if (!dateInput) {
+        checkIfDateIsSelected();
+        isValid = false;
+    }
+
+    // Überprüfen, ob eine Kategorie ausgewählt wurde, falls erforderlich
+    if (!selectedCategory && isCategoryAvailable) {
+        checkIfCategoryIsSelected();
+        isValid = false;
+    }
+
+    return isValid;
 }
 
 /**
@@ -76,6 +130,10 @@ function checkIfTitleIsEntered() {
     let missingTitleMessage = document.getElementById("missing-title-message");
     let titleInput = document.getElementById("title-input");
 
+    if (document.getElementById("edit-title-input")) {
+        titleInput = document.getElementById("edit-title-input");
+    }
+
     if (!titleInput.value) {
         titleInput.style.border = "1px solid #ff8190";
         missingTitleMessage.classList.add("validationStyle");
@@ -92,9 +150,27 @@ function checkIfTitleIsEntered() {
  * Checks if a date is selected in the date input field.
  * If no date is selected, adds a validation message and border style; otherwise, removes validation styles.
  */
+// function checkIfDateIsSelected() {
+//     let missingDateMessage = document.getElementById("missing-date-message");
+//     let dateInput = document.getElementById("date-input");
+
+//     if (!dateInput.value) {
+//         dateInput.style.border = "1px solid #ff8190";
+//         missingDateMessage.classList.add("validationStyle");
+//         missingDateMessage.style.removeProperty("display");
+//     } else {
+//         dateInput.style.border = "";
+//         missingDateMessage.classList.remove("validationStyle");
+//         missingDateMessage.style.display = "none";
+//     }
+// }
 function checkIfDateIsSelected() {
     let missingDateMessage = document.getElementById("missing-date-message");
     let dateInput = document.getElementById("date-input");
+
+    if (document.getElementById("edit-date-input")) {
+        dateInput = document.getElementById("edit-date-input");
+    }
 
     if (!dateInput.value) {
         dateInput.style.border = "1px solid #ff8190";

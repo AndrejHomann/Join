@@ -485,7 +485,6 @@ function handleDateInput() {
     let editDateInput = document.getElementById("edit-date-input");
     let missingDateMessage = document.getElementById("missing-date-message");
 
-    // Überprüfen, ob eines der beiden Datumsfelder einen Wert hat
     if ((dateInput && dateInput.value) || (editDateInput && editDateInput.value)) {
         addBorderStyleToValueContainer(dateInput ? dateInput : editDateInput, "#90D1ED");
         missingDateMessage.style.display = "none";
@@ -496,7 +495,6 @@ function handleDateInput() {
     }
 }
 
-// Event Listener nur hinzufügen, wenn die Elemente existieren
 let dateInput = document.getElementById("date-input");
 if (dateInput) {
     dateInput.addEventListener("change", handleDateInput);
@@ -507,11 +505,12 @@ if (editDateInput) {
     editDateInput.addEventListener("change", handleDateInput);
 }
 
-/**
- * Handles changes to the title input field and validates its content.
- */
+// /**
+//  * Handles changes to the title input field and validates its content.
+//  */
 // function handleTitleInput() {
 //     let titleInput = document.getElementById("title-input");
+//     let editTitleInput = document.getElementById("edit-title-input");
 //     let missingTitleMessage = document.getElementById("missing-title-message");
 
 //     if (titleInput.value) {
@@ -526,56 +525,60 @@ if (editDateInput) {
 // let titleInput = document.getElementById("title-input");
 // titleInput.addEventListener("input", handleTitleInput);
 
-function handleTitleInput() {
-    let titleInput = document.getElementById("title-input");
-    let editTitleInput = document.getElementById("edit-title-input");
-    let missingTitleMessage = document.getElementById("missing-title-message");
+// function handleTitleInput() {
+//     let titleInput = document.getElementById("title-input");
+//     let editTitleInput = document.getElementById("edit-title-input");
+//     let missingTitleMessage = document.getElementById("missing-title-message");
 
-    // Überprüfen, ob eines der beiden Titel-Felder einen Wert hat
-    if ((titleInput && titleInput.value) || (editTitleInput && editTitleInput.value)) {
-        addBorderStyleToValueContainer(titleInput ? titleInput : editTitleInput, "#90D1ED");
-        missingTitleMessage.style.display = "none";
-    } else {
-        if (titleInput) removeBorderStyleToValueContainer(titleInput);
-        if (editTitleInput) removeBorderStyleToValueContainer(editTitleInput);
-        checkIfTitleIsEntered();
-    }
-}
+//     if ((titleInput && titleInput.value) || (editTitleInput && editTitleInput.value)) {
+//         addBorderStyleToValueContainer(titleInput ? titleInput : editTitleInput, "#90D1ED");
+//         missingTitleMessage.style.display = "none";
+//     } else {
+//         if (titleInput) removeBorderStyleToValueContainer(titleInput);
+//         if (editTitleInput) removeBorderStyleToValueContainer(editTitleInput);
+//         checkIfTitleIsEntered();
+//     }
+// }
 
-// Event Listener nur hinzufügen, wenn die Elemente existieren
-let titleInput = document.getElementById("title-input");
-if (titleInput) {
-    titleInput.addEventListener("input", handleTitleInput);
-}
+// let titleInput = document.getElementById("title-input");
+// if (titleInput) {
+//     titleInput.addEventListener("input", handleTitleInput);
+// }
 
-let editTitleInput = document.getElementById("edit-title-input");
-if (editTitleInput) {
-    editTitleInput.addEventListener("input", handleTitleInput);
-}
+// let editTitleInput = document.getElementById("edit-title-input");
+// if (editTitleInput) {
+//     editTitleInput.addEventListener("input", handleTitleInput);
+// }
 
-/**
- * Handles changes to the description input field and validates its content.
- */
-function handleTextareaInput() {
-    let descriptionInput = document.getElementById("textarea-input");
+// let titleInput = document.getElementById("title-input");
+// let editTitleInput = document.getElementById("edit-title-input");
+// if (editTitleInput || titleInput) {
+//     editTitleInput.addEventListener("input", handleTitleInput);
+// }
 
-    if (descriptionInput.value) {
-        addBorderStyleToValueContainer(descriptionInput, "#90D1ED");
-    } else {
-        removeBorderStyleFromDescriptionContainer(descriptionInput);
-    }
-}
+// /**
+//  * Handles changes to the description input field and validates its content.
+//  */
+// function handleTextareaInput() {
+//     let descriptionInput = document.getElementById("textarea-input");
 
-/**
- * Adds a border style to the description element.
- * @param {HTMLElement} element - The element to add a border to
- */
-function removeBorderStyleFromDescriptionContainer(element) {
-    element.style.border = ``;
-}
+//     if (descriptionInput.value) {
+//         addBorderStyleToValueContainer(descriptionInput, "#90D1ED");
+//     } else {
+//         removeBorderStyleFromDescriptionContainer(descriptionInput);
+//     }
+// }
 
-let descriptionInput = document.getElementById("textarea-input");
-descriptionInput.addEventListener("input", handleTextareaInput);
+// /**
+//  * Adds a border style to the description element.
+//  * @param {HTMLElement} element - The element to add a border to
+//  */
+// function removeBorderStyleFromDescriptionContainer(element) {
+//     element.style.border = ``;
+// }
+
+// let descriptionInput = document.getElementById("textarea-input");
+// descriptionInput.addEventListener("input", handleTextareaInput);
 
 /**
  * Removes the border styles from both the description and category containers.

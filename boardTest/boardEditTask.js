@@ -49,8 +49,8 @@ async function editTask(task, taskId) {
         }
 
         editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id, task);
-        isDropdownOpen = false;
-        contactsLoaded = false;
+
+        isCategoryAvailable = false;
 
         selectedContacts = task.name || [];
         selectedColors = task.color || [];
@@ -74,7 +74,7 @@ function highlightPrioButton(priority) {
     resetPrio();
 
     // Fügt die Hintergrundfarbe zum jeweiligen Prio-Button hinzu
-    const selectedButton = document.getElementById(`prio-${priority}-button`);
+    const selectedButton = document.getElementById(`edit-prio-${priority}-button`);
     if (selectedButton) {
         selectedButton.classList.add(`prio-${priority}-button-bg-color`);
         selectedPrio = priority;
@@ -98,8 +98,9 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       <div id="title-container" class="flex-column gap8px">
          <div class="subtitle">Title<span class="asterisk">*</span></div>
          <div id="title-input-container">
-            <input type="text" placeholder="Enter a title" id="edit-title-input" oninput="validateRequiredFields()" value="${title}" />
-            <span class="error-message">This field is required</span>
+            <input type="text" placeholder="Enter a title" id="edit-title-input" value="${title}" />
+            <!-- <span class="error-message">This field is required</span> -->
+            <span id="missing-title-message" class="validationStyle" style="display: none">This field is required</span>
          </div>
       </div>
       <div id="description-container" class="flex-column gap8px">
@@ -121,14 +122,17 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       <div id="date-container" class="flex-column gap8px">
          <div class="subtitle">Due date<span class="asterisk">*</span></div>
          <div id="calender">
-            <input type="date" id="edit-date-input" oninput="validateRequiredFields()" value="${date}" />
-            <span class="error-message">This field is required</span>
+            <input type="date" id="edit-date-input" value="${date}" />
+            <!-- <span class="error-message">This field is required</span> -->
+            <span id="missing-date-message" class="validationStyle" style="display: none">This field is required</span>
          </div>
       </div>
       <div id="prio-container" class="flex-column gap8px">
          <div class="subtitle">Prio</div>
          <div id="choose-prio-container">
-            <button class="choose-prio-button flex-center-align ${urgentClass}" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')">
+            <!-- <button class="choose-prio-button flex-center-align ${urgentClass}" id="edit-prio-urgent-button" type="button" onclick="choosePrio('urgent')"> -->
+            <button class="choose-prio-button flex-center-align" id="edit-prio-urgent-button" type="button" onclick="choosePrio('urgent')">
+
                <span id="prio-urgent" class="flex-center-align">Urgent </span>
                <svg class="prio-urgent-arrows" id="prio-urgent-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -141,7 +145,9 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
                      />
                </svg>
             </button>
-            <button class="choose-prio-button flex-center-align prio-medium-button-bg-color ${mediumClass}" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
+            <!-- <button class="choose-prio-button flex-center-align prio-medium-button-bg-color ${mediumClass}" id="edit-prio-medium-button" type="button" onclick="choosePrio('medium')"> -->
+            <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="edit-prio-medium-button" type="button" onclick="choosePrio('medium')">
+
                <span id="prio-medium" class="flex-center-align">Medium </span>
                <svg class="prio-medium-arrows" id="prio-medium-arrows" width="21" height="8" viewBox="0 0 21 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_228141_4295)">
@@ -155,7 +161,8 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
                   </defs>
                </svg>
             </button>
-            <button class="choose-prio-button flex-center-align ${lowClass}" id="prio-low-button" type="button" onclick="choosePrio('low')">
+            <!-- <button class="choose-prio-button flex-center-align ${lowClass}" id="edit-prio-low-button" type="button" onclick="choosePrio('low')"> -->
+            <button class="choose-prio-button flex-center-align" id="edit-prio-low-button" type="button" onclick="choosePrio('low')">
                <span id="prio-low" class="flex-center-align"> Low </span>
                <svg class="prio-low-arrows" id="prio-low-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -170,7 +177,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
             </button>
          </div>
       </div>
-      <div id="category-container" class="flex-column gap8px">
+      <!-- <div id="category-container" class="flex-column gap8px">
          <div class="subtitle">Category<span class="asterisk">*</span></div>
          <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), doNotCloseDropdown(event)">
             <span id="category-placeholder">${category}</span>
@@ -179,8 +186,8 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
             </div>
          </div>
          <span id="missing-category-message" class="validationStyle" style="display: none">This field is required</span>
-         <div id="category-dropdown-list" class="d-none"></div>
-      </div>
+         <div id="category-dropdown-list" class="d-none"></div> -->
+      <!-- </div> -->
       <div id="edit-substasks-container" class="flex-column gap8px">
          <div class="subtitle">Subtasks</div>
          <div id="subtask-relative-container">
@@ -198,7 +205,7 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       </div>
     </div>
     <div id="ok-edittask-button-container" >
-        <div id="ok-edittask-button" onclick="validateAndUpdateTask('${taskId}')">
+        <div id="ok-edittask-button" onclick="updateTask('${taskId}')">
             <div id="ok-submit-container"><span>Ok</span></div>
             <div id="check-submit-container"><img src="/img/board/assets/icons/check.png" alt=""/></div>
         </div>
@@ -208,14 +215,18 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
 `;
 }
 
-function validateAndUpdateTask(taskId) {
-    if (!validateRequiredFields()) {
-        return;
-    }
-    updateTask(taskId);
-}
+// function validateAndUpdateTask(taskId)
+//  if (!validateRequiredFields()) {
+//     //     return;
+//     // }
+//     updateTask(taskId);
+// }
 
 async function updateTask(taskId) {
+    if (!validateAllInputs()) {
+        return;
+    }
+
     for (let i = 0; i < subtasks.length; i++) {
         let currentSubtask = subtasks[i];
 
@@ -235,7 +246,7 @@ async function updateTask(taskId) {
             taskDescription: document.getElementById("edit-textarea-input").value,
             date: document.getElementById("edit-date-input").value,
             priority: selectedPrio,
-            category: document.getElementById("category-placeholder").textContent || null,
+            // category: document.getElementById("category-placeholder").textContent || null,
             name: selectedContacts,
             color: selectedColors,
             addedSubtasks: subtasks,
