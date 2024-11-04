@@ -206,7 +206,6 @@ function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer,
     let trimmedInput = newSubtaskInput.value.trim();
 
     if (trimmedInput !== "") {
-        // subtasks.push(trimmedInput);
         subtasks.push({ subtask: trimmedInput, status: "unchecked" });
 
         let subtaskHTML = templateSubtasksListHTML(i, subtasks[i].subtask);
@@ -481,9 +480,36 @@ function removeBorderStyleToValueContainer(element) {
 // let dateInput = document.getElementById("date-input");
 // dateInput.addEventListener("change", handleDateInput);
 
-// /**
-//  * Handles changes to the title input field and validates its content.
-//  */
+function handleDateInput() {
+    let dateInput = document.getElementById("date-input");
+    let editDateInput = document.getElementById("edit-date-input");
+    let missingDateMessage = document.getElementById("missing-date-message");
+
+    // Überprüfen, ob eines der beiden Datumsfelder einen Wert hat
+    if ((dateInput && dateInput.value) || (editDateInput && editDateInput.value)) {
+        addBorderStyleToValueContainer(dateInput ? dateInput : editDateInput, "#90D1ED");
+        missingDateMessage.style.display = "none";
+    } else {
+        if (dateInput) removeBorderStyleToValueContainer(dateInput);
+        if (editDateInput) removeBorderStyleToValueContainer(editDateInput);
+        checkIfDateIsSelected();
+    }
+}
+
+// Event Listener nur hinzufügen, wenn die Elemente existieren
+let dateInput = document.getElementById("date-input");
+if (dateInput) {
+    dateInput.addEventListener("change", handleDateInput);
+}
+
+let editDateInput = document.getElementById("edit-date-input");
+if (editDateInput) {
+    editDateInput.addEventListener("change", handleDateInput);
+}
+
+/**
+ * Handles changes to the title input field and validates its content.
+ */
 // function handleTitleInput() {
 //     let titleInput = document.getElementById("title-input");
 //     let missingTitleMessage = document.getElementById("missing-title-message");
@@ -500,6 +526,33 @@ function removeBorderStyleToValueContainer(element) {
 // let titleInput = document.getElementById("title-input");
 // titleInput.addEventListener("input", handleTitleInput);
 
+function handleTitleInput() {
+    let titleInput = document.getElementById("title-input");
+    let editTitleInput = document.getElementById("edit-title-input");
+    let missingTitleMessage = document.getElementById("missing-title-message");
+
+    // Überprüfen, ob eines der beiden Titel-Felder einen Wert hat
+    if ((titleInput && titleInput.value) || (editTitleInput && editTitleInput.value)) {
+        addBorderStyleToValueContainer(titleInput ? titleInput : editTitleInput, "#90D1ED");
+        missingTitleMessage.style.display = "none";
+    } else {
+        if (titleInput) removeBorderStyleToValueContainer(titleInput);
+        if (editTitleInput) removeBorderStyleToValueContainer(editTitleInput);
+        checkIfTitleIsEntered();
+    }
+}
+
+// Event Listener nur hinzufügen, wenn die Elemente existieren
+let titleInput = document.getElementById("title-input");
+if (titleInput) {
+    titleInput.addEventListener("input", handleTitleInput);
+}
+
+let editTitleInput = document.getElementById("edit-title-input");
+if (editTitleInput) {
+    editTitleInput.addEventListener("input", handleTitleInput);
+}
+
 /**
  * Handles changes to the description input field and validates its content.
  */
@@ -513,17 +566,16 @@ function handleTextareaInput() {
     }
 }
 
-// /**
-//  * Adds a border style to the description element.
-//  *
-//  * @param {HTMLElement} element - The element to add a border too.
-//  */
-// function removeBorderStyleFromDescriptionContainer(element) {
-//     element.style.border = ``;
-// }
+/**
+ * Adds a border style to the description element.
+ * @param {HTMLElement} element - The element to add a border to
+ */
+function removeBorderStyleFromDescriptionContainer(element) {
+    element.style.border = ``;
+}
 
-// let descriptionInput = document.getElementById("textarea-input");
-// descriptionInput.addEventListener("input", handleTextareaInput);
+let descriptionInput = document.getElementById("textarea-input");
+descriptionInput.addEventListener("input", handleTextareaInput);
 
 /**
  * Removes the border styles from both the description and category containers.

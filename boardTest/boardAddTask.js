@@ -6,11 +6,12 @@
  */
 function createTaskFromBoard() {
     const createTask = document.getElementById("addTaskFromBoard");
-    console.log("createTaskFromBoard wurde aufgerufen"); // Überprüfung
     createTask.innerHTML = createTaskFromBoardDiv();
     createTask.classList.add("board-mode"); // Hinzufügen der board-mode Klasse
-    console.log("Klasse hinzugefügt:", createTask.classList); // Überprüfung der Klassen
     loadAddTaskScript(); // Falls notwendig, die weitere Logik hier hinzufügen
+    selectedContacts = [];
+    selectedColors = [];
+    wasContactsDropdownOpenInCurrentTask = true;
 }
 
 /**
@@ -39,7 +40,7 @@ function createTaskFromBoardDiv() {
                 </div>
                 <div id="assigned-container" class="flex-column gap8px">
                     <div class="subtitle">Assigned to</div>
-                    <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible();matchTaskAssignedUserToCheckedDropdown()">
+                    <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible()">
                         <span id="assigned-placeholder">Select contacts to assign</span>
                         <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                     </div>

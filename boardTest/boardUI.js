@@ -454,6 +454,8 @@ function closeTaskDetails() {
     const taskDetails = document.getElementById("taskDetailsOverlay");
     taskDetails.classList.remove("task-details-slideIn");
     taskDetails.classList.add("task-details-slideOut");
+    selectedContacts = [];
+    selectedColors = [];
 
     taskDetails.addEventListener(
         "animationend",
@@ -490,6 +492,8 @@ function removeOverlayClickListener() {
 function closeEditTask() {
     const editTask = document.getElementById("editTaskOverlay");
     editTask.style.display = "none";
+    selectedContacts = [];
+    selectedColors = [];
 }
 
 /**

@@ -252,12 +252,11 @@ async function updateTask(taskId) {
         if (!response.ok) throw new Error("Fehler beim Aktualisieren der Task-Daten");
 
         await response.json();
-
-        contactsDeselected = false;
     } catch (error) {
         console.error("Fehler:", error);
     }
     handleUpdateTask();
+    wasContactsDropdownOpenInCurrentTask = false;
     selectedContacts = [];
     selectedColors = [];
 }

@@ -25,8 +25,7 @@ async function fetchContacts() {
  *
  * @async
  */
-let isDropdownOpen = false;
-let contactsLoaded = false;
+let wasContactsDropdownOpenInCurrentTask = false;
 
 async function showContactsDropDown() {
     await fetchContacts();
@@ -41,12 +40,11 @@ async function showContactsDropDown() {
     let dropdownList = document.getElementById("dropdown-list");
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
-    if (!isDropdownOpen) {
-        if (document.getElementById("edit-selected-name") && !contactsLoaded) {
+    if (wasContactsDropdownOpenInCurrentTask === false) {
+        if (document.getElementById("edit-selected-name")) {
             await matchTaskAssignedUserToCheckedDropdown();
-            contactsLoaded = true;
+            wasContactsDropdownOpenInCurrentTask = true;
         }
-        isDropdownOpen = true;
     }
 
     dropdownList.classList.remove("d-none");
@@ -84,7 +82,6 @@ function closeContactsDropDown() {
 
     removeColorOfBorderAssignedContainer();
     showCirclesOfSelectedContacts();
-    isDropdownOpen = false;
 }
 
 /**
