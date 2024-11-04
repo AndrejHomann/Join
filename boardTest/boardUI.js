@@ -474,9 +474,16 @@ function addOverlayClickListener() {
 
 function handleOverlayClick(event) {
     const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
+    const confirmationDiv = document.querySelector(".deleteConfirmationDiv");
+    const deleteOverlay = document.querySelector(".delete-overlay");
+
     if (event.target === taskDetailsOverlay) {
         closeTaskDetails();
-        removeOverlayClickListener(); // Entfernt den Listener nach dem Schließen
+        removeOverlayClickListener();
+
+        if (confirmationDiv && deleteOverlay) {
+            closeConfirmationDiv(confirmationDiv);
+        }
     }
 }
 
