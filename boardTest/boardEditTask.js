@@ -100,7 +100,7 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
          <div id="title-input-container">
             <input type="text" placeholder="Enter a title" id="edit-title-input" value="${title}" />
             <!-- <span class="error-message">This field is required</span> -->
-            <span id="missing-title-message" class="validationStyle" style="display: none">This field is required</span>
+            <span id="edit-missing-title-message" class="validationStyle" style="display: none">This field is required</span>
          </div>
       </div>
       <div id="description-container" class="flex-column gap8px">
@@ -125,7 +125,7 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
          <div id="calender">
             <input type="date" id="edit-date-input" value="${date}" />
             <!-- <span class="error-message">This field is required</span> -->
-            <span id="missing-date-message" class="validationStyle" style="display: none">This field is required</span>
+            <span id="edit-missing-date-message" class="validationStyle" style="display: none">This field is required</span>
          </div>
       </div>
       <div id="prio-container" class="flex-column gap8px">
@@ -187,7 +187,7 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                   <div id="plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
                </div>
             </div>
-            <span id="missing-subtask-message" class="validationStyleSubtasks" style="display: none">Please add a subtask 🙂</span>
+            <span id="edit-missing-subtask-message" class="validationStyleSubtasks" style="display: none">Please add a subtask 🙂</span>
          </div>
          <div id="edit-new-subtask-list-edit-container">
             <div id="edit-generated-subtask-list-container">${taskAddedSubtasks}</div>
@@ -205,15 +205,8 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
 `;
 }
 
-// function validateAndUpdateTask(taskId)
-//  if (!validateRequiredFields()) {
-//     //     return;
-//     // }
-//     updateTask(taskId);
-// }
-
 async function updateTask(taskId) {
-    if (!validateAllInputs()) {
+    if (!validateAllInputsEdit()) {
         return;
     }
 
@@ -425,4 +418,62 @@ function checkEditTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) 
     input2.addEventListener("blur", () => {
         input1.style = `border: 1px solid ${bordercolor};`;
     });
+}
+
+function validateAllInputsEdit() {
+    let isValid = true;
+
+    if (!checkIfTitleIsEnteredEdit()) {
+        isValid = false;
+    }
+
+    if (!checkIfDateIsSelectedEdit()) {
+        isValid = false;
+    }
+
+    if (isCategoryAvailable === true) {
+        if (!checkIfCategoryIsSelectedEditSubtask()) {
+            isValid = false;
+        }
+    }
+
+    return isValid;
+}
+
+function checkIfTitleIsEnteredEdit() {
+    let missingTitleMessage = document.getElementById("edit-missing-title-message");
+    let titleInput = document.getElementById("edit-title-input");
+
+    let isValid = true;
+
+    if (titleInput.value) {
+        addBorderStyleToValueContainer(titleInput, "#90D1ED");
+        missingTitleMessage.style.display = "none";
+        isValid = true;
+    } else {
+        titleInput.style.border = "1px solid #ff8190";
+        missingTitleMessage.style.display = "flex";
+        missingTitleMessage.classList.add("validationStyle");
+        isValid = false;
+    }
+    return isValid;
+}
+
+function checkIfDateIsSelectedEdit() {
+    let missingDateMessage = document.getElementById("edit-missing-date-message");
+    let dateInput = document.getElementById("edit-date-input");
+
+    let isValid = true;
+
+    if (dateInput.value) {
+        addBorderStyleToValueContainer(dateInput, "#90D1ED");
+        missingDateMessage.style.display = "none";
+        isValid = true;
+    } else {
+        missingDateMessage.style.display = "flex";
+        missingDateMessage.classList.add("validationStyle");
+        dateInput.style.border = "1px solid #ff8190";
+        isValid = false;
+    }
+    return isValid;
 }

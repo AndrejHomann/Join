@@ -23,17 +23,7 @@ function validateAllInputs() {
             isValid = false;
         }
     }
-
     return isValid;
-}
-
-/**
- * Re-checks if the required fields (title, date, category) are filled after they have been previously marked as incomplete.
- */
-function checkIfRequiredFieldsAreEnteredAgain() {
-    checkIfTitleIsEntered();
-    checkIfDateIsSelected();
-    checkIfCategoryIsSelected();
 }
 
 /**
@@ -42,7 +32,7 @@ function checkIfRequiredFieldsAreEnteredAgain() {
  */
 function checkIfTitleIsEntered() {
     let missingTitleMessage = document.getElementById("missing-title-message");
-    let titleInput = document.getElementById("title-input") || document.getElementById("edit-title-input");
+    let titleInput = document.getElementById("title-input");
 
     let isValid = true;
 
@@ -56,7 +46,7 @@ function checkIfTitleIsEntered() {
         missingTitleMessage.classList.remove("validationStyle");
         missingTitleMessage.style.display = "none";
         addBorderStyleToValueContainer(titleInput, "#90D1ED");
-        return isValid; // Gibt true zurück, wenn Titel vorhanden ist
+        return isValid;
     }
 }
 
@@ -66,7 +56,7 @@ function checkIfTitleIsEntered() {
  */
 function checkIfDateIsSelected() {
     let missingDateMessage = document.getElementById("missing-date-message");
-    let dateInput = document.getElementById("date-input") || document.getElementById("edit-date-input");
+    let dateInput = document.getElementById("date-input");
 
     let isValid = true;
 
@@ -74,12 +64,12 @@ function checkIfDateIsSelected() {
         dateInput.style.border = "1px solid #ff8190";
         missingDateMessage.classList.add("validationStyle");
         missingDateMessage.style.removeProperty("display");
-        isValid = false; // Gibt false zurück, wenn kein Datum ausgewählt ist
+        isValid = false;
     } else {
         dateInput.style.border = "";
         missingDateMessage.classList.remove("validationStyle");
         missingDateMessage.style.display = "none";
-        return isValid; // Gibt true zurück, wenn Datum vorhanden ist
+        return isValid;
     }
 }
 
@@ -100,6 +90,15 @@ function checkIfCategoryIsSelected() {
         resetCategoryRequiredNotification();
         return isValid;
     }
+}
+
+/**
+ * Re-checks if the required fields (title, date, category) are filled after they have been previously marked as incomplete.
+ */
+function checkIfRequiredFieldsAreEnteredAgain() {
+    checkIfTitleIsEntered();
+    checkIfDateIsSelected();
+    checkIfCategoryIsSelected();
 }
 
 /**

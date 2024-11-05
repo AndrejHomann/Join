@@ -46,7 +46,6 @@ async function showContactsDropDown() {
             wasContactsDropdownOpenInCurrentTask = true;
         }
     }
-
     dropdownList.classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "none";
 
