@@ -453,7 +453,7 @@ function checkEditTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
     
 }
 
-function checkEditTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor, checkIcon) {
+function checkEditTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
     input1.addEventListener('blur', () => {
         input1.style = `border: 1px solid ${bordercolor};`;
     });
