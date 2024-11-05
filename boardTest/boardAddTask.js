@@ -7,12 +7,34 @@
 function createTaskFromBoard() {
     const createTask = document.getElementById("addTaskFromBoard");
     createTask.innerHTML = createTaskFromBoardDiv();
-    createTask.classList.add("board-mode"); // Hinzufügen der board-mode Klasse
-    loadAddTaskScript(); // Falls notwendig, die weitere Logik hier hinzufügen
+    createTask.classList.add("board-mode");
+    loadAddTaskScript();
     selectedContacts = [];
     selectedColors = [];
+    subtasks = [];
     wasContactsDropdownOpenInCurrentTask = true;
     isCategoryAvailable = true;
+}
+
+function addTaskFromBoard() {
+    if (!validateAllInputs()) {
+        return;
+    }
+
+    let task = {
+        name: selectedContacts,
+        priority: selectedPrio,
+        category: selectedCategory,
+        color: selectedColors,
+        addedSubtasks: subtasks,
+        title: document.getElementById("board-title-input").value,
+        taskDescription: document.getElementById("board-textarea-input").value,
+        date: document.getElementById("board-date-input").value,
+        status: "todo",
+    };
+    addTask("/tasks.json", task);
+    removeBorderStyleFromDescriptionContainerAndCategoryContainer();
+    checkIfRequiredFieldsAreEnteredAgain();
 }
 
 /**
@@ -32,12 +54,14 @@ function createTaskFromBoardDiv() {
             <div id="content-box-left" class="flex-column">
                 <div id="title-container" class="flex-column gap8px">
                     <div class="subtitle">Title<span class="asterisk">*</span></div>
-                    <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" /></div>
+                    <!-- <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" /></div> -->
+                    <div id="title-input-container"><input type="text" placeholder="Enter a title" id="board-title-input" /></div>
                     <span id="missing-title-message" class="validationStyle d-none">This field is required</span>
                 </div>
                 <div id="description-container" class="flex-column gap8px">
                     <div class="subtitle">Description</div>
-                    <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input"></textarea></div>
+                    <!-- <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input"></textarea></div> -->
+                    <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="board-textarea-input"></textarea></div>
                 </div>
                 <div id="assigned-container" class="flex-column gap8px">
                     <div class="subtitle">Assigned to</div>
@@ -53,13 +77,15 @@ function createTaskFromBoardDiv() {
             <div id="content-box-right" class="flex-column">
                 <div id="date-container" class="flex-column gap8px">
                     <div class="subtitle">Due date<span class="asterisk">*</span></div>
-                    <div id="calender"><input type="date" id="date-input" /></div>
+                    <!-- <div id="calender"><input type="date" id="date-input" /></div> -->
+                    <div id="calender"><input type="date" id="board-date-input" /></div>
                     <span id="missing-date-message" class="validationStyle d-none">This field is required</span>
                 </div>
                 <div id="prio-container" class="flex-column gap8px">
                     <div class="subtitle">Prio</div>
                     <div id="choose-prio-container">
-                        <button class="choose-prio-button flex-center-align" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')">
+                        <!-- <button class="choose-prio-button flex-center-align" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')"> -->
+                        <button class="choose-prio-button flex-center-align" id="board-prio-urgent-button" type="button" onclick="choosePrio('urgent')">
                             <span id="prio-urgent" class="flex-center-align">Urgent </span>
                             <svg class="prio-urgent-arrows" id="prio-urgent-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -72,7 +98,8 @@ function createTaskFromBoardDiv() {
                                 />
                             </svg>
                         </button>
-                        <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="prio-medium-button" type="button" onclick="choosePrio('medium')">
+                        <!-- <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="prio-medium-button" type="button" onclick="choosePrio('medium')"> -->
+                        <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="board-prio-medium-button" type="button" onclick="choosePrio('medium')">
                             <span id="prio-medium" class="flex-center-align">Medium </span>
                             <svg class="prio-medium-arrows" id="prio-medium-arrows" width="21" height="8" viewBox="0 0 21 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_228141_4295)">
@@ -89,7 +116,8 @@ function createTaskFromBoardDiv() {
                                 </defs>
                             </svg>
                         </button>
-                        <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')">
+                        <!-- <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')"> -->
+                        <button class="choose-prio-button flex-center-align" id="board-prio-low-button" type="button" onclick="choosePrio('low')">
                             <span id="prio-low" class="flex-center-align"> Low </span>
                             <svg class="prio-low-arrows" id="prio-low-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -117,7 +145,8 @@ function createTaskFromBoardDiv() {
                     <div class="subtitle">Subtasks</div>
                     <div id="subtask-relative-container">
                         <div id="new-subtask-container" onclick="addOrCloseSubtask()">
-                            <input type="text" id="new-subtask-input" placeholder="Add new subtask" />
+                            <!-- <input type="text" id="new-subtask-input" placeholder="Add new subtask" /> -->
+                            <input type="text" id="board-new-subtask-input" placeholder="Add new subtask" />
                             <div id="subtask-icon-container">
                                 <div id="plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
                             </div>
@@ -135,7 +164,7 @@ function createTaskFromBoardDiv() {
             </div>
             <div id="interactives-buttons-container">
                 <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
-                <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
+                <button id="create-button" class="flex-center-align" type="button" onclick="addTaskFromBoard()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
             </div>
         </div>
     </div>

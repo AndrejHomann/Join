@@ -5,67 +5,113 @@
  *
  * @returns {boolean} Returns false if any required input is missing; otherwise, true.
  */
-
 let isCategoryAvailable = true;
 
-// function validateAllInputs() {
-//     let titleInput;
-//     let dateInput;
-
-//     if (document.getElementById("title-input") && document.getElementById("date-input")) {
-//         titleInput = document.getElementById("title-input").value;
-//         dateInput = document.getElementById("date-input").value;
-//     } else {
-//         titleInput = document.getElementById("edit-title-input").value;
-//         dateInput = document.getElementById("edit-date-input").value;
-//     }
-
-//     let isValid = true;
-
-//     if (!selectedCategory || !titleInput || !dateInput) {
-//         checkIfTitleIsEntered();
-//         checkIfDateIsSelected();
-//         if (isCategoryAvailable === true) {
-//             checkIfCategoryIsSelected();
-//         }
-//         isValid = false;
-//     }
-//     return isValid;
-// }
 function validateAllInputs() {
-    let titleInput;
-    let dateInput;
-
-    // Überprüfen, ob wir die normalen oder die Edit-Input-Felder verwenden
-    if (document.getElementById("title-input") && document.getElementById("date-input")) {
-        titleInput = document.getElementById("title-input").value;
-        dateInput = document.getElementById("date-input").value;
-    } else {
-        titleInput = document.getElementById("edit-title-input").value;
-        dateInput = document.getElementById("edit-date-input").value;
-    }
-
     let isValid = true;
 
-    // Überprüfen, ob der Titel eingegeben wurde
-    if (!titleInput) {
-        checkIfTitleIsEntered();
+    if (!checkIfTitleIsEntered()) {
         isValid = false;
     }
 
-    // Überprüfen, ob ein Datum ausgewählt wurde
-    if (!dateInput) {
-        checkIfDateIsSelected();
+    if (!checkIfDateIsSelected()) {
         isValid = false;
     }
 
-    // Überprüfen, ob eine Kategorie ausgewählt wurde, falls erforderlich
-    if (!selectedCategory && isCategoryAvailable) {
-        checkIfCategoryIsSelected();
-        isValid = false;
+    if (isCategoryAvailable === true) {
+        if (!checkIfCategoryIsSelected()) {
+            isValid = false;
+        }
     }
 
     return isValid;
+}
+
+/**
+ * Re-checks if the required fields (title, date, category) are filled after they have been previously marked as incomplete.
+ */
+function checkIfRequiredFieldsAreEnteredAgain() {
+    checkIfTitleIsEntered();
+    checkIfDateIsSelected();
+    checkIfCategoryIsSelected();
+}
+
+/**
+ * Checks if the title input field is filled.
+ * If not, adds a validation message and border style; otherwise, removes validation styles.
+ */
+function checkIfTitleIsEntered() {
+    let missingTitleMessage = document.getElementById("missing-title-message");
+    let titleInput = document.getElementById("title-input") || document.getElementById("edit-title-input");
+
+    let isValid = true;
+
+    if (!titleInput.value) {
+        titleInput.style.border = "1px solid #ff8190";
+        missingTitleMessage.classList.add("validationStyle");
+        missingTitleMessage.style.removeProperty("display");
+        isValid = false;
+    } else {
+        titleInput.style.border = "";
+        missingTitleMessage.classList.remove("validationStyle");
+        missingTitleMessage.style.display = "none";
+        addBorderStyleToValueContainer(titleInput, "#90D1ED");
+        return isValid; // Gibt true zurück, wenn Titel vorhanden ist
+    }
+}
+
+/**
+ * Checks if a date is selected in the date input field.
+ * If no date is selected, adds a validation message and border style; otherwise, removes validation styles.
+ */
+function checkIfDateIsSelected() {
+    let missingDateMessage = document.getElementById("missing-date-message");
+    let dateInput = document.getElementById("date-input") || document.getElementById("edit-date-input");
+
+    let isValid = true;
+
+    if (!dateInput.value) {
+        dateInput.style.border = "1px solid #ff8190";
+        missingDateMessage.classList.add("validationStyle");
+        missingDateMessage.style.removeProperty("display");
+        isValid = false; // Gibt false zurück, wenn kein Datum ausgewählt ist
+    } else {
+        dateInput.style.border = "";
+        missingDateMessage.classList.remove("validationStyle");
+        missingDateMessage.style.display = "none";
+        return isValid; // Gibt true zurück, wenn Datum vorhanden ist
+    }
+}
+
+/**
+ * Checks if a category is selected in the category dropdown.
+ * If no category is selected, adds a validation message and styles; otherwise, removes validation styles.
+ */
+function checkIfCategoryIsSelected() {
+    let missingCategoryMessage = document.getElementById("missing-category-message");
+    let categoryOptions = document.getElementById("selected-category");
+
+    let isValid = true;
+
+    if (!selectedCategory) {
+        addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
+        isValid = false;
+    } else {
+        resetCategoryRequiredNotification();
+        return isValid;
+    }
+}
+
+/**
+ * Adds a validation border and message for the category dropdown when no category is selected.
+ *
+ * @param {HTMLElement} categoryOptions - The container for the selected category.
+ * @param {HTMLElement} missingCategoryMessage - The element displaying the validation message for the missing category.
+ */
+function addCategoryRequiredNotification(categoryOptions, missingCategoryMessage) {
+    categoryOptions.classList.add("validationBorder");
+    missingCategoryMessage.classList.add("validationStyle");
+    missingCategoryMessage.style.removeProperty("display");
 }
 
 /**
@@ -111,102 +157,6 @@ function setBackArrays() {
     selectedCategory = null;
     subtasks = [];
     selectedPrio = "medium";
-}
-
-/**
- * Re-checks if the required fields (title, date, category) are filled after they have been previously marked as incomplete.
- */
-function checkIfRequiredFieldsAreEnteredAgain() {
-    checkIfTitleIsEntered();
-    checkIfDateIsSelected();
-    checkIfCategoryIsSelected();
-}
-
-/**
- * Checks if the title input field is filled.
- * If not, adds a validation message and border style; otherwise, removes validation styles.
- */
-function checkIfTitleIsEntered() {
-    let missingTitleMessage = document.getElementById("missing-title-message");
-    let titleInput = document.getElementById("title-input");
-
-    if (document.getElementById("edit-title-input")) {
-        titleInput = document.getElementById("edit-title-input");
-    }
-
-    if (!titleInput.value) {
-        titleInput.style.border = "1px solid #ff8190";
-        missingTitleMessage.classList.add("validationStyle");
-        missingTitleMessage.style.removeProperty("display");
-    } else {
-        titleInput.style.border = "";
-        missingTitleMessage.classList.remove("validationStyle");
-        missingTitleMessage.style.display = "none";
-        addBorderStyleToValueContainer(titleInput, "#90D1ED");
-    }
-}
-
-/**
- * Checks if a date is selected in the date input field.
- * If no date is selected, adds a validation message and border style; otherwise, removes validation styles.
- */
-// function checkIfDateIsSelected() {
-//     let missingDateMessage = document.getElementById("missing-date-message");
-//     let dateInput = document.getElementById("date-input");
-
-//     if (!dateInput.value) {
-//         dateInput.style.border = "1px solid #ff8190";
-//         missingDateMessage.classList.add("validationStyle");
-//         missingDateMessage.style.removeProperty("display");
-//     } else {
-//         dateInput.style.border = "";
-//         missingDateMessage.classList.remove("validationStyle");
-//         missingDateMessage.style.display = "none";
-//     }
-// }
-function checkIfDateIsSelected() {
-    let missingDateMessage = document.getElementById("missing-date-message");
-    let dateInput = document.getElementById("date-input");
-
-    if (document.getElementById("edit-date-input")) {
-        dateInput = document.getElementById("edit-date-input");
-    }
-
-    if (!dateInput.value) {
-        dateInput.style.border = "1px solid #ff8190";
-        missingDateMessage.classList.add("validationStyle");
-        missingDateMessage.style.removeProperty("display");
-    } else {
-        dateInput.style.border = "";
-        missingDateMessage.classList.remove("validationStyle");
-        missingDateMessage.style.display = "none";
-    }
-}
-
-/**
- * Checks if a category is selected in the category dropdown.
- * If no category is selected, adds a validation message and styles; otherwise, removes validation styles.
- */
-function checkIfCategoryIsSelected() {
-    let missingCategoryMessage = document.getElementById("missing-category-message");
-    let categoryOptions = document.getElementById("selected-category");
-    if (!selectedCategory) {
-        addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
-    } else {
-        resetCategoryRequiredNotification();
-    }
-}
-
-/**
- * Adds a validation border and message for the category dropdown when no category is selected.
- *
- * @param {HTMLElement} categoryOptions - The container for the selected category.
- * @param {HTMLElement} missingCategoryMessage - The element displaying the validation message for the missing category.
- */
-function addCategoryRequiredNotification(categoryOptions, missingCategoryMessage) {
-    categoryOptions.classList.add("validationBorder");
-    missingCategoryMessage.classList.add("validationStyle");
-    missingCategoryMessage.style.removeProperty("display");
 }
 
 /**
