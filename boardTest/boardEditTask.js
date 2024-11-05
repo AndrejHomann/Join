@@ -48,7 +48,7 @@ async function editTask(task, taskId) {
             return;
         }
 
-        editTask.innerHTML = loadEditTaskHTML(task.category, task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id, task);
+        editTask.innerHTML = loadEditTaskHTML(task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id, task);
 
         isCategoryAvailable = false;
 
@@ -81,7 +81,7 @@ function highlightPrioButton(priority) {
     }
 }
 
-function loadEditTaskHTML(category, title, description, date, priority, taskAddedSubtasks, taskId) {
+function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks, taskId) {
     const urgentClass = priority === "urgent" ? "prio-urgent-button-bg-color" : "";
     const mediumClass = priority === "medium" ? "prio-medium-button-bg-color" : "";
     const lowClass = priority === "low" ? "prio-low-button-bg-color" : "";
@@ -178,17 +178,6 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
             </button>
          </div>
       </div>
-      <!-- <div id="category-container" class="flex-column gap8px">
-         <div class="subtitle">Category<span class="asterisk">*</span></div>
-         <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), doNotCloseDropdown(event)">
-            <span id="category-placeholder">${category}</span>
-            <div id="category-dropdown-arrow-container">
-               <img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" />
-            </div>
-         </div>
-         <span id="missing-category-message" class="validationStyle" style="display: none">This field is required</span>
-         <div id="category-dropdown-list" class="d-none"></div> -->
-      <!-- </div> -->
       <div id="edit-substasks-container" class="flex-column gap8px">
          <div class="subtitle">Subtasks</div>
          <div id="subtask-relative-container">
@@ -247,7 +236,6 @@ async function updateTask(taskId) {
             taskDescription: document.getElementById("edit-textarea-input").value,
             date: document.getElementById("edit-date-input").value,
             priority: selectedPrio,
-            // category: document.getElementById("category-placeholder").textContent || null,
             name: selectedContacts,
             color: selectedColors,
             addedSubtasks: subtasks,
@@ -278,22 +266,6 @@ function handleUpdateTask() {
     closeEditTask();
     closeTaskDetails();
 }
-
-// function handleEditTitleInput() {
-//    const editTitleInput = document.getElementById("edit-title-input");
-//    const missingTitleMessage = document.getElementById("edit-missing-title-message");
-
-//    if (editTitleInput.value) {
-//       editTitleInput.style.borderColor = "#90D1ED"; // Falls du eine spezifische Style-Funktion hast, kannst du sie hier verwenden
-//       if (missingTitleMessage) missingTitleMessage.style.display = "none";
-//    } else {
-//       editTitleInput.style.borderColor = "red";
-//       if (missingTitleMessage) missingTitleMessage.style.display = "block";
-//    }
-// }
-
-// // EventListener für edit-title-input setzen
-// document.getElementById("edit-title-input").addEventListener("input", handleEditTitleInput);
 
 function findContactIndexForTaskName(name) {
     const i = contactList.indexOf(name);
@@ -343,10 +315,6 @@ async function matchTaskAssignedUserToCheckedDropdown() {
     }
 }
 
-
-
-
-
 function checkEditTaskChanges() {
     checkEditTaskTitle();
     checkEditTaskDescription();
@@ -356,43 +324,43 @@ function checkEditTaskChanges() {
 
 function checkEditTaskTitle() {
     setTimeout(() => {
-        const input = document.getElementById('edit-title-input');
+        const input = document.getElementById("edit-title-input");
         const message = document.getElementById("missing-title-message");
-        checkEditTaskOnClickInsideElement(input, message, 'red', 'blue');
-        checkEditTaskOnClickOutsideElement(input, message, 'red', '#d1d1d1');
-        checkEditTaskOnKeystrokeInsideElement(input, message, 'red', 'blue');
+        checkEditTaskOnClickInsideElement(input, message, "red", "blue");
+        checkEditTaskOnClickOutsideElement(input, message, "red", "#d1d1d1");
+        checkEditTaskOnKeystrokeInsideElement(input, message, "red", "blue");
     }, 100);
 }
 
 function checkEditTaskDescription() {
     setTimeout(() => {
-        const input = document.getElementById('edit-textarea-input');
-        checkEditTaskOnClickInsideElement(input, '', 'blue', 'blue');
-        checkEditTaskOnClickOutsideElement(input, '', '#d1d1d1', '#d1d1d1');
-        checkEditTaskOnKeystrokeInsideElement(input, '', '#d1d1d1', 'blue');
+        const input = document.getElementById("edit-textarea-input");
+        checkEditTaskOnClickInsideElement(input, "", "blue", "blue");
+        checkEditTaskOnClickOutsideElement(input, "", "#d1d1d1", "#d1d1d1");
+        checkEditTaskOnKeystrokeInsideElement(input, "", "#d1d1d1", "blue");
     }, 100);
 }
 
 function checkEditTaskDate() {
     setTimeout(() => {
-        const input = document.getElementById('edit-date-input');
+        const input = document.getElementById("edit-date-input");
         const message = document.getElementById("missing-date-message");
-        checkEditTaskOnClickInsideElement(input, message, 'red', 'blue');
-        checkEditTaskOnClickOutsideElement(input, message, 'red', '#d1d1d1');
-        checkEditTaskOnKeystrokeInsideElement(input, message, 'red', 'blue');
+        checkEditTaskOnClickInsideElement(input, message, "red", "blue");
+        checkEditTaskOnClickOutsideElement(input, message, "red", "#d1d1d1");
+        checkEditTaskOnKeystrokeInsideElement(input, message, "red", "blue");
     }, 100);
 }
 
 function checkEditTaskOnClickInsideElement(input, message, bordercolor1, bordercolor2) {
-    input.addEventListener('click', () => {
-        if (input.value === '') {
+    input.addEventListener("click", () => {
+        if (input.value === "") {
             input.style = `border: 1px solid ${bordercolor1};`;
-            if(message != '') {
+            if (message != "") {
                 message.style.display = "flex";
             }
         } else {
             input.style = `border: 1px solid ${bordercolor2};`;
-            if(message != '') {
+            if (message != "") {
                 message.style.display = "none";
             }
         }
@@ -400,72 +368,61 @@ function checkEditTaskOnClickInsideElement(input, message, bordercolor1, borderc
 }
 
 function checkEditTaskOnClickOutsideElement(input, message, bordercolor1, bordercolor2) {
-    input.addEventListener('blur', () => {
-            if (input.value === '') {
-                input.style = `border: 1px solid ${bordercolor1};`;
-                if(message != '') {
-                    message.style.display = "flex";
-                }
-            } else {
-                input.style = `border: 1px solid ${bordercolor2};`;
-                if(message != '') {
-                    message.style.display = "none";
-                }
-            }
-    });
-}
-
-function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bordercolor2) {
-    input.addEventListener('input', () => {
-        if (input.value === '') {
+    input.addEventListener("blur", () => {
+        if (input.value === "") {
             input.style = `border: 1px solid ${bordercolor1};`;
-            if(message != '') {
+            if (message != "") {
                 message.style.display = "flex";
             }
         } else {
             input.style = `border: 1px solid ${bordercolor2};`;
-            if(message != '') {
+            if (message != "") {
                 message.style.display = "none";
             }
         }
     });
 }
 
-
+function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("input", () => {
+        if (input.value === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
 
 function checkEditTaskSubtask() {
     setTimeout(() => {
-        const input1 = document.getElementById('new-subtask-container');
-        const input2 = document.getElementById('new-subtask-input');
-        checkEditTaskOnClickInsideSubtaskElement(input1, input2, 'blue');
-        checkEditTaskOnClickOutsideSubtaskElement(input1, input2,'#d1d1d1');
+        const input1 = document.getElementById("new-subtask-container");
+        const input2 = document.getElementById("new-subtask-input");
+        checkEditTaskOnClickInsideSubtaskElement(input1, input2, "blue");
+        checkEditTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
         // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
     }, 100);
 }
 
 function checkEditTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
-    input1.addEventListener('click', () => {
+    input1.addEventListener("click", () => {
         input1.style = `border: 1px solid ${bordercolor};`;
     });
-    input2.addEventListener('click', () => {
+    input2.addEventListener("click", () => {
         input1.style = `border: 1px solid ${bordercolor};`;
     });
 }
 
 function checkEditTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
-    input1.addEventListener('blur', () => {
+    input1.addEventListener("blur", () => {
         input1.style = `border: 1px solid ${bordercolor};`;
     });
-    input2.addEventListener('blur', () => {
+    input2.addEventListener("blur", () => {
         input1.style = `border: 1px solid ${bordercolor};`;
     });
 }
-
-
-
-
-
-
-
-
-
