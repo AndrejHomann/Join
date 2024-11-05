@@ -109,7 +109,8 @@ function loadEditTaskHTML(category, title, description, date, priority, taskAdde
       </div>
       <div id="assigned-container" class="flex-column gap8px">
          <div class="subtitle">Assigned to</div>
-         <div id="edit-selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible()">    <!-- added second function by Andrej Homann for board=>task-detail=>edit=>contact-dropwdown=>checked-checkbox-for-assigned-contacts -->
+         <!-- <div id="edit-selected-name" class="select-container"  onclick="checkIfContactsDropdownIsVisible()">    -->
+         <div id="edit-selected-name" onclick="checkIfContactsDropdownIsVisible()"> 
             <span id="assigned-placeholder">Select contacts to assign</span>
             <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
          </div>
@@ -341,3 +342,99 @@ async function matchTaskAssignedUserToCheckedDropdown() {
         console.error("Error while fetching data:", error);
     }
 }
+
+
+
+
+
+function checkEditTaskChanges() {
+    checkEditTaskTitle();
+    checkEditTaskDescription();
+    checkEditTaskDate();
+}
+
+function checkEditTaskTitle() {
+    setTimeout(() => {
+        const input = document.getElementById('edit-title-input');
+        const message = document.getElementById("missing-title-message");
+        checkEditTaskOnClickInsideElement(input, message, 'red', 'blue');
+        checkEditTaskOnClickOutsideElement(input, message, 'red', '#d1d1d1');
+        checkEditTaskOnKeystrokeInsideElement(input, message, 'red', 'blue');
+    }, 100);
+}
+
+function checkEditTaskDescription() {
+    setTimeout(() => {
+        const input = document.getElementById('edit-textarea-input');
+        checkEditTaskOnClickInsideElement(input, '', 'blue', 'blue');
+        checkEditTaskOnClickOutsideElement(input, '', '#d1d1d1', '#d1d1d1');
+        checkEditTaskOnKeystrokeInsideElement(input, '', '#d1d1d1', 'blue');
+    }, 100);
+}
+
+function checkEditTaskDate() {
+    setTimeout(() => {
+        const input = document.getElementById('edit-date-input');
+        const message = document.getElementById("missing-date-message");
+        checkEditTaskOnClickInsideElement(input, message, 'red', 'blue');
+        checkEditTaskOnClickOutsideElement(input, message, 'red', '#d1d1d1');
+        checkEditTaskOnKeystrokeInsideElement(input, message, 'red', 'blue');
+    }, 100);
+}
+
+function checkEditTaskOnClickInsideElement(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener('click', () => {
+        if (input.value === '') {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if(message != '') {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if(message != '') {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkEditTaskOnClickOutsideElement(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener('blur', () => {
+            if (input.value === '') {
+                input.style = `border: 1px solid ${bordercolor1};`;
+                if(message != '') {
+                    message.style.display = "flex";
+                }
+            } else {
+                input.style = `border: 1px solid ${bordercolor2};`;
+                if(message != '') {
+                    message.style.display = "none";
+                }
+            }
+    });
+}
+
+function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener('input', () => {
+        if (input.value === '') {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if(message != '') {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if(message != '') {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+
+
+
+
+
+
+
+

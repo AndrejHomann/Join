@@ -148,7 +148,7 @@ function setColorOfAssignedContainer() {
         selectContactsContainer = document.getElementById("edit-selected-name");
     }
 
-    selectContactsContainer.style.border = "1px solid #90D1ED";
+    selectContactsContainer.style.border = "1px solid blue";                         // color changed by Andrej from "#90D1ED" to "blue"
 }
 
 /**
