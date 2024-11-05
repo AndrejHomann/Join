@@ -450,7 +450,6 @@ function checkEditTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
     input2.addEventListener('click', () => {
         input1.style = `border: 1px solid ${bordercolor};`;
     });
-    
 }
 
 function checkEditTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
@@ -461,12 +460,6 @@ function checkEditTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) 
         input1.style = `border: 1px solid ${bordercolor};`;
     });
 }
-
-// function checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2, bordercolor) {
-//     input2.addEventListener('input', () => {
-//         input1.style = `border: 1px solid ${bordercolor};`;
-//     });
-// }
 
 
 
