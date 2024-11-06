@@ -16,25 +16,29 @@ function createTaskFromBoard() {
     isCategoryAvailable = true;
 }
 
-function addTaskFromBoard() {
-    if (!validateAllInputs()) {
-        return;
-    }
+function choosePrioBoard(prio) {
+    let selectedPioButton = document.getElementById(`board-prio-${prio}-button`);
 
-    let task = {
-        name: selectedContacts,
-        priority: selectedPrio,
-        category: selectedCategory,
-        color: selectedColors,
-        addedSubtasks: subtasks,
-        title: document.getElementById("board-title-input").value,
-        taskDescription: document.getElementById("board-textarea-input").value,
-        date: document.getElementById("board-date-input").value,
-        status: "todo",
-    };
-    addTask("/tasks.json", task);
-    removeBorderStyleFromDescriptionContainerAndCategoryContainer();
-    checkIfRequiredFieldsAreEnteredAgain();
+    resetPrioBoard();
+
+    selectedPioButton.classList.add(`prio-${prio}-button-bg-color`);
+    selectedPioButton.classList.remove("prio-default-text-color");
+
+    selectedPrio = prio;
+}
+
+function resetPrioBoard() {
+    let urgentButton = document.getElementById("board-prio-urgent-button");
+    let mediumButton = document.getElementById("board-prio-medium-button");
+    let lowButton = document.getElementById("board-prio-low-button");
+
+    urgentButton.classList.remove("prio-urgent-button-bg-color");
+    mediumButton.classList.remove("prio-medium-button-bg-color");
+    lowButton.classList.remove("prio-low-button-bg-color");
+
+    urgentButton.classList.add("prio-default-text-color");
+    mediumButton.classList.add("prio-default-text-color");
+    lowButton.classList.add("prio-default-text-color");
 }
 
 /**
@@ -85,7 +89,7 @@ function createTaskFromBoardDiv() {
                     <div class="subtitle">Prio</div>
                     <div id="choose-prio-container">
                         <!-- <button class="choose-prio-button flex-center-align" id="prio-urgent-button" type="button" onclick="choosePrio('urgent')"> -->
-                        <button class="choose-prio-button flex-center-align" id="board-prio-urgent-button" type="button" onclick="choosePrio('urgent')">
+                        <button class="choose-prio-button flex-center-align" id="board-prio-urgent-button" type="button" onclick="choosePrioBoard('urgent')">
                             <span id="prio-urgent" class="flex-center-align">Urgent </span>
                             <svg class="prio-urgent-arrows" id="prio-urgent-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -99,7 +103,7 @@ function createTaskFromBoardDiv() {
                             </svg>
                         </button>
                         <!-- <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="prio-medium-button" type="button" onclick="choosePrio('medium')"> -->
-                        <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="board-prio-medium-button" type="button" onclick="choosePrio('medium')">
+                        <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="board-prio-medium-button" type="button" onclick="choosePrioBoard('medium')">
                             <span id="prio-medium" class="flex-center-align">Medium </span>
                             <svg class="prio-medium-arrows" id="prio-medium-arrows" width="21" height="8" viewBox="0 0 21 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_228141_4295)">
@@ -117,7 +121,7 @@ function createTaskFromBoardDiv() {
                             </svg>
                         </button>
                         <!-- <button class="choose-prio-button flex-center-align" id="prio-low-button" type="button" onclick="choosePrio('low')"> -->
-                        <button class="choose-prio-button flex-center-align" id="board-prio-low-button" type="button" onclick="choosePrio('low')">
+                        <button class="choose-prio-button flex-center-align" id="board-prio-low-button" type="button" onclick="choosePrioBoard('low')">
                             <span id="prio-low" class="flex-center-align"> Low </span>
                             <svg class="prio-low-arrows" id="prio-low-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path

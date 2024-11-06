@@ -479,6 +479,7 @@ function removeBorderStyleToValueContainer(element) {
 
 // let dateInput = document.getElementById("date-input");
 // dateInput.addEventListener("change", handleDateInput);
+// Funktion zum Handling des Date-Inputs
 
 /**
  * Handles changes to the title input field and validates its content.
