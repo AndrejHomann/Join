@@ -186,9 +186,6 @@ function addSubtask() {
     let subtaskContainer = document.getElementById("new-subtask-container");
     let i = subtasks.length;
 
-    // if (document.getElementById("edit-generated-subtask-list-container")) {
-    //     subtaskList = document.getElementById("edit-generated-subtask-list-container");
-    // }
     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
     resetSubtaskIcon();
 }

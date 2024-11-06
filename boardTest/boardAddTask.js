@@ -16,6 +16,85 @@ function createTaskFromBoard() {
     checkAddTaskChangesInBoard();
 }
 
+function addTaskFromBoard() {
+    if (!validateAllInputsBoard()) {
+        return;
+    }
+
+    let task = {
+        name: selectedContacts,
+        priority: selectedPrio,
+        category: selectedCategory,
+        color: selectedColors,
+        addedSubtasks: subtasks,
+        title: document.getElementById("board-title-input").value,
+        taskDescription: document.getElementById("board-textarea-input").value,
+        date: document.getElementById("board-date-input").value,
+        status: "todo",
+    };
+    addTask("/tasks.json", task);
+    removeBorderStyleFromDescriptionContainerAndCategoryContainer();
+    checkIfRequiredFieldsAreEnteredAgain();
+}
+
+function validateAllInputsBoard() {
+    let isValid = true;
+
+    if (!checkIfTitleIsEnteredBoard()) {
+        isValid = false;
+    }
+
+    if (!checkIfDateIsSelectedBoard()) {
+        isValid = false;
+    }
+
+    // if (isCategoryAvailable === true) {
+    //     if (!checkIfCategoryIsSelectedEditSubtask()) {
+    //         isValid = false;
+    //     }
+    // }
+
+    return isValid;
+}
+
+function checkIfTitleIsEnteredBoard() {
+    let missingTitleMessage = document.getElementById("board-missing-title-message");
+    let titleInput = document.getElementById("board-title-input");
+
+    let isValid = true;
+
+    if (titleInput.value) {
+        addBorderStyleToValueContainer(titleInput, "#90D1ED");
+        missingTitleMessage.style.display = "none";
+        isValid = true;
+    } else {
+        titleInput.style.border = "1px solid #ff8190";
+        missingTitleMessage.style.display = "flex";
+        missingTitleMessage.classList.add("validationStyle");
+        isValid = false;
+    }
+    return isValid;
+}
+
+function checkIfDateIsSelectedBoard() {
+    let missingDateMessage = document.getElementById("board-missing-date-message");
+    let dateInput = document.getElementById("board-date-input");
+
+    let isValid = true;
+
+    if (dateInput.value) {
+        addBorderStyleToValueContainer(dateInput, "#90D1ED");
+        missingDateMessage.style.display = "none";
+        isValid = true;
+    } else {
+        missingDateMessage.style.display = "flex";
+        missingDateMessage.classList.add("validationStyle");
+        dateInput.style.border = "1px solid #ff8190";
+        isValid = false;
+    }
+    return isValid;
+}
+
 function checkAddTaskChangesInBoard() {
     checkTaskTitleBoard();
     checkTaskDescriptionBoard();
@@ -310,7 +389,7 @@ function createTaskFromBoardDiv() {
             </div>
             <div id="interactives-buttons-container">
                 <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
-                <button id="create-button" class="flex-center-align" type="button" onclick="createTask()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
+                <button id="create-button" class="flex-center-align" type="button" onclick="createTaskFromBoard()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
             </div>
         </div>
     </div>

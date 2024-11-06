@@ -432,12 +432,6 @@ function validateAllInputsEdit() {
         isValid = false;
     }
 
-    if (isCategoryAvailable === true) {
-        if (!checkIfCategoryIsSelectedEditSubtask()) {
-            isValid = false;
-        }
-    }
-
     return isValid;
 }
 
