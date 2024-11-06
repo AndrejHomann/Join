@@ -107,7 +107,8 @@
 }
 
 #board-missing-title-message,
-#board-missing-category-message {
+#board-missing-category-message,
+#board-missing-date-message {
     color: #ff8190;
     font-size: 12px;
 }
