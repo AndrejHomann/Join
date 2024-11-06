@@ -186,9 +186,9 @@ function addSubtask() {
     let subtaskContainer = document.getElementById("new-subtask-container");
     let i = subtasks.length;
 
-    if (document.getElementById("edit-generated-subtask-list-container")) {
-        subtaskList = document.getElementById("edit-generated-subtask-list-container");
-    }
+    // if (document.getElementById("edit-generated-subtask-list-container")) {
+    //     subtaskList = document.getElementById("edit-generated-subtask-list-container");
+    // }
     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
     resetSubtaskIcon();
 }
@@ -253,23 +253,23 @@ function showCloseOrDeleteIconDuringWritingSubtask() {
 /**
  * Sets up event listeners for the subtask input field to handle enter key press and input changes.
  */
-document.addEventListener("DOMContentLoaded", function () {
-    waitingForSubtaskEnterOrDraftEvent();
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     waitingForSubtaskEnterOrDraftEvent();
+// });
 
-function waitingForSubtaskEnterOrDraftEvent() {
-    let newSubtaskInput = document.getElementById("new-subtask-input");
+// function waitingForSubtaskEnterOrDraftEvent() {
+//     let newSubtaskInput = document.getElementById("new-subtask-input");
 
-    if (newSubtaskInput) {
-        newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
-        newSubtaskInput.addEventListener("input", function () {
-            resetSubtaskRequiredNotification();
-            showCloseOrDeleteIconDuringWritingSubtask();
-        });
-    } else {
-        console.error("Element with ID 'new-subtask-input' not found.");
-    }
-}
+//     if (newSubtaskInput) {
+//         newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
+//         newSubtaskInput.addEventListener("input", function () {
+//             resetSubtaskRequiredNotification();
+//             showCloseOrDeleteIconDuringWritingSubtask();
+//         });
+//     } else {
+//         console.error("Element with ID 'new-subtask-input' not found.");
+//     }
+// }
 
 /**
  * Resets the notification message for required subtasks.
@@ -533,4 +533,117 @@ function removeBorderStyleFromDescriptionContainerAndCategoryContainer() {
 
     descriptionInput.style.border = ``;
     categoryContainer.style.border = ``;
+}
+
+function checkAddTaskChanges() {
+    checkTaskTitle();
+    checkTaskDescription();
+    checkTaskDate();
+    checkTaskSubtask();
+}
+
+function checkTaskTitle() {
+    setTimeout(() => {
+        const input = document.getElementById("title-input");
+        // const message = document.getElementById("missing-title-message");
+        const message = document.getElementById("missing-title-message");
+        checkTaskOnClickInsideElement(input, message, "#ff8190", "#90d1ed");
+        checkTaskOnClickOutsideElement(input, message, "#ff8190", "#d1d1d1");
+        checkTaskOnKeystrokeInsideElement(input, message, "#ff8190", "#90d1ed");
+    }, 100);
+}
+
+function checkTaskDescription() {
+    setTimeout(() => {
+        const input = document.getElementById("textarea-input");
+        checkTaskOnClickInsideElement(input, "", "#90d1ed", "#90d1ed");
+        checkTaskOnClickOutsideElement(input, "", "#d1d1d1", "#d1d1d1");
+        checkTaskOnKeystrokeInsideElement(input, "", "#d1d1d1", "#90d1ed");
+    }, 100);
+}
+
+function checkTaskDate() {
+    setTimeout(() => {
+        const input = document.getElementById("date-input");
+        const message = document.getElementById("missing-date-message");
+        checkTaskOnClickInsideElement(input, message, "#ff8190", "#90d1ed");
+        checkTaskOnClickOutsideElement(input, message, "#ff8190", "#d1d1d1");
+        checkTaskOnKeystrokeInsideElement(input, message, "#ff8190", "#90d1ed");
+    }, 100);
+}
+
+function checkTaskOnClickInsideElement(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("click", () => {
+        if (input.trim === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkTaskOnClickOutsideElement(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("blur", () => {
+        if (input.value === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkTaskOnKeystrokeInsideElement(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("input", () => {
+        if (input.value === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkTaskSubtask() {
+    setTimeout(() => {
+        const input1 = document.getElementById("new-subtask-container");
+        const input2 = document.getElementById("new-subtask-input");
+        checkTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
+        checkTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
+        // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
+    }, 100);
+}
+
+function checkTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
+    input1.addEventListener("click", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
+    input2.addEventListener("click", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
+}
+
+function checkTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
+    input1.addEventListener("blur", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
+    input2.addEventListener("blur", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
 }

@@ -8,12 +8,125 @@ function createTaskFromBoard() {
     const createTask = document.getElementById("addTaskFromBoard");
     createTask.innerHTML = createTaskFromBoardDiv();
     createTask.classList.add("board-mode");
-    loadAddTaskScript();
     selectedContacts = [];
     selectedColors = [];
     subtasks = [];
     wasContactsDropdownOpenInCurrentTask = true;
     isCategoryAvailable = true;
+    checkAddTaskChangesInBoard();
+}
+
+function checkAddTaskChangesInBoard() {
+    checkTaskTitleBoard();
+    checkTaskDescriptionBoard();
+    checkTaskDateBoard();
+    checkTaskSubtaskBoard();
+}
+
+function checkTaskTitleBoard() {
+    setTimeout(() => {
+        const input = document.getElementById("board-title-input");
+        // const message = document.getElementById("missing-title-message");
+        const message = document.getElementById("board-missing-title-message");
+        checkTaskOnClickInsideElementBoard(input, message, "#ff8190", "#90d1ed");
+        checkTaskOnClickOutsideElementBoard(input, message, "#ff8190", "#d1d1d1");
+        checkTaskOnKeystrokeInsideElementBoard(input, message, "#ff8190", "#90d1ed");
+    }, 100);
+}
+
+function checkTaskDescriptionBoard() {
+    setTimeout(() => {
+        const input = document.getElementById("board-textarea-input");
+        checkTaskOnClickInsideElementBoard(input, "", "#90d1ed", "#90d1ed");
+        checkTaskOnClickOutsideElementBoard(input, "", "#d1d1d1", "#d1d1d1");
+        checkTaskOnKeystrokeInsideElementBoard(input, "", "#d1d1d1", "#90d1ed");
+    }, 100);
+}
+
+function checkTaskDateBoard() {
+    setTimeout(() => {
+        const input = document.getElementById("board-date-input");
+        const message = document.getElementById("board-missing-date-message");
+        checkTaskOnClickInsideElementBoard(input, message, "#ff8190", "#90d1ed");
+        checkTaskOnClickOutsideElementBoard(input, message, "#ff8190", "#d1d1d1");
+        checkTaskOnKeystrokeInsideElementBoard(input, message, "#ff8190", "#90d1ed");
+    }, 100);
+}
+
+function checkTaskOnClickInsideElementBoard(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("click", () => {
+        if (input.trim === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkTaskOnClickOutsideElementBoard(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("blur", () => {
+        if (input.value === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkTaskOnKeystrokeInsideElementBoard(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("input", () => {
+        if (input.value === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkTaskSubtaskBoard() {
+    setTimeout(() => {
+        const input1 = document.getElementById("board-new-subtask-container");
+        const input2 = document.getElementById("board-new-subtask-input");
+        checkTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
+        checkTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
+        // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
+    }, 100);
+}
+
+function checkTaskOnClickInsideSubtaskElementBoard(input1, input2, bordercolor) {
+    input1.addEventListener("click", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
+    input2.addEventListener("click", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
+}
+
+function checkTaskOnClickOutsideSubtaskElementBoard(input1, input2, bordercolor) {
+    input1.addEventListener("blur", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
+    input2.addEventListener("blur", () => {
+        input1.style = `border: 1px solid ${bordercolor};`;
+    });
 }
 
 function choosePrioBoard(prio) {
@@ -41,6 +154,35 @@ function resetPrioBoard() {
     lowButton.classList.add("prio-default-text-color");
 }
 
+// function addOrCloseSubtaskBoard() {
+//     if (isSubtaskResetting) return;
+
+//     let subtaskIconContainer = document.getElementById("subtask-icon-container");
+
+//     subtaskIconContainer.classList.remove("plusIconHover");
+
+//     subtaskIconContainer.innerHTML = /*html*/ `
+//         <div id="close-icon-container" onclick="closeSubtaskDraft()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask"></div>
+//         <div class="border-subtask-container"></div>
+//         <div id="check-icon-container" onclick="addSubtaskFromBoard()"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>`;
+
+//     let checkIconContainer = document.getElementById("check-icon-container");
+//     checkIconContainer.classList.add("circleHoverEffect");
+//     let closeIconContainer = document.getElementById("close-icon-container");
+//     closeIconContainer.classList.add("circleHoverEffect");
+// }
+
+// function addSubtaskFromBoard() {
+//     let newSubtaskInput = document.getElementById("board-new-subtask-input");
+//     let subtaskList = document.getElementById("generated-subtask-list-container");
+//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
+//     let subtaskContainer = document.getElementById("new-subtask-container");
+//     let i = subtasks.length;
+
+//     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
+//     resetSubtaskIcon();
+// }
+
 /**
  * Displays a task creation form in the board.
  */
@@ -59,13 +201,13 @@ function createTaskFromBoardDiv() {
                 <div id="title-container" class="flex-column gap8px">
                     <div class="subtitle">Title<span class="asterisk">*</span></div>
                     <!-- <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" /></div> -->
-                    <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" /></div>
-                    <span id="missing-title-message" class="validationStyle d-none">This field is required</span>
+                    <div id="title-input-container"><input type="text" placeholder="Enter a title" id="board-title-input" /></div>
+                    <span id="board-missing-title-message" class="d-none">This field is required</span>
                 </div>
                 <div id="description-container" class="flex-column gap8px">
                     <div class="subtitle">Description</div>
                     <!-- <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input"></textarea></div> -->
-                    <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input"></textarea></div>
+                    <div id="board-textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="board-textarea-input"></textarea></div>
                 </div>
                 <div id="assigned-container" class="flex-column gap8px">
                     <div class="subtitle">Assigned to</div>
@@ -82,8 +224,8 @@ function createTaskFromBoardDiv() {
                 <div id="date-container" class="flex-column gap8px">
                     <div class="subtitle">Due date<span class="asterisk">*</span></div>
                     <!-- <div id="calender"><input type="date" id="date-input" /></div> -->
-                    <div id="calender"><input type="date" id="date-input" /></div>
-                    <span id="missing-date-message" class="validationStyle d-none">This field is required</span>
+                    <div id="calender"><input type="date" id="board-date-input" /></div>
+                    <span id="board-missing-date-message" class="d-none">This field is required</span>
                 </div>
                 <div id="prio-container" class="flex-column gap8px">
                     <div class="subtitle">Prio</div>
@@ -142,20 +284,20 @@ function createTaskFromBoardDiv() {
                     <span id="category-placeholder">Select task category</span>
                         <div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                     </div>
-                    <span id="missing-category-message" class="validationStyle d-none">This field is required</span>
+                    <span id="missing-category-message" class="d-none">This field is required</span>
                     <div id="category-dropdown-list" class="d-none"></div>
                 </div>
                 <div id="substasks-container" class="flex-column gap8px">
                     <div class="subtitle">Subtasks</div>
-                    <div id="subtask-relative-container">
-                        <div id="new-subtask-container" onclick="addOrCloseSubtask()">
+                    <div id="board-subtask-relative-container">
+                        <div id="board-new-subtask-container" onclick="addOrCloseSubtaskBoard()">
                             <!-- <input type="text" id="new-subtask-input" placeholder="Add new subtask" /> -->
                             <input type="text" id="board-new-subtask-input" placeholder="Add new subtask" />
                             <div id="subtask-icon-container">
                                 <div id="plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
                             </div>
                         </div>
-                        <span id="missing-subtask-message" class="validationStyleSubtasks d-none">Please add a subtask 🙂</span>
+                        <span id="board-missing-subtask-message" class="d-none">Please add a subtask 🙂</span>
                     </div>
                     <div id="new-subtask-list-container"><div id="generated-subtask-list-container"></div></div>
                 </div>

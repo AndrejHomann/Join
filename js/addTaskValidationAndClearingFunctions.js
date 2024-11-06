@@ -173,8 +173,8 @@ function resetRequiredNotifications() {
  */
 function resetDateRequiredNotification() {
     let missingDateMessage = document.getElementById("missing-date-message");
-    missingDateMessage.classList.add("d-none");
-    missingDateMessage.classList.remove("validationStyle");
+    // missingDateMessage.classList.add("d-none");
+    missingDateMessage.style.display = "none";
     document.getElementById("date-input").style.border = "";
 }
 
@@ -185,8 +185,7 @@ function resetTitleRequiredNotification() {
     let missingTitleMessage = document.getElementById("missing-title-message");
     let titleInput = document.getElementById("title-input");
     titleInput.style.border = "";
-    missingTitleMessage.classList.remove("validationStyle");
-    missingTitleMessage.classList.add("d-none");
+    missingTitleMessage.style.display = "none";
 }
 
 /**

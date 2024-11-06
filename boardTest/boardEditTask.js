@@ -40,7 +40,7 @@ function handleEditButtonClick(taskId) {
 
 async function editTask(task, taskId) {
     try {
-        await loadAddTaskScript(task);
+        // await loadAddTaskScript(task);
 
         const editTask = document.getElementById("editTask");
         if (!editTask) {
@@ -318,29 +318,30 @@ function checkEditTaskChanges() {
 function checkEditTaskTitle() {
     setTimeout(() => {
         const input = document.getElementById("edit-title-input");
-        const message = document.getElementById("missing-title-message");
-        checkEditTaskOnClickInsideElement(input, message, "red", "blue");
-        checkEditTaskOnClickOutsideElement(input, message, "red", "#d1d1d1");
-        checkEditTaskOnKeystrokeInsideElement(input, message, "red", "blue");
+        // const message = document.getElementById("missing-title-message");
+        const message = document.getElementById("edit-missing-title-message");
+        checkEditTaskOnClickInsideElement(input, message, "#ff8190", "#90d1ed");
+        checkEditTaskOnClickOutsideElement(input, message, "#ff8190", "#d1d1d1");
+        checkEditTaskOnKeystrokeInsideElement(input, message, "#ff8190", "#90d1ed");
     }, 100);
 }
 
 function checkEditTaskDescription() {
     setTimeout(() => {
         const input = document.getElementById("edit-textarea-input");
-        checkEditTaskOnClickInsideElement(input, "", "blue", "blue");
+        checkEditTaskOnClickInsideElement(input, "", "#90d1ed", "#90d1ed");
         checkEditTaskOnClickOutsideElement(input, "", "#d1d1d1", "#d1d1d1");
-        checkEditTaskOnKeystrokeInsideElement(input, "", "#d1d1d1", "blue");
+        checkEditTaskOnKeystrokeInsideElement(input, "", "#d1d1d1", "#90d1ed");
     }, 100);
 }
 
 function checkEditTaskDate() {
     setTimeout(() => {
         const input = document.getElementById("edit-date-input");
-        const message = document.getElementById("missing-date-message");
-        checkEditTaskOnClickInsideElement(input, message, "red", "blue");
-        checkEditTaskOnClickOutsideElement(input, message, "red", "#d1d1d1");
-        checkEditTaskOnKeystrokeInsideElement(input, message, "red", "blue");
+        const message = document.getElementById("edit-missing-date-message");
+        checkEditTaskOnClickInsideElement(input, message, "#ff8190", "#90d1ed");
+        checkEditTaskOnClickOutsideElement(input, message, "#ff8190", "#d1d1d1");
+        checkEditTaskOnKeystrokeInsideElement(input, message, "#ff8190", "#90d1ed");
     }, 100);
 }
 
@@ -396,7 +397,7 @@ function checkEditTaskSubtask() {
     setTimeout(() => {
         const input1 = document.getElementById("new-subtask-container");
         const input2 = document.getElementById("new-subtask-input");
-        checkEditTaskOnClickInsideSubtaskElement(input1, input2, "blue");
+        checkEditTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
         checkEditTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
         // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
     }, 100);

@@ -256,35 +256,35 @@ function openTaskDetail(taskId) {
     }
 }
 
-async function loadAddTaskScript() {
-    const scripts = [
-        { id: "addTaskScript", src: "/js/addTask.js" },
-        { id: "addTaskCategoryFunctions", src: "/js/addTaskCategoryFunctions.js" },
-        { id: "addTaskContactsAndUserActionsFunctions", src: "/js/addTaskContactsAndUserActionsFunctions.js" },
-        { id: "addTaskValidationAndClearingFunctions", src: "/js/addTaskValidationAndClearingFunctions.js" },
-    ];
+// async function loadAddTaskScript() {
+//     const scripts = [
+//         { id: "addTaskScript", src: "/js/addTask.js" },
+//         { id: "addTaskCategoryFunctions", src: "/js/addTaskCategoryFunctions.js" },
+//         { id: "addTaskContactsAndUserActionsFunctions", src: "/js/addTaskContactsAndUserActionsFunctions.js" },
+//         { id: "addTaskValidationAndClearingFunctions", src: "/js/addTaskValidationAndClearingFunctions.js" },
+//     ];
 
-    return Promise.all(
-        scripts.map((scriptInfo) => {
-            return new Promise((resolve, reject) => {
-                if (!document.getElementById(scriptInfo.id)) {
-                    let script = document.createElement("script");
-                    script.src = scriptInfo.src;
-                    script.id = scriptInfo.id;
-                    script.onload = function () {
-                        resolve();
-                    };
-                    script.onerror = function () {
-                        reject(new Error(`Failed to load script: ${scriptInfo.src}`));
-                    };
-                    document.body.appendChild(script);
-                } else {
-                    resolve();
-                }
-            });
-        })
-    );
-}
+//     return Promise.all(
+//         scripts.map((scriptInfo) => {
+//             return new Promise((resolve, reject) => {
+//                 if (!document.getElementById(scriptInfo.id)) {
+//                     let script = document.createElement("script");
+//                     script.src = scriptInfo.src;
+//                     script.id = scriptInfo.id;
+//                     script.onload = function () {
+//                         resolve();
+//                     };
+//                     script.onerror = function () {
+//                         reject(new Error(`Failed to load script: ${scriptInfo.src}`));
+//                     };
+//                     document.body.appendChild(script);
+//                 } else {
+//                     resolve();
+//                 }
+//             });
+//         })
+//     );
+// }
 
 /**
  * Attaches event handlers to the confirmation buttons in the confirmation dialog.
