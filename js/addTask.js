@@ -248,27 +248,6 @@ function showCloseOrDeleteIconDuringWritingSubtask() {
 }
 
 /**
- * Sets up event listeners for the subtask input field to handle enter key press and input changes.
- */
-// document.addEventListener("DOMContentLoaded", function () {
-//     waitingForSubtaskEnterOrDraftEvent();
-// });
-
-// function waitingForSubtaskEnterOrDraftEvent() {
-//     let newSubtaskInput = document.getElementById("new-subtask-input");
-
-//     if (newSubtaskInput) {
-//         newSubtaskInput.addEventListener("keydown", addSubtaskByEnterKey);
-//         newSubtaskInput.addEventListener("input", function () {
-//             resetSubtaskRequiredNotification();
-//             showCloseOrDeleteIconDuringWritingSubtask();
-//         });
-//     } else {
-//         console.error("Element with ID 'new-subtask-input' not found.");
-//     }
-// }
-
-/**
  * Resets the notification message for required subtasks.
  */
 function resetSubtaskRequiredNotification() {
@@ -457,61 +436,6 @@ function addBorderStyleToValueContainer(element, color) {
 function removeBorderStyleToValueContainer(element) {
     element.style.border = ``;
 }
-
-/**
- * Handles changes to the date input field and validates its content.
- */
-// function handleDateInput() {
-//     let dateInput = document.getElementById("date-input");
-//     let missingDateMessage = document.getElementById("missing-date-message");
-
-//     if (dateInput.value) {
-//         addBorderStyleToValueContainer(dateInput, "#90D1ED");
-//         missingDateMessage.style.display = "none";
-//     } else {
-//         removeBorderStyleToValueContainer(dateInput);
-//         checkIfDateIsSelected();
-//     }
-// }
-
-// let dateInput = document.getElementById("date-input");
-// dateInput.addEventListener("change", handleDateInput);
-// Funktion zum Handling des Date-Inputs
-
-/**
- * Handles changes to the title input field and validates its content.
- */
-// function handleTitleInput() {
-//     let titleInput = document.getElementById("title-input");
-//     let missingTitleMessage = document.getElementById("missing-title-message");
-
-//     if (titleInput.value) {
-//         addBorderStyleToValueContainer(titleInput, "#90D1ED");
-//         missingTitleMessage.style.display = "none";
-//     } else {
-//         removeBorderStyleToValueContainer(titleInput);
-//         checkIfTitleIsEntered();
-//     }
-// }
-
-// let titleInput = document.getElementById("title-input");
-// titleInput.addEventListener("input", handleTitleInput);
-
-/**
- * Handles changes to the description input field and validates its content.
- */
-// function handleTextareaInput() {
-//     let descriptionInput = document.getElementById("textarea-input");
-
-//     if (descriptionInput.value) {
-//         addBorderStyleToValueContainer(descriptionInput, "#90D1ED");
-//     } else {
-//         removeBorderStyleFromDescriptionContainer(descriptionInput);
-//     }
-// }
-
-// let descriptionInput = document.getElementById("textarea-input");
-// descriptionInput.addEventListener("input", handleTextareaInput);
 
 /**
  * Adds a border style to the description element.

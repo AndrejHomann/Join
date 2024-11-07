@@ -38,6 +38,7 @@ function addTaskFromBoard() {
 
 function clearFieldsBoard() {
     clearInputFieldsBoard();
+    resetRequiredNotificationsBoard();
     setBackArrays();
 
     document.getElementById("category-placeholder").innerHTML = "Select task category";
@@ -52,6 +53,34 @@ function clearFieldsBoard() {
     // resetSubtaskIconBoard();
     // resetSubtaskListBoard();
 }
+
+function resetRequiredNotificationsBoard() {
+    resetDateRequiredNotificationBoard();
+    resetTitleRequiredNotificationBoard();
+    // resetCategoryRequiredNotificationBoard();
+}
+
+function resetDateRequiredNotificationBoard() {
+    let missingDateMessage = document.getElementById("board-missing-date-message");
+    // missingDateMessage.classList.add("d-none");
+    missingDateMessage.style.display = "none";
+    document.getElementById("board-date-input").style.border = "";
+}
+
+function resetTitleRequiredNotificationBoard() {
+    let missingTitleMessage = document.getElementById("board-missing-title-message");
+    let titleInput = document.getElementById("board-title-input");
+    titleInput.style.border = "";
+    missingTitleMessage.style.display = "none";
+}
+
+// function resetCategoryRequiredNotificationBoard() {
+//     let missingCategoryMessage = document.getElementById("board-missing-category-message");
+//     let categoryOptions = document.getElementById("board-selected-category");
+//     // categoryOptions.classList.remove("validationBorder");
+//     // missingCategoryMessage.classList.remove("validationStyle");
+//     missingCategoryMessage.style.display = "none";
+// }
 
 function clearInputFieldsBoard() {
     document.getElementById("board-title-input").value = "";
@@ -87,13 +116,13 @@ function checkIfTitleIsEnteredBoard() {
     let isValid = true;
 
     if (titleInput.value) {
-        addBorderStyleToValueContainer(titleInput, "#90D1ED");
+        // addBorderStyleToValueContainer(titleInput, "#90D1ED");
         missingTitleMessage.style.display = "none";
         isValid = true;
     } else {
         titleInput.style.border = "1px solid #ff8190";
         missingTitleMessage.style.display = "flex";
-        missingTitleMessage.classList.add("validationStyle");
+        // missingTitleMessage.classList.add("validationStyle");
         isValid = false;
     }
     return isValid;
@@ -106,12 +135,12 @@ function checkIfDateIsSelectedBoard() {
     let isValid = true;
 
     if (dateInput.value) {
-        addBorderStyleToValueContainer(dateInput, "#90D1ED");
+        // addBorderStyleToValueContainer(dateInput, "#90D1ED");
         missingDateMessage.style.display = "none";
         isValid = true;
     } else {
         missingDateMessage.style.display = "flex";
-        missingDateMessage.classList.add("validationStyle");
+        // missingDateMessage.classList.add("validationStyle");
         dateInput.style.border = "1px solid #ff8190";
         isValid = false;
     }

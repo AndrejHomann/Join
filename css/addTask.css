@@ -454,7 +454,8 @@ h1 {
 }
 
 #missing-title-message,
-#missing-date-message {
+#missing-date-message,
+#missing-category-message {
     font-size: 12px;
     color: #ff8190;
 }
@@ -833,7 +834,8 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     #edit-textarea-input,
     #board-textarea-input,
     #new-subtask-input,
-    #board-new-subtask-input #prio-urgent,
+    #board-new-subtask-input,
+    #prio-urgent,
     #prio-medium,
     #prio-low,
     #edit-prio-urgent,
