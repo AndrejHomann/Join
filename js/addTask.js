@@ -105,6 +105,7 @@ function createTask() {
     addTask("/tasks.json", task);
     removeBorderStyleFromDescriptionContainerAndCategoryContainer();
     checkIfRequiredFieldsAreEnteredAgain();
+    clearFields();
 }
 
 /**
@@ -128,7 +129,6 @@ async function addTask(path, data) {
     } else {
         console.error("Error");
     }
-    clearFields();
 }
 
 /**

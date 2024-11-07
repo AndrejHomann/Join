@@ -33,8 +33,31 @@ function addTaskFromBoard() {
         status: "todo",
     };
     addTask("/tasks.json", task);
-    removeBorderStyleFromDescriptionContainerAndCategoryContainer();
-    checkIfRequiredFieldsAreEnteredAgain();
+    clearFieldsBoard();
+}
+
+function clearFieldsBoard() {
+    clearInputFieldsBoard();
+    setBackArrays();
+
+    document.getElementById("category-placeholder").innerHTML = "Select task category";
+    document.getElementById("assigned-placeholder").innerHTML = "Select contacts to assign";
+    document.getElementById("selected-contacts-circle-container").innerHTML = "";
+
+    resetPrioBoard();
+    document.getElementById("board-prio-medium-button").classList.add("prio-medium-button-bg-color");
+    document.getElementById("board-prio-medium-button").classList.remove("prio-default-text-color");
+    closeContactsDropDown();
+    // closeCategoryDropDown();
+    // resetSubtaskIconBoard();
+    // resetSubtaskListBoard();
+}
+
+function clearInputFieldsBoard() {
+    document.getElementById("board-title-input").value = "";
+    document.getElementById("board-textarea-input").value = "";
+    document.getElementById("board-date-input").value = "";
+    document.getElementById("board-new-subtask-input").value = "";
 }
 
 function validateAllInputsBoard() {
@@ -388,8 +411,8 @@ function createTaskFromBoardDiv() {
                 <span id="required-span"><span class="asterisk">*</span>This field is required</span>
             </div>
             <div id="interactives-buttons-container">
-                <button id="clear-button" class="flex-center-align" type="button" onclick="clearFields()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
-                <button id="create-button" class="flex-center-align" type="button" onclick="createTaskFromBoard()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
+                <button id="clear-button" class="flex-center-align" type="button" onclick="clearFieldsBoard()"><span id="clear-button-font" class="contents">Clear</span> <img src="/img/Vector.png" id="cancel-icon" /></button>
+                <button id="create-button" class="flex-center-align" type="button" onclick="addTaskFromBoard()"><span id="create-task-button-font" class="contents">Create Task</span><img src="/img/summary/check.png" id="check-icon" /></button>
             </div>
         </div>
     </div>
