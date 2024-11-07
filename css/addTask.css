@@ -257,7 +257,8 @@ h1 {
     height: 80px;
 }
 
-#new-subtask-container {
+#new-subtask-container,
+#board-new-subtask-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -268,7 +269,8 @@ h1 {
     position: relative;
 }
 
-#new-subtask-input {
+#new-subtask-input,
+#board-new-subtask-input {
     border: none;
     font-size: 20px;
     font-weight: 400;
@@ -831,7 +833,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     #edit-textarea-input,
     #board-textarea-input,
     #new-subtask-input,
-    #prio-urgent,
+    #board-new-subtask-input #prio-urgent,
     #prio-medium,
     #prio-low,
     #edit-prio-urgent,
@@ -850,7 +852,8 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         margin-top: -8px;
     }
 
-    #new-subtask-container {
+    #new-subtask-container,
+    #board-new-subtask-container {
         padding: 8px 12px;
     }
 
