@@ -77,20 +77,20 @@ function checkIfDateIsSelected() {
  * Checks if a category is selected in the category dropdown.
  * If no category is selected, adds a validation message and styles; otherwise, removes validation styles.
  */
-function checkIfCategoryIsSelected() {
-    let missingCategoryMessage = document.getElementById("missing-category-message");
-    let categoryOptions = document.getElementById("selected-category");
+// function checkIfCategoryIsSelected() {
+//     let missingCategoryMessage = document.getElementById("missing-category-message");
+//     let categoryOptions = document.getElementById("selected-category");
 
-    let isValid = true;
+//     let isValid = true;
 
-    if (!selectedCategory) {
-        addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
-        isValid = false;
-    } else {
-        resetCategoryRequiredNotification();
-        return isValid;
-    }
-}
+//     if (!selectedCategory) {
+//         addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
+//         isValid = false;
+//     } else {
+//         // resetCategoryRequiredNotification();
+//         return isValid;
+//     }
+// }
 
 /**
  * Re-checks if the required fields (title, date, category) are filled after they have been previously marked as incomplete.
@@ -165,7 +165,7 @@ function resetRequiredNotifications() {
     resetDateRequiredNotification();
     resetSubtaskRequiredNotification();
     resetTitleRequiredNotification();
-    resetCategoryRequiredNotification();
+    // resetCategoryRequiredNotification();
 }
 
 /**
@@ -191,10 +191,10 @@ function resetTitleRequiredNotification() {
 /**
  * Resets the validation message and border for the category dropdown.
  */
-function resetCategoryRequiredNotification() {
-    let missingCategoryMessage = document.getElementById("missing-category-message");
-    let categoryOptions = document.getElementById("selected-category");
-    categoryOptions.classList.remove("validationBorder");
-    missingCategoryMessage.classList.remove("validationStyle");
-    missingCategoryMessage.classList.add("d-none");
-}
+// function resetCategoryRequiredNotification() {
+//     let missingCategoryMessage = document.getElementById("missing-category-message");
+//     let categoryOptions = document.getElementById("selected-category");
+//     categoryOptions.classList.remove("validationBorder");
+//     missingCategoryMessage.classList.remove("validationStyle");
+//     missingCategoryMessage.classList.add("d-none");
+// }

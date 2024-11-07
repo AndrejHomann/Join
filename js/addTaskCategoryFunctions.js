@@ -60,7 +60,7 @@ function closeCategoryDropDown() {
     } else {
         categoryPlaceholder.innerHTML = /*html*/ `Select task category`;
         selectedCategory = null;
-        checkIfCategoryIsSelected();
+        // checkIfCategoryIsSelected();
     }
 
     document.getElementById("category-dropdown-arrow-container").innerHTML = /*html*/ `<div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow"></div>`;
@@ -78,5 +78,5 @@ function selectCategory(categoryName) {
     addBorderStyleToValueContainer(categoryContainer, "#90D1ED");
     selectedCategory = categoryName;
     closeCategoryDropDown();
-    resetCategoryRequiredNotification();
+    // resetCategoryRequiredNotification();
 }
