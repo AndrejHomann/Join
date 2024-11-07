@@ -645,7 +645,7 @@ h1 {
 
 /* validation style */
 
-.validationStyle {
+/* .validationStyle {
     color: #ff8190;
     display: flex;
     font-size: 12px;
@@ -659,7 +659,7 @@ h1 {
 
 .validationBorder {
     border: 1px solid #ff8190;
-}
+} */
 
 #subtask-relative-container {
     position: relative;

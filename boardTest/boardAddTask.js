@@ -303,8 +303,9 @@ function createTaskFromBoardDiv() {
                 <div id="title-container" class="flex-column gap8px">
                     <div class="subtitle">Title<span class="asterisk">*</span></div>
                     <!-- <div id="title-input-container"><input type="text" placeholder="Enter a title" id="title-input" /></div> -->
-                    <div id="title-input-container"><input type="text" placeholder="Enter a title" id="board-title-input" /></div>
+                    <div id="title-input-container"><input type="text" placeholder="Enter a title" id="board-title-input" />
                     <span id="board-missing-title-message" class="d-none">This field is required</span>
+                </div>
                 </div>
                 <div id="description-container" class="flex-column gap8px">
                     <div class="subtitle">Description</div>
@@ -326,8 +327,9 @@ function createTaskFromBoardDiv() {
                 <div id="date-container" class="flex-column gap8px">
                     <div class="subtitle">Due date<span class="asterisk">*</span></div>
                     <!-- <div id="calender"><input type="date" id="date-input" /></div> -->
-                    <div id="calender"><input type="date" id="board-date-input" /></div>
+                    <div id="calender"><input type="date" id="board-date-input" />
                     <span id="board-missing-date-message" class="d-none">This field is required</span>
+                </div>
                 </div>
                 <div id="prio-container" class="flex-column gap8px">
                     <div class="subtitle">Prio</div>
@@ -384,9 +386,10 @@ function createTaskFromBoardDiv() {
                     <div class="subtitle">Category<span class="asterisk">*</span></div>
                     <div id="selected-category" class="select-container" onclick="checkIfCategoryDropdownIsVisible(), doNotCloseDropdown(event)">
                     <span id="category-placeholder">Select task category</span>
-                        <div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
+                        <div id="category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" />
+                        <span id="missing-category-message" class="d-none">This field is required</span>
                     </div>
-                    <span id="missing-category-message" class="d-none">This field is required</span>
+                    </div>
                     <div id="category-dropdown-list" class="d-none"></div>
                 </div>
                 <div id="substasks-container" class="flex-column gap8px">
