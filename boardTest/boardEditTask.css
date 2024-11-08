@@ -99,7 +99,11 @@
 
 #board-missing-title-message,
 #board-missing-category-message,
-#board-missing-date-message {
+#board-missing-date-message,
+#board-missing-subtask-message,
+#edit-missing-title-message,
+#edit-missing-date-message,
+#edit-missing-subtask-message {
     color: #ff8190;
     font-size: 12px;
 }

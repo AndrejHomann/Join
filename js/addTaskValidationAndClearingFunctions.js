@@ -18,11 +18,11 @@ function validateAllInputs() {
         isValid = false;
     }
 
-    if (isCategoryAvailable === true) {
-        if (!checkIfCategoryIsSelected()) {
-            isValid = false;
-        }
-    }
+    // if (isCategoryAvailable === true) {
+    //     if (!checkIfCategoryIsSelected()) {
+    //         isValid = false;
+    //     }
+    // }
     return isValid;
 }
 
@@ -38,12 +38,12 @@ function checkIfTitleIsEntered() {
 
     if (!titleInput.value) {
         titleInput.style.border = "1px solid #ff8190";
-        missingTitleMessage.classList.add("validationStyle");
+        // missingTitleMessage.classList.add("validationStyle");
         missingTitleMessage.style.removeProperty("display");
         isValid = false;
     } else {
         titleInput.style.border = "";
-        missingTitleMessage.classList.remove("validationStyle");
+        // missingTitleMessage.classList.remove("validationStyle");
         missingTitleMessage.style.display = "none";
         addBorderStyleToValueContainer(titleInput, "#90D1ED");
         return isValid;
@@ -62,12 +62,12 @@ function checkIfDateIsSelected() {
 
     if (!dateInput.value) {
         dateInput.style.border = "1px solid #ff8190";
-        missingDateMessage.classList.add("validationStyle");
+        // missingDateMessage.classList.add("validationStyle");
         missingDateMessage.style.removeProperty("display");
         isValid = false;
     } else {
         dateInput.style.border = "";
-        missingDateMessage.classList.remove("validationStyle");
+        // missingDateMessage.classList.remove("validationStyle");
         missingDateMessage.style.display = "none";
         return isValid;
     }
@@ -98,7 +98,7 @@ function checkIfDateIsSelected() {
 function checkIfRequiredFieldsAreEnteredAgain() {
     checkIfTitleIsEntered();
     checkIfDateIsSelected();
-    checkIfCategoryIsSelected();
+    // checkIfCategoryIsSelected();
 }
 
 /**

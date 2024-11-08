@@ -285,34 +285,143 @@ function resetPrioBoard() {
     lowButton.classList.add("prio-default-text-color");
 }
 
-// function addOrCloseSubtaskBoard() {
-//     if (isSubtaskResetting) return;
+function addOrCloseSubtaskBoard() {
+    if (isSubtaskResetting) return;
 
-//     let subtaskIconContainer = document.getElementById("subtask-icon-container");
+    let subtaskIconContainer = document.getElementById("board-subtask-icon-container");
 
-//     subtaskIconContainer.classList.remove("plusIconHover");
+    subtaskIconContainer.classList.remove("plusIconHover");
 
-//     subtaskIconContainer.innerHTML = /*html*/ `
-//         <div id="close-icon-container" onclick="closeSubtaskDraft()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask"></div>
-//         <div class="border-subtask-container"></div>
-//         <div id="check-icon-container" onclick="addSubtaskFromBoard()"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>`;
+    subtaskIconContainer.innerHTML = /*html*/ `
+        <div id="board-close-icon-container" onclick="closeSubtaskDraftBoard()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask"></div>
+        <div class="border-subtask-container"></div>
+        <div id="board-check-icon-container" onclick="addSubtaskFromBoard()"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>`;
 
-//     let checkIconContainer = document.getElementById("check-icon-container");
-//     checkIconContainer.classList.add("circleHoverEffect");
-//     let closeIconContainer = document.getElementById("close-icon-container");
-//     closeIconContainer.classList.add("circleHoverEffect");
-// }
+    let checkIconContainer = document.getElementById("board-check-icon-container");
+    checkIconContainer.classList.add("circleHoverEffect");
+    let closeIconContainer = document.getElementById("board-close-icon-container");
+    closeIconContainer.classList.add("circleHoverEffect");
+}
 
-// function addSubtaskFromBoard() {
-//     let newSubtaskInput = document.getElementById("board-new-subtask-input");
-//     let subtaskList = document.getElementById("generated-subtask-list-container");
-//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
-//     let subtaskContainer = document.getElementById("new-subtask-container");
-//     let i = subtasks.length;
+function addSubtaskFromBoard() {
+    let newSubtaskInput = document.getElementById("board-new-subtask-input");
+    let subtaskList = document.getElementById("board-generated-subtask-list-container");
+    let missingSubtaskMessage = document.getElementById("board-missing-subtask-message");
+    let subtaskContainer = document.getElementById("board-new-subtask-container");
+    let i = subtasks.length;
 
-//     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
-//     resetSubtaskIcon();
-// }
+    handleSubtaskValidationBoard(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
+    resetSubtaskIconBoard();
+}
+
+/**
+ * Closes the subtask draft and resets the input field.
+ */
+function closeSubtaskDraftBoard() {
+    // let newSubtaskContaier = document.getElementById("board-new-subtask-container");
+    // removeBorderStyleToValueContainer(newSubtaskContaier);
+    let subtaskDraft = document.getElementById("board-new-subtask-input");
+    subtaskDraft.value = ``;
+    resetSubtaskIconBoard();
+}
+
+function handleSubtaskValidationBoard(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i) {
+    let trimmedInput = newSubtaskInput.value.trim();
+
+    if (trimmedInput !== "") {
+        subtasks.push({ subtask: trimmedInput, status: "unchecked" });
+
+        let subtaskHTML = templateSubtasksListHTMLBoard(i, subtasks[i].subtask);
+        subtaskList.innerHTML += subtaskHTML;
+
+        newSubtaskInput.value = "";
+        subtaskContainer.style.border = "";
+        // missingSubtaskMessage.classList.remove("validationStyleSubtasks");
+        // missingSubtaskMessage.style.display = "none";
+    } else {
+        subtaskContainer.style.border = "1px solid #ff8190";
+        // missingSubtaskMessage.classList.add("validationStyleSubtasks");
+        // missingSubtaskMessage.style.removeProperty("display");
+    }
+}
+
+function resetSubtaskIconBoard() {
+    let subtaskIconContainer = document.getElementById("board-subtask-icon-container");
+
+    subtaskIconContainer.innerHTML = /*html*/ `
+        <div id="board-plus-icon-container" class="circleHoverEffect" onclick="addOrCloseSubtaskBoard()">
+            <img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" />
+        </div>`;
+
+    isSubtaskResetting = true;
+    setTimeout(resetSubtaskClearButton, 1);
+}
+
+function templateSubtasksListHTMLBoard(i, subtask) {
+    return /*html*/ `
+            <div class="generatedSubtasks" id="board-generated-subtask-container-${i}">
+                <li id="generated-subtask-list-item-${i}" class="subtaskListItemStyle">${subtask}</li>
+                <div id="generated-subtask-list-icons">
+                    <div id="board-icon-container" onclick="editSubtaskBoard(${i})"><img src="/img/addTask/edit.png" alt="edit" /></div>
+                    <div class="border-subtask-container"></div>
+                    <div id="board-delete-icon-container" onclick="deleteSubtaskBoard(${i})">
+                        <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
+                    </div>
+                </div>
+            </div>`;
+}
+
+function editSubtaskBoard(index) {
+    let toEditSubtask = document.getElementById(`board-generated-subtask-container-${index}`);
+    let currentSubtaskText = subtasks[index].subtask;
+
+    toEditSubtask.classList.add("noHoverEffect");
+
+    toEditSubtask.innerHTML = templateEditSubtasksHTMLBoard(currentSubtaskText, index);
+}
+
+function templateEditSubtasksHTMLBoard(currentSubtaskText, index) {
+    return /*html*/ `
+        <div id="edit-subtask-container">
+            <input type="text" id="board-edit-subtask-input-${index}" value="${currentSubtaskText}" class="edit-subtask-container-styling">            
+            <div id="generated-subtask-list-icons" class="showSubtaskIconsWhileEditing">
+                <div id="board-delete-icon-container" onclick="deleteSubtaskBoard(${index})">
+                    <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
+                </div>     
+                <div class="border-subtask-container"></div>
+                <div id="board-edit-icon-container" onclick="submitSubtaskBoard(${index})">
+                    <img src="/img/addTask/check.png" alt="check" id="check-subtask">
+                </div>
+            </div>
+        </div>`;
+}
+
+function deleteSubtaskBoard(index) {
+    let newSubtask = document.getElementById(`board-generated-subtask-container-${index}`);
+    if (newSubtask) {
+        newSubtask.remove();
+    }
+    subtasks.splice(index, 1);
+    updateSubtaskListAfterDeleteBoard();
+}
+
+function submitSubtaskBoard(index) {
+    let editedSubtaskInput = document.getElementById(`board-edit-subtask-input-${index}`).value;
+    subtasks[index].subtask = editedSubtaskInput;
+
+    updateSubtaskListAfterDeleteBoard();
+}
+
+function updateSubtaskListAfterDeleteBoard() {
+    let subtaskList = document.getElementById("board-generated-subtask-list-container");
+
+    subtaskList.innerHTML = "";
+
+    for (let i = 0; i < subtasks.length; i++) {
+        let subtaskHTML = templateSubtasksListHTMLBoard(i, subtasks[i].subtask);
+        subtaskList.innerHTML += subtaskHTML;
+    }
+}
 
 /**
  * Displays a task creation form in the board.
@@ -427,13 +536,13 @@ function createTaskFromBoardDiv() {
                         <div id="board-new-subtask-container" onclick="addOrCloseSubtaskBoard()">
                             <!-- <input type="text" id="new-subtask-input" placeholder="Add new subtask" /> -->
                             <input type="text" id="board-new-subtask-input" placeholder="Add new subtask" />
-                            <div id="subtask-icon-container">
-                                <div id="plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
+                            <div id="board-subtask-icon-container">
+                                <div id="board-plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
                             </div>
                         </div>
                         <span id="board-missing-subtask-message" class="d-none">Please add a subtask 🙂</span>
                     </div>
-                    <div id="new-subtask-list-container"><div id="generated-subtask-list-container"></div></div>
+                    <div id="board-new-subtask-list-container"><div id="board-generated-subtask-list-container"></div></div>
                 </div>
             </div>
             

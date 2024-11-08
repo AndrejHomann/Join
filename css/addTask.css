@@ -258,6 +258,7 @@ h1 {
 }
 
 #new-subtask-container,
+#edit-new-subtask-container,
 #board-new-subtask-container {
     display: flex;
     align-items: center;
@@ -270,7 +271,8 @@ h1 {
 }
 
 #new-subtask-input,
-#board-new-subtask-input {
+#board-new-subtask-input,
+#edit-new-subtask-input {
     border: none;
     font-size: 20px;
     font-weight: 400;
@@ -279,16 +281,28 @@ h1 {
     width: 100%;
 }
 
-#subtask-icon-container {
+#subtask-icon-container,
+#edit-subtask-icon-container,
+#board-subtask-icon-container {
     gap: 8px;
     display: flex;
 }
 
-#check-icon-container,
-#close-icon-container,
+#edit-plus-icon-container,
+#board-plus-icon-container,
 #plus-icon-container,
 #edit-icon-container,
-#delete-icon-container {
+#edit-edit-icon-container,
+#board-edit-icon-container,
+#check-icon-container,
+#delete-icon-container,
+#board-delete-icon-container,
+#edit-delete-icon-container,
+#board-check-icon-container,
+#edit-check-icon-container,
+#close-icon-container,
+#board-close-icon-container,
+#edit-close-icon-container {
     width: 24px;
     height: 24px;
     display: flex;
@@ -307,12 +321,14 @@ h1 {
     border-radius: 100%;
 }
 
-#new-subtask-list-container {
+#new-subtask-list-container,
+#new-subtask-list-edit-container {
     background-color: #f6f7f8;
     width: 100%;
 }
 
-#generated-subtask-list-container {
+#generated-subtask-list-container,
+#edit-generated-subtask-list-container {
     max-height: 144px;
     overflow-y: auto;
     position: relative;
@@ -333,6 +349,11 @@ h1 {
 }
 
 .generatedSubtasks:hover #generated-subtask-list-icons {
+    display: flex;
+    gap: 8px;
+}
+
+.generatedSubtasks:hover #edit-generated-subtask-list-icons {
     display: flex;
     gap: 8px;
 }
@@ -835,6 +856,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     #board-textarea-input,
     #new-subtask-input,
     #board-new-subtask-input,
+    #edit-new-subtask-input,
     #prio-urgent,
     #prio-medium,
     #prio-low,
@@ -855,6 +877,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     }
 
     #new-subtask-container,
+    #edit-new-subtask-container,
     #board-new-subtask-container {
         padding: 8px 12px;
     }

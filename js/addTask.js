@@ -166,17 +166,6 @@ function addOrCloseSubtask() {
 }
 
 /**
- * Closes the subtask draft and resets the input field.
- */
-function closeSubtaskDraft() {
-    let newSubtaskContaier = document.getElementById("new-subtask-container");
-    removeBorderStyleToValueContainer(newSubtaskContaier);
-    let subtaskDraft = document.getElementById("new-subtask-input");
-    subtaskDraft.value = ``;
-    resetSubtaskIcon();
-}
-
-/**
  * Adds a new subtask to the list after validating the input.
  */
 function addSubtask() {
@@ -187,6 +176,17 @@ function addSubtask() {
     let i = subtasks.length;
 
     handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i);
+    resetSubtaskIcon();
+}
+
+/**
+ * Closes the subtask draft and resets the input field.
+ */
+function closeSubtaskDraft() {
+    // let newSubtaskContaier = document.getElementById("new-subtask-container");
+    // removeBorderStyleToValueContainer(newSubtaskContaier);
+    let subtaskDraft = document.getElementById("new-subtask-input");
+    subtaskDraft.value = ``;
     resetSubtaskIcon();
 }
 
@@ -210,52 +210,52 @@ function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer,
 
         newSubtaskInput.value = "";
         subtaskContainer.style.border = "";
-        missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-        missingSubtaskMessage.style.display = "none";
+        // missingSubtaskMessage.classList.remove("validationStyleSubtasks");
+        // missingSubtaskMessage.style.display = "none";
     } else {
         subtaskContainer.style.border = "1px solid #ff8190";
-        missingSubtaskMessage.classList.add("validationStyleSubtasks");
-        missingSubtaskMessage.style.removeProperty("display");
+        // missingSubtaskMessage.classList.add("validationStyleSubtasks");
+        // missingSubtaskMessage.style.removeProperty("display");
     }
 }
 
-/**
- * Adds a subtask when the "Enter" key is pressed.
- *
- * @param {KeyboardEvent} event - The key event triggered by pressing a key.
- */
-function addSubtaskByEnterKey(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        addSubtask();
-    }
-}
+// /**
+//  * Adds a subtask when the "Enter" key is pressed.
+//  *
+//  * @param {KeyboardEvent} event - The key event triggered by pressing a key.
+//  */
+// function addSubtaskByEnterKey(event) {
+//     if (event.key === "Enter") {
+//         event.preventDefault();
+//         addSubtask();
+//     }
+// }
 
 /**
  * Toggles between showing the close/delete icon and resetting the subtask input based on the input value.
  */
-function showCloseOrDeleteIconDuringWritingSubtask() {
-    let subtaskInput = document.getElementById("new-subtask-input");
-    let subtaskContainer = document.getElementById("new-subtask-container");
+// function showCloseOrDeleteIconDuringWritingSubtask() {
+//     let subtaskInput = document.getElementById("new-subtask-input");
+//     let subtaskContainer = document.getElementById("new-subtask-container");
 
-    if (subtaskInput.value) {
-        addBorderStyleToValueContainer(subtaskContainer, "#90D1ED");
-        addOrCloseSubtask();
-    } else {
-        removeBorderStyleToValueContainer(subtaskContainer);
-        resetSubtaskIcon();
-    }
-}
+//     if (subtaskInput.value) {
+//         addBorderStyleToValueContainer(subtaskContainer, "#90D1ED");
+//         addOrCloseSubtask();
+//     } else {
+//         removeBorderStyleToValueContainer(subtaskContainer);
+//         resetSubtaskIcon();
+//     }
+// }
 
 /**
  * Resets the notification message for required subtasks.
  */
-function resetSubtaskRequiredNotification() {
-    let missingSubtaskMessage = document.getElementById("missing-subtask-message");
-    missingSubtaskMessage.style.display = "none";
-    missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-    document.getElementById("new-subtask-container").style.border = "";
-}
+// function resetSubtaskRequiredNotification() {
+//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
+//     missingSubtaskMessage.style.display = "none";
+//     missingSubtaskMessage.classList.remove("validationStyleSubtasks");
+//     document.getElementById("new-subtask-container").style.border = "";
+// }
 
 /**
  * Resets the subtask icon to the default state.
@@ -297,18 +297,14 @@ function deleteSubtask(index) {
         newSubtask.remove();
     }
     subtasks.splice(index, 1);
-    updateSubtaskListAfterDelete();
+    updateSpecificSubtask();
 }
 
 /**
  * Updates the subtask list container in the DOM after a subtask is deleted.
  */
-function updateSubtaskListAfterDelete() {
+function updateSpecificSubtask() {
     let subtaskList = document.getElementById("generated-subtask-list-container");
-
-    if (document.getElementById("edit-generated-subtask-list-container")) {
-        subtaskList = document.getElementById("edit-generated-subtask-list-container");
-    }
 
     subtaskList.innerHTML = "";
 
@@ -415,7 +411,7 @@ function submitSubtask(index) {
     let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
     subtasks[index].subtask = editedSubtaskInput;
 
-    updateSubtaskListAfterDelete();
+    updateSpecificSubtask();
 }
 
 /**
