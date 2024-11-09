@@ -145,6 +145,29 @@ function closeAddTaskForm() {
     }, 500);
 }
 
+
+
+
+
+/**
+ * Adds an event listener to the search button.
+ * When the button is clicked, it triggers the `searchTasks` function
+ * to filter and display tasks based on the user's input in the search field.
+ */
+document.querySelector(".search").addEventListener("click", searchTasks);
+
+/**
+ * Adds an event listener to the search input field to handle user input.
+ * When the input field is cleared (value is empty), all tasks are displayed.
+ */
+document.getElementById("search-input-id").addEventListener("input", function () {
+    if (this.value === "") {
+        displayAllTasks();
+    } else if (this.value !== "") {
+        searchTasks();
+    }
+});
+
 /**
  * Searches for tasks based on user input and filters the displayed tasks accordingly.
  *
@@ -154,19 +177,28 @@ function closeAddTaskForm() {
  * input. The filtered tasks are then displayed using `displayFilteredTasks()`.
  * If no tasks match the search criteria, it invokes `showNoResultsMessage()`.
  */
+// const searchInput = document.getElementById("search-input-id");
+// searchInput.addEventListener("input", () => {
+//     searchTasks(searchInput);
+// });
+
 function searchTasks() {
-    const searchInput = document.querySelector(".search-input").value.toLowerCase();
-    if (searchInput === "") {
+    const searchInputValue = document.getElementById("search-input-id").value.toLowerCase();
+    console.log(searchInputValue);
+    if (searchInputValue === "") {
         displayAllTasks();
         return;
     }
     const filteredTasks = tasksArray.filter((task) => {
-        return task.title.toLowerCase().includes(searchInput) || task.taskDescription.toLowerCase().includes(searchInput) || task.category.toLowerCase().includes(searchInput);
+        return task.title.toLowerCase().includes(searchInputValue) || task.taskDescription.toLowerCase().includes(searchInputValue) || task.category.toLowerCase().includes(searchInputValue);
     });
     displayFilteredTasks(filteredTasks);
     if (filteredTasks.length === 0) {
         showNoResultsMessage();
     }
+    
+    console.log(tasksArray);
+    console.log(filteredTasks);
 }
 
 /**
@@ -201,7 +233,7 @@ function closeNoResultsMessage() {
     if (overlay) {
         overlay.remove();
     }
-    document.querySelector(".search-input").value = "";
+    document.getElementById("search-input-id").value = "";
     displayAllTasks();
 }
 
@@ -215,22 +247,15 @@ function displayAllTasks() {
     displayFilteredTasks(tasksArray);
 }
 
-/**
- * Adds an event listener to the search input field to handle user input.
- * When the input field is cleared (value is empty), all tasks are displayed.
- */
-document.querySelector(".search-input").addEventListener("input", function () {
-    if (this.value === "") {
-        displayAllTasks();
-    }
-});
 
-/**
- * Adds an event listener to the search button.
- * When the button is clicked, it triggers the `searchTasks` function
- * to filter and display tasks based on the user's input in the search field.
- */
-document.querySelector(".search").addEventListener("click", searchTasks);
+
+
+
+
+
+
+
+
 
 /**
  * Opens the details of a specific task based on the provided task ID.
