@@ -184,7 +184,6 @@ document.getElementById("search-input-id").addEventListener("input", function ()
 
 function searchTasks() {
     const searchInputValue = document.getElementById("search-input-id").value.toLowerCase();
-    console.log(searchInputValue);
     if (searchInputValue === "") {
         displayAllTasks();
         return;
@@ -196,9 +195,6 @@ function searchTasks() {
     if (filteredTasks.length === 0) {
         showNoResultsMessage();
     }
-    
-    console.log(tasksArray);
-    console.log(filteredTasks);
 }
 
 /**
