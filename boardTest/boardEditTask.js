@@ -40,34 +40,28 @@ function handleEditButtonClick(taskId) {
     }
 }
 
-async function editTask(task, taskId) {
-    try {
-        // await loadAddTaskScript(task);
+function editTask(task, taskId) {
+    const editTask = document.getElementById("editTask");
+    if (!editTask) {
+        console.error("Edit-Overlay nicht gefunden");
+        return;
+    }
 
-        const editTask = document.getElementById("editTask");
-        if (!editTask) {
-            console.error("Edit-Overlay nicht gefunden");
-            return;
-        }
+    editTask.innerHTML = loadEditTaskHTML(task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id, task);
 
-        editTask.innerHTML = loadEditTaskHTML(task.title, task.taskDescription, task.date, task.priority, renderEditableSubtasks(task.addedSubtasks), task.id, task);
+    isCategoryAvailable = false;
 
-        isCategoryAvailable = false;
+    selectedContacts = task.name || [];
+    selectedColors = task.color || [];
 
-        selectedContacts = task.name || [];
-        selectedColors = task.color || [];
+    highlightPrioButton(task.priority);
 
-        highlightPrioButton(task.priority);
-
-        const iconsContainer = document.getElementById("selected-contacts-circle-container");
-        if (iconsContainer) {
-            appendEditableUserIcons(task, iconsContainer);
-            document.getElementById("assigned-container").classList.add("heightAuto");
-        } else {
-            console.error("Icons-Container nicht gefunden");
-        }
-    } catch (error) {
-        console.error("Fehler beim Laden der Skripte:", error);
+    const iconsContainer = document.getElementById("selected-contacts-circle-container");
+    if (iconsContainer) {
+        appendEditableUserIcons(task, iconsContainer);
+        document.getElementById("assigned-container").classList.add("heightAuto");
+    } else {
+        console.error("Icons-Container nicht gefunden");
     }
 }
 

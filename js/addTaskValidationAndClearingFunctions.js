@@ -77,18 +77,22 @@ function checkIfDateIsSelected() {
  */
 function checkIfCategoryIsSelected() {
     let missingCategoryMessage = document.getElementById("missing-category-message");
-    let categoryOptions = document.getElementById("selected-category");
+    let categoryInput = document.getElementById("selected-category");
 
     let isValid = true;
 
     if (!selectedCategory) {
-        // addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
-        missingCategoryMessage.style.display = "none";
-        isValid = false;
-    } else {
         missingCategoryMessage.style.display = "flex";
         categoryInput.style.border = "1px solid #ff8190";
-        // resetCategoryRequiredNotification();
+        // addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
+        // missingCategoryMessage.style.display = "none";
+        isValid = false;
+    } else {
+        // missingCategoryMessage.style.display = "flex";
+        // categoryInput.style.border = "1px solid #ff8190";
+        resetCategoryRequiredNotification();
+        missingCategoryMessage.style.display = "none";
+
         return isValid;
     }
 }
@@ -164,9 +168,9 @@ function setBackArrays() {
  */
 function resetRequiredNotifications() {
     resetDateRequiredNotification();
-    // resetSubtaskRequiredNotification();
     resetTitleRequiredNotification();
-    // resetCategoryRequiredNotification();
+    resetCategoryRequiredNotification();
+    // resetSubtaskRequiredNotification();
 }
 
 /**
@@ -192,10 +196,9 @@ function resetTitleRequiredNotification() {
 /**
  * Resets the validation message and border for the category dropdown.
  */
-// function resetCategoryRequiredNotification() {
-//     let missingCategoryMessage = document.getElementById("missing-category-message");
-//     let categoryOptions = document.getElementById("selected-category");
-//     categoryOptions.classList.remove("validationBorder");
-//     missingCategoryMessage.classList.remove("validationStyle");
-//     missingCategoryMessage.classList.add("d-none");
-// }
+function resetCategoryRequiredNotification() {
+    let missingCategoryMessage = document.getElementById("missing-category-message");
+    let categoryOptions = document.getElementById("selected-category");
+    categoryOptions.style.border = "";
+    missingCategoryMessage.style.display = "none";
+}

@@ -81,14 +81,6 @@ function resetCategoryRequiredNotificationBoard() {
     missingCategoryMessage.style.display = "none";
 }
 
-// function resetCategoryRequiredNotificationBoard() {
-//     let missingCategoryMessage = document.getElementById("board-missing-category-message");
-//     let categoryOptions = document.getElementById("board-selected-category");
-//     // categoryOptions.classList.remove("validationBorder");
-//     // missingCategoryMessage.classList.remove("validationStyle");
-//     missingCategoryMessage.style.display = "none";
-// }
-
 function clearInputFieldsBoard() {
     document.getElementById("board-title-input").value = "";
     document.getElementById("board-textarea-input").value = "";
@@ -156,8 +148,9 @@ function checkIfCategoryIsSelectedBoard() {
 
     let isValid = true;
 
-    if (categoryInput) {
+    if (selectedCategory) {
         missingCategoryMessage.style.display = "none";
+
         isValid = true;
     } else {
         missingCategoryMessage.style.display = "flex";
@@ -543,14 +536,14 @@ function createTaskFromBoardDiv() {
                         </div>
                         <div id="board-category-container" class="flex-column gap8px">
                             <div class="subtitle">Category<span class="asterisk">*</span></div>
+                            <div>
                                 <div id="board-selected-category" class="select-container" onclick="boardAddTaskCheckIfCategoryDropdownIsVisible(), boardAddTaskDoNotCloseDropdown(event)">
                                     <span id="board-category-placeholder">Select task category</span>
                                     <div id="board-category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                                 </div>
-                            <div id="board-category-dropdown-list" class="d-none"></div>
-                            <div>
                                 <span id="board-missing-category-message" class="d-none">This field is required</span>
-                            </div>
+                            </div>    
+                            <div id="board-category-dropdown-list" class="d-none"></div>
                         </div>
                         <div id="substasks-container" class="flex-column gap8px">
                             <div class="subtitle">Subtasks</div>
@@ -661,7 +654,7 @@ function boardAddTaskCloseCategoryDropDown() {
     } else {
         categoryPlaceholder.innerHTML = /*html*/ `Select task category`;
         selectedCategory = null;
-        // checkIfCategoryIsSelected();
+        checkIfCategoryIsSelectedBoard();
     }
 
     document.getElementById("board-category-dropdown-arrow-container").innerHTML = /*html*/ `<div id="board-category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="board-dropdown-arrow"></div>`;
