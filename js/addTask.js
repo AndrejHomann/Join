@@ -367,7 +367,7 @@ function templateEditSubtasksHTML(currentSubtaskText, index) {
                     <img src="/img/addTask/delete.png" alt="delete" id="delete-subtask-icon" />
                 </div>     
                 <div class="border-subtask-container"></div>
-                <div id="edit-icon-container" onclick="submitSubtask(${index})">
+                <div id="submit-icon-container" onclick="submitSubtask(${index})">
                     <img src="/img/addTask/check.png" alt="check" id="check-subtask">
                 </div>
             </div>
