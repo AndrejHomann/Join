@@ -7,7 +7,7 @@ function renderEditableSubtasks(subtasksFromCurrentTask) {
 
     let subtasksHTML = "";
     for (let i = 0; i < subtasksFromCurrentTask.length; i++) {
-        subtasksHTML += templateSubtasksListHTML(i, subtasksFromCurrentTask[i].subtask);
+        subtasksHTML += templateSubtasksListHTMLEdit(i, subtasksFromCurrentTask[i].subtask);
 
         let loadedSubtask = subtasksFromCurrentTask[i].subtask;
         let loadedStatus = subtasksFromCurrentTask[i].status;
@@ -515,10 +515,8 @@ function handleSubtaskValidationEdit(newSubtaskInput, subtaskListEdit, subtaskCo
     if (trimmedInput !== "") {
         subtasks.push({ subtask: trimmedInput, status: "unchecked" });
 
-        for (let i = 0; i < subtasks.length; i++) {
-            let subtaskHTMLList = templateSubtasksListHTMLEdit(i, subtasks[i].subtask);
-            subtaskListEdit.innerHTML += subtaskHTMLList;
-        }
+        let subtaskHTMLList = templateSubtasksListHTMLEdit(i, subtasks[i].subtask);
+        subtaskListEdit.innerHTML += subtaskHTMLList;
 
         newSubtaskInput.value = "";
         subtaskContainer.style.border = "";

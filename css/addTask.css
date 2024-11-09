@@ -302,7 +302,11 @@ h1 {
 #edit-check-icon-container,
 #close-icon-container,
 #board-close-icon-container,
-#edit-close-icon-container {
+#edit-close-icon-container,
+#submit-icon-container,
+#submit-edit-icon-container,
+#edit-submit-icon-container,
+#board-icon-container {
     width: 24px;
     height: 24px;
     display: flex;
@@ -367,7 +371,8 @@ h1 {
     border-bottom: 1px solid #c9eaf8;
 }
 
-#generated-subtask-list-icons {
+#generated-subtask-list-icons,
+#edit-generated-subtask-list-icons {
     display: none;
     gap: 8px;
 }
@@ -573,7 +578,8 @@ h1 {
     height: 80px;
 }
 
-#category-dropdown-arrow-container {
+#category-dropdown-arrow-container,
+#board-category-dropdown-arrow-container {
     width: 24px;
     height: 24px;
     display: flex;
@@ -581,7 +587,8 @@ h1 {
     justify-content: center;
 }
 
-#category-dropdown-arrow-container:hover {
+#category-dropdown-arrow-container:hover,
+#board-category-dropdown-arrow-container:hover {
     background: lightgray;
     border-radius: 100%;
 }
@@ -882,7 +889,8 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         padding: 8px 12px;
     }
 
-    .generatedSubtasks {
+    .generatedSubtasks,
+    .editGeneratedSubtasks {
         padding: 8px 12px;
     }
 
