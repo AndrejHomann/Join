@@ -41,7 +41,7 @@ function clearFieldsBoard() {
     resetRequiredNotificationsBoard();
     setBackArrays();
 
-    document.getElementById("board-addTask-category-placeholder").innerHTML = "Select task category";
+    document.getElementById("board-category-placeholder").innerHTML = "Select task category";
     document.getElementById("assigned-placeholder").innerHTML = "Select contacts to assign";
     document.getElementById("selected-contacts-circle-container").innerHTML = "";
 
@@ -76,8 +76,8 @@ function resetTitleRequiredNotificationBoard() {
 
 function resetCategoryRequiredNotificationBoard() {
     clickedCategoryDropdownForTheFirstTime = false;
-    let missingCategoryMessage = document.getElementById("board-addTask-missing-category-message");
-    let categoryInput = document.getElementById("board-addTask-selected-category");
+    let missingCategoryMessage = document.getElementById("board-missing-category-message");
+    let categoryInput = document.getElementById("board-selected-category");
     categoryInput.style = `border: 1px solid #d1d1d1`;
     missingCategoryMessage.style.display = "none";
 }
@@ -160,8 +160,8 @@ function checkIfDateIsSelectedBoard() {
 }
 
 function checkIfCategoryIsSelectedBoard() {
-    let missingCategoryMessage = document.getElementById("board-addTask-missing-category-message");
-    let categoryInput = document.getElementById("board-addTask-selected-category");
+    let missingCategoryMessage = document.getElementById("board-missing-category-message");
+    let categoryInput = document.getElementById("board-selected-category");
 
     let isValid = true;
 
@@ -552,15 +552,15 @@ function createTaskFromBoardDiv() {
                                 </button>
                             </div>
                         </div>
-                        <div id="board-addTask-category-container" class="flex-column gap8px">
+                        <div id="board-category-container" class="flex-column gap8px">
                             <div class="subtitle">Category<span class="asterisk">*</span></div>
-                                <div id="board-addTask-selected-category" class="select-container" onclick="boardAddTaskCheckIfCategoryDropdownIsVisible(), boardAddTaskDoNotCloseDropdown(event)">
-                                    <span id="board-addTask-category-placeholder">Select task category</span>
-                                    <div id="board-addTask-category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
+                                <div id="board-selected-category" class="select-container" onclick="boardAddTaskCheckIfCategoryDropdownIsVisible(), boardAddTaskDoNotCloseDropdown(event)">
+                                    <span id="board-category-placeholder">Select task category</span>
+                                    <div id="board-category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                                 </div>
-                            <div id="board-addTask-category-dropdown-list" class="d-none"></div>
+                            <div id="board-category-dropdown-list" class="d-none"></div>
                             <div>
-                                <span id="board-addTask-missing-category-message" class="d-none">This field is required</span>
+                                <span id="board-missing-category-message" class="d-none">This field is required</span>
                             </div>
                         </div>
                         <div id="substasks-container" class="flex-column gap8px">
@@ -597,10 +597,10 @@ let clickedCategoryDropdownForTheFirstTime = false;
 
 function checkTaskCategory() {
     setTimeout(() => {
-        const input1 = document.getElementById("board-addTask-selected-category");
-        const input2 = document.getElementById("board-addTask-category-placeholder");
-        const input3 = document.getElementById("board-addTask-category-container");
-        const message = document.getElementById("board-addTask-missing-category-message");
+        const input1 = document.getElementById("board-selected-category");
+        const input2 = document.getElementById("board-category-placeholder");
+        const input3 = document.getElementById("board-category-container");
+        const message = document.getElementById("board-missing-category-message");
         checkTaskOnClickInsideElementBoardCategory(input1, message, "#90d1ed");
         checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, message, "#ff8190", "#d1d1d1");
     }, 100);
@@ -637,7 +637,7 @@ function checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, mes
  * If the dropdown is hidden, it opens the dropdown; otherwise, it closes it.
  */
 function boardAddTaskCheckIfCategoryDropdownIsVisible() {
-    if (document.getElementById("board-addTask-category-dropdown-list").classList.contains("d-none")) {
+    if (document.getElementById("board-category-dropdown-list").classList.contains("d-none")) {
         boardAddTaskShowCategoryDropDown();
     } else {
         boardAddTaskCloseCategoryDropDown();
@@ -649,13 +649,13 @@ function boardAddTaskCheckIfCategoryDropdownIsVisible() {
  * It also changes the dropdown arrow to indicate the open state.
  */
 function boardAddTaskShowCategoryDropDown() {
-    document.getElementById("board-addTask-category-placeholder").innerHTML = /*html*/ `Select task category`;
-    document.getElementById("board-addTask-category-dropdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="board-addTask-dropdown-arrow"/>`;
+    document.getElementById("board-category-placeholder").innerHTML = /*html*/ `Select task category`;
+    document.getElementById("board-category-dropdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="board-dropdown-arrow"/>`;
 
-    let dropdownList = document.getElementById("board-addTask-category-dropdown-list");
+    let dropdownList = document.getElementById("board-category-dropdown-list");
     dropdownList.innerHTML = boardAddTaskTemplateCategoryHTMLDropdownList(categoryList);
 
-    document.getElementById("board-addTask-category-dropdown-list").classList.remove("d-none");
+    document.getElementById("board-category-dropdown-list").classList.remove("d-none");
     selectedCategory = null;
 }
 
@@ -665,7 +665,7 @@ function boardAddTaskShowCategoryDropDown() {
  * otherwise, it resets the placeholder to the default "Select task category".
  */
 function boardAddTaskCloseCategoryDropDown() {
-    let categoryPlaceholder = document.getElementById("board-addTask-category-placeholder");
+    let categoryPlaceholder = document.getElementById("board-category-placeholder");
 
     if (selectedCategory) {
         categoryPlaceholder.innerHTML = selectedCategory;
@@ -675,8 +675,8 @@ function boardAddTaskCloseCategoryDropDown() {
         // checkIfCategoryIsSelected();
     }
 
-    document.getElementById("board-addTask-category-dropdown-arrow-container").innerHTML = /*html*/ `<div id="board-addTask-category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="board-addTask-dropdown-arrow"></div>`;
-    document.getElementById("board-addTask-category-dropdown-list").classList.add("d-none");
+    document.getElementById("board-category-dropdown-arrow-container").innerHTML = /*html*/ `<div id="board-category-dropdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="board-dropdown-arrow"></div>`;
+    document.getElementById("board-category-dropdown-list").classList.add("d-none");
 }
 
 /**
@@ -714,7 +714,7 @@ function boardAddTaskDoNotCloseDropdown(event) {
  * @param {string} categoryName - The name of the selected category.
  */
 function boardAddTaskSelectCategory(categoryName) {
-    let categoryContainer = document.getElementById("board-addTask-selected-category");
+    let categoryContainer = document.getElementById("board-selected-category");
     selectedCategory = categoryName;
     boardAddTaskCloseCategoryDropDown();
     // resetCategoryRequiredNotification();

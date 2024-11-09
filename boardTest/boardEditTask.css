@@ -98,7 +98,7 @@
 }
 
 #board-missing-title-message,
-#board-addTask-missing-category-message,
+#board-missing-category-message,
 #board-missing-date-message,
 #board-missing-subtask-message,
 #edit-missing-title-message,
@@ -109,7 +109,7 @@
     display: none;
 }
 
-#board-addTask-category-placeholder {
+#board-category-placeholder {
     font-size: 16px;
 }
 
