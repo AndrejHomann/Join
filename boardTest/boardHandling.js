@@ -338,7 +338,10 @@ function attachConfirmationHandlers(confirmationDiv, resolve) {
  */
 function closeConfirmationDiv(confirmationDiv) {
     confirmationDiv.remove();
-    document.querySelector(".delete-overlay").remove();
+    const deleteOverlay = document.querySelector(".delete-overlay");
+    if (deleteOverlay) {
+        deleteOverlay.remove();
+    }
 }
 
 function closeBoardAddTaskIfNeeded() {
