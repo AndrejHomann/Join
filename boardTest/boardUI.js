@@ -452,10 +452,15 @@ function setupEditAndDeleteButtons(task) {
  */
 function closeTaskDetails() {
     const taskDetails = document.getElementById("taskDetailsOverlay");
+    const confirmationDiv = document.querySelector(".deleteConfirmationDiv");
     taskDetails.classList.remove("task-details-slideIn");
     taskDetails.classList.add("task-details-slideOut");
     selectedContacts = [];
     selectedColors = [];
+
+    if (confirmationDiv) {
+        closeConfirmationDiv(confirmationDiv);
+    }
 
     taskDetails.addEventListener(
         "animationend",
