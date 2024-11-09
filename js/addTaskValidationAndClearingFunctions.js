@@ -18,11 +18,9 @@ function validateAllInputs() {
         isValid = false;
     }
 
-    // if (isCategoryAvailable === true) {
-    //     if (!checkIfCategoryIsSelected()) {
-    //         isValid = false;
-    //     }
-    // }
+    if (!checkIfCategoryIsSelected()) {
+        isValid = false;
+    }
     return isValid;
 }
 
@@ -77,20 +75,23 @@ function checkIfDateIsSelected() {
  * Checks if a category is selected in the category dropdown.
  * If no category is selected, adds a validation message and styles; otherwise, removes validation styles.
  */
-// function checkIfCategoryIsSelected() {
-//     let missingCategoryMessage = document.getElementById("missing-category-message");
-//     let categoryOptions = document.getElementById("selected-category");
+function checkIfCategoryIsSelected() {
+    let missingCategoryMessage = document.getElementById("missing-category-message");
+    let categoryOptions = document.getElementById("selected-category");
 
-//     let isValid = true;
+    let isValid = true;
 
-//     if (!selectedCategory) {
-//         addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
-//         isValid = false;
-//     } else {
-//         // resetCategoryRequiredNotification();
-//         return isValid;
-//     }
-// }
+    if (!selectedCategory) {
+        // addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
+        missingCategoryMessage.style.display = "none";
+        isValid = false;
+    } else {
+        missingCategoryMessage.style.display = "flex";
+        categoryInput.style.border = "1px solid #ff8190";
+        // resetCategoryRequiredNotification();
+        return isValid;
+    }
+}
 
 /**
  * Re-checks if the required fields (title, date, category) are filled after they have been previously marked as incomplete.
@@ -98,7 +99,7 @@ function checkIfDateIsSelected() {
 function checkIfRequiredFieldsAreEnteredAgain() {
     checkIfTitleIsEntered();
     checkIfDateIsSelected();
-    // checkIfCategoryIsSelected();
+    checkIfCategoryIsSelected();
 }
 
 /**
@@ -163,7 +164,7 @@ function setBackArrays() {
  */
 function resetRequiredNotifications() {
     resetDateRequiredNotification();
-    resetSubtaskRequiredNotification();
+    // resetSubtaskRequiredNotification();
     resetTitleRequiredNotification();
     // resetCategoryRequiredNotification();
 }

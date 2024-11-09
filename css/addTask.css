@@ -889,8 +889,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         padding: 8px 12px;
     }
 
-    .generatedSubtasks,
-    .editGeneratedSubtasks {
+    .generatedSubtasks {
         padding: 8px 12px;
     }
 

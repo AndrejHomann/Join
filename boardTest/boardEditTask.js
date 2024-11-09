@@ -1,20 +1,22 @@
 function renderEditableSubtasks(subtasksFromCurrentTask) {
-    if (!subtasksFromCurrentTask || subtasksFromCurrentTask.length === 0) {
-        return "<p>No subtasks available to edit</p>";
+    subtasksFromCurrentTask = subtasksFromCurrentTask || [];
+
+    if (subtasksFromCurrentTask.length === 0) {
+        return "";
+    } else {
+        subtasks = [];
+
+        let subtasksHTML = "";
+        for (let i = 0; i < subtasksFromCurrentTask.length; i++) {
+            subtasksHTML += templateSubtasksListHTMLEdit(i, subtasksFromCurrentTask[i].subtask);
+
+            let loadedSubtask = subtasksFromCurrentTask[i].subtask;
+            let loadedStatus = subtasksFromCurrentTask[i].status;
+
+            subtasks.push({ subtask: loadedSubtask, status: loadedStatus });
+        }
+        return subtasksHTML;
     }
-
-    subtasks = [];
-
-    let subtasksHTML = "";
-    for (let i = 0; i < subtasksFromCurrentTask.length; i++) {
-        subtasksHTML += templateSubtasksListHTMLEdit(i, subtasksFromCurrentTask[i].subtask);
-
-        let loadedSubtask = subtasksFromCurrentTask[i].subtask;
-        let loadedStatus = subtasksFromCurrentTask[i].status;
-
-        subtasks.push({ subtask: loadedSubtask, status: loadedStatus });
-    }
-    return subtasksHTML;
 }
 
 function updateSubtaskListAfterDeleteFromBoard() {
@@ -311,7 +313,7 @@ function checkEditTaskChanges() {
     checkEditTaskTitle();
     checkEditTaskDescription();
     checkEditTaskDate();
-    checkEditTaskSubtask();
+    // checkEditTaskSubtask();
 }
 
 function checkEditTaskTitle() {
@@ -392,15 +394,15 @@ function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bor
     });
 }
 
-function checkEditTaskSubtask() {
-    setTimeout(() => {
-        const input1 = document.getElementById("new-subtask-container");
-        const input2 = document.getElementById("new-subtask-input");
-        checkEditTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
-        checkEditTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
-        // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
-    }, 100);
-}
+// function checkEditTaskSubtask() {
+//     setTimeout(() => {
+//         const input1 = document.getElementById("new-subtask-container");
+//         const input2 = document.getElementById("new-subtask-input");
+//         checkEditTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
+//         checkEditTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
+//         // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
+//     }, 100);
+// }
 
 function checkEditTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
     input1.addEventListener("click", () => {

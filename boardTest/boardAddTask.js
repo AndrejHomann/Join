@@ -12,7 +12,6 @@ function createTaskFromBoard() {
     selectedColors = [];
     subtasks = [];
     wasContactsDropdownOpenInCurrentTask = true;
-    isCategoryAvailable = true;
     checkAddTaskChangesInBoard();
 }
 
@@ -112,12 +111,6 @@ function validateAllInputsBoard() {
         isValid = false;
     }
 
-    // if (isCategoryAvailable === true) {
-    //     if (!checkIfCategoryIsSelectedEditSubtask()) {
-    //         isValid = false;
-    //     }
-    // }
-
     return isValid;
 }
 
@@ -147,12 +140,10 @@ function checkIfDateIsSelectedBoard() {
     let isValid = true;
 
     if (dateInput.value) {
-        // addBorderStyleToValueContainer(dateInput, "#90D1ED");
         missingDateMessage.style.display = "none";
         isValid = true;
     } else {
         missingDateMessage.style.display = "flex";
-        // missingDateMessage.classList.add("validationStyle");
         dateInput.style.border = "1px solid #ff8190";
         isValid = false;
     }
@@ -165,13 +156,11 @@ function checkIfCategoryIsSelectedBoard() {
 
     let isValid = true;
 
-    if (categoryInput.value) {
-        // addBorderStyleToValueContainer(dateInput, "#90D1ED");
+    if (categoryInput) {
         missingCategoryMessage.style.display = "none";
         isValid = true;
     } else {
         missingCategoryMessage.style.display = "flex";
-        // missingDateMessage.classList.add("validationStyle");
         categoryInput.style.border = "1px solid #ff8190";
         isValid = false;
     }
