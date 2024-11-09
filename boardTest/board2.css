@@ -844,7 +844,8 @@ label {
     .floating-task-container {
         background-color: #f6f7f8;
         width: 100%;
-        max-height: calc(100vh - 170px);
+        height: 82%;
+        /* max-height: calc(100vh - 170px); */
         border-radius: 0px;
         margin-bottom: -12px;
     }
