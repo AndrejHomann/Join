@@ -15,6 +15,7 @@ function createTaskFromBoard() {
     checkAddTaskChangesInBoard();
     let subtaskInputBoard = document.getElementById("board-new-subtask-input");
     subtaskInputBoard.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtaskBoard);
+    subtaskInputBoard.addEventListener("keydown", addSubtaskByEnterKeyBoard);
 }
 
 function addTaskFromBoard() {
@@ -408,6 +409,8 @@ function editSubtaskBoard(index) {
     toEditSubtask.classList.add("noHoverEffect");
 
     toEditSubtask.innerHTML = templateEditSubtasksHTMLBoard(currentSubtaskText, index);
+
+    setupEditSubtaskByEnterKeyBoard(index);
 }
 
 function templateEditSubtasksHTMLBoard(currentSubtaskText, index) {
@@ -437,9 +440,37 @@ function deleteSubtaskBoard(index) {
 
 function submitSubtaskBoard(index) {
     let editedSubtaskInput = document.getElementById(`board-edit-subtask-input-${index}`).value;
-    subtasks[index].subtask = editedSubtaskInput;
 
-    updateSubtaskListAfterDeleteBoard();
+    if (editedSubtaskInput === "") {
+        return;
+    } else {
+        subtasks[index].subtask = editedSubtaskInput;
+        updateSubtaskListAfterDeleteBoard();
+    }
+}
+
+function addSubtaskByEnterKeyBoard(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addSubtaskFromBoard();
+    }
+}
+
+function setupEditSubtaskByEnterKeyBoard(index) {
+    let editSubtaskInput = document.getElementById(`board-edit-subtask-input-${index}`);
+    editSubtaskInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            addEditedSubtaskByEnterKeyBoard(index, event);
+        }
+    });
+}
+
+function addEditedSubtaskByEnterKeyBoard(index, event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        submitSubtaskBoard(index);
+    }
 }
 
 function updateSubtaskListAfterDeleteBoard() {

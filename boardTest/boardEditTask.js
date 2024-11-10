@@ -58,6 +58,7 @@ function editTask(task, taskId) {
 
     let subtaskInputEdit = document.getElementById("edit-new-subtask-input");
     subtaskInputEdit.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtaskEdit);
+    subtaskInputEdit.addEventListener("keydown", addSubtaskByEnterKeyEdit);
 
     const iconsContainer = document.getElementById("selected-contacts-circle-container");
     if (iconsContainer) {
@@ -446,6 +447,8 @@ function editSubtaskEdit(index) {
     toEditSubtask.classList.add("noHoverEffect");
 
     toEditSubtask.innerHTML = templateEditSubtasksHTMLEdit(currentSubtaskText, index);
+
+    setupEditSubtaskByEnterKeyEdit(index);
 }
 
 function templateEditSubtasksHTMLEdit(currentSubtaskText, index) {
@@ -475,9 +478,37 @@ function deleteSubtaskEdit(index) {
 
 function submitSubtaskEdit(index) {
     let editedSubtaskInput = document.getElementById(`edit-edit-subtask-input-${index}`).value;
-    subtasks[index].subtask = editedSubtaskInput;
 
-    updateSpecificSubtaskEdit();
+    if (editedSubtaskInput === "") {
+        return;
+    } else {
+        subtasks[index].subtask = editedSubtaskInput;
+        updateSpecificSubtaskEdit();
+    }
+}
+
+function addSubtaskByEnterKeyEdit(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addSubtaskFromEdit();
+    }
+}
+
+function setupEditSubtaskByEnterKeyEdit(index) {
+    let editSubtaskInput = document.getElementById(`edit-edit-subtask-input-${index}`);
+    editSubtaskInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            addEditedSubtaskByEnterKeyEdit(index, event);
+        }
+    });
+}
+
+function addEditedSubtaskByEnterKeyEdit(index, event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        submitSubtaskEdit(index);
+    }
 }
 
 function updateSpecificSubtaskEdit() {

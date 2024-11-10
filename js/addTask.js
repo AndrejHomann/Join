@@ -330,7 +330,7 @@ function editSubtask(index) {
 
     toEditSubtask.innerHTML = templateEditSubtasksHTML(currentSubtaskText, index);
 
-    setupEditSubtaskInputListener(index);
+    setupEditSubtaskByEnterKey(index);
 }
 
 /**
@@ -340,9 +340,13 @@ function editSubtask(index) {
  */
 function submitSubtask(index) {
     let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
-    subtasks[index].subtask = editedSubtaskInput;
+    if (editedSubtaskInput === "") {
+        return;
+    } else {
+        subtasks[index].subtask = editedSubtaskInput;
 
-    updateSpecificSubtask();
+        updateSpecificSubtask();
+    }
 }
 
 /**
@@ -385,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
  *
  * @param {number} index - The index of the subtask being edited.
  */
-function setupEditSubtaskInputListener(index) {
+function setupEditSubtaskByEnterKey(index) {
     let editSubtaskInput = document.getElementById(`edit-subtask-input-${index}`);
     editSubtaskInput.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
