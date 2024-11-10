@@ -284,8 +284,14 @@ function doNotCloseDropdown(event) {
  *
  * @param {Event} event - The click event.
  */
+
 document.addEventListener("DOMContentLoaded", () => {
-    document.addEventListener("click", clickOutsideOfDropdown);
+    const contactsDropdown = document.getElementById("dropdown-list");
+    const categoryDropdown = document.getElementById("category-dropdown-list");
+
+    if (contactsDropdown && categoryDropdown) {
+        document.addEventListener("click", clickOutsideOfDropdown);
+    }
 });
 
 function clickOutsideOfDropdown(event) {
@@ -303,10 +309,12 @@ function clickOutsideOfDropdown(event) {
         if (categoryDropdown && !categoryDropdown.classList.contains("d-none")) {
             closeCategoryDropDown();
         }
+        if (selectedCategory) {
+            let categoryInput = document.getElementById("selected-category");
+            categoryInput.style.border = "1px solid #d1d1d1";
+        }
     }
 }
-
-document.addEventListener("click", clickOutsideOfDropdown);
 
 /**
  * Selects the task priority based on user selection (urgent, medium, low).

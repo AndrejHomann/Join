@@ -50,7 +50,7 @@ function clearFieldsBoard() {
     closeContactsDropDown();
     // closeCategoryDropDown();
     // resetSubtaskIconBoard();
-    // resetSubtaskListBoard();
+    resetSubtaskListBoard();
 }
 
 function resetRequiredNotificationsBoard() {
@@ -113,7 +113,6 @@ function checkIfTitleIsEnteredBoard() {
     let isValid = true;
 
     if (titleInput.value) {
-        // addBorderStyleToValueContainer(titleInput, "#90D1ED");
         missingTitleMessage.style.display = "none";
         isValid = true;
     } else {
@@ -150,6 +149,7 @@ function checkIfCategoryIsSelectedBoard() {
 
     if (selectedCategory) {
         missingCategoryMessage.style.display = "none";
+        categoryInput.style.border = "1px solid #90d1ed";
 
         isValid = true;
     } else {
@@ -160,11 +160,15 @@ function checkIfCategoryIsSelectedBoard() {
     return isValid;
 }
 
+function resetSubtaskListBoard() {
+    document.getElementById("board-generated-subtask-list-container").innerHTML = "";
+}
+
 function checkAddTaskChangesInBoard() {
     checkTaskTitleBoard();
     checkTaskDescriptionBoard();
     checkTaskDateBoard();
-    checkTaskCategory();
+    // checkTaskCategory();
     checkTaskSubtaskBoard();
 }
 
@@ -550,7 +554,7 @@ function createTaskFromBoardDiv() {
                             <div id="board-subtask-relative-container">
                                 <div id="board-new-subtask-container" onclick="addOrCloseSubtaskBoard()">
                                     <!-- <input type="text" id="new-subtask-input" placeholder="Add new subtask" /> -->
-                                    <input type="text" id="board-new-subtask-input" placeholder="Add new subtask" />
+                                    <input type="text" id="board-new-subtask-input" placeholder="Add new subtask" class="subtaskInputsBoard"/>
                                     <div id="board-subtask-icon-container">
                                         <div id="board-plus-icon-container" class="circleHoverEffect"><img src="/img/addTask/add.png" id="plus-icon" alt="plus-icon" /></div>
                                     </div>
@@ -575,44 +579,44 @@ function createTaskFromBoardDiv() {
     `;
 }
 
-let clickedCategoryDropdownForTheFirstTime = false;
+// let clickedCategoryDropdownForTheFirstTime = false;
 
-function checkTaskCategory() {
-    setTimeout(() => {
-        const input1 = document.getElementById("board-selected-category");
-        const input2 = document.getElementById("board-category-placeholder");
-        const input3 = document.getElementById("board-category-container");
-        const message = document.getElementById("board-missing-category-message");
-        checkTaskOnClickInsideElementBoardCategory(input1, message, "#90d1ed");
-        checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, message, "#ff8190", "#d1d1d1");
-    }, 100);
-}
+// function checkTaskCategory() {
+//     setTimeout(() => {
+//         const input1 = document.getElementById("board-selected-category");
+//         const input2 = document.getElementById("board-category-placeholder");
+//         const input3 = document.getElementById("board-category-container");
+//         const message = document.getElementById("board-missing-category-message");
+//         checkTaskOnClickInsideElementBoardCategory(input1, message, "#90d1ed");
+//         checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, message, "#ff8190", "#d1d1d1");
+//     }, 100);
+// }
 
-function checkTaskOnClickInsideElementBoardCategory(input1, message, bordercolor) {
-    input1.addEventListener("click", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
-        if (message != "") {
-            message.style.display = "none";
-        }
-        clickedCategoryDropdownForTheFirstTime = true;
-    });
-}
+// function checkTaskOnClickInsideElementBoardCategory(input1, message, bordercolor) {
+//     input1.addEventListener("click", () => {
+//         input1.style = `border: 1px solid ${bordercolor};`;
+//         if (message != "") {
+//             message.style.display = "none";
+//         }
+//         clickedCategoryDropdownForTheFirstTime = true;
+//     });
+// }
 
-function checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, message, bordercolor1, bordercolor2) {
-    document.addEventListener("click", (event) => {
-        // If clicked outside of dropdown container and no category selected, then change border color
-        if (!input3.contains(event.target) && selectedCategory === null && clickedCategoryDropdownForTheFirstTime === true) {
-            boardAddTaskCloseCategoryDropDown();
-            input1.style = `border: 1px solid ${bordercolor1}`;
-            if (message != "") {
-                message.style.display = "flex";
-            }
-        } else if (!input3.contains(event.target) && selectedCategory !== null && clickedCategoryDropdownForTheFirstTime === true) {
-            boardAddTaskCloseCategoryDropDown();
-            input1.style = `border: 1px solid ${bordercolor2}`;
-        }
-    });
-}
+// function checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, message, bordercolor1, bordercolor2) {
+//     document.addEventListener("click", (event) => {
+//         // If clicked outside of dropdown container and no category selected, then change border color
+//         if (!input3.contains(event.target) && selectedCategory === null && clickedCategoryDropdownForTheFirstTime === true) {
+//             boardAddTaskCloseCategoryDropDown();
+//             input1.style = `border: 1px solid ${bordercolor1}`;
+//             if (message != "") {
+//                 message.style.display = "flex";
+//             }
+//         } else if (!input3.contains(event.target) && selectedCategory !== null && clickedCategoryDropdownForTheFirstTime === true) {
+//             boardAddTaskCloseCategoryDropDown();
+//             input1.style = `border: 1px solid ${bordercolor2}`;
+//         }
+//     });
+// }
 
 /**
  * Check the visibility of the category dropdown.
@@ -651,6 +655,7 @@ function boardAddTaskCloseCategoryDropDown() {
 
     if (selectedCategory) {
         categoryPlaceholder.innerHTML = selectedCategory;
+        checkIfCategoryIsSelectedBoard();
     } else {
         categoryPlaceholder.innerHTML = /*html*/ `Select task category`;
         selectedCategory = null;
@@ -696,8 +701,27 @@ function boardAddTaskDoNotCloseDropdown(event) {
  * @param {string} categoryName - The name of the selected category.
  */
 function boardAddTaskSelectCategory(categoryName) {
-    let categoryContainer = document.getElementById("board-selected-category");
     selectedCategory = categoryName;
     boardAddTaskCloseCategoryDropDown();
     // resetCategoryRequiredNotification();
 }
+
+function clickOutsideOfDropdownBoard(event) {
+    let categoryDropdownBoard = document.getElementById("board-category-dropdown-list");
+    let clickedInsideCategory = categoryDropdownBoard && categoryDropdownBoard.contains(event.target);
+
+    if (!clickedInsideCategory) {
+        if (categoryDropdownBoard && !categoryDropdownBoard.classList.contains("d-none")) {
+            boardAddTaskCloseCategoryDropDown();
+        }
+
+        if (selectedCategory) {
+            let categoryInput = document.getElementById("board-selected-category");
+            categoryInput.style.border = "1px solid #d1d1d1";
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("click", clickOutsideOfDropdownBoard);
+});

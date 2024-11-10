@@ -57,6 +57,7 @@ function closeCategoryDropDown() {
 
     if (selectedCategory) {
         categoryPlaceholder.innerHTML = selectedCategory;
+        checkIfCategoryIsSelected();
     } else {
         categoryPlaceholder.innerHTML = /*html*/ `Select task category`;
         selectedCategory = null;
@@ -74,12 +75,9 @@ function closeCategoryDropDown() {
  * @param {string} categoryName - The name of the selected category.
  */
 function selectCategory(categoryName) {
-    let categoryContainer = document.getElementById("selected-category");
+    // let categoryContainer = document.getElementById("selected-category");
     let missingCategoryMessage = document.getElementById("missing-category-message");
-    addBorderStyleToValueContainer(categoryContainer, "#90D1ED");
     selectedCategory = categoryName;
     closeCategoryDropDown();
     missingCategoryMessage.style.display = "none";
-
-    // resetCategoryRequiredNotification();
 }

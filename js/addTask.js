@@ -103,7 +103,7 @@ function createTask() {
         status: "todo",
     };
     addTask("/tasks.json", task);
-    removeBorderStyleFromDescriptionContainerAndCategoryContainer();
+    // removeBorderStyleFromDescriptionContainerAndCategoryContainer();
     checkIfRequiredFieldsAreEnteredAgain();
     clearFields();
 }
@@ -219,33 +219,20 @@ function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer,
     }
 }
 
-// /**
-//  * Adds a subtask when the "Enter" key is pressed.
-//  *
-//  * @param {KeyboardEvent} event - The key event triggered by pressing a key.
-//  */
-// function addSubtaskByEnterKey(event) {
-//     if (event.key === "Enter") {
-//         event.preventDefault();
-//         addSubtask();
-//     }
-// }
-
 /**
  * Toggles between showing the close/delete icon and resetting the subtask input based on the input value.
  */
-// function showCloseOrDeleteIconDuringWritingSubtask() {
-//     let subtaskInput = document.getElementById("new-subtask-input");
-//     let subtaskContainer = document.getElementById("new-subtask-container");
+function showCloseOrDeleteIconDuringWritingSubtask() {
+    let subtaskInput = document.getElementById("new-subtask-input");
+    // let subtaskContainer = document.getElementById("new-subtask-container");
 
-//     if (subtaskInput.value) {
-//         addBorderStyleToValueContainer(subtaskContainer, "#90D1ED");
-//         addOrCloseSubtask();
-//     } else {
-//         removeBorderStyleToValueContainer(subtaskContainer);
-//         resetSubtaskIcon();
-//     }
-// }
+    if (subtaskInput.value) {
+        addOrCloseSubtask();
+    } else {
+        // removeBorderStyleToValueContainer(subtaskContainer);
+        resetSubtaskIcon();
+    }
+}
 
 /**
  * Resets the notification message for required subtasks.
@@ -352,6 +339,18 @@ function editSubtask(index) {
 }
 
 /**
+ * Submits the edited subtask and updates the subtasks array and DOM.
+ *
+ * @param {number} index - The index of the subtask being edited.
+ */
+function submitSubtask(index) {
+    let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
+    subtasks[index].subtask = editedSubtaskInput;
+
+    updateSpecificSubtask();
+}
+
+/**
  * Generates the HTML for the subtask editing view.
  *
  * @param {string} currentSubtaskText - The current text of the subtask.
@@ -373,6 +372,18 @@ function templateEditSubtasksHTML(currentSubtaskText, index) {
             </div>
         </div>`;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    let newSubtaskInput = document.getElementById("new-subtask-input");
+    if (newSubtaskInput) {
+        newSubtaskInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                addSubtask();
+            }
+        });
+    }
+});
 
 /**
  * Sets up an event listener for the subtask input field to allow submission via Enter key.
@@ -402,55 +413,33 @@ function addEditedSubtaskByEnterKey(event, index) {
     }
 }
 
-/**
- * Submits the edited subtask and updates the subtasks array and DOM.
- *
- * @param {number} index - The index of the subtask being edited.
- */
-function submitSubtask(index) {
-    let editedSubtaskInput = document.getElementById(`edit-subtask-input-${index}`).value;
-    subtasks[index].subtask = editedSubtaskInput;
+// /**
+//  * Removes the border style from the given element.
+//  *
+//  * @param {HTMLElement} element - The element to remove the border from.
+//  */
+// function removeBorderStyleToValueContainer(element) {
+//     element.style.border = ``;
+// }
 
-    updateSpecificSubtask();
-}
+// /**
+//  * Adds a border style to the description element.
+//  * @param {HTMLElement} element - The element to add a border to
+//  */
+// function removeBorderStyleFromDescriptionContainer(element) {
+//     element.style.border = ``;
+// }
 
-/**
- * Adds a border style to the given element.
- *
- * @param {HTMLElement} element - The element to add a border to.
- * @param {string} color - The color of the border.
- */
-function addBorderStyleToValueContainer(element, color) {
-    element.style.border = `1px solid ${color}`;
-}
+// /**
+//  * Removes the border styles from both the description and category containers.
+//  */
+// function removeBorderStyleFromDescriptionContainerAndCategoryContainer() {
+//     let descriptionInput = document.getElementById("textarea-input");
+//     let categoryContainer = document.getElementById("selected-category");
 
-/**
- * Removes the border style from the given element.
- *
- * @param {HTMLElement} element - The element to remove the border from.
- */
-function removeBorderStyleToValueContainer(element) {
-    element.style.border = ``;
-}
-
-/**
- * Adds a border style to the description element.
- * @param {HTMLElement} element - The element to add a border to
- */
-function removeBorderStyleFromDescriptionContainer(element) {
-    element.style.border = ``;
-}
-
-/**
- * Removes the border styles from both the description and category containers.
- */
-function removeBorderStyleFromDescriptionContainerAndCategoryContainer() {
-    let descriptionInput = document.getElementById("textarea-input");
-    let categoryContainer = document.getElementById("selected-category");
-
-    descriptionInput.style.border = ``;
-    categoryContainer.style.border = ``;
-}
+//     descriptionInput.style.border = ``;
+//     categoryContainer.style.border = ``;
+// }
 
 function checkAddTaskChanges() {
     checkTaskTitle();

@@ -573,7 +573,8 @@ h1 {
 
 /* category-container */
 
-#category-container {
+#category-container,
+#board-category-container {
     position: relative;
     height: 80px;
 }
@@ -593,7 +594,8 @@ h1 {
     border-radius: 100%;
 }
 
-#category-dropdown-list {
+#category-dropdown-list,
+#board-category-dropdown-list {
     position: absolute;
     z-index: 1;
     width: 100%;
@@ -603,7 +605,8 @@ h1 {
     margin-top: 8px;
 }
 
-#category-dropdown-list div:hover {
+#category-dropdown-list div:hover,
+#board-category-dropdown-list div:hover {
     background: lightgray;
 }
 
@@ -858,6 +861,7 @@ input[type="date"]:invalid::-webkit-datetime-edit {
 
     #assigned-placeholder,
     #category-placeholder,
+    #board-category-placeholder,
     #textarea-input,
     #edit-textarea-input,
     #board-textarea-input,

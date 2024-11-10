@@ -43,7 +43,6 @@ function checkIfTitleIsEntered() {
         titleInput.style.border = "";
         // missingTitleMessage.classList.remove("validationStyle");
         missingTitleMessage.style.display = "none";
-        addBorderStyleToValueContainer(titleInput, "#90D1ED");
         return isValid;
     }
 }
@@ -92,6 +91,7 @@ function checkIfCategoryIsSelected() {
         // categoryInput.style.border = "1px solid #ff8190";
         resetCategoryRequiredNotification();
         missingCategoryMessage.style.display = "none";
+        categoryInput.style.border = "1px solid #90d1ed";
 
         return isValid;
     }
@@ -139,7 +139,6 @@ function clearFields() {
     closeCategoryDropDown();
 
     resetRequiredNotifications();
-    removeBorderStyleFromDescriptionContainerAndCategoryContainer();
 }
 
 /**
