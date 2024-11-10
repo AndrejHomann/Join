@@ -13,6 +13,8 @@ function createTaskFromBoard() {
     subtasks = [];
     wasContactsDropdownOpenInCurrentTask = true;
     checkAddTaskChangesInBoard();
+    let subtaskInputBoard = document.getElementById("board-new-subtask-input");
+    subtaskInputBoard.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtaskBoard);
 }
 
 function addTaskFromBoard() {
@@ -37,7 +39,6 @@ function addTaskFromBoard() {
 
 function clearFieldsBoard() {
     clearInputFieldsBoard();
-    resetRequiredNotificationsBoard();
     setBackArrays();
 
     document.getElementById("board-category-placeholder").innerHTML = "Select task category";
@@ -49,8 +50,10 @@ function clearFieldsBoard() {
     document.getElementById("board-prio-medium-button").classList.remove("prio-default-text-color");
     closeContactsDropDown();
     // closeCategoryDropDown();
+    // boardAddTaskCloseCategoryDropDown();
     // resetSubtaskIconBoard();
     resetSubtaskListBoard();
+    resetRequiredNotificationsBoard();
 }
 
 function resetRequiredNotificationsBoard() {
@@ -61,7 +64,6 @@ function resetRequiredNotificationsBoard() {
 
 function resetDateRequiredNotificationBoard() {
     let missingDateMessage = document.getElementById("board-missing-date-message");
-    // missingDateMessage.classList.add("d-none");
     missingDateMessage.style.display = "none";
     document.getElementById("board-date-input").style.border = "";
 }
@@ -74,10 +76,10 @@ function resetTitleRequiredNotificationBoard() {
 }
 
 function resetCategoryRequiredNotificationBoard() {
-    clickedCategoryDropdownForTheFirstTime = false;
     let missingCategoryMessage = document.getElementById("board-missing-category-message");
     let categoryInput = document.getElementById("board-selected-category");
-    categoryInput.style = `border: 1px solid #d1d1d1`;
+    categoryInput.style.border = "";
+
     missingCategoryMessage.style.display = "none";
 }
 
@@ -373,6 +375,16 @@ function resetSubtaskIconBoard() {
 
     isSubtaskResetting = true;
     setTimeout(resetSubtaskClearButton, 1);
+}
+
+function showCloseOrDeleteIconDuringWritingSubtaskBoard() {
+    let subtaskInputBoard = document.getElementById("board-new-subtask-input");
+
+    if (subtaskInputBoard.value) {
+        addOrCloseSubtaskBoard();
+    } else {
+        resetSubtaskIconBoard();
+    }
 }
 
 function templateSubtasksListHTMLBoard(i, subtask) {

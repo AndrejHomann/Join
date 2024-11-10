@@ -59,12 +59,10 @@ function checkIfDateIsSelected() {
 
     if (!dateInput.value) {
         dateInput.style.border = "1px solid #ff8190";
-        // missingDateMessage.classList.add("validationStyle");
         missingDateMessage.style.removeProperty("display");
         isValid = false;
     } else {
         dateInput.style.border = "";
-        // missingDateMessage.classList.remove("validationStyle");
         missingDateMessage.style.display = "none";
         return isValid;
     }
@@ -83,12 +81,8 @@ function checkIfCategoryIsSelected() {
     if (!selectedCategory) {
         missingCategoryMessage.style.display = "flex";
         categoryInput.style.border = "1px solid #ff8190";
-        // addCategoryRequiredNotification(categoryOptions, missingCategoryMessage);
-        // missingCategoryMessage.style.display = "none";
         isValid = false;
     } else {
-        // missingCategoryMessage.style.display = "flex";
-        // categoryInput.style.border = "1px solid #ff8190";
         resetCategoryRequiredNotification();
         missingCategoryMessage.style.display = "none";
         categoryInput.style.border = "1px solid #90d1ed";
@@ -177,7 +171,6 @@ function resetRequiredNotifications() {
  */
 function resetDateRequiredNotification() {
     let missingDateMessage = document.getElementById("missing-date-message");
-    // missingDateMessage.classList.add("d-none");
     missingDateMessage.style.display = "none";
     document.getElementById("date-input").style.border = "";
 }
@@ -201,3 +194,13 @@ function resetCategoryRequiredNotification() {
     categoryOptions.style.border = "";
     missingCategoryMessage.style.display = "none";
 }
+
+/**
+ * Resets the notification message for required subtasks.
+ */
+// function resetSubtaskRequiredNotification() {
+//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
+//     missingSubtaskMessage.style.display = "none";
+//     missingSubtaskMessage.classList.remove("validationStyleSubtasks");
+//     document.getElementById("new-subtask-container").style.border = "";
+// }

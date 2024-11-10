@@ -56,6 +56,9 @@ function editTask(task, taskId) {
 
     highlightPrioButton(task.priority);
 
+    let subtaskInputEdit = document.getElementById("edit-new-subtask-input");
+    subtaskInputEdit.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtaskEdit);
+
     const iconsContainer = document.getElementById("selected-contacts-circle-container");
     if (iconsContainer) {
         appendEditableUserIcons(task, iconsContainer);
@@ -367,6 +370,16 @@ function closeSubtaskDraftEdit() {
     let subtaskDraft = document.getElementById("edit-new-subtask-input");
     subtaskDraft.value = ``;
     resetSubtaskIconEdit();
+}
+
+function showCloseOrDeleteIconDuringWritingSubtaskEdit() {
+    let subtaskInputEdit = document.getElementById("edit-new-subtask-input");
+
+    if (subtaskInputEdit.value) {
+        addOrCloseSubtaskEdit();
+    } else {
+        resetSubtaskIconEdit();
+    }
 }
 
 function addSubtaskFromEdit() {

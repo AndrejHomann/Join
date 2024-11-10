@@ -75,7 +75,6 @@ function closeCategoryDropDown() {
  * @param {string} categoryName - The name of the selected category.
  */
 function selectCategory(categoryName) {
-    // let categoryContainer = document.getElementById("selected-category");
     let missingCategoryMessage = document.getElementById("missing-category-message");
     selectedCategory = categoryName;
     closeCategoryDropDown();

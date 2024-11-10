@@ -103,7 +103,6 @@ function createTask() {
         status: "todo",
     };
     addTask("/tasks.json", task);
-    // removeBorderStyleFromDescriptionContainerAndCategoryContainer();
     checkIfRequiredFieldsAreEnteredAgain();
     clearFields();
 }
@@ -222,27 +221,23 @@ function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer,
 /**
  * Toggles between showing the close/delete icon and resetting the subtask input based on the input value.
  */
+document.addEventListener("DOMContentLoaded", () => {
+    let subtaskInput = document.getElementById("new-subtask-input");
+
+    if (subtaskInput) {
+        subtaskInput.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtask);
+    }
+});
+
 function showCloseOrDeleteIconDuringWritingSubtask() {
     let subtaskInput = document.getElementById("new-subtask-input");
-    // let subtaskContainer = document.getElementById("new-subtask-container");
 
     if (subtaskInput.value) {
         addOrCloseSubtask();
     } else {
-        // removeBorderStyleToValueContainer(subtaskContainer);
         resetSubtaskIcon();
     }
 }
-
-/**
- * Resets the notification message for required subtasks.
- */
-// function resetSubtaskRequiredNotification() {
-//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
-//     missingSubtaskMessage.style.display = "none";
-//     missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-//     document.getElementById("new-subtask-container").style.border = "";
-// }
 
 /**
  * Resets the subtask icon to the default state.
@@ -412,34 +407,6 @@ function addEditedSubtaskByEnterKey(event, index) {
         submitSubtask(index);
     }
 }
-
-// /**
-//  * Removes the border style from the given element.
-//  *
-//  * @param {HTMLElement} element - The element to remove the border from.
-//  */
-// function removeBorderStyleToValueContainer(element) {
-//     element.style.border = ``;
-// }
-
-// /**
-//  * Adds a border style to the description element.
-//  * @param {HTMLElement} element - The element to add a border to
-//  */
-// function removeBorderStyleFromDescriptionContainer(element) {
-//     element.style.border = ``;
-// }
-
-// /**
-//  * Removes the border styles from both the description and category containers.
-//  */
-// function removeBorderStyleFromDescriptionContainerAndCategoryContainer() {
-//     let descriptionInput = document.getElementById("textarea-input");
-//     let categoryContainer = document.getElementById("selected-category");
-
-//     descriptionInput.style.border = ``;
-//     categoryContainer.style.border = ``;
-// }
 
 function checkAddTaskChanges() {
     checkTaskTitle();
