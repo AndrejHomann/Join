@@ -318,7 +318,6 @@ function checkIfTitleIsEnteredEdit() {
     let isValid = true;
 
     if (titleInput.value) {
-        addBorderStyleToValueContainer(titleInput, "#90D1ED");
         missingTitleMessage.style.display = "none";
         isValid = true;
     } else {
@@ -337,7 +336,6 @@ function checkIfDateIsSelectedEdit() {
     let isValid = true;
 
     if (dateInput.value) {
-        addBorderStyleToValueContainer(dateInput, "#90D1ED");
         missingDateMessage.style.display = "none";
         isValid = true;
     } else {
@@ -417,12 +415,10 @@ function handleSubtaskValidationEdit(newSubtaskInput, subtaskListEdit, subtaskCo
 
         newSubtaskInput.value = "";
         subtaskContainer.style.border = "";
-        // missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-        // missingSubtaskMessage.style.display = "none";
+        missingSubtaskMessage.style.display = "none";
     } else {
         subtaskContainer.style.border = "1px solid #ff8190";
-        // missingSubtaskMessage.classList.add("validationStyleSubtasks");
-        // missingSubtaskMessage.style.removeProperty("display");
+        missingSubtaskMessage.style.display = "flex";
     }
 }
 

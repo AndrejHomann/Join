@@ -209,12 +209,10 @@ function handleSubtaskValidation(newSubtaskInput, subtaskList, subtaskContainer,
 
         newSubtaskInput.value = "";
         subtaskContainer.style.border = "";
-        // missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-        // missingSubtaskMessage.style.display = "none";
+        missingSubtaskMessage.style.display = "none";
     } else {
         subtaskContainer.style.border = "1px solid #ff8190";
-        // missingSubtaskMessage.classList.add("validationStyleSubtasks");
-        // missingSubtaskMessage.style.removeProperty("display");
+        missingSubtaskMessage.style.display = "flex";
     }
 }
 

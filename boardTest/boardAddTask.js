@@ -121,7 +121,6 @@ function checkIfTitleIsEnteredBoard() {
     } else {
         titleInput.style.border = "1px solid #ff8190";
         missingTitleMessage.style.display = "flex";
-        // missingTitleMessage.classList.add("validationStyle");
         isValid = false;
     }
     return isValid;
@@ -357,12 +356,10 @@ function handleSubtaskValidationBoard(newSubtaskInput, subtaskList, subtaskConta
 
         newSubtaskInput.value = "";
         subtaskContainer.style.border = "";
-        // missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-        // missingSubtaskMessage.style.display = "none";
+        missingSubtaskMessage.style.display = "none";
     } else {
         subtaskContainer.style.border = "1px solid #ff8190";
-        // missingSubtaskMessage.classList.add("validationStyleSubtasks");
-        // missingSubtaskMessage.style.removeProperty("display");
+        missingSubtaskMessage.style.display = "flex";
     }
 }
 

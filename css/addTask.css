@@ -703,6 +703,8 @@ h1 {
 
 #missing-subtask-message {
     position: absolute;
+    font-size: 12px;
+    color: #ff8190;
 }
 
 /* scrolbar */
