@@ -131,7 +131,6 @@ function clearFields() {
     document.getElementById("prio-medium-button").classList.remove("prio-default-text-color");
     closeContactsDropDown();
     closeCategoryDropDown();
-
     resetRequiredNotifications();
 }
 
@@ -163,7 +162,7 @@ function resetRequiredNotifications() {
     resetDateRequiredNotification();
     resetTitleRequiredNotification();
     resetCategoryRequiredNotification();
-    // resetSubtaskRequiredNotification();
+    resetSubtaskRequiredNotification();
 }
 
 /**
@@ -198,9 +197,8 @@ function resetCategoryRequiredNotification() {
 /**
  * Resets the notification message for required subtasks.
  */
-// function resetSubtaskRequiredNotification() {
-//     let missingSubtaskMessage = document.getElementById("missing-subtask-message");
-//     missingSubtaskMessage.style.display = "none";
-//     missingSubtaskMessage.classList.remove("validationStyleSubtasks");
-//     document.getElementById("new-subtask-container").style.border = "";
-// }
+function resetSubtaskRequiredNotification() {
+    let missingSubtaskMessage = document.getElementById("missing-subtask-message");
+    missingSubtaskMessage.style.display = "none";
+    document.getElementById("new-subtask-container").style.border = "";
+}

@@ -25,7 +25,6 @@ async function fetchContacts() {
  *
  * @async
  */
-// let wasContactsDropdownOpenInCurrentTask = false;
 
 async function showContactsDropDown() {
     await fetchContacts();
@@ -40,12 +39,6 @@ async function showContactsDropDown() {
     let dropdownList = document.getElementById("dropdown-list");
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
-    // if (wasContactsDropdownOpenInCurrentTask === false) {
-    //     if (document.getElementById("edit-selected-name")) {
-    //         await matchTaskAssignedUserToCheckedDropdown();
-    //         wasContactsDropdownOpenInCurrentTask = true;
-    //     }
-    // }
     dropdownList.classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "none";
 
@@ -310,39 +303,3 @@ function clickOutsideOfDropdown(event) {
         }
     }
 }
-
-/**
- * Selects the task priority based on user selection (urgent, medium, low).
- * Updates the UI to reflect the selected priority and logs the selected priority.
- *
- * @param {string} prio - The selected priority ("urgent", "medium", "low").
- */
-// function choosePrio(prio) {
-//     let selectedPioButton = document.getElementById(`prio-${prio}-button`);
-
-//     if (selectedPrio === prio) {
-//         resetPrio();
-//         selectedPrio = "";
-//     } else {
-//         resetPrio();
-
-//         selectedPioButton.classList.add(`prio-${prio}-button-bg-color`);
-//         selectedPioButton.classList.remove("prio-default-text-color");
-
-//         selectedPrio = prio;
-//     }
-// }
-
-/**
- * Resets the priority selection by removing the background color from all priority buttons
- * and restoring the default text color for each button (urgent, medium, low).
- */
-// function resetPrio() {
-//     document.getElementById("prio-urgent-button").classList.remove("prio-urgent-button-bg-color");
-//     document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
-//     document.getElementById("prio-low-button").classList.remove("prio-low-button-bg-color");
-
-//     document.getElementById("prio-urgent-button").classList.add("prio-default-text-color");
-//     document.getElementById("prio-medium-button").classList.add("prio-default-text-color");
-//     document.getElementById("prio-low-button").classList.add("prio-default-text-color");
-// }

@@ -100,7 +100,9 @@ h1 {
     line-height: 24px;
 }
 
-#assigned-container {
+#assigned-container,
+#edit-assigned-container,
+#board-assigned-container {
     position: relative;
     z-index: 1;
     height: 80px;
@@ -488,7 +490,9 @@ h1 {
 
 /* dropdown contacts*/
 
-#dropdown-list {
+#dropdown-list,
+#edit-dropdown-list,
+#board-dropdown-list {
     max-height: 160px;
     overflow-y: auto;
     border-radius: 10px;
@@ -518,7 +522,9 @@ h1 {
     height: 4.6px;
 }
 
-#contacts-dropwdown-arrow-container {
+#contacts-dropwdown-arrow-container,
+#edit-contacts-dropwdown-arrow-container,
+#board-contacts-dropwdown-arrow-container {
     width: 24px;
     height: 24px;
     display: flex;
@@ -530,12 +536,16 @@ h1 {
     margin-left: 8px;
 }
 
-#contacts-dropwdown-arrow-container:hover {
+#contacts-dropwdown-arrow-container:hover,
+#edit-contacts-dropwdown-arrow-container:hover,
+#board-contacts-dropwdown-arrow-container:hover {
     background: lightgray;
     border-radius: 100%;
 }
 
-#dropdown-list div:not(.contactListBackground):hover {
+#dropdown-list div:not(.contactListBackground):hover,
+#edit-dropdown-list div:not(.contactListBackground):hover,
+#board-dropdown-list div:not(.contactListBackground):hover {
     background: lightgray;
 }
 
@@ -544,7 +554,9 @@ h1 {
     border-radius: 100%;
 }
 
-#selected-contacts-circle-container {
+#selected-contacts-circle-container,
+#edit-selected-contacts-circle-container,
+#board-selected-contacts-circle-container {
     display: flex;
     gap: 8px;
 }
@@ -775,7 +787,9 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         height: 19px;
     }
 
-    #dropdown-list {
+    #dropdown-list,
+    #edit-dropdown-list,
+    #board-dropdown-list {
         max-height: 236px;
     }
 
@@ -819,7 +833,9 @@ input[type="date"]:invalid::-webkit-datetime-edit {
         height: 104px;
     }
 
-    #assigned-container {
+    #assigned-container,
+    #edit-assigned-container,
+    #board-assigned-container {
         height: 75px;
     }
 
@@ -862,6 +878,8 @@ input[type="date"]:invalid::-webkit-datetime-edit {
     }
 
     #assigned-placeholder,
+    #edit-assigned-placeholder,
+    #board-assigned-placeholder,
     #category-placeholder,
     #board-category-placeholder,
     #textarea-input,

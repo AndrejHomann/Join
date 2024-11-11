@@ -415,7 +415,7 @@ function appendEditableUserIcons(task, iconsContainer) {
             const icon = createContactIcon(userName, userColor, "micro");
             iconsContainer.appendChild(icon);
         });
-        document.getElementById("assigned-container").classList.add("heightAuto");
+        document.getElementById("edit-assigned-container").classList.add("heightAuto");
     }
 }
 
@@ -457,7 +457,6 @@ function closeTaskDetails() {
     taskDetails.classList.add("task-details-slideOut");
     selectedContacts = [];
     selectedColors = [];
-    // wasContactsDropdownOpenInCurrentTask = false;
 
     if (confirmationDiv) {
         closeConfirmationDiv(confirmationDiv);

@@ -501,7 +501,6 @@ function checkTaskSubtask() {
         const input2 = document.getElementById("new-subtask-input");
         checkTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
         checkTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
-        // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
     }, 100);
 }
 
@@ -520,5 +519,7 @@ function checkTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
     });
     input2.addEventListener("blur", () => {
         input1.style = `border: 1px solid ${bordercolor};`;
+        document.getElementById("new-subtask-input").value = "";
+        resetSubtaskIcon();
     });
 }

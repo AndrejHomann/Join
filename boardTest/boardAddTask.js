@@ -11,7 +11,6 @@ function createTaskFromBoard() {
     selectedContacts = [];
     selectedColors = [];
     subtasks = [];
-    wasContactsDropdownOpenInCurrentTask = true;
     checkAddTaskChangesInBoard();
     let subtaskInputBoard = document.getElementById("board-new-subtask-input");
     subtaskInputBoard.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtaskBoard);
@@ -43,18 +42,17 @@ function clearFieldsBoard() {
     setBackArrays();
 
     document.getElementById("board-category-placeholder").innerHTML = "Select task category";
-    document.getElementById("assigned-placeholder").innerHTML = "Select contacts to assign";
-    document.getElementById("selected-contacts-circle-container").innerHTML = "";
+    document.getElementById("board-assigned-placeholder").innerHTML = "Select contacts to assign";
+    document.getElementById("board-selected-contacts-circle-container").innerHTML = "";
 
     resetPrioBoard();
     document.getElementById("board-prio-medium-button").classList.add("prio-medium-button-bg-color");
     document.getElementById("board-prio-medium-button").classList.remove("prio-default-text-color");
-    closeContactsDropDown();
-    // closeCategoryDropDown();
-    // boardAddTaskCloseCategoryDropDown();
-    // resetSubtaskIconBoard();
+    closeContactsDropDownBoard();
     resetSubtaskListBoard();
     resetRequiredNotificationsBoard();
+    resetSubtaskIconBoard();
+    resetSubtaskRequiredNotificationBoard();
 }
 
 function resetRequiredNotificationsBoard() {
@@ -82,6 +80,12 @@ function resetCategoryRequiredNotificationBoard() {
     categoryInput.style.border = "";
 
     missingCategoryMessage.style.display = "none";
+}
+
+function resetSubtaskRequiredNotificationBoard() {
+    let missingSubtaskMessage = document.getElementById("board-missing-subtask-message");
+    missingSubtaskMessage.style.display = "none";
+    document.getElementById("board-new-subtask-container").style.border = "";
 }
 
 function clearInputFieldsBoard() {
@@ -256,9 +260,8 @@ function checkTaskSubtaskBoard() {
     setTimeout(() => {
         const input1 = document.getElementById("board-new-subtask-container");
         const input2 = document.getElementById("board-new-subtask-input");
-        checkTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
-        checkTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
-        // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
+        checkTaskOnClickInsideSubtaskElementBoard(input1, input2, "#90d1ed");
+        checkTaskOnClickOutsideSubtaskElementBoard(input1, input2, "#d1d1d1");
     }, 100);
 }
 
@@ -277,6 +280,8 @@ function checkTaskOnClickOutsideSubtaskElementBoard(input1, input2, bordercolor)
     });
     input2.addEventListener("blur", () => {
         input1.style = `border: 1px solid ${bordercolor};`;
+        document.getElementById("board-new-subtask-input").value = "";
+        resetSubtaskIconBoard();
     });
 }
 
@@ -481,6 +486,188 @@ function updateSubtaskListAfterDeleteBoard() {
     }
 }
 
+async function showContactsDropDownBoard() {
+    await fetchContacts();
+
+    let assignedPlaceholder = document.getElementById("board-assigned-placeholder");
+    if (selectedContacts.length >= 0) {
+        assignedPlaceholder.innerHTML = "An";
+    }
+    setColorOfAssignedContainerBoard();
+    document.getElementById("board-contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="dropdown-arrow"/>`;
+
+    let dropdownList = document.getElementById("board-dropdown-list");
+    dropdownList.innerHTML = templateContactsHTMLDropdownListBoard();
+
+    dropdownList.classList.remove("d-none");
+    document.getElementById("board-selected-contacts-circle-container").style.display = "none";
+
+    showCheckedContactsAfterDropdownClosingBoard();
+}
+
+/**
+ * Updates the state of checkboxes in the contacts dropdown list based on previously selected contacts.
+ */
+function showCheckedContactsAfterDropdownClosingBoard() {
+    for (let i = 0; i < contactList.length; i++) {
+        let contactName = contactList[i];
+        let checkBox = document.getElementById(`board-unchecked-box-${i}`);
+
+        if (selectedContacts.includes(contactName)) {
+            checkBox.src = "/img/checked.png";
+        } else {
+            checkBox.src = "/img/unchecked.png";
+        }
+    }
+}
+
+/**
+ * Closes the contacts dropdown list and updates the UI elements, including showing selected contacts in circles.
+ */
+function closeContactsDropDownBoard() {
+    let assignedPlaceholder = document.getElementById("board-assigned-placeholder");
+    assignedPlaceholder.innerHTML = /*html*/ `<span id="board-assigned-placeholder">Select contacts to assign</span>`;
+
+    document.getElementById("board-contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="board-contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
+    document.getElementById("board-dropdown-list").classList.add("d-none");
+    document.getElementById("board-selected-contacts-circle-container").style.display = "flex";
+
+    removeColorOfBorderAssignedContainerBoard();
+    showCirclesOfSelectedContactsBoard();
+}
+
+/**
+ * Selects or deselects a contact based on the current checkbox state and updates the UI accordingly.
+ *
+ * @param {string} contactName - The name of the contact to be selected or deselected.
+ * @param {number} index - The index of the contact in the contact list.
+ */
+function selectContactBoard(contactName, index) {
+    if (selectedContacts.includes(contactName)) {
+        handleContactDeselectionBoard(contactName, index);
+    } else {
+        handleContactSelectionBoard(contactName, index);
+    }
+}
+
+/**
+ * Handles the selection of a contact by updating the UI and the selectedContacts array.
+ *
+ * @param {string} contactName - The name of the contact to be selected.
+ * @param {number} index - The index of the contact in the contact list.
+ */
+function handleContactSelectionBoard(contactName, index) {
+    let selectedContactColor = colors[index];
+    let assignedPlaceholder = document.getElementById("board-assigned-placeholder");
+
+    if (!selectedContacts.includes(contactName)) {
+        selectedContacts.push(contactName);
+        selectedColors.push(selectedContactColor);
+        assignedPlaceholder.innerHTML = /*html*/ `<span id="board-assigned-placeholder">An</span>`;
+        document.getElementById("board-assigned-container").classList.add("heightAuto");
+        document.getElementById(`board-unchecked-box-${index}`).src = "/img/checked.png";
+    }
+}
+
+/**
+ * Handles the deselection of a contact by updating the UI and the selectedContacts array.
+ *
+ * @param {string} contactName - The name of the contact to be deselected.
+ * @param {number} index - The index of the contact in the contact list.
+ */
+function handleContactDeselectionBoard(contactName, index) {
+    let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
+    let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
+    document.getElementById(`board-unchecked-box-${index}`).src = "/img/unchecked.png";
+
+    if (indexOfSelectedContacts >= 0) {
+        selectedContacts.splice(indexOfSelectedContacts, 1);
+        selectedColors.splice(indexOfSelectedColors, 1);
+    }
+
+    if (selectedContacts.length === 0) {
+        document.getElementById("board-assigned-container").classList.remove("heightAuto");
+    }
+}
+
+/**
+ * Sets a colored border for the assigned contacts container when contacts are selected.
+ */
+function setColorOfAssignedContainerBoard() {
+    let selectContactsContainer = document.getElementById("board-selected-name");
+    selectContactsContainer.style.border = "1px solid #90D1ED"; // color changed by Andrej from "#90D1ED" to "blue"
+}
+
+/**
+ * Removes the colored border from the assigned contacts container.
+ */
+function removeColorOfBorderAssignedContainerBoard() {
+    let selectContactsContainer = document.getElementById("board-selected-name");
+    selectContactsContainer.style.border = "";
+}
+
+/**
+ * Displays the selected contacts as colored circles with their initials.
+ */
+function showCirclesOfSelectedContactsBoard() {
+    let circleContainer = document.getElementById("board-selected-contacts-circle-container");
+    circleContainer.innerHTML = "";
+
+    for (let i = 0; i < selectedContacts.length; i++) {
+        let contact = selectedContacts[i];
+        let choosenContact = contactList.indexOf(contact);
+        let [firstName, lastName] = contact.split(" ");
+        let firstLetter = firstName.charAt(0).toUpperCase();
+        let lastLetter = lastName.charAt(0).toUpperCase();
+        let color = colors[choosenContact];
+
+        let contactHTML = /*html*/ `<div class="circle" style="background-color: ${color}">${firstLetter}${lastLetter}</div>`;
+        circleContainer.innerHTML += contactHTML;
+    }
+}
+
+/**
+ * Generates the HTML structure for the contacts dropdown list.
+ * Contacts are sorted by their first name, and each contact is displayed with a colored circle and a checkbox.
+ *
+ * @returns {string} The generated HTML for the contacts dropdown list.
+ */
+function templateContactsHTMLDropdownListBoard() {
+    let dropdownHTML = "";
+
+    sortContactsByFirstName(contactList);
+
+    for (let i = 0; i < contactList.length; i++) {
+        let contact = contactList[i];
+        let [firstName, lastName] = contact.split(" ");
+        let firstLetter = firstName.charAt(0).toUpperCase();
+        let lastLetter = lastName.charAt(0).toUpperCase();
+        let color = colors[i];
+
+        dropdownHTML += /*html*/ `
+            <div class="dropdown-item" id="board-dropdown-list-contact-${i}" onclick="selectContactBoard('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
+            <div>
+                <div class="circle" style="background-color: ${color};">
+                    ${firstLetter}${lastLetter}
+                </div>
+                <span class="contactsDropdownNameSpan">${contact}</span>
+            </div>
+                <img src="/img/unchecked.png" alt="unchecked" id="board-unchecked-box-${i}" class="uncheckedBox">
+            </div>`;
+    }
+    return dropdownHTML;
+}
+
+function checkIfContactsDropdownIsVisibleBoard() {
+    let dropdownList = document.getElementById("board-dropdown-list");
+
+    if (dropdownList.classList.contains("d-none")) {
+        showContactsDropDownBoard();
+    } else {
+        closeContactsDropDownBoard();
+    }
+}
+
 /**
  * Displays a task creation form in the board.
  */
@@ -508,14 +695,16 @@ function createTaskFromBoardDiv() {
                             <!-- <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="textarea-input"></textarea></div> -->
                             <div id="board-textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="board-textarea-input"></textarea></div>
                         </div>
-                        <div id="assigned-container" class="flex-column gap8px">
+                        <div id="board-assigned-container" class="flex-column gap8px">
                             <div class="subtitle">Assigned to</div>
-                            <div id="selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisible()">
-                                <span id="assigned-placeholder">Select contacts to assign</span>
-                                <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
+                            <div>
+                            <div id="board-selected-name" class="select-container" onclick="checkIfContactsDropdownIsVisibleBoard()">
+                                <span id="board-assigned-placeholder">Select contacts to assign</span>
+                                <div id="board-contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                             </div>
-                            <div id="dropdown-list" class="d-none"></div>
-                            <div id="selected-contacts-circle-container"></div>
+                            <div id="board-dropdown-list" class="d-none"></div>
+                            </div>
+                            <div id="board-selected-contacts-circle-container"></div>
                         </div>
                     </div>
                     <div id="border-container"></div>
@@ -619,45 +808,6 @@ function createTaskFromBoardDiv() {
     `;
 }
 
-// let clickedCategoryDropdownForTheFirstTime = false;
-
-// function checkTaskCategory() {
-//     setTimeout(() => {
-//         const input1 = document.getElementById("board-selected-category");
-//         const input2 = document.getElementById("board-category-placeholder");
-//         const input3 = document.getElementById("board-category-container");
-//         const message = document.getElementById("board-missing-category-message");
-//         checkTaskOnClickInsideElementBoardCategory(input1, message, "#90d1ed");
-//         checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, message, "#ff8190", "#d1d1d1");
-//     }, 100);
-// }
-
-// function checkTaskOnClickInsideElementBoardCategory(input1, message, bordercolor) {
-//     input1.addEventListener("click", () => {
-//         input1.style = `border: 1px solid ${bordercolor};`;
-//         if (message != "") {
-//             message.style.display = "none";
-//         }
-//         clickedCategoryDropdownForTheFirstTime = true;
-//     });
-// }
-
-// function checkTaskOnClickOutsideElementBoardCategory(input1, input2, input3, message, bordercolor1, bordercolor2) {
-//     document.addEventListener("click", (event) => {
-//         // If clicked outside of dropdown container and no category selected, then change border color
-//         if (!input3.contains(event.target) && selectedCategory === null && clickedCategoryDropdownForTheFirstTime === true) {
-//             boardAddTaskCloseCategoryDropDown();
-//             input1.style = `border: 1px solid ${bordercolor1}`;
-//             if (message != "") {
-//                 message.style.display = "flex";
-//             }
-//         } else if (!input3.contains(event.target) && selectedCategory !== null && clickedCategoryDropdownForTheFirstTime === true) {
-//             boardAddTaskCloseCategoryDropDown();
-//             input1.style = `border: 1px solid ${bordercolor2}`;
-//         }
-//     });
-// }
-
 /**
  * Check the visibility of the category dropdown.
  * If the dropdown is hidden, it opens the dropdown; otherwise, it closes it.
@@ -743,10 +893,13 @@ function boardAddTaskDoNotCloseDropdown(event) {
 function boardAddTaskSelectCategory(categoryName) {
     selectedCategory = categoryName;
     boardAddTaskCloseCategoryDropDown();
-    // resetCategoryRequiredNotification();
 }
 
-function clickOutsideOfDropdownBoard(event) {
+document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("click", clickOutsideOfCategoryDropdownBoard);
+});
+
+function clickOutsideOfCategoryDropdownBoard(event) {
     let categoryDropdownBoard = document.getElementById("board-category-dropdown-list");
     let clickedInsideCategory = categoryDropdownBoard && categoryDropdownBoard.contains(event.target);
 
@@ -763,5 +916,19 @@ function clickOutsideOfDropdownBoard(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    document.addEventListener("click", clickOutsideOfDropdownBoard);
+    document.addEventListener("click", clickOutsideOfContactsDropdownBoard);
 });
+
+function clickOutsideOfContactsDropdownBoard(event) {
+    const contactsDropdown = document.getElementById("board-dropdown-list");
+    const contactsInput = document.getElementById("board-selected-name");
+
+    const clickedInsideDropdown = contactsDropdown && contactsDropdown.contains(event.target);
+    const clickedOnContactsInput = contactsInput && contactsInput.contains(event.target);
+
+    if (!clickedInsideDropdown && !clickedOnContactsInput) {
+        if (contactsDropdown && !contactsDropdown.classList.contains("d-none")) {
+            closeContactsDropDownBoard();
+        }
+    }
+}

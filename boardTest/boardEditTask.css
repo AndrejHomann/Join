@@ -81,7 +81,7 @@
     height: auto;
 }
 
-#edit-selected-name {
+/* #edit-selected-name {
     height: 48px;
     padding: 12px 16px 12px 16px;
     border-radius: 10px;
@@ -95,7 +95,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 #board-missing-title-message,
 #board-missing-category-message,

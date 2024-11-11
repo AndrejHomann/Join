@@ -63,7 +63,7 @@ function editTask(task, taskId) {
     const iconsContainer = document.getElementById("edit-selected-contacts-circle-container");
     if (iconsContainer) {
         appendEditableUserIcons(task, iconsContainer);
-        document.getElementById("assigned-container").classList.add("heightAuto");
+        document.getElementById("edit-assigned-container").classList.add("heightAuto");
     } else {
         console.error("Icons-Container nicht gefunden");
     }
@@ -290,6 +290,8 @@ function checkTaskOnClickInsideElementEditSubtask(input2, input3, bordercolor) {
 function checkTaskOnClickOutsideElementEditSubtask(input2, input3, bordercolor1) {
     document.addEventListener("click", (event) => {
         if (!input2.contains(event.target) && !input3.contains(event.target)) {
+            document.getElementById("edit-new-subtask-input").value = "";
+            resetSubtaskIconEdit();
             input3.style = `border: 1px solid ${bordercolor1}`;
         }
     });
@@ -561,7 +563,7 @@ async function showContactsDropDownEdit() {
 function showCheckedContactsAfterDropdownClosingEdit() {
     for (let i = 0; i < contactList.length; i++) {
         let contactName = contactList[i];
-        let checkBox = document.getElementById(`unchecked-box-${i}`);
+        let checkBox = document.getElementById(`edit-unchecked-box-${i}`);
 
         if (selectedContacts.includes(contactName)) {
             checkBox.src = "/img/checked.png";
@@ -615,7 +617,7 @@ function handleContactSelectionEdit(contactName, index) {
         selectedColors.push(selectedContactColor);
         assignedPlaceholder.innerHTML = /*html*/ `<span id="edit-assigned-placeholder">An</span>`;
         document.getElementById("edit-assigned-container").classList.add("heightAuto");
-        document.getElementById(`unchecked-box-${index}`).src = "/img/checked.png";
+        document.getElementById(`edit-unchecked-box-${index}`).src = "/img/checked.png";
     }
 }
 
@@ -628,7 +630,7 @@ function handleContactSelectionEdit(contactName, index) {
 function handleContactDeselectionEdit(contactName, index) {
     let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
     let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
-    document.getElementById(`unchecked-box-${index}`).src = "/img/unchecked.png";
+    document.getElementById(`edit-unchecked-box-${index}`).src = "/img/unchecked.png";
 
     if (indexOfSelectedContacts >= 0) {
         selectedContacts.splice(indexOfSelectedContacts, 1);
@@ -695,14 +697,14 @@ function templateContactsHTMLDropdownListEdit() {
         let color = colors[i];
 
         dropdownHTML += /*html*/ `
-            <div class="dropdown-item" id="edit-dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
+            <div class="dropdown-item" id="edit-dropdown-list-contact-${i}" onclick="selectContactEdit('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
             <div>
                 <div class="circle" style="background-color: ${color};">
                     ${firstLetter}${lastLetter}
                 </div>
                 <span class="contactsDropdownNameSpan">${contact}</span>
             </div>
-                <img src="/img/unchecked.png" alt="unchecked" id="unchecked-box-${i}" class="uncheckedBox">
+                <img src="/img/unchecked.png" alt="unchecked" id="edit-unchecked-box-${i}" class="uncheckedBox">
             </div>`;
     }
     return dropdownHTML;
@@ -715,6 +717,24 @@ function checkIfContactsDropdownIsVisibleEdit() {
         showContactsDropDownEdit();
     } else {
         closeContactsDropDownEdit();
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("click", clickOutsideOfContactsDropdownEdit);
+});
+
+function clickOutsideOfContactsDropdownEdit(event) {
+    const contactsDropdown = document.getElementById("edit-dropdown-list");
+    const contactsInput = document.getElementById("edit-selected-name");
+
+    const clickedInsideDropdown = contactsDropdown && contactsDropdown.contains(event.target);
+    const clickedOnContactsInput = contactsInput && contactsInput.contains(event.target);
+
+    if (!clickedInsideDropdown && !clickedOnContactsInput) {
+        if (contactsDropdown && !contactsDropdown.classList.contains("d-none")) {
+            closeContactsDropDownEdit();
+        }
     }
 }
 
@@ -743,7 +763,7 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                     <div class="subtitle">Description</div>
                     <div id="textarea-container" class="flex-column"><textarea placeholder="Enter a Description" id="edit-textarea-input">${description}</textarea></div>
                 </div>
-                <div id="assigned-container" class="flex-column gap8px">
+                <div id="edit-assigned-container" class="flex-column gap8px">
                     <div class="subtitle">Assigned to</div>
                     <div id="edit-selected-name" class="select-container"  onclick="checkIfContactsDropdownIsVisibleEdit()">   
                     <!-- <div id="edit-selected-name" onclick="checkIfContactsDropdownIsVisible()"> -->
