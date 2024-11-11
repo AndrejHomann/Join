@@ -188,7 +188,7 @@ function checkEditTaskChanges() {
     checkEditTaskTitle();
     checkEditTaskDescription();
     checkEditTaskDate();
-    // checkEditTaskSubtask();
+    checkEditTaskSubtask();
 }
 
 function checkEditTaskTitle() {
@@ -269,31 +269,29 @@ function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bor
     });
 }
 
-// function checkEditTaskSubtask() {
-//     setTimeout(() => {
-//         const input1 = document.getElementById("new-subtask-container");
-//         const input2 = document.getElementById("new-subtask-input");
-//         checkEditTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
-//         checkEditTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
-//         // checkEditTaskOnKeystrokeInsideSubtaskElement(input1, input2,'blue');
-//     }, 100);
-// }
+function checkEditTaskSubtask() {
+    setTimeout(() => {
+        const input2 = document.getElementById("edit-new-subtask-input");
+        const input3 = document.getElementById("edit-new-subtask-container");
+        checkTaskOnClickInsideElementEditSubtask(input2, input3, "#90d1ed");
+        checkTaskOnClickOutsideElementEditSubtask(input2, input3, "#d1d1d1");
+    }, 100);
+}
 
-function checkEditTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
-    input1.addEventListener("click", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
-    });
+function checkTaskOnClickInsideElementEditSubtask(input2, input3, bordercolor) {
     input2.addEventListener("click", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
+        input3.style = `border: 1px solid ${bordercolor};`;
+    });
+    input3.addEventListener("click", () => {
+        input3.style = `border: 1px solid ${bordercolor};`;
     });
 }
 
-function checkEditTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
-    input1.addEventListener("blur", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
-    });
-    input2.addEventListener("blur", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
+function checkTaskOnClickOutsideElementEditSubtask(input2, input3, bordercolor1) {
+    document.addEventListener("click", (event) => {
+        if (!input2.contains(event.target) && !input3.contains(event.target)) {
+            input3.style = `border: 1px solid ${bordercolor1}`;
+        }
     });
 }
 
