@@ -60,7 +60,7 @@ function editTask(task, taskId) {
     subtaskInputEdit.addEventListener("input", showCloseOrDeleteIconDuringWritingSubtaskEdit);
     subtaskInputEdit.addEventListener("keydown", addSubtaskByEnterKeyEdit);
 
-    const iconsContainer = document.getElementById("selected-contacts-circle-container");
+    const iconsContainer = document.getElementById("edit-selected-contacts-circle-container");
     if (iconsContainer) {
         appendEditableUserIcons(task, iconsContainer);
         document.getElementById("assigned-container").classList.add("heightAuto");
@@ -530,6 +530,196 @@ function resetSubtaskIconEdit() {
     setTimeout(resetSubtaskClearButton, 1);
 }
 
+let wasContactsDropdownOpenInCurrentTask = false;
+
+async function showContactsDropDownEdit() {
+    await fetchContacts();
+
+    let assignedPlaceholder = document.getElementById("edit-assigned-placeholder");
+    if (selectedContacts.length >= 0) {
+        assignedPlaceholder.innerHTML = "An";
+    }
+    setColorOfAssignedContainerEdit();
+    document.getElementById("edit-contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<img src="/img/addTask/arrow_drop_up.png" id="dropdown-arrow"/>`;
+
+    let dropdownList = document.getElementById("edit-dropdown-list");
+    dropdownList.innerHTML = templateContactsHTMLDropdownListEdit();
+
+    if (wasContactsDropdownOpenInCurrentTask === false) {
+        if (document.getElementById("edit-selected-name")) {
+            await matchTaskAssignedUserToCheckedDropdown();
+            wasContactsDropdownOpenInCurrentTask = true;
+        }
+    }
+    dropdownList.classList.remove("d-none");
+    document.getElementById("edit-selected-contacts-circle-container").style.display = "none";
+
+    showCheckedContactsAfterDropdownClosingEdit();
+}
+
+/**
+ * Updates the state of checkboxes in the contacts dropdown list based on previously selected contacts.
+ */
+function showCheckedContactsAfterDropdownClosingEdit() {
+    for (let i = 0; i < contactList.length; i++) {
+        let contactName = contactList[i];
+        let checkBox = document.getElementById(`unchecked-box-${i}`);
+
+        if (selectedContacts.includes(contactName)) {
+            checkBox.src = "/img/checked.png";
+        } else {
+            checkBox.src = "/img/unchecked.png";
+        }
+    }
+}
+
+/**
+ * Closes the contacts dropdown list and updates the UI elements, including showing selected contacts in circles.
+ */
+function closeContactsDropDownEdit() {
+    let assignedPlaceholder = document.getElementById("edit-assigned-placeholder");
+    assignedPlaceholder.innerHTML = /*html*/ `<span id="edit-assigned-placeholder">Select contacts to assign</span>`;
+
+    document.getElementById("edit-contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
+    document.getElementById("edit-dropdown-list").classList.add("d-none");
+    document.getElementById("edit-selected-contacts-circle-container").style.display = "flex";
+
+    removeColorOfBorderAssignedContainerEdit();
+    showCirclesOfSelectedContactsEdit();
+}
+
+/**
+ * Selects or deselects a contact based on the current checkbox state and updates the UI accordingly.
+ *
+ * @param {string} contactName - The name of the contact to be selected or deselected.
+ * @param {number} index - The index of the contact in the contact list.
+ */
+function selectContactEdit(contactName, index) {
+    if (selectedContacts.includes(contactName)) {
+        handleContactDeselectionEdit(contactName, index);
+    } else {
+        handleContactSelectionEdit(contactName, index);
+    }
+}
+
+/**
+ * Handles the selection of a contact by updating the UI and the selectedContacts array.
+ *
+ * @param {string} contactName - The name of the contact to be selected.
+ * @param {number} index - The index of the contact in the contact list.
+ */
+function handleContactSelectionEdit(contactName, index) {
+    let selectedContactColor = colors[index];
+    let assignedPlaceholder = document.getElementById("edit-assigned-placeholder");
+
+    if (!selectedContacts.includes(contactName)) {
+        selectedContacts.push(contactName);
+        selectedColors.push(selectedContactColor);
+        assignedPlaceholder.innerHTML = /*html*/ `<span id="edit-assigned-placeholder">An</span>`;
+        document.getElementById("edit-assigned-container").classList.add("heightAuto");
+        document.getElementById(`unchecked-box-${index}`).src = "/img/checked.png";
+    }
+}
+
+/**
+ * Handles the deselection of a contact by updating the UI and the selectedContacts array.
+ *
+ * @param {string} contactName - The name of the contact to be deselected.
+ * @param {number} index - The index of the contact in the contact list.
+ */
+function handleContactDeselectionEdit(contactName, index) {
+    let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
+    let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
+    document.getElementById(`unchecked-box-${index}`).src = "/img/unchecked.png";
+
+    if (indexOfSelectedContacts >= 0) {
+        selectedContacts.splice(indexOfSelectedContacts, 1);
+        selectedColors.splice(indexOfSelectedColors, 1);
+    }
+
+    if (selectedContacts.length === 0) {
+        document.getElementById("edit-assigned-container").classList.remove("heightAuto");
+    }
+}
+
+/**
+ * Sets a colored border for the assigned contacts container when contacts are selected.
+ */
+function setColorOfAssignedContainerEdit() {
+    let selectContactsContainer = document.getElementById("edit-selected-name");
+    selectContactsContainer.style.border = "1px solid #90D1ED"; // color changed by Andrej from "#90D1ED" to "blue"
+}
+
+/**
+ * Removes the colored border from the assigned contacts container.
+ */
+function removeColorOfBorderAssignedContainerEdit() {
+    let selectContactsContainer = document.getElementById("edit-selected-name");
+    selectContactsContainer.style.border = "";
+}
+
+/**
+ * Displays the selected contacts as colored circles with their initials.
+ */
+function showCirclesOfSelectedContactsEdit() {
+    let circleContainer = document.getElementById("edit-selected-contacts-circle-container");
+    circleContainer.innerHTML = "";
+
+    for (let i = 0; i < selectedContacts.length; i++) {
+        let contact = selectedContacts[i];
+        let choosenContact = contactList.indexOf(contact);
+        let [firstName, lastName] = contact.split(" ");
+        let firstLetter = firstName.charAt(0).toUpperCase();
+        let lastLetter = lastName.charAt(0).toUpperCase();
+        let color = colors[choosenContact];
+
+        let contactHTML = /*html*/ `<div class="circle" style="background-color: ${color}">${firstLetter}${lastLetter}</div>`;
+        circleContainer.innerHTML += contactHTML;
+    }
+}
+
+/**
+ * Generates the HTML structure for the contacts dropdown list.
+ * Contacts are sorted by their first name, and each contact is displayed with a colored circle and a checkbox.
+ *
+ * @returns {string} The generated HTML for the contacts dropdown list.
+ */
+function templateContactsHTMLDropdownListEdit() {
+    let dropdownHTML = "";
+
+    sortContactsByFirstName(contactList);
+
+    for (let i = 0; i < contactList.length; i++) {
+        let contact = contactList[i];
+        let [firstName, lastName] = contact.split(" ");
+        let firstLetter = firstName.charAt(0).toUpperCase();
+        let lastLetter = lastName.charAt(0).toUpperCase();
+        let color = colors[i];
+
+        dropdownHTML += /*html*/ `
+            <div class="dropdown-item" id="edit-dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
+            <div>
+                <div class="circle" style="background-color: ${color};">
+                    ${firstLetter}${lastLetter}
+                </div>
+                <span class="contactsDropdownNameSpan">${contact}</span>
+            </div>
+                <img src="/img/unchecked.png" alt="unchecked" id="unchecked-box-${i}" class="uncheckedBox">
+            </div>`;
+    }
+    return dropdownHTML;
+}
+
+function checkIfContactsDropdownIsVisibleEdit() {
+    let dropdownList = document.getElementById("edit-dropdown-list");
+
+    if (dropdownList.classList.contains("d-none")) {
+        showContactsDropDownEdit();
+    } else {
+        closeContactsDropDownEdit();
+    }
+}
+
 function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks, taskId) {
     const urgentClass = priority === "urgent" ? "prio-urgent-button-bg-color" : "";
     const mediumClass = priority === "medium" ? "prio-medium-button-bg-color" : "";
@@ -557,14 +747,14 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                 </div>
                 <div id="assigned-container" class="flex-column gap8px">
                     <div class="subtitle">Assigned to</div>
-                    <!-- <div id="edit-selected-name" class="select-container"  onclick="checkIfContactsDropdownIsVisible()">    -->
-                    <div id="edit-selected-name" onclick="checkIfContactsDropdownIsVisible()">
-                        <span id="assigned-placeholder">Select contacts to assign</span>
-                        <div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
+                    <div id="edit-selected-name" class="select-container"  onclick="checkIfContactsDropdownIsVisibleEdit()">   
+                    <!-- <div id="edit-selected-name" onclick="checkIfContactsDropdownIsVisible()"> -->
+                        <span id="edit-assigned-placeholder">Select contacts to assign</span>
+                        <div id="edit-contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                     </div>
-                    <div id="dropdown-list" class="d-none"></div>
-                    <div id="selected-contacts-circle-container"></div>
-                    <!-- <div id="edit-selected-contacts-container"></div> -->
+                    <div id="edit-dropdown-list" class="d-none"></div>
+                    <!-- <div id="selected-contacts-circle-container"></div> -->
+                    <div id="edit-selected-contacts-circle-container"></div>
                 </div>
             </div>
             <div id="edit-content-box-right" class="flex-column">

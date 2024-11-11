@@ -457,6 +457,7 @@ function closeTaskDetails() {
     taskDetails.classList.add("task-details-slideOut");
     selectedContacts = [];
     selectedColors = [];
+    // wasContactsDropdownOpenInCurrentTask = false;
 
     if (confirmationDiv) {
         closeConfirmationDiv(confirmationDiv);
@@ -506,6 +507,7 @@ function closeEditTask() {
     editTask.style.display = "none";
     selectedContacts = [];
     selectedColors = [];
+    wasContactsDropdownOpenInCurrentTask = false;
 }
 
 /**

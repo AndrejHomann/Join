@@ -25,7 +25,7 @@ async function fetchContacts() {
  *
  * @async
  */
-let wasContactsDropdownOpenInCurrentTask = false;
+// let wasContactsDropdownOpenInCurrentTask = false;
 
 async function showContactsDropDown() {
     await fetchContacts();
@@ -40,12 +40,12 @@ async function showContactsDropDown() {
     let dropdownList = document.getElementById("dropdown-list");
     dropdownList.innerHTML = templateContactsHTMLDropdownList();
 
-    if (wasContactsDropdownOpenInCurrentTask === false) {
-        if (document.getElementById("edit-selected-name")) {
-            await matchTaskAssignedUserToCheckedDropdown();
-            wasContactsDropdownOpenInCurrentTask = true;
-        }
-    }
+    // if (wasContactsDropdownOpenInCurrentTask === false) {
+    //     if (document.getElementById("edit-selected-name")) {
+    //         await matchTaskAssignedUserToCheckedDropdown();
+    //         wasContactsDropdownOpenInCurrentTask = true;
+    //     }
+    // }
     dropdownList.classList.remove("d-none");
     document.getElementById("selected-contacts-circle-container").style.display = "none";
 
@@ -142,11 +142,6 @@ function handleContactDeselection(contactName, index) {
  */
 function setColorOfAssignedContainer() {
     let selectContactsContainer = document.getElementById("selected-name");
-
-    if (document.getElementById("edit-selected-name")) {
-        selectContactsContainer = document.getElementById("edit-selected-name");
-    }
-
     selectContactsContainer.style.border = "1px solid #90D1ED"; // color changed by Andrej from "#90D1ED" to "blue"
 }
 
