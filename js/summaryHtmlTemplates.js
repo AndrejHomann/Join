@@ -32,10 +32,24 @@ function doneUser(done) {
 
 function priorityUser(nextTaskPriority, urgent, medium, low) {
     let priority = document.getElementById('taskPriority');
-    priority.innerHTML = /*html*/ `
+    if (nextTaskPriority === "low") {
+        priority.innerHTML = /*html*/ `
+        <div class="center"> <span class="mainContentLineTextTop">${low}</span> </div>          
+        <div> <span class="mainContentLineTextBottom">${nextTaskPriority}</span> </div>
+        `;
+    }
+    if (nextTaskPriority === "medium") {
+        priority.innerHTML = /*html*/ `
+        <div class="center"> <span class="mainContentLineTextTop">${medium}</span> </div>          
+        <div> <span class="mainContentLineTextBottom">${nextTaskPriority}</span> </div>
+        `;
+    }
+    if (nextTaskPriority === "urgent") {
+        priority.innerHTML = /*html*/ `
         <div class="center"> <span class="mainContentLineTextTop">${urgent}</span> </div>          
         <div> <span class="mainContentLineTextBottom">${nextTaskPriority}</span> </div>
-    `;
+        `;
+    }
 }
 
 
@@ -99,10 +113,26 @@ function mobileGreetingTextAndName() {
 
 function createPriorityLogoAndColor() {
     let priority = document.getElementById('createPriorityLogoAndColor');
-    priority.innerHTML = /*html*/ `
+    if (nextTaskPriority === "low") {
+        priority.innerHTML = /*html*/ `
+        <div id="mainContentLine2Circle">
+            <img id="priorityIcon" src="../img/summary/low_white.svg" alt="Priority Icon">
+        </div>
+    `;
+    }
+    if (nextTaskPriority === "medium") {
+        priority.innerHTML = /*html*/ `
+        <div id="mainContentLine2Circle">
+            <img id="priorityIcon" src="../img/summary/medium_white.svg" alt="Priority Icon">
+        </div>
+    `;
+    }
+    if (nextTaskPriority === "urgent") {
+        priority.innerHTML = /*html*/ `
         <div id="mainContentLine2Circle">
             <img id="priorityIcon" src="../img/summary/urgent_white.svg" alt="Priority Icon">
         </div>
     `;
+    }
     changePriorityLogoAndColor(nextTaskPriority);
 }

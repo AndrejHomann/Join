@@ -8,10 +8,10 @@
  */
 function checkIfDeadlineLaterThanToday(deadline) {
     let newDeadlineFormat = new Date(deadline);
-    let formattedDeadline = newDeadlineFormat.getTime();
+    let formattedDeadline = newDeadlineFormat.setHours(0,0,0,0);
     let today = new Date();
-    let formattedToday = today.getTime();
-    let result = formattedDeadline > formattedToday;
+    let formattedToday = today.setHours(0,0,0,0);
+    let result = formattedDeadline >= formattedToday;
     return result;
 }
 
@@ -25,7 +25,7 @@ function findEarliestDate(dateArray) {
     let earliestDate = new Date(dateArray[0]); 
     for (let i = 1; i < dateArray.length; i++) {
         let currentDate = new Date(dateArray[i]);
-        if (currentDate < earliestDate) {
+        if (currentDate <= earliestDate) {
             earliestDate = currentDate;
         }
     }
@@ -82,9 +82,10 @@ async function nextTaskDeadlineAssignedToUser() {
     try {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
-        pushDatesIntoDeadlineArray(data);
-        checkIfDeadlineArrayEmpty(deadlineArray);
-        return {earliestDeadline, deadlineText};
+        await pushDatesIntoDeadlineArray(data);
+        await checkIfDeadlineArrayEmpty(deadlineArray);
+        await checkTaskPriorityOfNextDeadline(data);
+        return {earliestDeadline, deadlineText, nextTaskPriority};
     } catch (error) {
         console.error("Error while fetching data:", error);
     }
@@ -109,3 +110,27 @@ async function checkIfDeadlineArrayEmpty(deadlineArray) {
         mainContentLine2Right.style = "padding-right: 107px";
     }
 }
+
+
+/**
+ * finds the task with the earliest Deadline and extracts the priority of this task
+ * @param {date} earliestDeadlineFormatted - stores the earliest Deadline in original / america format
+ * @param {*} nextTaskPriority - stores the priority of the next task in the timeline
+ */
+async function checkTaskPriorityOfNextDeadline(data) {
+    const dateParts = earliestDeadline.split('.');
+    const earliestDeadlineFormatted = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+    if (data && data.tasks) {
+        Object.values(data.tasks).forEach(task => {
+            if (task.name) {
+                if (task.name.includes(userName) && task.date === earliestDeadlineFormatted) {
+                    if (task.status !== "done") {
+                        nextTaskPriority = task.priority;
+                        return nextTaskPriority;
+                    }
+                }
+            }
+        });
+    }
+}
+

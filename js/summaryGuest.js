@@ -16,6 +16,8 @@ async function loadTaskDataGuest() {
     await countTasks();
     await amountOfToDoTasks();
     await amountOfDoneTasks();
+    await amountOfLowTasks();
+    await amountOfMediumTasks();
     await amountOfUrgentTasks();
     await amountOfTasksInProgress();
     await amountOfTasksAwaitingFeedback();
@@ -59,7 +61,7 @@ async function checkStatusOfTasks(data, statusValue) {
     let statusCount=0;
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            if (task.name) {
+            if (task.status) {
                 if (task.status === statusValue) {
                     statusCount++;
                 }
@@ -162,7 +164,7 @@ async function checkPriorityOfTasks(data, priorityValue) {
     let priorityCount=0;
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            if (task.name) {
+            if (task.priority) {
                 if (task.priority === priorityValue) {
                     priorityCount++;
                 }
@@ -170,6 +172,46 @@ async function checkPriorityOfTasks(data, priorityValue) {
         });
     }
     return priorityCount;
+}
+
+
+/**
+ * Counts the number of tasks with a priority of "low".
+ * Fetches data from the base URL, extracts the task priority properties and calls `checkPriorityOfTasks` to count the "low" tasks.
+ * @param {string} baseUrl - basic Url for all API requests.
+ * @param {object} data - stores the API response in JSON format.
+ * @param {number} low - stores the amount of tasks that match the value 'low'.
+ * @returns {number} - returns the value stored in 'low'.
+ */
+async function amountOfLowTasks() {
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        low = await checkPriorityOfTasks(data, 'low');
+        return low;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}
+
+
+/**
+ * Counts the number of tasks with a priority of "medium".
+ * Fetches data from the base URL, extracts the task priority properties and calls `checkPriorityOfTasks` to count the "medium" tasks.
+ * @param {string} baseUrl - basic Url for all API requests.
+ * @param {object} data - stores the API response in JSON format.
+ * @param {number} medium - stores the amount of tasks that match the value 'medium'.
+ * @returns {number} - returns the value stored in 'medium'.
+ */
+async function amountOfMediumTasks() {
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        medium = await checkPriorityOfTasks(data, 'medium');
+        return medium;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
 }
 
 
@@ -202,7 +244,7 @@ async function amountOfUrgentTasks() {
 async function pushDatesIntoDeadlineArrayGuest(data) {
     if (data && data.tasks) {
         Object.values(data.tasks).forEach(task => {
-            if (task.name && task.date) {
+            if (task.date) {
                 if (checkIfDeadlineLaterThanToday(task.date) === true) {
                     deadlineArray.push(task.date);
                 }
@@ -226,9 +268,33 @@ async function nextTaskDeadline() {
         const response = await fetch(`${baseUrl}.json`);
         const data = await response.json();
         await pushDatesIntoDeadlineArrayGuest(data);
-        checkIfDeadlineArrayEmpty(deadlineArray);
+        await checkIfDeadlineArrayEmpty(deadlineArray);
+        await checkTaskPriorityOfNextDeadlineGuest(data);
         return {earliestDeadline, deadlineText};
     } catch (error) {
         console.error("Error while fetching data:", error);
+    }
+}
+
+
+/**
+ * finds the task with the earliest Deadline and extracts the priority of this task
+ * @param {date} earliestDeadlineFormatted - stores the earliest Deadline in original / america format
+ * @param {*} nextTaskPriority - stores the priority of the next task in the timeline
+ */
+async function checkTaskPriorityOfNextDeadlineGuest(data) {
+    const dateParts = earliestDeadline.split('.');
+    const earliestDeadlineFormatted = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+    if (data && data.tasks) {
+        Object.values(data.tasks).forEach(task => {
+            if (task.date) {
+                if (task.date === earliestDeadlineFormatted) {
+                    if (task.status !== "done") {
+                        nextTaskPriority = task.priority;
+                        return nextTaskPriority;
+                    }
+                }
+            }
+        });
     }
 }

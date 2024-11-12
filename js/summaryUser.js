@@ -14,7 +14,7 @@ let taskPriority;
 let urgent = 0;
 let medium = 0;
 let low = 0;
-let nextTaskPriority = 'urgent';
+let nextTaskPriority = '';
 let deadlineArray = [];
 let earliestDeadline;
 let tasksInBoard = 0;
@@ -152,6 +152,8 @@ async function loadTaskData() {
     await countTasksAssignedToUser();
     await amountOfToDoTasksAssignedToUser();
     await amountOfDoneTasksAssignedToUser();
+    await amountOfLowTasksAssignedToUser();
+    await amountOfMediumTasksAssignedToUser();
     await amountOfUrgentTasksAssignedToUser();
     await amountOfTasksInProgressAssignedToUser();
     await amountOfTasksAwaitingFeedbackAssignedToUser();
@@ -325,6 +327,46 @@ async function checkPriorityOfTasksAssignedToUser(data, priorityValue) {
         });
     }
     return priorityCount;
+}
+
+
+/**
+ * Counts the number of tasks with a priority of "low".
+ * Fetches data from the base URL, extracts the task priority properties and calls `checkPriorityOfTasks` to count the "low" tasks.
+ * @param {string} baseUrl - basic Url for all API requests.
+ * @param {object} data - stores the API response in JSON format.
+ * @param {number} low - stores the amount of tasks that match the value 'low'.
+ * @returns {number} - returns the value stored in 'low'.
+ */
+async function amountOfLowTasksAssignedToUser() {
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        low = await checkPriorityOfTasksAssignedToUser(data, 'low');
+        return low;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
+}
+
+
+/**
+ * Counts the number of tasks with a priority of "medium".
+ * Fetches data from the base URL, extracts the task priority properties and calls `checkPriorityOfTasks` to count the "medium" tasks.
+ * @param {string} baseUrl - basic Url for all API requests.
+ * @param {object} data - stores the API response in JSON format.
+ * @param {number} medium - stores the amount of tasks that match the value 'medium'.
+ * @returns {number} - returns the value stored in 'medium'.
+ */
+async function amountOfMediumTasksAssignedToUser() {
+    try {
+        const response = await fetch(`${baseUrl}.json`);
+        const data = await response.json();
+        medium = await checkPriorityOfTasksAssignedToUser(data, 'medium');
+        return medium;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+    }
 }
 
 

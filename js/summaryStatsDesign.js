@@ -5,11 +5,28 @@
  */
 function createPriorityLogoAndColor() {
     let priority = document.getElementById('createPriorityLogoAndColor');
-    priority.innerHTML = /*html*/ `
+    if (nextTaskPriority === "low") {
+        priority.innerHTML = /*html*/ `
+        <div id="mainContentLine2Circle">
+            <img id="priorityIcon" src="../img/summary/low_white.svg" alt="Priority Icon">
+        </div>
+        `;
+    }
+    if (nextTaskPriority === "medium") {
+        priority.innerHTML = /*html*/ `
+        <div id="mainContentLine2Circle">
+            <img id="priorityIcon" src="../img/summary/medium_white.svg" alt="Priority Icon">
+        </div>
+        `;
+    }
+    if (nextTaskPriority === "urgent") {
+        priority.innerHTML = /*html*/ `
         <div id="mainContentLine2Circle">
             <img id="priorityIcon" src="../img/summary/urgent_white.svg" alt="Priority Icon">
         </div>
-    `;
+        `;
+    }
+    
     changePriorityLogoAndColor(nextTaskPriority);
 }
 
@@ -21,13 +38,13 @@ function createPriorityLogoAndColor() {
 function changePriorityLogoAndColor(nextTaskPriority) { 
     let priorityLogo = document.getElementById('priorityIcon');
     let priorityLogoBackground = document.getElementById('mainContentLine2Circle');
-    if (nextTaskPriority == 'urgent') {
+    if (nextTaskPriority === 'urgent') {
         priorityLogo.src = '../img/summary/urgent_white.svg';
         priorityLogoBackground.style = 'background-color: rgb(255, 60, 0)';
-    } else if (nextTaskPriority == 'medium') {
+    } else if (nextTaskPriority === 'medium') {
         priorityLogo.src = '../img/summary/medium_white.svg';
         priorityLogoBackground.style = 'background-color: rgb(255, 166, 0)';
-    } else if (nextTaskPriority == 'low') {
+    } else if (nextTaskPriority === 'low') {
         priorityLogo.src = '../img/summary/low_white.svg';
         priorityLogoBackground.style = 'background-color: rgb(121, 227, 41)';
     }
