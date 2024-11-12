@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
     const rememberMeCheckbox = document.getElementById('rememberMe');
-    const BASE_URL = 'https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/'; //(Susanne's Firebase)
+    const BASE_URL = 'https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/';
 
     let userData = {
         name: '',
@@ -88,11 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data[key].email === email && data[key].password === password) {
                     storeUserInitials(data[key].name);
                     window.location.href = './html/summary.html';
-                    clearLoginFields()
+                    clearLoginFields();
                     return;
                 }
             }
-            alert('Invalid email or password');
+            displayLoginError();
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred during login');
@@ -111,11 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.btn-guest-log-in').addEventListener('click', (event) => {
         event.preventDefault();
 
-        // Local Storage für den Gast-Login aktualisieren
         localStorage.setItem('email', 'guest@join.com');
         localStorage.setItem('password', '');
 
-        // Gast-Email setzen
         const emailField = document.getElementById('loginEmail');
         const passwordField = document.getElementById('loginPassword');
 
@@ -123,8 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         passwordField.value = '';
 
         document.getElementById('rememberMe').checked = false;
-
-        // Weiterleitung zur Summary-Seite
         window.location.href = './html/summary.html';
     });
 
@@ -155,6 +151,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const privacyPolicyChecked = document.getElementById('privacy-policy').checked;
 
         return { name, email, password, confirmPassword, privacyPolicyChecked };
+    }
+
+    /**
+     * Displays an error message when the email or password does not match the original saved data.
+     */
+    function displayLoginError() {
+        const emailInput = document.getElementById("loginEmail");
+        const passwordInput = document.getElementById("loginPassword");
+        const errorMessageDiv = document.getElementById("confirmLoginError");
+
+        emailInput.classList.add("error");
+        passwordInput.classList.add("error");
+
+        errorMessageDiv.textContent = "Check your email and password. Please try again.";
     }
 
     /**
@@ -210,38 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Handles the form submission for login.
-     * Prevents default form submission and validates the input fields.
-     * 
-     * @param {Event} e - Event object from the form submission.
-     * @returns {Promise<void>}
-     */
-    // async function submitLogin(e) {
-    //     e.preventDefault(); // Prevents the default form submission action.
-    //     const email = document.getElementById('loginEmail').value;
-    //     const password = document.getElementById('loginPassword').value;
-    //     const rememberMe = rememberMeCheckbox.checked;
-
-    //     if (email && password) {
-    //         try {
-    //             await loginUser(email, password);
-    //             if (rememberMe) {
-    //                 saveLoginData(email, password);
-    //             } else {
-    //                 clearSavedLoginData();
-    //             }
-    //         } catch (error) {
-    //             console.error('Error:', error);
-    //             alert('An error occurred during login');
-    //         }
-    //     } else {
-    //         alert('Please fill in all required fields');
-    //     }
-    // }
-
     async function submitLogin(e) {
-        e.preventDefault(); // Verhindert die Standardaktion des Formulars.
+        e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         const rememberMe = rememberMeCheckbox.checked;
@@ -250,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await loginUser(email, password);
 
-                // Anmeldedaten immer speichern
                 saveLoginData(email, password, rememberMe);
             } catch (error) {
                 console.error('Error:', error);
@@ -260,18 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please fill in all required fields');
         }
     }
-
-    /**
-     * Saves the user's data in the local storage.
-     * 
-     * @param {string} email - The user's email.
-     * @param {*} password - The user's password.
-     */
-    // function saveLoginData(email, password) {
-    //     localStorage.setItem('rememberMe', 'true');
-    //     localStorage.setItem('email', email);
-    //     localStorage.setItem('password', password);
-    // }
 
     function saveLoginData(email, password, rememberMe) {
         localStorage.setItem('email', email);
@@ -378,14 +345,12 @@ function startAnimations() {
     const overlay = document.querySelector('.overlay');
 
     if (logo && overlay) {
-        // Remove animation classes
+
         logo.classList.remove('animate-logo');
         overlay.classList.remove('animate-overlay');
 
-        // Trigger reflow to restart the animation
         void logo.offsetWidth;
 
-        // Add animation classes back
         logo.classList.add('animate-logo');
         overlay.classList.add('animate-overlay');
     }
