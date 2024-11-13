@@ -197,7 +197,7 @@ function checkTaskDescriptionBoard() {
         const input = document.getElementById("board-textarea-input");
         checkTaskOnClickInsideElementBoard(input, "", "#90d1ed", "#90d1ed");
         checkTaskOnClickOutsideElementBoard(input, "", "#d1d1d1", "#d1d1d1");
-        checkTaskOnKeystrokeInsideElementBoard(input, "", "#d1d1d1", "#90d1ed");
+        checkTaskOnKeystrokeInsideElementBoardDescription(input, "#90d1ed");
     }, 100);
 }
 
@@ -256,6 +256,28 @@ function checkTaskOnKeystrokeInsideElementBoard(input, message, bordercolor1, bo
                 message.style.display = "none";
             }
         }
+    });
+}
+
+function checkTaskOnKeystrokeInsideElementBoard(input, message, bordercolor1, bordercolor2) {
+    input.addEventListener("input", () => {
+        if (input.value === "") {
+            input.style = `border: 1px solid ${bordercolor1};`;
+            if (message != "") {
+                message.style.display = "flex";
+            }
+        } else {
+            input.style = `border: 1px solid ${bordercolor2};`;
+            if (message != "") {
+                message.style.display = "none";
+            }
+        }
+    });
+}
+
+function checkTaskOnKeystrokeInsideElementBoardDescription(input, bordercolor) {
+    input.addEventListener("input", () => {
+        input.style = `border: 1px solid ${bordercolor1};`;
     });
 }
 
@@ -363,10 +385,10 @@ function handleSubtaskValidationBoard(newSubtaskInput, subtaskList, subtaskConta
         subtaskList.innerHTML += subtaskHTML;
 
         newSubtaskInput.value = "";
-        subtaskContainer.style.border = "";
+        subtaskContainer.style.border = "1px solid #90d1ed";
         missingSubtaskMessage.style.display = "none";
     } else {
-        subtaskContainer.style.border = "1px solid #ff8190";
+        subtaskContainer.style.border = "1px solid #90d1ed";
         missingSubtaskMessage.style.display = "flex";
     }
 }
@@ -913,7 +935,7 @@ function clickOutsideOfCategoryDropdownBoard(event) {
 
         if (selectedCategory) {
             let categoryInput = document.getElementById("board-selected-category");
-            categoryInput.style.border = "1px solid #d1d1d1";
+            categoryInput.style.border = "1px solid #90d1ed";
         }
     }
 }
