@@ -52,10 +52,16 @@ function addDropEventsToColumns(columns) {
     columns.forEach((column) => {
         column.addEventListener("dragover", (event) => {
             event.preventDefault();
+            column.classList.add("highlight-drop-zone"); // Markierung setzen
+        });
+
+        column.addEventListener("dragleave", () => {
+            column.classList.remove("highlight-drop-zone"); // Markierung entfernen
         });
 
         column.addEventListener("drop", (event) => {
             handleDrop(event, column);
+            column.classList.remove("highlight-drop-zone"); // Markierung beim Loslassen entfernen
         });
     });
 }
@@ -87,6 +93,11 @@ function handleDragStart(event, task) {
 function handleDragEnd(task) {
     task.classList.remove("dragging");
     task.style.transform = "rotate(0deg)";
+
+    // Sicherstellen, dass keine Spalten hervorgehoben bleiben
+    document.querySelectorAll(".board-column").forEach((column) => {
+        column.classList.remove("highlight-drop-zone");
+    });
 }
 
 /**
