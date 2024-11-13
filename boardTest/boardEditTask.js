@@ -165,8 +165,8 @@ async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
 }
 
 async function matchTaskAssignedUserToCheckedDropdown() {
-    selectedContacts = [];
-    selectedColors = [];
+    // selectedContacts = [];
+    // selectedColors = [];
 
     try {
         const response = await fetch(`${BASE_URL}/.json`);
@@ -274,7 +274,6 @@ function checkEditTaskOnKeystrokeInsideElementDescription(input, bordercolor) {
         input.style = `border: 1px solid ${bordercolor};`;
     });
 }
-
 
 function checkEditTaskSubtask() {
     setTimeout(() => {
@@ -553,10 +552,8 @@ async function showContactsDropDownEdit() {
     dropdownList.innerHTML = templateContactsHTMLDropdownListEdit();
 
     if (wasContactsDropdownOpenInCurrentTask === false) {
-        if (document.getElementById("edit-selected-name")) {
-            await matchTaskAssignedUserToCheckedDropdown();
-            wasContactsDropdownOpenInCurrentTask = true;
-        }
+        await matchTaskAssignedUserToCheckedDropdown();
+        wasContactsDropdownOpenInCurrentTask = true;
     }
     dropdownList.classList.remove("d-none");
     document.getElementById("edit-selected-contacts-circle-container").style.display = "none";
@@ -654,7 +651,7 @@ function handleContactDeselectionEdit(contactName, index) {
  */
 function setColorOfAssignedContainerEdit() {
     let selectContactsContainer = document.getElementById("edit-selected-name");
-    selectContactsContainer.style.border = "1px solid #90D1ED"; 
+    selectContactsContainer.style.border = "1px solid #90D1ED";
 }
 
 /**
