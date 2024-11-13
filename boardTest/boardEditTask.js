@@ -202,15 +202,6 @@ function checkEditTaskTitle() {
     }, 100);
 }
 
-function checkEditTaskDescription() {
-    setTimeout(() => {
-        const input = document.getElementById("edit-textarea-input");
-        checkEditTaskOnClickInsideElement(input, "", "#90d1ed", "#90d1ed");
-        checkEditTaskOnClickOutsideElement(input, "", "#d1d1d1", "#d1d1d1");
-        checkEditTaskOnKeystrokeInsideElement(input, "", "#d1d1d1", "#90d1ed");
-    }, 100);
-}
-
 function checkEditTaskDate() {
     setTimeout(() => {
         const input = document.getElementById("edit-date-input");
@@ -268,6 +259,22 @@ function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bor
         }
     });
 }
+
+function checkEditTaskDescription() {
+    setTimeout(() => {
+        const input = document.getElementById("edit-textarea-input");
+        checkEditTaskOnClickInsideElement(input, "", "#90d1ed", "#90d1ed");
+        checkEditTaskOnClickOutsideElement(input, "", "#d1d1d1", "#d1d1d1");
+        checkEditTaskOnKeystrokeInsideElementDescription(input, "#90d1ed");
+    }, 100);
+}
+
+function checkEditTaskOnKeystrokeInsideElementDescription(input, bordercolor) {
+    input.addEventListener("input", () => {
+        input.style = `border: 1px solid ${bordercolor};`;
+    });
+}
+
 
 function checkEditTaskSubtask() {
     setTimeout(() => {
@@ -414,10 +421,10 @@ function handleSubtaskValidationEdit(newSubtaskInput, subtaskListEdit, subtaskCo
         subtaskListEdit.innerHTML += subtaskHTMLList;
 
         newSubtaskInput.value = "";
-        subtaskContainer.style.border = "";
+        subtaskContainer.style.border = "3px solid #90d1ed";
         missingSubtaskMessage.style.display = "none";
     } else {
-        subtaskContainer.style.border = "1px solid #ff8190";
+        subtaskContainer.style.border = "3px solid #90d1ed";
         missingSubtaskMessage.style.display = "flex";
     }
 }
@@ -647,7 +654,7 @@ function handleContactDeselectionEdit(contactName, index) {
  */
 function setColorOfAssignedContainerEdit() {
     let selectContactsContainer = document.getElementById("edit-selected-name");
-    selectContactsContainer.style.border = "1px solid #90D1ED"; // color changed by Andrej from "#90D1ED" to "blue"
+    selectContactsContainer.style.border = "1px solid #90D1ED"; 
 }
 
 /**
