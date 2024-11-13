@@ -10,6 +10,7 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-right: 64px;
+    max-width: 1080px;
 }
 
 .board-overview {
