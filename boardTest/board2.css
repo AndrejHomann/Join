@@ -130,6 +130,12 @@ h3 {
     justify-content: center;
 }
 
+.highlight-drop-zone {
+    border: 2px dashed lightgrey;
+    border-radius: 8px;
+    padding: 4px; /* Damit die Markierung sich optisch besser abhebt */
+}
+
 .no-tasks {
     color: #a8a8a8;
 }
@@ -534,7 +540,12 @@ button {
     overflow-y: hidden;
     display: flex !important;
     flex-direction: column !important;
-    /* justify-content: space-between !important; */
+}
+
+.taskDetailsContent {
+    overflow-y: auto; /* Scroll-Effekt auf dem inneren Container */
+    max-height: 100%;
+    padding-right: 10px; /* Optional, um einen kleinen Abstand vom Scrollbar zu schaffen */
 }
 
 .categorieAndCloseButton {
