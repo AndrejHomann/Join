@@ -56,6 +56,7 @@ function createTaskDetailDiv(contactIcons, category, title, description, dueDate
                     <img src="/img/board/assets/icons/closeBtn.png" alt="Close Button">
                 </div>
             </div>
+            <div class="taskDetailsContent">
             <div class="detailSection">
                 <h2 class="titleTaskOverlayH2">${title}</h2>
                 <span class="descriptionSpan">${description}</span><br>
@@ -82,6 +83,7 @@ function createTaskDetailDiv(contactIcons, category, title, description, dueDate
             <div class="subtaskSection">
                 <div><span>Subtasks</span></div>
                 <div class="addedSubtasksDiv">${renderedSubtasks}</div>
+            </div>
             </div>
             <div class="task-detail-btn-group">
                 <button class="btn-edit" id="editButton" onclick="handleEditButtonClick('${taskId}'); checkEditTaskChanges()">                    
