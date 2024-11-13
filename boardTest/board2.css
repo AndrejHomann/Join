@@ -9,7 +9,7 @@ body {
     margin-left: 296px;
     align-items: center;
     justify-content: space-between;
-    max-width: 1056px;
+    margin-right: 64px;
 }
 
 .board-overview {
@@ -66,6 +66,7 @@ body {
     height: 48px;
     font-size: 20px;
     box-sizing: border-box;
+    margin-left: 64px;
 }
 
 .separator-line {
@@ -155,6 +156,13 @@ button {
     box-sizing: border-box;
 }
 
+.board-header-left {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+
 .create-task-from-board {
     color: white;
     background-color: #2a3647;
@@ -167,6 +175,7 @@ button {
     gap: 8px;
     font-size: 20px;
     font-weight: 700;
+    margin-left: 30px;
 }
 
 .create-task-from-board:hover {
@@ -803,6 +812,12 @@ label {
     z-index: 1000;
 }
 
+
+#hidden-button-desktop {
+    display: none;
+}
+
+
 @media (max-width: 1360px) {
     .board-header {
         margin-left: 64px;
@@ -907,19 +922,15 @@ label {
 
 @media (max-width: 1130px) {
     .board-header {
-        width: 396px;
+        max-width: 800px;
+        margin-right: 64px;
     }
     .h1-board {
         font-size: 47px;
     }
-    .create-task-from-board {
-        width: 52px;
-    }
-    .create-task-from-board span {
-        display: none;
-    }
-    .search-field {
-        display: none;
+    
+    .search-input {
+        margin-left: 30px;
     }
     .search-field-responsive {
         display: flex;
@@ -930,13 +941,62 @@ label {
     }
 }
 
+@media (max-width: 850px) {
+    .create-task-from-board {
+        width: 52px;
+    }
+    .create-task-from-board span {
+        display: none;
+    }
+}
+
+@media (max-width: 570px) {
+    #hidden-button-desktop {
+        display: flex;
+    }
+    #hidden-button-mobile {
+        display: none;
+    }
+    .board-header {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 64px;
+    }
+    .board-header-left {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .board-header-left-top {
+        display: flex;
+        justify-content: space-between;
+    }
+    .search-input {
+        margin-left: 0;
+    }
+}
+
 @media (max-width: 425px) {
-    .board-header,
+    .board-header {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+    .board-header-left {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .board-header-left-top {
+        display: flex;
+        justify-content: space-between;
+    }
+    
     .search-field-responsive,
     .board-overview {
         margin-left: 16px;
     }
-    .board-header,
     .search-field-responsive {
         width: 290px;
     }
