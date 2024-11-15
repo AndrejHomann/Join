@@ -1,25 +1,16 @@
 body {
     margin: 0;
     font-family: inter;
-    /* font-size: 16px; */
 }
 
 header {
     position: fixed;
     width: 100%;
     top: 0;
-    /* padding: 20px 40px 20px 348px; */
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     background-color: white;
     z-index: 100;
 }
-
-/* .headerContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-} */
 
 .headerContent {
     display: flex;
@@ -35,18 +26,16 @@ header {
     display: none;
 }
 
-/* .headerSpan {
-    font-weight: 400;
-    font-size: 20px;
-} */
-
 .headerSpan {
-    margin-left: 348px; /* Abstand nach links */
+    margin-left: 348px; 
 }
 
 .helpAndUserProfile {
-    margin-left: auto; /* Platz für die Hilfe- und Benutzerprofil-Div schaffen */
-    margin-right: 40px; /* Abstand nach rechts */
+    margin-left: auto; 
+    margin-right: 5%; 
+    display: flex;
+    gap: 20px;
+    align-items: center;
 }
 
 .userProfile {
@@ -67,12 +56,6 @@ header {
 .userProfile:hover {
     cursor: pointer;
     background-color: rgba(12, 46, 98, 0.12);
-}
-
-.helpAndUserProfile {
-    display: flex;
-    gap: 20px;
-    align-items: center;
 }
 
 .helpDiv:hover {
@@ -152,7 +135,6 @@ header {
 .noticeHref:not(.activeGrey):hover {
     color: rgb(41, 171, 226);
     font-weight: bold;
-    /* transform: scale(1.05); */
 }
 
 .sideBarPolicyAndNotice {
@@ -184,13 +166,11 @@ header {
 .policyHref:hover {
     color: rgb(41, 171, 226);
     font-weight: bold;
-    /* transform: scale(1.05);  */
 }
 
 .noticeHref:hover {
     color: rgb(41, 171, 226);
     font-weight: bold;
-    /* transform: scale(1.05); */
 }
 
 .user-menu-box {
@@ -233,34 +213,32 @@ header {
     display: none;
 }
 
-@media (max-height: 800px) {
-    .sideBarMenu {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-bottom: 150px;
-    }
-}
+
 
 @media (max-width: 1360px) {
     header {
         /* padding: 20px 40px 20px 40px; */
         height: 80px;
     }
-
     .headerContent img {
         display: block;
     }
-
     .headerSpan {
         display: none;
     }
-
+    .headerLogoMobile {
+        margin-left: 9%;
+    }
+    .headerLogoMobile img {
+        left: 0;
+    }
+    .helpAndUserProfile {
+        margin-right: 9%;
+    }
     .userProfile {
         height: 40px;
         width: 40px;
     }
-
     .sideBar {
         top: auto;
         bottom: 0;
@@ -276,11 +254,9 @@ header {
         padding-top: 0;
         padding-bottom: 0;
     }
-
     .imgWrapper img {
         display: none;
     }
-
     .sideBarMenu {
         flex-direction: row;
         justify-content: space-around;
@@ -289,7 +265,6 @@ header {
         margin-bottom: 0;
         height: 80px;
     }
-
     .sideBarMenuButtons {
         flex-direction: column;
         padding-left: 8px;
@@ -297,7 +272,6 @@ header {
         padding: 8px;
         border-radius: 8px;
     }
-
     .sideBarPolicyAndNotice {
         display: none;
     }
@@ -313,6 +287,33 @@ header {
     }
 }
 
+@media (max-width: 800px) {
+    .headerLogoMobile {
+        margin-left: 7%;
+    }
+    .helpAndUserProfile {
+        margin-right: 7%;
+    }
+}
+
+@media (max-height: 800px) {
+    .sideBarMenu {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 150px;
+    }
+}
+
+@media (max-width: 650px) {
+    .headerLogoMobile {
+        margin-left: 6%;
+    }
+    .helpAndUserProfile {
+        margin-right: 6%;
+    }
+}
+
 @media (max-width: 600px) {
     .sideBarMenuButtons {
         font-size: 11px;
@@ -320,6 +321,15 @@ header {
     .sideBarMenu img img {
         width: 20px;
         height: 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .headerLogoMobile {
+        margin-left: 5%;
+    }
+    .helpAndUserProfile {
+        margin-right: 5%;
     }
 }
 
@@ -343,3 +353,4 @@ header {
         display: flex;
     }
 }
+

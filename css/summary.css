@@ -22,9 +22,9 @@ body a {
     flex: 1;
     width: 100vw;
     height: 100vh;
-    position: fixed;                            /* new for merging sidebar-nav and header */
-    margin-left: 230px;                        /* new for merging sidebar-nav and header */
-    background-color: rgb(245, 246, 247);     /* new for merging sidebar-nav and header */        
+    position: fixed;                            
+    margin-left: 230px;                         
+    background-color: rgb(245, 246, 247);      
 }
 #main {
     flex: 1;
@@ -318,9 +318,6 @@ body a {
     font-weight: 700;
     color: rgba(41, 171, 226, 1);
 }
-
-
-/* transferred from header_and_sidebar.css */
 #summary {
     background-color: #091931;
     color: white;

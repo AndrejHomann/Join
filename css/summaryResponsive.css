@@ -169,11 +169,25 @@
 
 /* RESPONSIVENESS - MOBILE */
 @media (max-width: 430px) {
+    #mainTitleLeft span {
+        font-size: 38px;
+    }
+    #mainTitleRight span {
+        font-size: 16px;
+    }
+    #mainTitle {
+        margin-bottom: 28px;
+    }
     #right {
         padding-left: 1px;
     }
     #main {
         max-width: 300px;
+        padding-top: 105px;
+        padding-bottom: 80px;
+    }
+    #mainContent {
+        gap: 10px;
     }
     #mainContentLine1 {
         max-width: 300px;
@@ -196,14 +210,14 @@
     }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 375px) {
     #greetingTextMobile {
-        font-size: 40px;
+        font-size: 30px;
         font-weight: 500;
         color: rgba(42, 54, 71, 1);
     }
     #greetingNameMobile {
-        font-size: 57px;
+        font-size: 40px;
         font-weight: 700;
         color: rgba(41, 171, 226, 1);
     }
