@@ -70,10 +70,8 @@ function editTask(task, taskId) {
 }
 
 function highlightPrioButton(priority) {
-    // Entfernt die Standardfarbe von allen Prio-Buttons
     resetPrio();
 
-    // Fügt die Hintergrundfarbe zum jeweiligen Prio-Button hinzu
     const selectedButton = document.getElementById(`edit-prio-${priority}-button`);
     if (selectedButton) {
         selectedButton.classList.add(`prio-${priority}-button-bg-color`);
@@ -165,8 +163,8 @@ async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
 }
 
 async function matchTaskAssignedUserToCheckedDropdown() {
-    // selectedContacts = [];
-    // selectedColors = [];
+    selectedContacts = [];
+    selectedColors = [];
 
     try {
         const response = await fetch(`${BASE_URL}/.json`);
@@ -194,7 +192,6 @@ function checkEditTaskChanges() {
 function checkEditTaskTitle() {
     setTimeout(() => {
         const input = document.getElementById("edit-title-input");
-        // const message = document.getElementById("missing-title-message");
         const message = document.getElementById("edit-missing-title-message");
         checkEditTaskOnClickInsideElement(input, message, "#ff8190", "#90d1ed");
         checkEditTaskOnClickOutsideElement(input, message, "#ff8190", "#d1d1d1");
@@ -277,30 +274,57 @@ function checkEditTaskOnKeystrokeInsideElementDescription(input, bordercolor) {
 
 function checkEditTaskSubtask() {
     setTimeout(() => {
+        const input1 = document.getElementById("edit-new-subtask-container");
         const input2 = document.getElementById("edit-new-subtask-input");
-        const input3 = document.getElementById("edit-new-subtask-container");
-        checkTaskOnClickInsideElementEditSubtask(input2, input3, "#90d1ed");
-        checkTaskOnClickOutsideElementEditSubtask(input2, input3, "#d1d1d1");
+
+        if (input1 && input2) {
+            checkTaskOnClickInsideElementEditSubtask(input1, input2, "#90d1ed");
+            checkTaskOnClickOutsideElementEditSubtask(input1, input2, "#d1d1d1");
+        }
     }, 100);
 }
 
-function checkTaskOnClickInsideElementEditSubtask(input2, input3, bordercolor) {
-    input2.addEventListener("click", () => {
-        input3.style = `border: 1px solid ${bordercolor};`;
+function checkTaskOnClickInsideElementEditSubtask(input1, input2, bordercolor) {
+    input2.addEventListener("focus", () => {
+        input1.style.border = `1px solid ${bordercolor}`;
+        console.log("Input focused - border blue");
     });
-    input3.addEventListener("click", () => {
-        input3.style = `border: 1px solid ${bordercolor};`;
+
+    input2.addEventListener("input", () => {
+        if (input2.value.trim() !== "") {
+            input1.style.border = `1px solid ${bordercolor}`;
+            const missingSubtaskMessage = document.getElementById("edit-missing-subtask-message");
+            if (missingSubtaskMessage) {
+                missingSubtaskMessage.style.display = "none";
+            }
+        }
     });
 }
 
-function checkTaskOnClickOutsideElementEditSubtask(input2, input3, bordercolor1) {
+function checkTaskOnClickOutsideElementEditSubtask(input1, input2, bordercolor) {
     document.addEventListener("click", (event) => {
-        if (!input2.contains(event.target) && !input3.contains(event.target)) {
-            document.getElementById("edit-new-subtask-input").value = "";
+        if (!input1.contains(event.target) && !input2.contains(event.target)) {
+            input1.style.border = `1px solid ${bordercolor}`;
+            console.log("Clicked outside edit subtask area - border gray");
+
+            const inputField = document.getElementById("edit-new-subtask-input");
+            if (inputField) {
+                inputField.value = "";
+            }
+
             resetSubtaskIconEdit();
-            input3.style = `border: 1px solid ${bordercolor1}`;
+            const missingSubtaskMessage = document.getElementById("edit-missing-subtask-message");
+            if (missingSubtaskMessage) {
+                missingSubtaskMessage.style.display = "none";
+            }
         }
     });
+}
+
+function resetSubtaskRequiredNotificationEdit() {
+    let missingSubtaskMessage = document.getElementById("edit-missing-subtask-message");
+    missingSubtaskMessage.style.display = "none";
+    document.getElementById("edit-new-subtask-container").style.border = "";
 }
 
 function validateAllInputsEdit() {
@@ -420,10 +444,10 @@ function handleSubtaskValidationEdit(newSubtaskInput, subtaskListEdit, subtaskCo
         subtaskListEdit.innerHTML += subtaskHTMLList;
 
         newSubtaskInput.value = "";
-        subtaskContainer.style.border = "3px solid #90d1ed";
+        subtaskContainer.style.border = "1px solid #90d1ed";
         missingSubtaskMessage.style.display = "none";
     } else {
-        subtaskContainer.style.border = "3px solid #90d1ed";
+        subtaskContainer.style.border = "1px solid  #ff8190";
         missingSubtaskMessage.style.display = "flex";
     }
 }

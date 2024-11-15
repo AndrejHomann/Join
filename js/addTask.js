@@ -153,10 +153,10 @@ function addOrCloseSubtask() {
 
     subtaskIconContainer.classList.remove("plusIconHover");
 
-    subtaskIconContainer.innerHTML = /*html*/ `            
-        <div id="close-icon-container" onclick="closeSubtaskDraft()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask"></div>
-        <div class="border-subtask-container"></div>
-        <div id="check-icon-container" onclick="addSubtask()"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>`;
+    subtaskIconContainer.innerHTML = /*html*/ `
+    <div id="close-icon-container" onclick="closeSubtaskDraft()"><img src="/img/addTask/close.png" alt="delete" id="close-subtask"></div>
+    <div class="border-subtask-container"></div>
+    <div id="check-icon-container" onclick="addSubtask()"><img src="/img/addTask/check.png" alt="check" id="check-subtask"></div>`;
 
     let checkIconContainer = document.getElementById("check-icon-container");
     checkIconContainer.classList.add("circleHoverEffect");
@@ -182,8 +182,6 @@ function addSubtask() {
  * Closes the subtask draft and resets the input field.
  */
 function closeSubtaskDraft() {
-    // let newSubtaskContaier = document.getElementById("new-subtask-container");
-    // removeBorderStyleToValueContainer(newSubtaskContaier);
     let subtaskDraft = document.getElementById("new-subtask-input");
     subtaskDraft.value = ``;
     resetSubtaskIcon();
@@ -420,7 +418,6 @@ function checkAddTaskChanges() {
 function checkTaskTitle() {
     setTimeout(() => {
         const input = document.getElementById("title-input");
-        // const message = document.getElementById("missing-title-message");
         const message = document.getElementById("missing-title-message");
         checkTaskOnClickInsideElement(input, message, "#ff8190", "#90d1ed");
         checkTaskOnClickOutsideElement(input, message, "#ff8190", "#d1d1d1");
@@ -499,27 +496,41 @@ function checkTaskSubtask() {
     setTimeout(() => {
         const input1 = document.getElementById("new-subtask-container");
         const input2 = document.getElementById("new-subtask-input");
-        checkTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
-        checkTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
+
+        if (input1 && input2) {
+            checkTaskOnClickInsideSubtaskElement(input1, input2, "#90d1ed");
+            checkTaskOnClickOutsideSubtaskElement(input1, input2, "#d1d1d1");
+        }
     }, 100);
 }
 
 function checkTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
-    input1.addEventListener("click", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
+    input2.addEventListener("focus", () => {
+        input1.style.border = `1px solid ${bordercolor}`;
+        console.log("Input focused - border blue");
     });
-    input2.addEventListener("click", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
+
+    input2.addEventListener("input", () => {
+        if (input2.value.trim() !== "") {
+            input1.style.border = `1px solid ${bordercolor}`;
+            const missingSubtaskMessage = document.getElementById("missing-subtask-message");
+            if (missingSubtaskMessage) {
+                missingSubtaskMessage.style.display = "none";
+            }
+        }
     });
 }
 
 function checkTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
-    input1.addEventListener("blur", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
-    });
-    input2.addEventListener("blur", () => {
-        input1.style = `border: 1px solid ${bordercolor};`;
-        document.getElementById("new-subtask-input").value = "";
-        resetSubtaskIcon();
+    document.addEventListener("click", (event) => {
+        if (!input1.contains(event.target) && !input2.contains(event.target)) {
+            input1.style.border = `1px solid ${bordercolor}`;
+            console.log("Clicked outside subtask area - border gray");
+            resetSubtaskIcon();
+            const missingSubtaskMessage = document.getElementById("missing-subtask-message");
+            if (missingSubtaskMessage) {
+                missingSubtaskMessage.style.display = "none";
+            }
+        }
     });
 }
