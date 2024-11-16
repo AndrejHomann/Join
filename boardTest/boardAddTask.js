@@ -526,8 +526,8 @@ async function showContactsDropDownBoard() {
  * Updates the state of checkboxes in the contacts dropdown list based on previously selected contacts.
  */
 function showCheckedContactsAfterDropdownClosingBoard() {
-    for (let i = 0; i < contactList.length; i++) {
-        let contactName = contactList[i];
+    for (let i = 0; i < contactsWithColors.length; i++) {
+        let contactName = contactsWithColors[i].contact;
         let checkBox = document.getElementById(`board-unchecked-box-${i}`);
 
         if (selectedContacts.includes(contactName)) {
@@ -574,7 +574,7 @@ function selectContactBoard(contactName, index) {
  * @param {number} index - The index of the contact in the contact list.
  */
 function handleContactSelectionBoard(contactName, index) {
-    let selectedContactColor = colors[index];
+    let selectedContactColor = contactsWithColors[index].color; // Hier wird die Farbe aus contactsWithColors genommen
     let assignedPlaceholder = document.getElementById("board-assigned-placeholder");
 
     if (!selectedContacts.includes(contactName)) {
@@ -593,13 +593,17 @@ function handleContactSelectionBoard(contactName, index) {
  * @param {number} index - The index of the contact in the contact list.
  */
 function handleContactDeselectionBoard(contactName, index) {
-    let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
-    let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
+    let contactColor = contactsWithColors[index].color; // Hier wird die Farbe aus contactsWithColors genommen
+    let indexOfSelectedContact = selectedContacts.indexOf(contactName);
+    let indexOfSelectedColor = selectedColors.indexOf(contactColor);
+
     document.getElementById(`board-unchecked-box-${index}`).src = "/img/unchecked.png";
 
-    if (indexOfSelectedContacts >= 0) {
-        selectedContacts.splice(indexOfSelectedContacts, 1);
-        selectedColors.splice(indexOfSelectedColors, 1);
+    if (indexOfSelectedContact >= 0) {
+        selectedContacts.splice(indexOfSelectedContact, 1);
+    }
+    if (indexOfSelectedColor >= 0) {
+        selectedColors.splice(indexOfSelectedColor, 1);
     }
 
     if (selectedContacts.length === 0) {

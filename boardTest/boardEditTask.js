@@ -586,9 +586,33 @@ async function showContactsDropDownEdit() {
 /**
  * Updates the state of checkboxes in the contacts dropdown list based on previously selected contacts.
  */
+// function showCheckedContactsAfterDropdownClosingEdit() {
+//     for (let i = 0; i < contactList.length; i++) {
+//         let contactName = contactList[i];
+//         let checkBox = document.getElementById(`edit-unchecked-box-${i}`);
+
+//         if (selectedContacts.includes(contactName)) {
+//             checkBox.src = "/img/checked.png";
+//         } else {
+//             checkBox.src = "/img/unchecked.png";
+//         }
+//     }
+// }
+// function showCheckedContactsAfterDropdownClosingEdit() {
+//     for (let i = 0; i < contactsWithColors.length; i++) {
+//         let contactName = contactsWithColors[i].contact;
+//         let checkBox = document.getElementById(`edit-unchecked-box-${i}`);
+
+//         if (selectedContacts.includes(contactName)) {
+//             checkBox.src = "/img/checked.png";
+//         } else {
+//             checkBox.src = "/img/unchecked.png";
+//         }
+//     }
+// }
 function showCheckedContactsAfterDropdownClosingEdit() {
-    for (let i = 0; i < contactList.length; i++) {
-        let contactName = contactList[i];
+    for (let i = 0; i < contactsWithColors.length; i++) {
+        let contactName = contactsWithColors[i].contact;
         let checkBox = document.getElementById(`edit-unchecked-box-${i}`);
 
         if (selectedContacts.includes(contactName)) {
@@ -602,6 +626,17 @@ function showCheckedContactsAfterDropdownClosingEdit() {
 /**
  * Closes the contacts dropdown list and updates the UI elements, including showing selected contacts in circles.
  */
+// function closeContactsDropDownEdit() {
+//     let assignedPlaceholder = document.getElementById("edit-assigned-placeholder");
+//     assignedPlaceholder.innerHTML = /*html*/ `<span id="edit-assigned-placeholder">Select contacts to assign</span>`;
+
+//     document.getElementById("edit-contacts-dropwdown-arrow-container").innerHTML = /*html*/ `<div id="contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>`;
+//     document.getElementById("edit-dropdown-list").classList.add("d-none");
+//     document.getElementById("edit-selected-contacts-circle-container").style.display = "flex";
+
+//     removeColorOfBorderAssignedContainerEdit();
+//     showCirclesOfSelectedContactsEdit();
+// }
 function closeContactsDropDownEdit() {
     let assignedPlaceholder = document.getElementById("edit-assigned-placeholder");
     assignedPlaceholder.innerHTML = /*html*/ `<span id="edit-assigned-placeholder">Select contacts to assign</span>`;
@@ -634,8 +669,20 @@ function selectContactEdit(contactName, index) {
  * @param {string} contactName - The name of the contact to be selected.
  * @param {number} index - The index of the contact in the contact list.
  */
+// function handleContactSelectionEdit(contactName, index) {
+//     let selectedContactColor = colors[index];
+//     let assignedPlaceholder = document.getElementById("edit-assigned-placeholder");
+
+//     if (!selectedContacts.includes(contactName)) {
+//         selectedContacts.push(contactName);
+//         selectedColors.push(selectedContactColor);
+//         assignedPlaceholder.innerHTML = /*html*/ `<span id="edit-assigned-placeholder">An</span>`;
+//         document.getElementById("edit-assigned-container").classList.add("heightAuto");
+//         document.getElementById(`edit-unchecked-box-${index}`).src = "/img/checked.png";
+//     }
+// }
 function handleContactSelectionEdit(contactName, index) {
-    let selectedContactColor = colors[index];
+    let selectedContactColor = contactsWithColors[index].color;
     let assignedPlaceholder = document.getElementById("edit-assigned-placeholder");
 
     if (!selectedContacts.includes(contactName)) {
@@ -653,14 +700,32 @@ function handleContactSelectionEdit(contactName, index) {
  * @param {string} contactName - The name of the contact to be deselected.
  * @param {number} index - The index of the contact in the contact list.
  */
+// function handleContactDeselectionEdit(contactName, index) {
+//     let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
+//     let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
+//     document.getElementById(`edit-unchecked-box-${index}`).src = "/img/unchecked.png";
+
+//     if (indexOfSelectedContacts >= 0) {
+//         selectedContacts.splice(indexOfSelectedContacts, 1);
+//         selectedColors.splice(indexOfSelectedColors, 1);
+//     }
+
+//     if (selectedContacts.length === 0) {
+//         document.getElementById("edit-assigned-container").classList.remove("heightAuto");
+//     }
+// }
 function handleContactDeselectionEdit(contactName, index) {
-    let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
-    let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
+    let contactColor = contactsWithColors[index].color;
+    let indexOfSelectedContact = selectedContacts.indexOf(contactName);
+    let indexOfSelectedColor = selectedColors.indexOf(contactColor);
+
     document.getElementById(`edit-unchecked-box-${index}`).src = "/img/unchecked.png";
 
-    if (indexOfSelectedContacts >= 0) {
-        selectedContacts.splice(indexOfSelectedContacts, 1);
-        selectedColors.splice(indexOfSelectedColors, 1);
+    if (indexOfSelectedContact >= 0) {
+        selectedContacts.splice(indexOfSelectedContact, 1);
+    }
+    if (indexOfSelectedColor >= 0) {
+        selectedColors.splice(indexOfSelectedColor, 1);
     }
 
     if (selectedContacts.length === 0) {

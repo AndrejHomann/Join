@@ -4,6 +4,8 @@
  *
  * @async
  */
+let contactsWithColors = [];
+
 async function fetchContacts() {
     let response = await fetch(BASE_URL + "/contacts.json");
     let contactsData = await response.json();
@@ -17,6 +19,7 @@ async function fetchContacts() {
             colors.push(contact.color);
         }
     }
+    contactsWithColors = sortContactsWithColors(combineContactsAndColors(contactList, colors));
 }
 
 /**
@@ -25,7 +28,6 @@ async function fetchContacts() {
  *
  * @async
  */
-
 async function showContactsDropDown() {
     await fetchContacts();
 
@@ -49,8 +51,8 @@ async function showContactsDropDown() {
  * Updates the state of checkboxes in the contacts dropdown list based on previously selected contacts.
  */
 function showCheckedContactsAfterDropdownClosing() {
-    for (let i = 0; i < contactList.length; i++) {
-        let contactName = contactList[i];
+    for (let i = 0; i < contactsWithColors.length; i++) {
+        let contactName = contactsWithColors[i].contact;
         let checkBox = document.getElementById(`unchecked-box-${i}`);
 
         if (selectedContacts.includes(contactName)) {
@@ -82,11 +84,11 @@ function closeContactsDropDown() {
  * @param {string} contactName - The name of the contact to be selected or deselected.
  * @param {number} index - The index of the contact in the contact list.
  */
-function selectContact(contactName, index) {
+function selectContact(contactName, index, color) {
     if (selectedContacts.includes(contactName)) {
         handleContactDeselection(contactName, index);
     } else {
-        handleContactSelection(contactName, index);
+        handleContactSelection(contactName, index, color);
     }
 }
 
@@ -96,8 +98,7 @@ function selectContact(contactName, index) {
  * @param {string} contactName - The name of the contact to be selected.
  * @param {number} index - The index of the contact in the contact list.
  */
-function handleContactSelection(contactName, index) {
-    let selectedContactColor = colors[index];
+function handleContactSelection(contactName, index, selectedContactColor) {
     let assignedPlaceholder = document.getElementById("assigned-placeholder");
 
     if (!selectedContacts.includes(contactName)) {
@@ -116,13 +117,17 @@ function handleContactSelection(contactName, index) {
  * @param {number} index - The index of the contact in the contact list.
  */
 function handleContactDeselection(contactName, index) {
-    let indexOfSelectedContacts = selectedContacts.indexOf(contactName);
-    let indexOfSelectedColors = selectedColors.indexOf(colors[index]);
+    let contactColor = colors[index];
+    let indexOfSelectedContact = selectedContacts.indexOf(contactName);
+    let indexOfSelectedColor = selectedColors.indexOf(contactColor);
+
     document.getElementById(`unchecked-box-${index}`).src = "/img/unchecked.png";
 
-    if (indexOfSelectedContacts >= 0) {
-        selectedContacts.splice(indexOfSelectedContacts, 1);
-        selectedColors.splice(indexOfSelectedColors, 1);
+    if (indexOfSelectedContact >= 0) {
+        selectedContacts.splice(indexOfSelectedContact, 1);
+    }
+    if (indexOfSelectedColor >= 0) {
+        selectedColors.splice(indexOfSelectedColor, 1);
     }
 
     if (selectedContacts.length === 0) {
@@ -202,7 +207,7 @@ function templateContactsHTMLDropdownList() {
         let lastLetter = lastName.charAt(0).toUpperCase();
 
         dropdownHTML += /*html*/ `
-            <div class="dropdown-item" id="dropdown-list-contact-${i}" 
+            <div class="dropdown-item" id="dropdown-list-contact-${i}"
                  onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)">
                 <div>
                     <div class="circle" style="background-color: ${color};">
