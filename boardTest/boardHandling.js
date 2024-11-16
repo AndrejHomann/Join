@@ -192,7 +192,7 @@ document.getElementById("search-input-id").addEventListener("input", function ()
 // searchInput.addEventListener("input", () => {
 //     searchTasks(searchInput);
 // });
-
+let countOfNoResultMessages = 0;
 function searchTasks() {
     const searchInputValue = document.getElementById("search-input-id").value.toLowerCase();
     if (searchInputValue === "") {
@@ -203,7 +203,7 @@ function searchTasks() {
         return task.title.toLowerCase().includes(searchInputValue) || task.taskDescription.toLowerCase().includes(searchInputValue) || task.category.toLowerCase().includes(searchInputValue);
     });
     displayFilteredTasks(filteredTasks);
-    if (filteredTasks.length === 0) {
+    if (filteredTasks.length === 0 && countOfNoResultMessages < 1) {
         showNoResultsMessage();
     }
 }
@@ -216,6 +216,7 @@ function searchTasks() {
  * to allow the user to close the message. The overlay is appended to the body of the document.
  */
 function showNoResultsMessage() {
+    countOfNoResultMessages++;
     const overlay = document.createElement("div");
     overlay.classList.add("message-overlay");
     const messageContainer = document.createElement("div");
@@ -242,6 +243,8 @@ function closeNoResultsMessage() {
     }
     document.getElementById("search-input-id").value = "";
     displayAllTasks();
+    countOfNoResultMessages--;
+    location.reload();
 }
 
 /**
