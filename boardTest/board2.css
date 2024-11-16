@@ -163,7 +163,6 @@ button {
     flex-direction: row;
 }
 
-
 .create-task-from-board {
     color: white;
     background-color: #2a3647;
@@ -442,6 +441,18 @@ button {
 
 .task-details-slideOut {
     animation: slideTaskDetailsOut 0.2s ease forwards;
+}
+
+.task-priority-icon {
+    margin-left: -12px;
+}
+
+.moreContactsText {
+    margin-left: 12px;
+}
+
+.moreContactsTextEdit {
+    margin-left: 4px;
 }
 
 @keyframes slideTaskDetailsIn {
@@ -813,11 +824,9 @@ label {
     z-index: 1000;
 }
 
-
 #hidden-button-desktop {
     display: none;
 }
-
 
 @media (max-width: 1360px) {
     .board-header {
@@ -929,7 +938,7 @@ label {
     .h1-board {
         font-size: 47px;
     }
-    
+
     .search-input {
         margin-left: 30px;
     }
@@ -993,7 +1002,7 @@ label {
         display: flex;
         justify-content: space-between;
     }
-    
+
     .search-field-responsive,
     .board-overview {
         margin-left: 16px;

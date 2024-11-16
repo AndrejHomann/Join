@@ -439,7 +439,7 @@ function appendEditableUserIcons(task, iconsContainer) {
         if (task.name.length > maxIcons) {
             const remainingContacts = task.name.length - maxIcons;
             const remainingText = document.createElement("div");
-            remainingText.className = "moreContactsText";
+            remainingText.className = "moreContactsTextEdit";
             remainingText.textContent = `+${remainingContacts} weitere`;
             iconsContainer.appendChild(remainingText);
         }
