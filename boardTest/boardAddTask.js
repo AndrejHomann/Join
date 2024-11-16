@@ -936,9 +936,12 @@ function clickOutsideOfCategoryDropdownBoard(event) {
             boardAddTaskCloseCategoryDropDown();
         }
 
+        if (categoryDropdownBoard && !categoryDropdownBoard.classList.contains("d-none")) {
+            closeCategoryDropDown();
+        }
         if (selectedCategory) {
             let categoryInput = document.getElementById("board-selected-category");
-            categoryInput.style.border = "1px solid #90d1ed";
+            categoryInput.style.border = "1px solid #d1d1d1";
         }
     }
 }
