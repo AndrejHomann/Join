@@ -233,16 +233,39 @@ function addProgressBarIfSubtasks(taskDiv, task) {
  * @param {string} [size='small'] - The size of the contact icons (default is 'small').
  * @returns {HTMLElement} The container element with user icons.
  */
+// function createContactIcons(task, size = "small") {
+//     const iconsContainer = document.createElement("div");
+//     iconsContainer.className = "contact-icons-container";
+
+//     if (Array.isArray(task.name) && Array.isArray(task.color) && task.name.length === task.color.length) {
+//         task.name.forEach((userName, index) => {
+//             const userColor = task.color[index];
+//             const icon = createContactIcon(userName, userColor, size);
+//             iconsContainer.appendChild(icon);
+//         });
+//     }
+//     return iconsContainer;
+// }
 function createContactIcons(task, size = "small") {
     const iconsContainer = document.createElement("div");
     iconsContainer.className = "contact-icons-container";
 
+    const maxIcons = 6;
     if (Array.isArray(task.name) && Array.isArray(task.color) && task.name.length === task.color.length) {
-        task.name.forEach((userName, index) => {
+        const visibleContacts = task.name.slice(0, maxIcons);
+        visibleContacts.forEach((userName, index) => {
             const userColor = task.color[index];
             const icon = createContactIcon(userName, userColor, size);
             iconsContainer.appendChild(icon);
         });
+
+        if (task.name.length > maxIcons) {
+            const remainingContacts = task.name.length - maxIcons;
+            const remainingText = document.createElement("div");
+            remainingText.className = "moreContactsText";
+            remainingText.textContent = `+${remainingContacts} weitere`;
+            iconsContainer.appendChild(remainingText);
+        }
     }
     return iconsContainer;
 }
@@ -362,20 +385,6 @@ function createUserIconsContainer(task) {
  * @param {Object} task - The task object containing user details.
  * @param {HTMLDivElement} iconsContainer - The container to which user icons and names will be appended.
  */
-// function appendUserIcons(task, iconsContainer) {
-//     task.name.forEach((userName, index) => {
-//         const userColor = task.color[index];
-//         const icon = createContactIcon(userName, userColor, "medium");
-//         const contactDiv = document.createElement("div");
-//         contactDiv.className = "contact-detail";
-//         contactDiv.appendChild(icon);
-//         const nameSpan = document.createElement("span");
-//         nameSpan.textContent = userName;
-//         contactDiv.appendChild(nameSpan);
-//         iconsContainer.appendChild(contactDiv);
-//     });
-// }
-
 function appendUserIcons(task, iconsContainer) {
     if (task.name && task.color && task.name.length > 0) {
         task.name.forEach((userName, index) => {
@@ -407,14 +416,34 @@ function showNoUserMessage(iconsContainer) {
     iconsContainer.appendChild(noUserMessage);
 }
 
+// function appendEditableUserIcons(task, iconsContainer) {
+//     if (iconsContainer.innerHTML === "" && task.name && task.color && task.name.length > 0) {
+//         task.name.forEach((userName, index) => {
+//             const userColor = task.color[index];
+//             const icon = createContactIcon(userName, userColor, "micro");
+//             iconsContainer.appendChild(icon);
+//         });
+//         document.getElementById("edit-assigned-container").classList.add("heightAuto");
+//     }
+// }
 function appendEditableUserIcons(task, iconsContainer) {
-    // Überprüfen, ob der Icons-Container leer ist
+    const maxIcons = 6;
     if (iconsContainer.innerHTML === "" && task.name && task.color && task.name.length > 0) {
-        task.name.forEach((userName, index) => {
+        const visibleContacts = task.name.slice(0, maxIcons);
+        visibleContacts.forEach((userName, index) => {
             const userColor = task.color[index];
             const icon = createContactIcon(userName, userColor, "micro");
             iconsContainer.appendChild(icon);
         });
+
+        if (task.name.length > maxIcons) {
+            const remainingContacts = task.name.length - maxIcons;
+            const remainingText = document.createElement("div");
+            remainingText.className = "moreContactsText";
+            remainingText.textContent = `+${remainingContacts} weitere`;
+            iconsContainer.appendChild(remainingText);
+        }
+
         document.getElementById("edit-assigned-container").classList.add("heightAuto");
     }
 }
