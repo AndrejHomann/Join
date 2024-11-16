@@ -135,7 +135,7 @@ function handleContactDeselection(contactName, index) {
  */
 function setColorOfAssignedContainer() {
     let selectContactsContainer = document.getElementById("selected-name");
-    selectContactsContainer.style.border = "1px solid #90D1ED"; // color changed by Andrej from "#90D1ED" to "blue"
+    selectContactsContainer.style.border = "1px solid #90D1ED";
 }
 
 /**
@@ -158,6 +158,9 @@ function showCirclesOfSelectedContacts() {
     let circleContainer = document.getElementById("selected-contacts-circle-container");
     circleContainer.innerHTML = "";
 
+    let maxCircles = 6;
+    let remainingContacts = selectedContacts.length - maxCircles;
+
     for (let i = 0; i < selectedContacts.length; i++) {
         let contact = selectedContacts[i];
         let choosenContact = contactList.indexOf(contact);
@@ -166,8 +169,17 @@ function showCirclesOfSelectedContacts() {
         let lastLetter = lastName.charAt(0).toUpperCase();
         let color = colors[choosenContact];
 
+        if (i >= maxCircles) {
+            break;
+        }
+
         let contactHTML = /*html*/ `<div class="circle" style="background-color: ${color}">${firstLetter}${lastLetter}</div>`;
         circleContainer.innerHTML += contactHTML;
+    }
+
+    if (remainingContacts > 0) {
+        let remainingText = /*html*/ `<div class="moreCirlce">+${remainingContacts} weitere</div>`;
+        circleContainer.innerHTML += remainingText;
     }
 }
 

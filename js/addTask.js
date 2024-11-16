@@ -507,7 +507,6 @@ function checkTaskSubtask() {
 function checkTaskOnClickInsideSubtaskElement(input1, input2, bordercolor) {
     input2.addEventListener("focus", () => {
         input1.style.border = `1px solid ${bordercolor}`;
-        console.log("Input focused - border blue");
     });
 
     input2.addEventListener("input", () => {
@@ -525,7 +524,6 @@ function checkTaskOnClickOutsideSubtaskElement(input1, input2, bordercolor) {
     document.addEventListener("click", (event) => {
         if (!input1.contains(event.target) && !input2.contains(event.target)) {
             input1.style.border = `1px solid ${bordercolor}`;
-            console.log("Clicked outside subtask area - border gray");
             resetSubtaskIcon();
             const missingSubtaskMessage = document.getElementById("missing-subtask-message");
             if (missingSubtaskMessage) {

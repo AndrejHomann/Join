@@ -559,6 +559,7 @@ h1 {
 #board-selected-contacts-circle-container {
     display: flex;
     gap: 8px;
+    align-items: center;
 }
 
 .uncheckedBox {

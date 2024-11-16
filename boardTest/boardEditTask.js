@@ -287,7 +287,6 @@ function checkEditTaskSubtask() {
 function checkTaskOnClickInsideElementEditSubtask(input1, input2, bordercolor) {
     input2.addEventListener("focus", () => {
         input1.style.border = `1px solid ${bordercolor}`;
-        console.log("Input focused - border blue");
     });
 
     input2.addEventListener("input", () => {
@@ -305,7 +304,6 @@ function checkTaskOnClickOutsideElementEditSubtask(input1, input2, bordercolor) 
     document.addEventListener("click", (event) => {
         if (!input1.contains(event.target) && !input2.contains(event.target)) {
             input1.style.border = `1px solid ${bordercolor}`;
-            console.log("Clicked outside edit subtask area - border gray");
 
             const inputField = document.getElementById("edit-new-subtask-input");
             if (inputField) {
@@ -693,6 +691,9 @@ function showCirclesOfSelectedContactsEdit() {
     let circleContainer = document.getElementById("edit-selected-contacts-circle-container");
     circleContainer.innerHTML = "";
 
+    let maxCircles = 6;
+    let remainingContacts = selectedContacts.length - maxCircles;
+
     for (let i = 0; i < selectedContacts.length; i++) {
         let contact = selectedContacts[i];
         let choosenContact = contactList.indexOf(contact);
@@ -701,8 +702,17 @@ function showCirclesOfSelectedContactsEdit() {
         let lastLetter = lastName.charAt(0).toUpperCase();
         let color = colors[choosenContact];
 
+        if (i >= maxCircles) {
+            break;
+        }
+
         let contactHTML = /*html*/ `<div class="circle" style="background-color: ${color}">${firstLetter}${lastLetter}</div>`;
         circleContainer.innerHTML += contactHTML;
+    }
+
+    if (remainingContacts > 0) {
+        let remainingText = /*html*/ `<div class="moreCirlce">+${remainingContacts} weitere</div>`;
+        circleContainer.innerHTML += remainingText;
     }
 }
 
