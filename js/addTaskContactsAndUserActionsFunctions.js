@@ -192,42 +192,46 @@ function showCirclesOfSelectedContacts() {
 function templateContactsHTMLDropdownList() {
     let dropdownHTML = "";
 
-    sortContactsByFirstName(contactList);
+    let contactsWithColors = combineContactsAndColors(contactList, colors);
+    contactsWithColors = sortContactsWithColors(contactsWithColors);
 
-    for (let i = 0; i < contactList.length; i++) {
-        let contact = contactList[i];
+    for (let i = 0; i < contactsWithColors.length; i++) {
+        let { contact, color } = contactsWithColors[i];
         let [firstName, lastName] = contact.split(" ");
         let firstLetter = firstName.charAt(0).toUpperCase();
         let lastLetter = lastName.charAt(0).toUpperCase();
-        let color = colors[i];
 
         dropdownHTML += /*html*/ `
-            <div class="dropdown-item" id="dropdown-list-contact-${i}" onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
-            <div>
-                <div class="circle" style="background-color: ${color};">
-                    ${firstLetter}${lastLetter}
+            <div class="dropdown-item" id="dropdown-list-contact-${i}" 
+                 onclick="selectContact('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)">
+                <div>
+                    <div class="circle" style="background-color: ${color};">
+                        ${firstLetter}${lastLetter}
+                    </div>
+                    <span class="contactsDropdownNameSpan">${contact}</span>
                 </div>
-                <span class="contactsDropdownNameSpan">${contact}</span>
-            </div>
                 <img src="/img/unchecked.png" alt="unchecked" id="unchecked-box-${i}" class="uncheckedBox">
             </div>`;
     }
+
     return dropdownHTML;
 }
 
-/**
- * Sorts the contact list alphabetically by first name.
- *
- * @param {Array<string>} contactList - The list of contact names to be sorted.
- */
-function sortContactsByFirstName(contactList) {
-    contactList.sort(function (a, b) {
-        if (a < b) {
-            return -1;
-        }
-        if (a > b) {
-            return 1;
-        }
+function combineContactsAndColors(contactList, colors) {
+    let contactsWithColors = [];
+    for (let i = 0; i < contactList.length; i++) {
+        contactsWithColors.push({
+            contact: contactList[i],
+            color: colors[i],
+        });
+    }
+    return contactsWithColors;
+}
+
+function sortContactsWithColors(contactsWithColors) {
+    return contactsWithColors.sort((a, b) => {
+        if (a.contact < b.contact) return -1;
+        if (a.contact > b.contact) return 1;
         return 0;
     });
 }

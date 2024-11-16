@@ -664,26 +664,28 @@ function showCirclesOfSelectedContactsBoard() {
 function templateContactsHTMLDropdownListBoard() {
     let dropdownHTML = "";
 
-    sortContactsByFirstName(contactList);
+    let contactsWithColors = combineContactsAndColors(contactList, colors);
+    contactsWithColors = sortContactsWithColors(contactsWithColors);
 
-    for (let i = 0; i < contactList.length; i++) {
-        let contact = contactList[i];
+    for (let i = 0; i < contactsWithColors.length; i++) {
+        let { contact, color } = contactsWithColors[i];
         let [firstName, lastName] = contact.split(" ");
         let firstLetter = firstName.charAt(0).toUpperCase();
         let lastLetter = lastName.charAt(0).toUpperCase();
-        let color = colors[i];
 
         dropdownHTML += /*html*/ `
-            <div class="dropdown-item" id="board-dropdown-list-contact-${i}" onclick="selectContactBoard('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)" >
-            <div>
-                <div class="circle" style="background-color: ${color};">
-                    ${firstLetter}${lastLetter}
+            <div class="dropdown-item" id="board-dropdown-list-contact-${i}" 
+                 onclick="selectContactBoard('${contact}', ${i}, '${color}'), doNotCloseDropdown(event)">
+                <div>
+                    <div class="circle" style="background-color: ${color};">
+                        ${firstLetter}${lastLetter}
+                    </div>
+                    <span class="contactsDropdownNameSpan">${contact}</span>
                 </div>
-                <span class="contactsDropdownNameSpan">${contact}</span>
-            </div>
                 <img src="/img/unchecked.png" alt="unchecked" id="board-unchecked-box-${i}" class="uncheckedBox">
             </div>`;
     }
+
     return dropdownHTML;
 }
 
