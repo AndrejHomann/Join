@@ -1104,4 +1104,7 @@ label {
     .sideBarMenu {
         flex-direction: row;
     }
+    .column-feedback {
+        margin-top: 10px;
+    }
 }
