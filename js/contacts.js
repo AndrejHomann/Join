@@ -152,7 +152,7 @@ function updateContactInArray(contactId, updatedContact) {
  */
 async function sendUpdateRequest(contactId, updatedContact) {
     const response = await fetch(`${BASE_URL}contacts/${contactId}.json`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedContact)
     });
@@ -193,7 +193,7 @@ async function updateContact() {
 async function deleteContact() {
     let deleteUserName;
     try {
-        const response = await fetch(`${BASE_URL}/${`contacts`}.json`);               
+        const response = await fetch(`${BASE_URL}/${`contacts`}.json`);
         const contactData = await response.json();
         deleteUserName = contactData[currentContactId].name;
         console.log("delete Username:", deleteUserName)
@@ -223,9 +223,9 @@ async function deleteContact() {
 
     try {
         const response = await fetch(`${BASE_URL}.json`);
-        const data = await response.json(); 
+        const data = await response.json();
 
-        for (let i=0; i<taskIdsWithContactNamesToDelete.length; i++) {
+        for (let i = 0; i < taskIdsWithContactNamesToDelete.length; i++) {
             const taskId = taskIdsWithContactNamesToDelete[i];
             const task = data.tasks[taskId];
             console.log("task name array:", task.name);
@@ -239,10 +239,10 @@ async function deleteContact() {
             const patchResponse = await fetch(`${BASE_URL}/${`tasks`}/${taskId}.json`, {
                 method: 'PATCH',
                 headers: {
-                'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                name: newTaskUserNameArray
+                    name: newTaskUserNameArray
                 })
             });
 
