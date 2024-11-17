@@ -89,7 +89,7 @@ function appendEditableUserIcons(task, iconsContainer) {
     if (iconsContainer.innerHTML === "" && task.name && task.color && task.name.length > 0) {
         const size = "micro";
         createVisibleContacts(task, maxIcons, size, iconsContainer);
-        
+
         if (task.name.length > maxIcons) {
             const remainingText = limitNumberOfVisibleContacts(task, maxIcons)
             iconsContainer.appendChild(remainingText);
@@ -130,11 +130,17 @@ function setupEditAndDeleteButtons(task) {
  * @function
  */
 function closeTaskDetails() {
-    prepareToCloseTaskDetails();
+    const taskDetails = document.getElementById("taskDetailsOverlay");
     const confirmationDiv = document.querySelector(".deleteConfirmationDiv");
+    taskDetails.classList.remove("task-details-slideIn");
+    taskDetails.classList.add("task-details-slideOut");
+    selectedContacts = [];
+    selectedColors = [];
+
     if (confirmationDiv) {
         closeConfirmationDiv(confirmationDiv);
     }
+
     taskDetails.addEventListener(
         "animationend",
         () => {
@@ -143,14 +149,6 @@ function closeTaskDetails() {
         },
         { once: true }
     );
-}
-
-function prepareToCloseTaskDetails() {
-    const taskDetails = document.getElementById("taskDetailsOverlay");
-    taskDetails.classList.remove("task-details-slideIn");
-    taskDetails.classList.add("task-details-slideOut");
-    selectedContacts = [];
-    selectedColors = [];
 }
 
 /**
