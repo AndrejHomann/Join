@@ -16,6 +16,7 @@ function displayTasks() {
     });
     checkEmptyColumns();
     addDragAndDropListeners();
+    addTouchListeners();
 }
 
 /**
@@ -239,7 +240,7 @@ function createContactIcons(task, size = "small") {
     if (Array.isArray(task.name) && Array.isArray(task.color) && task.name.length === task.color.length) {
         createVisibleContacts(task, maxIcons, size, iconsContainer);
         if (task.name.length > maxIcons) {
-            const remainingText= limitNumberOfVisibleContacts(task, maxIcons);
+            const remainingText = limitNumberOfVisibleContacts(task, maxIcons);
             iconsContainer.appendChild(remainingText);
         }
     }
@@ -319,6 +320,7 @@ function displayFilteredTasks(filteredTasks) {
         assignTaskToColumn(task);
     });
     addDragAndDropListeners();
+    addTouchListeners();
 }
 
 /**
