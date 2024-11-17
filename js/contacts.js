@@ -191,6 +191,73 @@ async function updateContact() {
  * @returns {Promise<void>} Returns a promise that resolves when the contact is deleted.
  */
 async function deleteContact() {
+    let deleteUserName;
+    try {
+        const response = await fetch(`${BASE_URL}/${`contacts`}.json`);               
+        const contactData = await response.json();
+        deleteUserName = contactData[currentContactId].name;
+        console.log("delete Username:", deleteUserName)
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+        return null;
+    }
+
+    let taskIdsWithContactNamesToDelete = [];
+    try {
+        const response = await fetch(`${BASE_URL}.json`);
+        const data = await response.json();
+
+        const tasks = data.tasks;
+
+        for (const taskId in tasks) {
+            const task = tasks[taskId];
+            if (task.name.includes(deleteUserName)) {
+                taskIdsWithContactNamesToDelete.push(taskId);
+            }
+        }
+        console.log("task IDs:", taskIdsWithContactNamesToDelete);
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+        return null;
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}.json`);
+        const data = await response.json(); 
+
+        for (let i=0; i<taskIdsWithContactNamesToDelete.length; i++) {
+            const taskId = taskIdsWithContactNamesToDelete[i];
+            const task = data.tasks[taskId];
+            console.log("task name array:", task.name);
+            const TaskUserNameIndex = task.name.indexOf(deleteUserName);
+            console.log("task name array index", TaskUserNameIndex);
+            console.log("task name array before:", task.name);
+            // const newTaskUserNameArray = task.name.splice(TaskUserNameIndex, 1);
+            const newTaskUserNameArray = task.name.filter(user => user !== deleteUserName)
+            console.log("task name array after:", newTaskUserNameArray);
+
+            const patchResponse = await fetch(`${BASE_URL}/${`tasks`}/${taskId}.json`, {
+                method: 'PATCH',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                name: newTaskUserNameArray
+                })
+            });
+
+            if (patchResponse.ok) {
+                console.log(`Contact ${deleteUserName} has been deleted from Task with ID ${taskId}.`);
+            }
+
+            if (!patchResponse.ok) {
+                throw new Error(`Error deleting contact from task ${taskId}`);
+            }
+        }
+    } catch (error) {
+        console.error("Error deleting contact:", error);
+    }
+
     const url = `${BASE_URL}contacts/${currentContactId}.json`;
     try {
         const response = await fetch(url, {
@@ -198,6 +265,7 @@ async function deleteContact() {
         });
         if (response.ok) {
             handleDeleteContact();
+
         } else {
             console.error('Failed to delete contact');
         }
@@ -205,6 +273,9 @@ async function deleteContact() {
         console.error('Error:', error);
     }
 }
+
+
+
 
 /**
  * Handles the deletion of a contact by updating the UI and refreshing the contact list.
