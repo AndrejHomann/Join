@@ -20,6 +20,17 @@ function createTaskFromBoard(status = "todo") {
     subtaskInputBoard.addEventListener("keydown", addSubtaskByEnterKeyBoard);
 }
 
+/**
+ * Adds a new task from the board by validating inputs, collecting task data, and sending it to the server.
+ *
+ * This function:
+ * - Validates all input fields using `validateAllInputsBoard`.
+ * - Collects the task data, including selected contacts, priority, category, color, subtasks, title, description, date, and status.
+ * - Sends the task data to the server using the `addTask` function.
+ * - Clears the input fields on the board using `clearFieldsBoard`.
+ *
+ * @returns {void}
+ */
 function addTaskFromBoard() {
     if (!validateAllInputsBoard()) {
         return;
@@ -40,6 +51,20 @@ function addTaskFromBoard() {
     clearFieldsBoard();
 }
 
+/**
+ * Clears the input fields and resets all related elements on the task board.
+ *
+ * This function:
+ * - Clears input fields on the board using `clearInputFieldsBoard`.
+ * - Resets the arrays used for storing task data via `setBackArrays`.
+ * - Resets placeholder text for the category and assigned contacts dropdowns.
+ * - Clears the container for selected contacts' circle icons.
+ * - Resets the task priority button to its default state.
+ * - Closes the contacts dropdown and resets the subtask list.
+ * - Resets any required notification messages and subtask-related icons.
+ *
+ * @returns {void}
+ */
 function clearFieldsBoard() {
     clearInputFieldsBoard();
     setBackArrays();
@@ -58,18 +83,44 @@ function clearFieldsBoard() {
     resetSubtaskRequiredNotificationBoard();
 }
 
+/**
+ * Resets the required notification messages on the task board.
+ *
+ * This function:
+ * - Resets the date, title, and category required notifications by calling their respective reset functions.
+ *
+ * @returns {void}
+ */
 function resetRequiredNotificationsBoard() {
     resetDateRequiredNotificationBoard();
     resetTitleRequiredNotificationBoard();
     resetCategoryRequiredNotificationBoard();
 }
 
+/**
+ * Resets the required notification for the date input field on the task board.
+ *
+ * This function:
+ * - Hides the missing date message by setting its display style to "none".
+ * - Resets the border style of the date input field to its default state.
+ *
+ * @returns {void}
+ */
 function resetDateRequiredNotificationBoard() {
     let missingDateMessage = document.getElementById("board-missing-date-message");
     missingDateMessage.style.display = "none";
     document.getElementById("board-date-input").style.border = "";
 }
 
+/**
+ * Resets the required notification for the title input field on the task board.
+ *
+ * This function:
+ * - Resets the border style of the title input field to its default state.
+ * - Hides the missing title message by setting its display style to "none".
+ *
+ * @returns {void}
+ */
 function resetTitleRequiredNotificationBoard() {
     let missingTitleMessage = document.getElementById("board-missing-title-message");
     let titleInput = document.getElementById("board-title-input");
@@ -77,6 +128,15 @@ function resetTitleRequiredNotificationBoard() {
     missingTitleMessage.style.display = "none";
 }
 
+/**
+ * Resets the required notification for the category input field on the task board.
+ *
+ * This function:
+ * - Resets the border style of the category input field to its default state.
+ * - Hides the missing category message by setting its display style to "none".
+ *
+ * @returns {void}
+ */
 function resetCategoryRequiredNotificationBoard() {
     let missingCategoryMessage = document.getElementById("board-missing-category-message");
     let categoryInput = document.getElementById("board-selected-category");
@@ -85,12 +145,32 @@ function resetCategoryRequiredNotificationBoard() {
     missingCategoryMessage.style.display = "none";
 }
 
+/**
+ * Resets the required notification for the subtask input field on the task board.
+ *
+ * This function:
+ * - Hides the missing subtask message by setting its display style to "none".
+ * - Resets the border style of the subtask input container to its default state.
+ *
+ * @returns {void}
+ */
 function resetSubtaskRequiredNotificationBoard() {
     let missingSubtaskMessage = document.getElementById("board-missing-subtask-message");
     missingSubtaskMessage.style.display = "none";
     document.getElementById("board-new-subtask-container").style.border = "";
 }
 
+/**
+ * Clears the input fields on the task board.
+ *
+ * This function resets the following fields to their empty state:
+ * - The title input field (`board-title-input`).
+ * - The description textarea input field (`board-textarea-input`).
+ * - The date input field (`board-date-input`).
+ * - The new subtask input field (`board-new-subtask-input`).
+ *
+ * @returns {void}
+ */
 function clearInputFieldsBoard() {
     document.getElementById("board-title-input").value = "";
     document.getElementById("board-textarea-input").value = "";
@@ -98,6 +178,18 @@ function clearInputFieldsBoard() {
     document.getElementById("board-new-subtask-input").value = "";
 }
 
+/**
+ * Validates all input fields on the task board.
+ *
+ * This function checks if the following fields are valid:
+ * - The title input field.
+ * - The date input field.
+ * - The category input field.
+ *
+ * If any of the fields are invalid, the function sets the `isValid` flag to `false`.
+ *
+ * @returns {boolean} Returns `true` if all input fields are valid, otherwise `false`.
+ */
 function validateAllInputsBoard() {
     let isValid = true;
 
@@ -116,6 +208,19 @@ function validateAllInputsBoard() {
     return isValid;
 }
 
+/**
+ * Checks if the title input field on the task board has been entered.
+ *
+ * This function verifies whether the title input field contains a value. If the value is present:
+ * - Hides the "missing title" message.
+ * - Keeps the input border in its default state.
+ *
+ * If the title input is empty:
+ * - Displays the "missing title" message.
+ * - Changes the input border to indicate an error.
+ *
+ * @returns {boolean} Returns `true` if the title input has a value, otherwise `false`.
+ */
 function checkIfTitleIsEnteredBoard() {
     let missingTitleMessage = document.getElementById("board-missing-title-message");
     let titleInput = document.getElementById("board-title-input");
@@ -133,6 +238,19 @@ function checkIfTitleIsEnteredBoard() {
     return isValid;
 }
 
+/**
+ * Checks if a date has been selected in the task board's date input field.
+ *
+ * This function verifies whether the date input field contains a value. If the value is present:
+ * - Hides the "missing date" message.
+ * - Keeps the input border in its default state.
+ *
+ * If the date input is empty:
+ * - Displays the "missing date" message.
+ * - Changes the input border to indicate an error.
+ *
+ * @returns {boolean} Returns `true` if a date is selected, otherwise `false`.
+ */
 function checkIfDateIsSelectedBoard() {
     let missingDateMessage = document.getElementById("board-missing-date-message");
     let dateInput = document.getElementById("board-date-input");
@@ -150,6 +268,19 @@ function checkIfDateIsSelectedBoard() {
     return isValid;
 }
 
+/**
+ * Checks if a category has been selected in the task board's category input field.
+ *
+ * This function verifies whether a category is selected. If a category is selected:
+ * - Hides the "missing category" message.
+ * - Sets the category input border to indicate valid selection.
+ *
+ * If no category is selected:
+ * - Displays the "missing category" message.
+ * - Changes the category input border to indicate an error.
+ *
+ * @returns {boolean} Returns `true` if a category is selected, otherwise `false`.
+ */
 function checkIfCategoryIsSelectedBoard() {
     let missingCategoryMessage = document.getElementById("board-missing-category-message");
     let categoryInput = document.getElementById("board-selected-category");
@@ -169,10 +300,27 @@ function checkIfCategoryIsSelectedBoard() {
     return isValid;
 }
 
+/**
+ * Resets the subtask list displayed on the task board.
+ *
+ * This function clears the content of the container that holds the generated subtasks.
+ * It effectively removes any existing subtasks from the view by setting the container's innerHTML to an empty string.
+ */
 function resetSubtaskListBoard() {
     document.getElementById("board-generated-subtask-list-container").innerHTML = "";
 }
 
+/**
+ * Checks for changes in the task inputs on the task board.
+ *
+ * This function validates the following task fields:
+ * - Task title
+ * - Task description
+ * - Task date
+ * - Task subtasks
+ *
+ * It calls respective check functions for each of these fields to ensure they meet the necessary criteria.
+ */
 function checkAddTaskChangesInBoard() {
     checkTaskTitleBoard();
     checkTaskDescriptionBoard();
@@ -180,6 +328,17 @@ function checkAddTaskChangesInBoard() {
     checkTaskSubtaskBoard();
 }
 
+/**
+ * Validates the task title input on the task board.
+ *
+ * This function sets up event listeners to validate the task title in the input field with ID `board-title-input`.
+ * It checks the following:
+ * - When the input is clicked inside, it applies a border color and shows a missing title message if needed.
+ * - When the input is clicked outside, it updates the border color and hides the missing title message if the input is valid.
+ * - When a keystroke occurs inside the input, it ensures the input is valid and updates the UI accordingly.
+ *
+ * The function uses `setTimeout` to allow the DOM to load before adding the event listeners.
+ */
 function checkTaskTitleBoard() {
     setTimeout(() => {
         const input = document.getElementById("board-title-input");
@@ -190,6 +349,17 @@ function checkTaskTitleBoard() {
     }, 100);
 }
 
+/**
+ * Validates the task description input on the task board.
+ *
+ * This function sets up event listeners to validate the task description in the input field with ID `board-textarea-input`.
+ * It checks the following:
+ * - When the input is clicked inside, it applies a border color.
+ * - When the input is clicked outside, it resets the border color to its default state.
+ * - When a keystroke occurs inside the input, it updates the UI to reflect the validity of the input, ensuring the border color changes accordingly.
+ *
+ * The function uses `setTimeout` to allow the DOM to load before adding the event listeners.
+ */
 function checkTaskDescriptionBoard() {
     setTimeout(() => {
         const input = document.getElementById("board-textarea-input");
@@ -199,6 +369,17 @@ function checkTaskDescriptionBoard() {
     }, 100);
 }
 
+/**
+ * Validates the task date input on the task board.
+ *
+ * This function sets up event listeners to validate the task date in the input field with ID `board-date-input`.
+ * It checks the following:
+ * - When the input is clicked inside, it applies a border color and displays an error message if the input is empty.
+ * - When the input is clicked outside, it resets the border color and hides the error message if the input is valid.
+ * - When a keystroke occurs inside the input, it updates the UI to reflect the validity of the input.
+ *
+ * The function uses `setTimeout` to allow the DOM to load before adding the event listeners.
+ */
 function checkTaskDateBoard() {
     setTimeout(() => {
         const input = document.getElementById("board-date-input");
@@ -209,9 +390,28 @@ function checkTaskDateBoard() {
     }, 100);
 }
 
+/**
+ * Handles the click event inside the specified input element on the task board.
+ *
+ * This function adds an event listener to the input element that triggers when the user clicks inside the input field.
+ * It checks whether the input field is empty and applies the appropriate border color and error message visibility.
+ *
+ * If the input is empty:
+ * - The border color is set to `bordercolor1`.
+ * - The error message (if provided) is displayed.
+ *
+ * If the input is not empty:
+ * - The border color is set to `bordercolor2`.
+ * - The error message (if provided) is hidden.
+ *
+ * @param {HTMLElement} input - The input element to validate.
+ * @param {HTMLElement} message - The error message element to display when validation fails.
+ * @param {string} bordercolor1 - The border color when the input is empty.
+ * @param {string} bordercolor2 - The border color when the input is not empty.
+ */
 function checkTaskOnClickInsideElementBoard(input, message, bordercolor1, bordercolor2) {
     input.addEventListener("click", () => {
-        if (input.trim === "") {
+        if (input.value.trim === "") {
             input.style = `border: 1px solid ${bordercolor1};`;
             if (message != "") {
                 message.style.display = "flex";
@@ -225,6 +425,25 @@ function checkTaskOnClickInsideElementBoard(input, message, bordercolor1, border
     });
 }
 
+/**
+ * Handles the blur event when the input element loses focus on the task board.
+ *
+ * This function adds an event listener to the input element that triggers when the user clicks outside the input field (blur event).
+ * It checks whether the input field is empty and applies the appropriate border color and error message visibility.
+ *
+ * If the input is empty:
+ * - The border color is set to `bordercolor1`.
+ * - The error message (if provided) is displayed.
+ *
+ * If the input is not empty:
+ * - The border color is set to `bordercolor2`.
+ * - The error message (if provided) is hidden.
+ *
+ * @param {HTMLElement} input - The input element to validate.
+ * @param {HTMLElement} message - The error message element to display when validation fails.
+ * @param {string} bordercolor1 - The border color when the input is empty.
+ * @param {string} bordercolor2 - The border color when the input is not empty.
+ */
 function checkTaskOnClickOutsideElementBoard(input, message, bordercolor1, bordercolor2) {
     input.addEventListener("blur", () => {
         if (input.value === "") {
@@ -241,6 +460,25 @@ function checkTaskOnClickOutsideElementBoard(input, message, bordercolor1, borde
     });
 }
 
+/**
+ * Handles the input event to validate the input element on keystroke in the task board.
+ *
+ * This function adds an event listener to the input element that triggers when the user types into the input field (input event).
+ * It checks whether the input field is empty and applies the appropriate border color and error message visibility.
+ *
+ * If the input is empty:
+ * - The border color is set to `bordercolor1`.
+ * - The error message (if provided) is displayed.
+ *
+ * If the input is not empty:
+ * - The border color is set to `bordercolor2`.
+ * - The error message (if provided) is hidden.
+ *
+ * @param {HTMLElement} input - The input element to validate.
+ * @param {HTMLElement} message - The error message element to display when validation fails.
+ * @param {string} bordercolor1 - The border color when the input is empty.
+ * @param {string} bordercolor2 - The border color when the input is not empty.
+ */
 function checkTaskOnKeystrokeInsideElementBoard(input, message, bordercolor1, bordercolor2) {
     input.addEventListener("input", () => {
         if (input.value === "") {
@@ -257,12 +495,29 @@ function checkTaskOnKeystrokeInsideElementBoard(input, message, bordercolor1, bo
     });
 }
 
+/**
+ * Handles the input event to validate the input element on keystroke in the task description field on the board.
+ *
+ * This function adds an event listener to the input element that triggers when the user types into the input field (input event).
+ * It applies the specified border color to the input element as the user types.
+ *
+ * @param {HTMLElement} input - The input element (task description field) to validate.
+ * @param {string} bordercolor - The border color to apply while the user is typing.
+ */
 function checkTaskOnKeystrokeInsideElementBoardDescription(input, bordercolor) {
     input.addEventListener("input", () => {
         input.style = `border: 1px solid ${bordercolor1};`;
     });
 }
 
+/**
+ * Initializes event listeners for the subtask input fields on the board, including click and input actions.
+ *
+ * This function waits for the DOM to load and ensures that the subtask container and input elements are available.
+ * It then calls helper functions to manage the subtask input's behavior when focused or clicked outside.
+ *
+ * @returns {void}
+ */
 function checkTaskSubtaskBoard() {
     setTimeout(() => {
         const input1 = document.getElementById("board-new-subtask-container");
@@ -275,6 +530,18 @@ function checkTaskSubtaskBoard() {
     }, 100);
 }
 
+/**
+ * Adds event listeners for when the subtask input is focused or updated inside the task board.
+ *
+ * This function is responsible for changing the border color of the subtask container when the input field gains focus
+ * or when the user starts typing. Additionally, it hides the "missing subtask" message once the user enters text in the input field.
+ *
+ * @param {HTMLElement} input1 - The element representing the container of the subtask input field.
+ * @param {HTMLElement} input2 - The subtask input field element.
+ * @param {string} bordercolor - The border color to apply when the input is focused or updated.
+ *
+ * @returns {void}
+ */
 function checkTaskOnClickInsideSubtaskElementBoard(input1, input2, bordercolor) {
     input2.addEventListener("focus", () => {
         input1.style.border = `1px solid ${bordercolor}`;
@@ -291,6 +558,19 @@ function checkTaskOnClickInsideSubtaskElementBoard(input1, input2, bordercolor) 
     });
 }
 
+/**
+ * Adds an event listener to detect when a click occurs outside the subtask container or input field.
+ *
+ * This function is responsible for resetting the border color of the subtask container to the given color when a click
+ * happens outside the subtask input elements. It also resets the subtask icon and hides the "missing subtask" message
+ * if the click was outside the input container.
+ *
+ * @param {HTMLElement} input1 - The element representing the container of the subtask input field.
+ * @param {HTMLElement} input2 - The subtask input field element.
+ * @param {string} bordercolor - The border color to apply when the click happens outside the input elements.
+ *
+ * @returns {void}
+ */
 function checkTaskOnClickOutsideSubtaskElementBoard(input1, input2, bordercolor) {
     document.addEventListener("click", (event) => {
         if (!input1.contains(event.target) && !input2.contains(event.target)) {
@@ -304,6 +584,17 @@ function checkTaskOnClickOutsideSubtaskElementBoard(input1, input2, bordercolor)
     });
 }
 
+/**
+ * Selects a priority button for the task board and applies the appropriate styling.
+ *
+ * This function resets the priority button styles, then highlights the selected priority
+ * button by adding a background color class and removing the default text color class.
+ * It also updates the `selectedPrio` variable to reflect the chosen priority.
+ *
+ * @param {string} prio - The priority to be selected. This is expected to be a string, such as "urgent", "medium", or "low".
+ *
+ * @returns {void}
+ */
 function choosePrioBoard(prio) {
     let selectedPioButton = document.getElementById(`board-prio-${prio}-button`);
 
@@ -315,6 +606,15 @@ function choosePrioBoard(prio) {
     selectedPrio = prio;
 }
 
+/**
+ * Resets the priority buttons on the task board to their default state.
+ *
+ * This function removes any background color classes from the priority buttons (urgent, medium, low)
+ * and restores the default text color by adding the `prio-default-text-color` class to all buttons.
+ * It ensures that no priority button is selected, effectively resetting the priority selection.
+ *
+ * @returns {void}
+ */
 function resetPrioBoard() {
     let urgentButton = document.getElementById("board-prio-urgent-button");
     let mediumButton = document.getElementById("board-prio-medium-button");
@@ -329,6 +629,18 @@ function resetPrioBoard() {
     lowButton.classList.add("prio-default-text-color");
 }
 
+/**
+ * Toggles between adding and closing a subtask in the task board.
+ *
+ * When a subtask is being added, this function updates the subtask icon container
+ * to display the close and check icons for interacting with the subtask. It also
+ * adds hover effects to the icons for better user experience.
+ *
+ * If a subtask is already being reset (determined by `isSubtaskResetting`),
+ * the function will exit early and prevent any changes.
+ *
+ * @returns {void}
+ */
 function addOrCloseSubtaskBoard() {
     if (isSubtaskResetting) return;
 
@@ -367,6 +679,22 @@ function closeSubtaskDraftBoard() {
     resetSubtaskIconBoard();
 }
 
+/**
+ * Validates and handles the submission of a new subtask in the task board.
+ *
+ * This function checks if the subtask input field is not empty. If the input is valid (not empty),
+ * it adds the new subtask to the list, updates the UI to display the subtask, and resets the input field.
+ * It also styles the subtask container with a border and hides any error messages.
+ *
+ * If the input is empty, the function displays an error message and applies an error border to the container.
+ *
+ * @param {HTMLInputElement} newSubtaskInput - The input field where the user types the subtask.
+ * @param {HTMLElement} subtaskList - The container where the list of subtasks is displayed.
+ * @param {HTMLElement} subtaskContainer - The container element for the subtask input field.
+ * @param {HTMLElement} missingSubtaskMessage - The message element displayed when no subtask is entered.
+ * @param {number} i - The index of the subtask being added.
+ * @returns {void}
+ */
 function handleSubtaskValidationBoard(newSubtaskInput, subtaskList, subtaskContainer, missingSubtaskMessage, i) {
     let trimmedInput = newSubtaskInput.value.trim();
 
@@ -385,6 +713,16 @@ function handleSubtaskValidationBoard(newSubtaskInput, subtaskList, subtaskConta
     }
 }
 
+/**
+ * Resets the subtask icon container on the task board.
+ *
+ * This function resets the subtask icon container to display the plus icon. It replaces the current content
+ * of the container with a new plus icon and adds the necessary hover effect and click event listener.
+ * It also sets a flag to indicate that the subtask reset operation is in progress and calls the `resetSubtaskClearButton`
+ * function after a brief delay to reset any related UI elements.
+ *
+ * @returns {void}
+ */
 function resetSubtaskIconBoard() {
     let subtaskIconContainer = document.getElementById("board-subtask-icon-container");
 
@@ -397,6 +735,16 @@ function resetSubtaskIconBoard() {
     setTimeout(resetSubtaskClearButton, 1);
 }
 
+/**
+ * Shows the close or delete icon during subtask creation based on input value.
+ *
+ * This function checks if there is any text entered in the subtask input field. If text is present, it calls
+ * the `addOrCloseSubtaskBoard` function to display the close and check icons for interacting with the subtask.
+ * If the input field is empty, it resets the subtask icon container by calling the `resetSubtaskIconBoard` function,
+ * which restores the default plus icon.
+ *
+ * @returns {void}
+ */
 function showCloseOrDeleteIconDuringWritingSubtaskBoard() {
     let subtaskInputBoard = document.getElementById("board-new-subtask-input");
 
@@ -407,6 +755,18 @@ function showCloseOrDeleteIconDuringWritingSubtaskBoard() {
     }
 }
 
+/**
+ * Generates HTML markup for a subtask list item in the board.
+ *
+ * This function generates the HTML structure for a single subtask in the list, including the subtask text,
+ * an edit icon, and a delete icon. The function also assigns unique IDs to each element to manage the subtasks
+ * efficiently by index.
+ *
+ * @param {number} i - The index of the subtask in the list.
+ * @param {string} subtask - The text content of the subtask to be displayed.
+ *
+ * @returns {string} - The HTML string representing the subtask list item.
+ */
 function templateSubtasksListHTMLBoard(i, subtask) {
     return /*html*/ `
             <div class="generatedSubtasks" id="board-generated-subtask-container-${i}">
@@ -421,6 +781,15 @@ function templateSubtasksListHTMLBoard(i, subtask) {
             </div>`;
 }
 
+/**
+ * Edits a subtask in the board by replacing the subtask's text with an editable input field.
+ *
+ * This function is triggered when a user wants to edit a specific subtask. It updates the subtask container's
+ * HTML to allow editing, replaces the current subtask text with an input field pre-filled with the current subtask
+ * text, and sets up functionality to save the changes when the user presses the Enter key.
+ *
+ * @param {number} index - The index of the subtask to be edited in the `subtasks` array.
+ */
 function editSubtaskBoard(index) {
     let toEditSubtask = document.getElementById(`board-generated-subtask-container-${index}`);
     let currentSubtaskText = subtasks[index].subtask;
@@ -432,6 +801,17 @@ function editSubtaskBoard(index) {
     setupEditSubtaskByEnterKeyBoard(index);
 }
 
+/**
+ * Generates the HTML structure for editing a subtask in the task board.
+ *
+ * This function returns the HTML structure required to replace the current subtask's display with an editable
+ * input field. It also includes icons for deleting or confirming the edited subtask.
+ *
+ * @param {string} currentSubtaskText - The current text of the subtask to be edited.
+ * @param {number} index - The index of the subtask in the `subtasks` array.
+ *
+ * @returns {string} The HTML string that represents the editable subtask view.
+ */
 function templateEditSubtasksHTMLBoard(currentSubtaskText, index) {
     return /*html*/ `
         <div id="edit-subtask-container">
@@ -448,6 +828,15 @@ function templateEditSubtasksHTMLBoard(currentSubtaskText, index) {
         </div>`;
 }
 
+/**
+ * Deletes a subtask from the board and updates the subtasks list.
+ *
+ * This function removes the HTML element representing the subtask at the given index and updates the
+ * `subtasks` array by removing the corresponding subtask. It then triggers the update function to
+ * reflect the changes in the task board.
+ *
+ * @param {number} index - The index of the subtask to be deleted from the `subtasks` array.
+ */
 function deleteSubtaskBoard(index) {
     let newSubtask = document.getElementById(`board-generated-subtask-container-${index}`);
     if (newSubtask) {
@@ -457,6 +846,15 @@ function deleteSubtaskBoard(index) {
     updateSubtaskListAfterDeleteBoard();
 }
 
+/**
+ * Submits the edited subtask and updates the subtask list.
+ *
+ * This function captures the new subtask text from the input field, validates that it is not empty,
+ * and updates the corresponding subtask in the `subtasks` array. After updating, it triggers a function
+ * to refresh the displayed list of subtasks.
+ *
+ * @param {number} index - The index of the subtask to be edited in the `subtasks` array.
+ */
 function submitSubtaskBoard(index) {
     let editedSubtaskInput = document.getElementById(`board-edit-subtask-input-${index}`).value;
 
@@ -468,6 +866,15 @@ function submitSubtaskBoard(index) {
     }
 }
 
+/**
+ * Adds a new subtask when the Enter key is pressed.
+ *
+ * This function listens for the "Enter" key event. When pressed, it prevents the default behavior
+ * (which might be form submission or other actions) and calls the `addSubtaskFromBoard` function
+ * to add the new subtask.
+ *
+ * @param {KeyboardEvent} event - The event object associated with the key press.
+ */
 function addSubtaskByEnterKeyBoard(event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -475,6 +882,15 @@ function addSubtaskByEnterKeyBoard(event) {
     }
 }
 
+/**
+ * Sets up an event listener for the Enter key press to save the edited subtask.
+ *
+ * This function adds a "keydown" event listener to the input field where a subtask is being edited.
+ * When the Enter key is pressed, it prevents the default behavior (e.g., form submission) and calls
+ * the `addEditedSubtaskByEnterKeyBoard` function to handle saving the edited subtask.
+ *
+ * @param {number} index - The index of the subtask being edited in the `subtasks` array.
+ */
 function setupEditSubtaskByEnterKeyBoard(index) {
     let editSubtaskInput = document.getElementById(`board-edit-subtask-input-${index}`);
     editSubtaskInput.addEventListener("keydown", function (event) {
@@ -485,6 +901,16 @@ function setupEditSubtaskByEnterKeyBoard(index) {
     });
 }
 
+/**
+ * Handles the submission of an edited subtask when the Enter key is pressed.
+ *
+ * This function is triggered when the Enter key is pressed while editing a subtask.
+ * It prevents the default behavior and calls the `submitSubtaskBoard` function
+ * to save the changes to the subtask.
+ *
+ * @param {number} index - The index of the subtask being edited in the `subtasks` array.
+ * @param {KeyboardEvent} event - The keyboard event triggered by pressing the Enter key.
+ */
 function addEditedSubtaskByEnterKeyBoard(index, event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -492,6 +918,14 @@ function addEditedSubtaskByEnterKeyBoard(index, event) {
     }
 }
 
+/**
+ * Updates the displayed list of subtasks after a subtask is deleted.
+ *
+ * This function clears the current list of subtasks from the DOM and then
+ * re-renders all remaining subtasks in the `subtasks` array. It uses the
+ * `templateSubtasksListHTMLBoard` function to generate the HTML for each subtask
+ * and appends it to the `board-generated-subtask-list-container`.
+ */
 function updateSubtaskListAfterDeleteBoard() {
     let subtaskList = document.getElementById("board-generated-subtask-list-container");
 
@@ -503,6 +937,22 @@ function updateSubtaskListAfterDeleteBoard() {
     }
 }
 
+/**
+ * Displays the contacts dropdown list for the board and updates the UI elements
+ * based on the currently selected contacts.
+ *
+ * This function performs the following actions:
+ * - Fetches the list of contacts using `fetchContacts()`.
+ * - Updates the placeholder text in the assigned contacts container based on the number of selected contacts.
+ * - Changes the color of the assigned contacts container using `setColorOfAssignedContainerBoard()`.
+ * - Updates the dropdown arrow icon.
+ * - Populates the contacts dropdown list with HTML generated by `templateContactsHTMLDropdownListBoard()`.
+ * - Reveals the contacts dropdown list by removing the `d-none` class.
+ * - Hides the selected contacts circle container.
+ * - Ensures that the correct checked contacts are displayed when the dropdown is closed by calling `showCheckedContactsAfterDropdownClosingBoard()`.
+ *
+ * @async
+ */
 async function showContactsDropDownBoard() {
     await fetchContacts();
 
@@ -923,10 +1373,32 @@ function boardAddTaskSelectCategory(categoryName) {
     boardAddTaskCloseCategoryDropDown();
 }
 
+/**
+ * Sets up event listeners for the document after the DOM is fully loaded.
+ *
+ * This function is executed when the DOM content has been fully loaded and parsed,
+ * ensuring that the event listeners are attached after the HTML structure is available.
+ *
+ * - Attaches an event listener to detect clicks outside of the category dropdown on the board.
+ *
+ * @listens document#DOMContentLoaded
+ * @listens document#click
+ */
 document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("click", clickOutsideOfCategoryDropdownBoard);
 });
 
+/**
+ * Handles clicks outside the category dropdown on the board.
+ *
+ * This function checks if the user clicked outside the category dropdown. If so, it closes the dropdown
+ * and resets the border of the selected category input.
+ *
+ * - If the category dropdown is visible, it calls functions to close it.
+ * - If a category is selected, it resets the border of the category input to a default color.
+ *
+ * @param {Event} event - The click event triggered on the document.
+ */
 function clickOutsideOfCategoryDropdownBoard(event) {
     let categoryDropdownBoard = document.getElementById("board-category-dropdown-list");
     let clickedInsideCategory = categoryDropdownBoard && categoryDropdownBoard.contains(event.target);
@@ -946,10 +1418,25 @@ function clickOutsideOfCategoryDropdownBoard(event) {
     }
 }
 
+/**
+ * Sets up event listener to handle clicks outside the contacts dropdown on the board.
+ *
+ * This function listens for the 'click' event on the document after the DOM content is loaded.
+ * When a click is detected, it calls `clickOutsideOfContactsDropdownBoard` to handle the behavior
+ * of the contacts dropdown when a user clicks outside of it.
+ */
 document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("click", clickOutsideOfContactsDropdownBoard);
 });
 
+/**
+ * Closes the contacts dropdown when a click occurs outside the dropdown or the contacts input.
+ *
+ * This function checks if the click event occurred inside the contacts dropdown or the contacts input.
+ * If the click happened outside of both, it closes the contacts dropdown if it's currently visible.
+ *
+ * @param {Event} event - The click event triggered by the user.
+ */
 function clickOutsideOfContactsDropdownBoard(event) {
     const contactsDropdown = document.getElementById("board-dropdown-list");
     const contactsInput = document.getElementById("board-selected-name");

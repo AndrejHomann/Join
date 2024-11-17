@@ -2,6 +2,17 @@ const BASE_URL = "https://join285-60782-default-rtdb.europe-west1.firebasedataba
 
 let selectedPrio = "medium";
 
+/**
+ * Sets the selected priority for the task and updates the button styles accordingly.
+ *
+ * This function updates the selected priority by adding the corresponding background color
+ * to the priority button (`urgent`, `medium`, `low`) and removing the default text color.
+ * It resets any previously selected priority button styles before applying the new selection.
+ * If the function is called in the context of editing a task, it will target the edit buttons.
+ *
+ * @param {string} prio - The priority to select. Can be one of `"urgent"`, `"medium"`, or `"low"`.
+ *
+ */
 function choosePrio(prio) {
     let selectedPioButton = document.getElementById(`prio-${prio}-button`);
 
@@ -17,6 +28,14 @@ function choosePrio(prio) {
     selectedPrio = prio;
 }
 
+/**
+ * Resets the priority button styles to their default state.
+ *
+ * This function removes the background color and resets the text color of the priority buttons
+ * (`urgent`, `medium`, `low`) to their default styles. If the function is called in the context
+ * of editing a task, it will target the edit buttons instead of the default ones.
+ *
+ */
 function resetPrio() {
     let urgentButton = document.getElementById("prio-urgent-button");
     let mediumButton = document.getElementById("prio-medium-button");
@@ -36,13 +55,3 @@ function resetPrio() {
     mediumButton.classList.add("prio-default-text-color");
     lowButton.classList.add("prio-default-text-color");
 }
-
-// function resetPrio() {
-//     document.getElementById("prio-urgent-button").classList.remove("prio-urgent-button-bg-color");
-//     document.getElementById("prio-medium-button").classList.remove("prio-medium-button-bg-color");
-//     document.getElementById("prio-low-button").classList.remove("prio-low-button-bg-color");
-
-//     document.getElementById("prio-urgent-button").classList.add("prio-default-text-color");
-//     document.getElementById("prio-medium-button").classList.add("prio-default-text-color");
-//     document.getElementById("prio-low-button").classList.add("prio-default-text-color");
-// }

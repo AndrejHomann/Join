@@ -222,6 +222,18 @@ function templateContactsHTMLDropdownList() {
     return dropdownHTML;
 }
 
+/**
+ * Combines two arrays – one with contacts and one with colors – into an array of objects.
+ * Each object contains a contact and the associated color, based on the same position in both arrays.
+ *
+ * @param {Array<string>} contactList - An array of contact names as strings.
+ * @param {Array<string>} colors - An array of colors as strings, where each color is associated with a contact.
+ * The `contactList` and `colors` arrays must have the same length, as each contact is combined with the corresponding color.
+ *
+ * @returns {Array<{ contact: string, color: string }>} - An array of objects, where each object
+ * contains a contact's name and the associated color.
+ * Example: [{ contact: 'John Doe', color: '#ff0000' }, { contact: 'Jane Smith', color: '#00ff00' }]
+ */
 function combineContactsAndColors(contactList, colors) {
     let contactsWithColors = [];
     for (let i = 0; i < contactList.length; i++) {
@@ -233,6 +245,18 @@ function combineContactsAndColors(contactList, colors) {
     return contactsWithColors;
 }
 
+/**
+ * Sorts an array of contacts with associated colors alphabetically based on the contact names.
+ * The sorting is done in ascending order (A-Z) based on the `contact` property.
+ *
+ * @param {Array<{ contact: string, color: string }>} contactsWithColors - An array of objects,
+ * each object represents a contact and contains two properties:
+ *   - `contact` (string): The name of the contact by which the array will be sorted.
+ *   - `color` (string): The color associated with the contact (ignored during sorting).
+ *
+ * @returns {Array<{ contact: string, color: string }>} - The sorted array of contact objects.
+ * The array is sorted alphabetically in ascending order based on the `contact` property.
+ */
 function sortContactsWithColors(contactsWithColors) {
     return contactsWithColors.sort((a, b) => {
         if (a.contact < b.contact) return -1;
@@ -245,11 +269,6 @@ function sortContactsWithColors(contactsWithColors) {
  * Displays a success message after the task is successfully added.
  * The message is shown for 2.5 seconds before sliding out.
  */
-// function showSuccessMessage() {
-//     setTimeout(successMessageSlidingIn, 500);
-
-//     setTimeout(hideSuccessMessage, 2500);
-// }
 function showSuccessMessage() {
     setTimeout(successMessageSlidingIn, 500);
 
@@ -294,7 +313,6 @@ function doNotCloseDropdown(event) {
  *
  * @param {Event} event - The click event.
  */
-
 document.addEventListener("DOMContentLoaded", () => {
     const contactsDropdown = document.getElementById("dropdown-list");
     const categoryDropdown = document.getElementById("category-dropdown-list");
@@ -304,6 +322,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+/**
+ * Closes the contacts and category dropdowns if the user clicks outside of them.
+ * If the category dropdown is visible and the user clicks outside of it, the dropdown is closed.
+ * Additionally, the border of the category input field is reset if a category is selected.
+ *
+ * @param {MouseEvent} event - The MouseEvent object representing the click event.
+ * The event contains information about where the user clicked.
+ *
+ * @returns {void} - This function does not return any value.
+ */
 function clickOutsideOfDropdown(event) {
     let contactsDropdown = document.getElementById("dropdown-list");
     let categoryDropdown = document.getElementById("category-dropdown-list");

@@ -156,10 +156,6 @@ function closeAddTaskForm() {
     }, 500);
 }
 
-
-
-
-
 /**
  * Adds an event listener to the search button.
  * When the button is clicked, it triggers the `searchTasks` function
@@ -188,10 +184,6 @@ document.getElementById("search-input-id").addEventListener("input", function ()
  * input. The filtered tasks are then displayed using `displayFilteredTasks()`.
  * If no tasks match the search criteria, it invokes `showNoResultsMessage()`.
  */
-// const searchInput = document.getElementById("search-input-id");
-// searchInput.addEventListener("input", () => {
-//     searchTasks(searchInput);
-// });
 let countOfNoResultMessages = 0;
 function searchTasks() {
     const searchInputValue = document.getElementById("search-input-id").value.toLowerCase();
@@ -257,16 +249,6 @@ function displayAllTasks() {
     displayFilteredTasks(tasksArray);
 }
 
-
-
-
-
-
-
-
-
-
-
 /**
  * Opens the details of a specific task based on the provided task ID.
  *
@@ -290,36 +272,6 @@ function openTaskDetail(taskId) {
         addOverlayClickListener();
     }
 }
-
-// async function loadAddTaskScript() {
-//     const scripts = [
-//         { id: "addTaskScript", src: "/js/addTask.js" },
-//         { id: "addTaskCategoryFunctions", src: "/js/addTaskCategoryFunctions.js" },
-//         { id: "addTaskContactsAndUserActionsFunctions", src: "/js/addTaskContactsAndUserActionsFunctions.js" },
-//         { id: "addTaskValidationAndClearingFunctions", src: "/js/addTaskValidationAndClearingFunctions.js" },
-//     ];
-
-//     return Promise.all(
-//         scripts.map((scriptInfo) => {
-//             return new Promise((resolve, reject) => {
-//                 if (!document.getElementById(scriptInfo.id)) {
-//                     let script = document.createElement("script");
-//                     script.src = scriptInfo.src;
-//                     script.id = scriptInfo.id;
-//                     script.onload = function () {
-//                         resolve();
-//                     };
-//                     script.onerror = function () {
-//                         reject(new Error(`Failed to load script: ${scriptInfo.src}`));
-//                     };
-//                     document.body.appendChild(script);
-//                 } else {
-//                     resolve();
-//                 }
-//             });
-//         })
-//     );
-// }
 
 /**
  * Attaches event handlers to the confirmation buttons in the confirmation dialog.
@@ -358,43 +310,13 @@ function closeConfirmationDiv(confirmationDiv) {
     }
 }
 
+/**
+ * Closes the "Add Task" form and reloads the tasks.
+ * This function is used to ensure that the "Add Task" form is closed and the task list is refreshed.
+ *
+ * @returns {void} - This function does not return any value.
+ */
 function closeBoardAddTaskIfNeeded() {
     closeAddTaskForm();
     loadTasks();
 }
-
-// function validateRequiredFields() {
-//     let isValid = true;
-
-//     const titleInputContainer = document.getElementById("title-input-container");
-//     const titleInput = document.getElementById("edit-title-input");
-//     const titleMessage = titleInputContainer.querySelector(".error-message");
-
-//     if (titleInput.value.trim() === "") {
-//         titleMessage.style.display = "block";
-//         titleInputContainer.classList.add("error");
-//         isValid = false;
-//     } else {
-//         titleMessage.style.display = "none";
-//         titleInputContainer.classList.remove("error");
-//     }
-
-//     const dateContainer = document.getElementById("calender");
-//     const dateInput = document.getElementById("edit-date-input");
-//     const dateMessage = dateContainer.querySelector(".error-message");
-
-//     if (!dateInput.value) {
-//         dateMessage.style.display = "block";
-//         dateContainer.classList.add("error");
-//         isValid = false;
-//     } else {
-//         dateMessage.style.display = "none";
-//         dateContainer.classList.remove("error");
-//     }
-
-//     const categoryPlaceholder = document.getElementById("category-placeholder").innerText;
-//     if (!categoryPlaceholder || categoryPlaceholder === "Select task category") {
-//         isValid = false;
-//     }
-//     return isValid;
-// }

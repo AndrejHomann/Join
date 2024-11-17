@@ -1,5 +1,3 @@
-// const BASE_URL = 'https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app';
-
 let tasksArray = [];
 
 /**
@@ -212,56 +210,3 @@ function removeTaskFromDOM(taskId) {
         taskElement.remove();
     }
 }
-
-// /**
-//  * Checks the input fields for the title and date and displays corresponding error messages.
-//  *
-//  * - If both the title and the date are missing, both error messages are displayed.
-//  * - If only the title is missing, only the title error message is displayed.
-//  * - If only the date is missing, only the date error message is displayed.
-//  * - If both fields are filled in, no error messages are displayed.
-//  *
-//  * @function checkInputFields
-//  */
-// function checkInputFields() {
-//     const titleInput = document.getElementById("edit-title-input");
-//     const dateInput = document.getElementById("date-input");
-//     const categoryInput = document.getElementById("selected-category");
-//     const subtaskInput = document.getElementById("new-subtask-input");
-
-//     const missingTitleMessage = document.getElementById("missing-title-message");
-//     const missingDateMessage = document.getElementById("missing-date-message");
-//     const missingCategoryMessage = document.getElementById("missing-category-message");
-//     const missingSubtaskMessage = document.getElementById("missing-subtask-message");
-
-//     if (titleInput.value === "" && dateInput.value === "" && categoryInput.value === "" && subtaskInput.value === "") {
-//         missingTitleMessage.style.display = "flex";
-//         missingDateMessage.style.display = "flex";
-//         missingCategoryMessage.style.display = "flex";
-//         missingSubtaskMessage.style.display = "flex";
-//     } else {
-//         if (titleInput.value === "") {
-//             missingTitleMessage.style.display = "flex";
-//         } else {
-//             missingTitleMessage.style.display = "none";
-//         }
-
-//         if (dateInput.value === "") {
-//             missingDateMessage.style.display = "flex";
-//         } else {
-//             missingDateMessage.style.display = "none";
-//         }
-
-//         if (categoryInput.value === "") {
-//             missingCategoryMessage.style.display = "flex";
-//         } else {
-//             missingCategoryMessage.style.display = "none";
-//         }
-
-//         if (subtaskInput.value === "") {
-//             missingSubtaskMessage.style.display = "flex";
-//         } else {
-//             missingSubtaskMessage.style.display = "none";
-//         }
-//     }
-// }

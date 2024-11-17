@@ -233,19 +233,6 @@ function addProgressBarIfSubtasks(taskDiv, task) {
  * @param {string} [size='small'] - The size of the contact icons (default is 'small').
  * @returns {HTMLElement} The container element with user icons.
  */
-// function createContactIcons(task, size = "small") {
-//     const iconsContainer = document.createElement("div");
-//     iconsContainer.className = "contact-icons-container";
-
-//     if (Array.isArray(task.name) && Array.isArray(task.color) && task.name.length === task.color.length) {
-//         task.name.forEach((userName, index) => {
-//             const userColor = task.color[index];
-//             const icon = createContactIcon(userName, userColor, size);
-//             iconsContainer.appendChild(icon);
-//         });
-//     }
-//     return iconsContainer;
-// }
 function createContactIcons(task, size = "small") {
     const iconsContainer = document.createElement("div");
     iconsContainer.className = "contact-icons-container";
@@ -396,6 +383,17 @@ function appendUserIcons(task, iconsContainer) {
     }
 }
 
+/**
+ * Creates a user icon and appends it, along with the user's name, to the given container.
+ *
+ * This function first creates a contact icon using the `createContactIcon` function. It then creates a
+ * `div` element to wrap the icon and the user's name. The wrapped elements are appended to the provided
+ * `iconsContainer`.
+ *
+ * @param {string} userName - The name of the user to display on the icon.
+ * @param {string} userColor - The color associated with the user, used to style the icon.
+ * @param {HTMLElement} iconsContainer - The DOM element where the user icon and name will be appended.
+ */
 function createAndAppendUserIcon(userName, userColor, iconsContainer) {
     const icon = createContactIcon(userName, userColor, "medium");
     const contactDiv = document.createElement("div");
@@ -409,6 +407,14 @@ function createAndAppendUserIcon(userName, userColor, iconsContainer) {
     iconsContainer.appendChild(contactDiv);
 }
 
+/**
+ * Displays a message indicating no users are currently assigned to the task.
+ *
+ * This function creates and appends a message element to the given container,
+ * informing that no user has been assigned to the task.
+ *
+ * @param {HTMLElement} iconsContainer - The DOM element where the "no user" message will be appended.
+ */
 function showNoUserMessage(iconsContainer) {
     const noUserMessage = document.createElement("div");
     noUserMessage.className = "no-user-message";
@@ -416,16 +422,19 @@ function showNoUserMessage(iconsContainer) {
     iconsContainer.appendChild(noUserMessage);
 }
 
-// function appendEditableUserIcons(task, iconsContainer) {
-//     if (iconsContainer.innerHTML === "" && task.name && task.color && task.name.length > 0) {
-//         task.name.forEach((userName, index) => {
-//             const userColor = task.color[index];
-//             const icon = createContactIcon(userName, userColor, "micro");
-//             iconsContainer.appendChild(icon);
-//         });
-//         document.getElementById("edit-assigned-container").classList.add("heightAuto");
-//     }
-// }
+/**
+ * Appends editable user icons to a container based on the task's assigned contacts.
+ *
+ * This function dynamically creates and appends contact icons to the given container
+ * based on the list of assigned contacts in the task. It displays a maximum of 6 icons
+ * and appends a text element showing the number of remaining contacts if there are more than 6.
+ * Additionally, it adjusts the height of the container to fit the icons.
+ *
+ * @param {Object} task - The task object containing the assigned contact names and colors.
+ * @param {Array} task.name - The list of contact names assigned to the task.
+ * @param {Array} task.color - The list of corresponding contact colors.
+ * @param {HTMLElement} iconsContainer - The DOM element where the contact icons will be appended.
+ */
 function appendEditableUserIcons(task, iconsContainer) {
     const maxIcons = 6;
     if (iconsContainer.innerHTML === "" && task.name && task.color && task.name.length > 0) {
@@ -501,6 +510,13 @@ function closeTaskDetails() {
     );
 }
 
+/**
+ * Adds a click event listener to the task details overlay.
+ *
+ * This function attaches the `handleOverlayClick` function as an event listener for
+ * click events on the task details overlay. If the overlay exists in the DOM, the
+ * click event listener is added.
+ */
 function addOverlayClickListener() {
     const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
     if (taskDetailsOverlay) {
@@ -508,6 +524,16 @@ function addOverlayClickListener() {
     }
 }
 
+/**
+ * Handles the click event on the task details overlay.
+ *
+ * This function checks if the click occurred on the overlay itself. If so:
+ * - It closes the task details overlay by calling `closeTaskDetails()`.
+ * - It removes the click event listener from the task details overlay using `removeOverlayClickListener()`.
+ * - If the confirmation dialog and delete overlay are visible, it closes the confirmation dialog by calling `closeConfirmationDiv()`.
+ *
+ * @param {Event} event - The click event object.
+ */
 function handleOverlayClick(event) {
     const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
     const confirmationDiv = document.querySelector(".deleteConfirmationDiv");
@@ -523,6 +549,12 @@ function handleOverlayClick(event) {
     }
 }
 
+/**
+ * Removes the click event listener from the task details overlay.
+ *
+ * This function checks if the task details overlay element exists, and if so, it removes
+ * the previously added click event listener that triggers the `handleOverlayClick` function.
+ */
 function removeOverlayClickListener() {
     const taskDetailsOverlay = document.getElementById("taskDetailsOverlay");
     if (taskDetailsOverlay) {
@@ -530,6 +562,12 @@ function removeOverlayClickListener() {
     }
 }
 
+/**
+ * Closes the edit task overlay and resets relevant variables.
+ *
+ * This function hides the task editing overlay and clears any selected contacts and colors. It also
+ * resets the state of whether the contacts dropdown was open for the current task.
+ */
 function closeEditTask() {
     const editTask = document.getElementById("editTaskOverlay");
     editTask.style.display = "none";

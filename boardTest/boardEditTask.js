@@ -1,3 +1,17 @@
+/**
+ * Renders the editable subtasks for the current task and stores the subtasks in the `subtasks` array.
+ *
+ * This function generates the HTML for the editable subtasks based on the provided `subtasksFromCurrentTask` array.
+ * It also updates the global `subtasks` array with the subtasks' content and status.
+ * If no subtasks are provided, it returns an empty string. If there are subtasks, it creates HTML for each subtask
+ * and adds it to the page.
+ *
+ * @param {Array} subtasksFromCurrentTask - An array of subtasks for the current task, where each subtask is an object
+ *                                          containing `subtask` (string) and `status` (string).
+ *                                          Example: `[ { subtask: "Task 1", status: "unchecked" }, { subtask: "Task 2", status: "checked" } ]`
+ * @returns {string} HTML string to render the editable subtasks list.
+ *
+ */
 function renderEditableSubtasks(subtasksFromCurrentTask) {
     subtasksFromCurrentTask = subtasksFromCurrentTask || [];
 
@@ -19,6 +33,15 @@ function renderEditableSubtasks(subtasksFromCurrentTask) {
     }
 }
 
+/**
+ * Updates the displayed list of subtasks after a subtask has been deleted from the board.
+ *
+ * This function re-renders the list of subtasks on the page by updating the inner HTML of the
+ * `generated-subtask-list-container`. It iterates over the global `subtasks` array and uses the
+ * `templateSubtasksListHTML` function to create the HTML for each subtask. The newly generated
+ * HTML is then inserted into the container to reflect the current state of subtasks after deletion.
+ *
+ */
 function updateSubtaskListAfterDeleteFromBoard() {
     let subtaskList = document.getElementById("generated-subtask-list-container");
 
@@ -30,6 +53,16 @@ function updateSubtaskListAfterDeleteFromBoard() {
     }
 }
 
+/**
+ * Handles the click event for the edit button and initiates the task editing process.
+ *
+ * This function finds the task in the `tasksArray` based on the provided `taskId`.
+ * If the task is found, it calls the `editTask` function to allow the user to edit the task.
+ * If the task is not found, an error message is logged to the console.
+ *
+ * @param {string} taskId - The unique ID of the task to be edited.
+ *
+ */
 function handleEditButtonClick(taskId) {
     const taskToEdit = tasksArray.find((task) => task.id === taskId);
 
@@ -40,6 +73,18 @@ function handleEditButtonClick(taskId) {
     }
 }
 
+/**
+ * Initiates the task editing process by populating the edit overlay with the task's details.
+ *
+ * This function sets up the editing environment for a task by updating the task's overlay
+ * with information such as the task's title, description, date, priority, subtasks, and assigned contacts.
+ * It also sets up event listeners for subtask input and configures the UI elements, including
+ * the priority button and contacts icons.
+ *
+ * @param {Object} task - The task object containing the details to be edited.
+ * @param {string} taskId - The unique ID of the task being edited.
+ *
+ */
 function editTask(task, taskId) {
     const editTask = document.getElementById("editTask");
     if (!editTask) {
@@ -69,6 +114,16 @@ function editTask(task, taskId) {
     }
 }
 
+/**
+ * Highlights the priority button corresponding to the given priority.
+ *
+ * This function resets the styles of all priority buttons and then highlights the
+ * button that matches the provided priority by applying the appropriate background color.
+ * The selected priority is also stored in the `selectedPrio` variable.
+ *
+ * @param {string} priority - The priority level to be highlighted. Can be "urgent", "medium", or "low".
+ *
+ */
 function highlightPrioButton(priority) {
     resetPrio();
 
@@ -79,6 +134,21 @@ function highlightPrioButton(priority) {
     }
 }
 
+/**
+ * Updates a task in the database by sending the updated task data to the server.
+ *
+ * This function validates the inputs, updates the subtasks, and prepares the task data
+ * to be sent to the server. It sends a PATCH request to update the task in the database,
+ * and upon success, it triggers the `handleUpdateTask` function to finalize the update process.
+ *
+ * @async
+ * @param {string} taskId - The ID of the task to be updated.
+ *
+ * @returns {Promise<void>} A promise that resolves once the task update is complete.
+ *
+ * @throws {Error} If there is an error while updating the task or sending the request.
+ *
+ */
 async function updateTask(taskId) {
     if (!validateAllInputsEdit()) {
         return;
@@ -128,12 +198,31 @@ async function updateTask(taskId) {
     selectedColors = [];
 }
 
+/**
+ * Handles the update of a task by performing the necessary steps after a task has been updated.
+ *
+ * This function reloads the task list, closes the task editing view, and closes the task details overlay
+ * to finalize the task update process.
+ *
+ * @returns {void}
+ *
+ */
 function handleUpdateTask() {
     loadTasks();
     closeEditTask();
     closeTaskDetails();
 }
 
+/**
+ * Finds the index of a contact in the contact list by name.
+ *
+ * This function searches for the provided contact name in the `contactList` array
+ * and returns the index of the first occurrence. If the name is not found,
+ * it logs an error and returns -1.
+ *
+ * @param {string} name - The name of the contact to search for.
+ * @returns {number} The index of the contact in the `contactList` array, or -1 if not found.
+ */
 function findContactIndexForTaskName(name) {
     const i = contactList.indexOf(name);
     if (i !== -1) {
@@ -143,6 +232,22 @@ function findContactIndexForTaskName(name) {
     return -1;
 }
 
+/**
+ * Checks the status of checkboxes in a dropdown list and updates the selected contacts and their colors.
+ * This function is used to process task data and ensure that the contacts related to a task are marked
+ * as selected, based on the task's user list and their associated colors.
+ *
+ * @async
+ * @param {Object} data - The data object containing task information.
+ * @param {string} taskEditCheckboxId - The ID of the task whose checkbox status is being checked.
+ * This ID is used to access the specific task within `data.tasks`.
+ *
+ * @returns {Promise<void>} - This function returns a promise. It does not explicitly return any value.
+ * It updates the `selectedContacts` and `selectedColors` arrays based on the task data.
+ *
+ * @throws {Error} - This function assumes that `findContactIndexForTaskName` and the arrays `selectedContacts`
+ * and `selectedColors` are defined and accessible in the scope.
+ */
 async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
     let taskUserNameList = data.tasks[taskEditCheckboxId].name;
     let taskUserNameColors = data.tasks[taskEditCheckboxId].color;
@@ -164,10 +269,19 @@ async function checkDropdownListCheckboxStatus(data, taskEditCheckboxId) {
     }
 }
 
+/**
+ * Matches the task's assigned users to the checked dropdown list based on the task title and description.
+ * This function fetches task data from a remote server, compares the task's title and description with
+ * the values from the input fields, and if a match is found, it updates the checked state of the dropdown
+ * list with the task's assigned users.
+ *
+ * @async
+ * @returns {Promise<void>} - This function returns a Promise and does not explicitly return any value.
+ * It updates the state of the dropdown list based on the task data.
+ *
+ * @throws {Error} - If an error occurs during the fetch request or in processing the data, an error is logged to the console.
+ */
 async function matchTaskAssignedUserToCheckedDropdown() {
-    // selectedContacts = [];
-    // selectedColors = [];
-
     try {
         const response = await fetch(`${BASE_URL}/.json`);
         const data = await response.json();
@@ -184,6 +298,13 @@ async function matchTaskAssignedUserToCheckedDropdown() {
     }
 }
 
+/**
+ * Checks if any changes have been made to the task during editing.
+ * This function invokes individual checks for the task's title, description, date, and subtasks.
+ * Each of the helper functions (`checkEditTaskTitle`, `checkEditTaskDescription`,
+ * `checkEditTaskDate`, and `checkEditTaskSubtask`) performs specific validation for a task field.
+ *
+ */
 function checkEditTaskChanges() {
     checkEditTaskTitle();
     checkEditTaskDescription();
@@ -191,6 +312,12 @@ function checkEditTaskChanges() {
     checkEditTaskSubtask();
 }
 
+/**
+ * Validates the task title input field by setting up event listeners for user interactions.
+ * The function checks the title field for changes when clicked inside, clicked outside,
+ * or when a keystroke occurs, and adjusts the field's border color based on validity.
+ *
+ */
 function checkEditTaskTitle() {
     setTimeout(() => {
         const input = document.getElementById("edit-title-input");
@@ -201,6 +328,16 @@ function checkEditTaskTitle() {
     }, 100);
 }
 
+/**
+ * Validates and monitors changes to the task date input field.
+ * This function sets up event listeners and validation for the "edit date" input field,
+ * including checks when the user clicks inside or outside the field, or types inside it.
+ * It modifies the input field's border color and displays a message based on the validation status.
+ *
+ * The function uses `setTimeout` to delay the execution, allowing the DOM to be fully loaded
+ * before attaching the event listeners.
+ *
+ */
 function checkEditTaskDate() {
     setTimeout(() => {
         const input = document.getElementById("edit-date-input");
@@ -211,6 +348,18 @@ function checkEditTaskDate() {
     }, 100);
 }
 
+/**
+ * Sets up an event listener for the "click" event on the given input element to validate its value.
+ * If the input value is empty, the input's border is highlighted with a specified color and
+ * an associated message (if provided) is displayed. If the input value is not empty, the border
+ * color changes and the message (if present) is hidden.
+ *
+ * @param {HTMLInputElement} input - The input element to which the click event listener is attached.
+ * @param {HTMLElement} message - The message element to be shown or hidden based on the input's value.
+ * @param {string} bordercolor1 - The border color to apply when the input value is empty.
+ * @param {string} bordercolor2 - The border color to apply when the input has a non-empty value.
+ *
+ */
 function checkEditTaskOnClickInsideElement(input, message, bordercolor1, bordercolor2) {
     input.addEventListener("click", () => {
         if (input.value === "") {
@@ -227,6 +376,18 @@ function checkEditTaskOnClickInsideElement(input, message, bordercolor1, borderc
     });
 }
 
+/**
+ * Sets up an event listener for the "blur" event (when the input loses focus) to validate its value.
+ * If the input value is empty, the input's border is highlighted with a specified color and
+ * an associated message (if provided) is displayed. If the input value is not empty, the border
+ * color changes and the message (if present) is hidden.
+ *
+ * @param {HTMLInputElement} input - The input element to which the blur event listener is attached.
+ * @param {HTMLElement} message - The message element to be shown or hidden based on the input's value.
+ * @param {string} bordercolor1 - The border color to apply when the input value is empty.
+ * @param {string} bordercolor2 - The border color to apply when the input has a non-empty value.
+ *
+ */
 function checkEditTaskOnClickOutsideElement(input, message, bordercolor1, bordercolor2) {
     input.addEventListener("blur", () => {
         if (input.value === "") {
@@ -243,6 +404,19 @@ function checkEditTaskOnClickOutsideElement(input, message, bordercolor1, border
     });
 }
 
+/**
+ * Sets up an event listener for the "input" event (when the user types or modifies the input value)
+ * to validate the input field as the user types.
+ * If the input value is empty, the input's border is highlighted with a specified color and
+ * an associated message (if provided) is displayed. If the input value is not empty, the border
+ * color changes and the message (if present) is hidden.
+ *
+ * @param {HTMLInputElement} input - The input element to which the input event listener is attached.
+ * @param {HTMLElement} message - The message element to be shown or hidden based on the input's value.
+ * @param {string} bordercolor1 - The border color to apply when the input value is empty.
+ * @param {string} bordercolor2 - The border color to apply when the input has a non-empty value.
+ *
+ */
 function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bordercolor2) {
     input.addEventListener("input", () => {
         if (input.value === "") {
@@ -259,6 +433,15 @@ function checkEditTaskOnKeystrokeInsideElement(input, message, bordercolor1, bor
     });
 }
 
+/**
+ * Validates and monitors changes to the task description input field (textarea).
+ * This function sets up event listeners for the "edit description" textarea, including checks when
+ * the user clicks inside or outside the field, or types inside it. It modifies the textarea's border
+ * color based on the input's state, but does not show a validation message (since the message is empty).
+ *
+ * The function uses `setTimeout` to delay the execution, allowing the DOM to be fully loaded
+ * before attaching the event listeners.
+ */
 function checkEditTaskDescription() {
     setTimeout(() => {
         const input = document.getElementById("edit-textarea-input");
@@ -268,12 +451,29 @@ function checkEditTaskDescription() {
     }, 100);
 }
 
+/**
+ * Sets up an event listener for the "input" event on the given input element (textarea).
+ * This listener modifies the input's border color each time the user types or modifies the value
+ * of the textarea, based on the provided `bordercolor`.
+ *
+ * @param {HTMLTextAreaElement} input - The textarea element to which the input event listener is attached.
+ * @param {string} bordercolor - The border color to apply to the textarea while typing.
+ */
 function checkEditTaskOnKeystrokeInsideElementDescription(input, bordercolor) {
     input.addEventListener("input", () => {
         input.style = `border: 1px solid ${bordercolor};`;
     });
 }
 
+/**
+ * Validates and monitors changes to the subtask input fields in the task editing interface.
+ * This function sets up event listeners for the "edit subtask" container and input field.
+ * It checks interactions when the user clicks inside or outside the subtask input fields,
+ * and updates the border color based on the user's actions.
+ *
+ * The function uses `setTimeout` to delay the execution, allowing the DOM to be fully loaded
+ * before attaching the event listeners.
+ */
 function checkEditTaskSubtask() {
     setTimeout(() => {
         const input1 = document.getElementById("edit-new-subtask-container");
@@ -286,6 +486,15 @@ function checkEditTaskSubtask() {
     }, 100);
 }
 
+/**
+ * Sets up event listeners to handle interactions with the subtask input field during task editing.
+ * When the input field gains focus or when the user types in it, this function updates the border
+ * color of the subtask container (`input1`) and hides the "missing subtask" message if the input value is non-empty.
+ *
+ * @param {HTMLElement} input1 - The element (container) whose border will be updated based on the input's state.
+ * @param {HTMLInputElement} input2 - The input field (for the subtask) that the user interacts with.
+ * @param {string} bordercolor - The color to apply to the border of `input1` when it is focused or typed in.
+ */
 function checkTaskOnClickInsideElementEditSubtask(input1, input2, bordercolor) {
     input2.addEventListener("focus", () => {
         input1.style.border = `1px solid ${bordercolor}`;
@@ -302,6 +511,16 @@ function checkTaskOnClickInsideElementEditSubtask(input1, input2, bordercolor) {
     });
 }
 
+/**
+ * Sets up an event listener for clicks outside the subtask container and input field during task editing.
+ * When a click is detected outside of the subtask input field or its container, the function resets
+ * the border color of the subtask container, clears the input value, hides the "missing subtask" message,
+ * and calls a function to reset the subtask icon.
+ *
+ * @param {HTMLElement} input1 - The element (container) whose border will be reset when a click outside occurs.
+ * @param {HTMLInputElement} input2 - The input field for the subtask that is being edited.
+ * @param {string} bordercolor - The color to apply to the border of `input1` when a click outside is detected.
+ */
 function checkTaskOnClickOutsideElementEditSubtask(input1, input2, bordercolor) {
     document.addEventListener("click", (event) => {
         if (!input1.contains(event.target) && !input2.contains(event.target)) {
@@ -321,12 +540,23 @@ function checkTaskOnClickOutsideElementEditSubtask(input1, input2, bordercolor) 
     });
 }
 
+/**
+ * Resets the "missing subtask" notification and border style for the subtask container during task editing.
+ * This function hides the "missing subtask" message (if visible) and removes any border styling
+ * from the subtask container.
+ */
 function resetSubtaskRequiredNotificationEdit() {
     let missingSubtaskMessage = document.getElementById("edit-missing-subtask-message");
     missingSubtaskMessage.style.display = "none";
     document.getElementById("edit-new-subtask-container").style.border = "";
 }
 
+/**
+ * Validates all input fields during task editing. It checks whether the task title and date are properly entered.
+ * If any of the fields are invalid, it sets `isValid` to `false` and returns this value.
+ *
+ * @returns {boolean} - Returns `true` if all required fields (title and date) are valid, otherwise returns `false`.
+ */
 function validateAllInputsEdit() {
     let isValid = true;
 
@@ -341,6 +571,13 @@ function validateAllInputsEdit() {
     return isValid;
 }
 
+/**
+ * Validates if the task title is entered during task editing.
+ * If the title is not entered, it displays a "missing title" message and highlights the input field with a red border.
+ * If the title is entered, the message is hidden, and the input field's border is reset.
+ *
+ * @returns {boolean} - Returns `true` if the title is entered, otherwise returns `false`.
+ */
 function checkIfTitleIsEnteredEdit() {
     let missingTitleMessage = document.getElementById("edit-missing-title-message");
     let titleInput = document.getElementById("edit-title-input");
@@ -359,6 +596,13 @@ function checkIfTitleIsEnteredEdit() {
     return isValid;
 }
 
+/**
+ * Validates if a date is selected during task editing.
+ * If no date is selected, it displays a "missing date" message and highlights the input field with a red border.
+ * If a date is selected, the message is hidden, and the input field's border is reset.
+ *
+ * @returns {boolean} - Returns `true` if the date is selected, otherwise returns `false`.
+ */
 function checkIfDateIsSelectedEdit() {
     let missingDateMessage = document.getElementById("edit-missing-date-message");
     let dateInput = document.getElementById("edit-date-input");
@@ -377,6 +621,14 @@ function checkIfDateIsSelectedEdit() {
     return isValid;
 }
 
+/**
+ * Toggles the subtask icon display and interactions during task editing.
+ * This function updates the subtask icon container to display the "close" and "check" icons,
+ * and adds hover effects to these icons. It is used for either adding or closing a subtask while editing a task.
+ *
+ * If a subtask is being edited, it replaces the existing icon with a close icon (to cancel) and a check icon (to save).
+ * If a subtask is not being reset (based on the `isSubtaskResetting` flag), it performs this update.
+ */
 function addOrCloseSubtaskEdit() {
     if (isSubtaskResetting) return;
 
@@ -395,12 +647,21 @@ function addOrCloseSubtaskEdit() {
     closeIconContainer.classList.add("circleHoverEffect");
 }
 
+/**
+ * Closes the subtask draft while editing a task by clearing the input field and resetting the subtask icons.
+ * This function is typically called when the user decides to cancel editing a subtask.
+ */
 function closeSubtaskDraftEdit() {
     let subtaskDraft = document.getElementById("edit-new-subtask-input");
     subtaskDraft.value = ``;
     resetSubtaskIconEdit();
 }
 
+/**
+ * Displays the "close" or "check" icon while writing a subtask during task editing.
+ * If the subtask input field is not empty, it shows the "close" and "check" icons for canceling or saving the subtask.
+ * If the input field is empty, it resets the subtask icons to their initial state.
+ */
 function showCloseOrDeleteIconDuringWritingSubtaskEdit() {
     let subtaskInputEdit = document.getElementById("edit-new-subtask-input");
 
@@ -411,6 +672,11 @@ function showCloseOrDeleteIconDuringWritingSubtaskEdit() {
     }
 }
 
+/**
+ * Adds a new subtask from the task editing form.
+ * This function handles the subtask input validation, adds the subtask to the list of subtasks,
+ * and resets the subtask icon container. It is typically called when the user clicks the "check" icon after entering a new subtask.
+ */
 function addSubtaskFromEdit() {
     let newSubtaskInput = document.getElementById("edit-new-subtask-input");
     let subtaskListEdit = document.getElementById("edit-generated-subtask-list-container");
@@ -422,6 +688,11 @@ function addSubtaskFromEdit() {
     resetSubtaskIconEdit();
 }
 
+/**
+ * Adds an event listener for the "Enter" key press on the subtask input field during task editing.
+ * When the "Enter" key is pressed, the event is prevented, and the `addSubtaskFromEdit` function is called to add the subtask.
+ * This ensures that pressing "Enter" will trigger the subtask addition process.
+ */
 document.addEventListener("DOMContentLoaded", function () {
     let newSubtaskInput = document.getElementById("edit-new-subtask-input");
     if (newSubtaskInput) {
@@ -434,6 +705,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+/**
+ * Handles the validation and addition of a new subtask during task editing.
+ * It validates the input, adds the subtask to the list, updates the UI to reflect the new subtask,
+ * and resets or shows validation messages based on whether the input is valid.
+ *
+ * @param {HTMLInputElement} newSubtaskInput - The input element where the new subtask text is entered.
+ * @param {HTMLElement} subtaskListEdit - The container element where the subtasks are listed.
+ * @param {HTMLElement} subtaskContainer - The container element that holds the subtask input field.
+ * @param {HTMLElement} missingSubtaskMessage - The element that displays a message when no subtask is entered.
+ * @param {number} i - The current index in the `subtasks` array, used to generate unique subtask HTML.
+ */
 function handleSubtaskValidationEdit(newSubtaskInput, subtaskListEdit, subtaskContainer, missingSubtaskMessage, i) {
     let trimmedInput = newSubtaskInput.value.trim();
 
@@ -452,6 +734,19 @@ function handleSubtaskValidationEdit(newSubtaskInput, subtaskListEdit, subtaskCo
     }
 }
 
+/**
+ * Generates the HTML structure for a single subtask in the task editing form.
+ * This HTML template includes the subtask text, edit and delete icons, and the container for the subtask.
+ * The function is used to render each subtask in the list of subtasks.
+ *
+ * @param {number} i - The index of the subtask in the `subtasks` array, used to generate unique IDs for each subtask.
+ * @param {string} subtask - The text/content of the subtask to be displayed in the list.
+ *
+ * @returns {string} - The HTML structure as a string for the subtask, which includes:
+ *   - A container div with a unique ID based on the subtask index.
+ *   - A list item (`<li>`) displaying the subtask text.
+ *   - Icons for editing and deleting the subtask, each with click handlers.
+ */
 function templateSubtasksListHTMLEdit(i, subtask) {
     return /*html*/ `
             <div class="generatedSubtasks" id="edit-generated-subtask-container-${i}">
@@ -466,6 +761,17 @@ function templateSubtasksListHTMLEdit(i, subtask) {
             </div>`;
 }
 
+/**
+ * Initiates the process of editing a specific subtask in the task editing form.
+ * This function replaces the current subtask content with an editable input field, allowing the user
+ * to modify the subtask text. It also sets up event listeners for editing the subtask via the Enter key.
+ *
+ * @param {number} index - The index of the subtask in the `subtasks` array that is being edited.
+ *   This is used to identify the subtask element and its associated data.
+ *
+ * @returns {void} - This function doesn't return anything. It modifies the DOM to replace the
+ *   current subtask with an editable input field and sets up the necessary event listeners.
+ */
 function editSubtaskEdit(index) {
     let toEditSubtask = document.getElementById(`edit-generated-subtask-container-${index}`);
     let currentSubtaskText = subtasks[index].subtask;
@@ -477,6 +783,21 @@ function editSubtaskEdit(index) {
     setupEditSubtaskByEnterKeyEdit(index);
 }
 
+/**
+ * Generates the HTML structure for editing a subtask in the task editing form.
+ * This function creates an input field populated with the current subtask text and includes
+ * icons for deleting or submitting the edit. The generated HTML allows the user to modify
+ * the subtask text and submit or delete the changes.
+ *
+ * @param {string} currentSubtaskText - The current text of the subtask that the user will edit.
+ *   This is used to pre-fill the input field when editing.
+ * @param {number} index - The index of the subtask in the `subtasks` array, used to generate
+ *   unique IDs for the editable subtask and its associated buttons.
+ *
+ * @returns {string} - The HTML string representing the editable subtask interface, which includes:
+ *   - An input field pre-filled with the current subtask text.
+ *   - Icons for submitting or deleting the edited subtask.
+ */
 function templateEditSubtasksHTMLEdit(currentSubtaskText, index) {
     return /*html*/ `
         <div id="edit-subtask-container">
@@ -493,6 +814,18 @@ function templateEditSubtasksHTMLEdit(currentSubtaskText, index) {
         </div>`;
 }
 
+/**
+ * Deletes a subtask from the task editing form and the `subtasks` array.
+ * This function removes the HTML element representing the subtask and updates
+ * the internal `subtasks` array by removing the subtask at the specified index.
+ * Afterward, it calls `updateSpecificSubtaskEdit` to ensure the UI is refreshed.
+ *
+ * @param {number} index - The index of the subtask in the `subtasks` array that should be deleted.
+ *   This index is used to identify the subtask both in the DOM and the `subtasks` array.
+ *
+ * @returns {void} - This function doesn't return a value. It modifies the DOM by removing
+ *   the subtask element and updates the `subtasks` array.
+ */
 function deleteSubtaskEdit(index) {
     let newSubtask = document.getElementById(`edit-generated-subtask-container-${index}`);
     if (newSubtask) {
@@ -502,6 +835,18 @@ function deleteSubtaskEdit(index) {
     updateSpecificSubtaskEdit();
 }
 
+/**
+ * Submits the edited subtask and updates the internal `subtasks` array.
+ * This function checks if the input field for the edited subtask is empty.
+ * If not, it updates the subtask in the `subtasks` array with the new value
+ * and calls `updateSpecificSubtaskEdit` to refresh the UI with the updated subtask.
+ *
+ * @param {number} index - The index of the subtask in the `subtasks` array that is being edited.
+ *   This index is used to identify the specific subtask to update in the array.
+ *
+ * @returns {void} - This function doesn't return a value. It modifies the `subtasks` array
+ *   and updates the UI based on the changes made.
+ */
 function submitSubtaskEdit(index) {
     let editedSubtaskInput = document.getElementById(`edit-edit-subtask-input-${index}`).value;
 
@@ -513,6 +858,17 @@ function submitSubtaskEdit(index) {
     }
 }
 
+/**
+ * Handles the "Enter" key press to add a subtask while editing.
+ * This function listens for the "Enter" key event and prevents the default form submission behavior.
+ * If the "Enter" key is pressed, it triggers the `addSubtaskFromEdit` function to add the new subtask.
+ *
+ * @param {KeyboardEvent} event - The KeyboardEvent object that represents the "Enter" key press.
+ *   This event contains information about the key pressed and the target element.
+ *
+ * @returns {void} - This function doesn't return a value. It prevents the default event behavior
+ *   and calls `addSubtaskFromEdit` to add the subtask.
+ */
 function addSubtaskByEnterKeyEdit(event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -520,6 +876,18 @@ function addSubtaskByEnterKeyEdit(event) {
     }
 }
 
+/**
+ * Sets up an event listener to handle the "Enter" key press for editing a subtask.
+ * This function adds a keydown event listener to the specified input field. When the "Enter" key
+ * is pressed, it prevents the default behavior and calls `addEditedSubtaskByEnterKeyEdit` to handle
+ * the submission of the edited subtask.
+ *
+ * @param {number} index - The index of the subtask being edited. This is used to identify the specific
+ *   subtask input field to attach the event listener.
+ *
+ * @returns {void} - This function does not return a value. It adds an event listener to the input element
+ *   and triggers the corresponding subtask edit functionality when the "Enter" key is pressed.
+ */
 function setupEditSubtaskByEnterKeyEdit(index) {
     let editSubtaskInput = document.getElementById(`edit-edit-subtask-input-${index}`);
     editSubtaskInput.addEventListener("keydown", function (event) {
@@ -530,6 +898,19 @@ function setupEditSubtaskByEnterKeyEdit(index) {
     });
 }
 
+/**
+ * Handles the "Enter" key press to submit an edited subtask.
+ * This function is triggered when the "Enter" key is pressed while editing a subtask.
+ * It prevents the default behavior and calls the `submitSubtaskEdit` function to save the edited subtask.
+ *
+ * @param {number} index - The index of the subtask being edited. This is used to identify the specific subtask
+ *   and apply the changes to it.
+ * @param {KeyboardEvent} event - The KeyboardEvent object that represents the "Enter" key press.
+ *   It contains information about the key pressed and the target element.
+ *
+ * @returns {void} - This function does not return a value. It prevents the default event behavior
+ *   and triggers the submission of the edited subtask by calling `submitSubtaskEdit`.
+ */
 function addEditedSubtaskByEnterKeyEdit(index, event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -537,6 +918,13 @@ function addEditedSubtaskByEnterKeyEdit(index, event) {
     }
 }
 
+/**
+ * Updates the list of subtasks in the edit mode by regenerating the HTML for each subtask.
+ * This function clears the current list of subtasks in the DOM and repopulates it with updated subtask data.
+ *
+ * @returns {void} - This function does not return any value. It updates the subtask list in the DOM
+ *   by regenerating the HTML for each subtask.
+ */
 function updateSpecificSubtaskEdit() {
     let subtaskList = document.getElementById("edit-generated-subtask-list-container");
 
@@ -548,6 +936,13 @@ function updateSpecificSubtaskEdit() {
     }
 }
 
+/**
+ * Resets the subtask icon container in the edit mode, replacing it with the default "add" icon.
+ * This function clears the current icons (e.g., check and close icons) and adds the "plus" icon back
+ * to allow the user to add a new subtask. It also sets a flag to indicate that the subtask is being reset.
+ *
+ * @returns {void} - This function does not return any value. It performs a DOM update to reset the subtask icon.
+ */
 function resetSubtaskIconEdit() {
     let subtaskIconContainer = document.getElementById("edit-subtask-icon-container");
 
@@ -562,6 +957,15 @@ function resetSubtaskIconEdit() {
 
 let wasContactsDropdownOpenInCurrentTask = false;
 
+/**
+ * Displays the contacts dropdown in the edit mode, populating it with contact names and updating UI elements.
+ * This function fetches the contact data, sets placeholders, and renders the contact list in the dropdown.
+ * It also manages the visibility and styling of the dropdown and handles the contacts already assigned to the task.
+ *
+ * @async
+ * @returns {Promise<void>} - This function does not return a value. It performs asynchronous actions
+ * like fetching contact data and updating the DOM elements to display the contact dropdown.
+ */
 async function showContactsDropDownEdit() {
     await fetchContacts();
 
@@ -691,7 +1095,13 @@ function removeColorOfBorderAssignedContainerEdit() {
 }
 
 /**
- * Displays the selected contacts as colored circles with their initials.
+ * Displays circles representing the selected contacts in the edit view.
+ * Each circle contains the initials of a contact, and the circle's color is determined
+ * by the contact's associated color. The function limits the number of visible circles
+ * to a maximum of 6, and shows a label indicating how many more contacts are selected
+ * if there are more than 6.
+ *
+ * @returns {void} - This function updates the DOM by rendering circles for selected contacts.
  */
 function showCirclesOfSelectedContactsEdit() {
     let circleContainer = document.getElementById("edit-selected-contacts-circle-container");
@@ -723,10 +1133,13 @@ function showCirclesOfSelectedContactsEdit() {
 }
 
 /**
- * Generates the HTML structure for the contacts dropdown list.
- * Contacts are sorted by their first name, and each contact is displayed with a colored circle and a checkbox.
+ * Generates the HTML for the contacts dropdown list in the edit view.
+ * This function creates a list of contacts with their associated colors,
+ * including their initials in a circle and their full name. Each contact
+ * has a selectable dropdown item with an unchecked box, and clicking a contact
+ * will select it for the task.
  *
- * @returns {string} The generated HTML for the contacts dropdown list.
+ * @returns {string} - The generated HTML string for the contacts dropdown list.
  */
 function templateContactsHTMLDropdownListEdit() {
     let dropdownHTML = "";
@@ -756,6 +1169,13 @@ function templateContactsHTMLDropdownListEdit() {
     return dropdownHTML;
 }
 
+/**
+ * Toggles the visibility of the contacts dropdown in the edit view.
+ * If the dropdown list is currently hidden (i.e., has the "d-none" class),
+ * it will be shown by calling the `showContactsDropDownEdit` function.
+ * If the dropdown list is visible, it will be closed by calling
+ * the `closeContactsDropDownEdit` function.
+ */
 function checkIfContactsDropdownIsVisibleEdit() {
     let dropdownList = document.getElementById("edit-dropdown-list");
 
@@ -766,10 +1186,24 @@ function checkIfContactsDropdownIsVisibleEdit() {
     }
 }
 
+/**
+ * Adds an event listener to the document when the DOM content has been fully loaded.
+ * This listener listens for click events and calls the `clickOutsideOfContactsDropdownEdit` function
+ * when the user clicks anywhere on the document.
+ *
+ * The `clickOutsideOfContactsDropdownEdit` function checks whether the click event occurred
+ * outside of the contacts dropdown in the edit view. If so, it will close the contacts dropdown.
+ */
 document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("click", clickOutsideOfContactsDropdownEdit);
 });
 
+/**
+ * Handles clicks outside the contacts dropdown in the edit view.
+ * Closes the dropdown if the user clicks outside of the dropdown or the contacts input field.
+ *
+ * @param {MouseEvent} event - The mouse event triggered by the user's click.
+ */
 function clickOutsideOfContactsDropdownEdit(event) {
     const contactsDropdown = document.getElementById("edit-dropdown-list");
     const contactsInput = document.getElementById("edit-selected-name");
@@ -784,6 +1218,19 @@ function clickOutsideOfContactsDropdownEdit(event) {
     }
 }
 
+/**
+ * Generates the HTML for the task editing interface with pre-filled data for title, description,
+ * date, priority, subtasks, and task ID.
+ *
+ * @param {string} title - The title of the task to be edited.
+ * @param {string} description - The description of the task to be edited.
+ * @param {string} date - The due date of the task (in YYYY-MM-DD format).
+ * @param {string} priority - The priority of the task. Possible values: "urgent", "medium", "low".
+ * @param {string} taskAddedSubtasks - HTML representation of the subtasks to be pre-filled in the task edit form.
+ * @param {string} taskId - The unique identifier of the task being edited.
+ *
+ * @returns {string} - The HTML markup string for the task editing interface.
+ */
 function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks, taskId) {
     const urgentClass = priority === "urgent" ? "prio-urgent-button-bg-color" : "";
     const mediumClass = priority === "medium" ? "prio-medium-button-bg-color" : "";
@@ -801,7 +1248,6 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                     <div class="subtitle">Title<span class="asterisk">*</span></div>
                     <div id="title-input-container">
                         <input type="text" placeholder="Enter a title" id="edit-title-input" value="${title}" />
-                        <!-- <span class="error-message">This field is required</span> -->
                         <span id="edit-missing-title-message" class="validationStyle" style="display: none">This field is required</span>
                     </div>
                 </div>
@@ -812,12 +1258,10 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                 <div id="edit-assigned-container" class="flex-column gap8px">
                     <div class="subtitle">Assigned to</div>
                     <div id="edit-selected-name" class="select-container"  onclick="checkIfContactsDropdownIsVisibleEdit()">   
-                    <!-- <div id="edit-selected-name" onclick="checkIfContactsDropdownIsVisible()"> -->
                         <span id="edit-assigned-placeholder">Select contacts to assign</span>
                         <div id="edit-contacts-dropwdown-arrow-container"><img src="/img/addTask/arrow_drop_down.svg" id="dropdown-arrow" /></div>
                     </div>
                     <div id="edit-dropdown-list" class="d-none"></div>
-                    <!-- <div id="selected-contacts-circle-container"></div> -->
                     <div id="edit-selected-contacts-circle-container"></div>
                 </div>
             </div>
@@ -826,14 +1270,12 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                     <div class="subtitle">Due date<span class="asterisk">*</span></div>
                     <div id="calender">
                         <input type="date" id="edit-date-input" value="${date}" />
-                        <!-- <span class="error-message">This field is required</span> -->
                         <span id="edit-missing-date-message" class="validationStyle" style="display: none">This field is required</span>
                     </div>
                 </div>
                 <div id="prio-container" class="flex-column gap8px">
                     <div class="subtitle">Prio</div>
                     <div id="choose-prio-container">
-                        <!-- <button class="choose-prio-button flex-center-align ${urgentClass}" id="edit-prio-urgent-button" type="button" onclick="choosePrio('urgent')"> -->
                         <button class="choose-prio-button flex-center-align" id="edit-prio-urgent-button" type="button" onclick="choosePrio('urgent')">
                             <span id="prio-urgent" class="flex-center-align">Urgent </span>
                             <svg class="prio-urgent-arrows" id="prio-urgent-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -847,7 +1289,6 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                                 />
                             </svg>
                         </button>
-                        <!-- <button class="choose-prio-button flex-center-align prio-medium-button-bg-color ${mediumClass}" id="edit-prio-medium-button" type="button" onclick="choosePrio('medium')"> -->
                         <button class="choose-prio-button flex-center-align prio-medium-button-bg-color" id="edit-prio-medium-button" type="button" onclick="choosePrio('medium')">
                             <span id="prio-medium" class="flex-center-align">Medium </span>
                             <svg class="prio-medium-arrows" id="prio-medium-arrows" width="21" height="8" viewBox="0 0 21 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -865,7 +1306,6 @@ function loadEditTaskHTML(title, description, date, priority, taskAddedSubtasks,
                                 </defs>
                             </svg>
                         </button>
-                        <!-- <button class="choose-prio-button flex-center-align ${lowClass}" id="edit-prio-low-button" type="button" onclick="choosePrio('low')"> -->
                         <button class="choose-prio-button flex-center-align" id="edit-prio-low-button" type="button" onclick="choosePrio('low')">
                             <span id="prio-low" class="flex-center-align"> Low </span>
                             <svg class="prio-low-arrows" id="prio-low-arrows" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
