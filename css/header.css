@@ -299,7 +299,6 @@ header {
 @media (max-height: 800px) {
     .sideBarMenu {
         display: flex;
-        flex-direction: column;
         gap: 15px;
         margin-bottom: 150px;
     }

@@ -1101,9 +1101,6 @@ label {
         margin-bottom: 5px;
         max-width: 172px;
     }
-    .sideBarMenu {
-        flex-direction: row;
-    }
     .column-feedback {
         margin-top: 10px;
     }
