@@ -577,6 +577,11 @@
     .contacts{
         max-height: calc(100vh - 184px);
     }
+    .add-contact-pop-up-overlay, 
+    .edit-contact-pop-up-overlay {
+        z-index: 1001;
+        backdrop-filter: blur(8px);
+    }
 }
 
 @media (min-width: 1361px) {
@@ -937,5 +942,4 @@
     .contact-information-item p{
         font-size: 14px;
     }
-    
 }
