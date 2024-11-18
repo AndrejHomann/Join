@@ -87,25 +87,48 @@ function updateUserProfileIcon() {
 
 /**
  * Toggles the visibility of the user menu.
- * When the user clicks on the profile icon, the user menu is displayed or hidden.
- * If the user clicks outside the menu or on any menu link, the menu will close automatically.
+ * Ensures that clicking outside the menu or on menu links closes the menu.
  */
 function toggleUserMenu() {
     const userMenu = document.getElementById("userMenuBox");
     const userProfileIcon = document.getElementById("userProfileIcon");
+
     if (!userMenu || !userProfileIcon) {
         console.error("User menu box or icon not found!");
         return;
     }
+
     const isMenuVisible = userMenu.style.display === "block";
     userMenu.style.display = isMenuVisible ? "none" : "block";
-    document.addEventListener("click", function (event) {
+
+    if (!isMenuVisible) {
+        addOutsideClickListener(userMenu, userProfileIcon);
+        addMenuLinkListeners(userMenu);
+    }
+}
+
+/**
+ * Adds an event listener to close the user menu when clicking outside of it.
+ * @param {HTMLElement} userMenu - The user menu element to monitor.
+ * @param {HTMLElement} userProfileIcon - The user profile icon element to monitor.
+ */
+function addOutsideClickListener(userMenu, userProfileIcon) {
+    document.addEventListener("click", function handleOutsideClick(event) {
         const isClickInsideMenu = userMenu.contains(event.target);
         const isClickOnIcon = userProfileIcon.contains(event.target);
+
         if (!isClickInsideMenu && !isClickOnIcon) {
             userMenu.style.display = "none";
+            document.removeEventListener("click", handleOutsideClick);
         }
     });
+}
+
+/**
+ * Adds click event listeners to menu links to close the user menu when clicked.
+ * @param {HTMLElement} userMenu - The user menu element containing the links.
+ */
+function addMenuLinkListeners(userMenu) {
     const menuLinks = userMenu.querySelectorAll("a");
     menuLinks.forEach((link) => {
         link.addEventListener("click", () => {
