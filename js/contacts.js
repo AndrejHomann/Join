@@ -184,88 +184,135 @@ async function updateContact() {
 }
 
 /**
- * Deletes an existing contact from the Firebase database using the 'DELETE' method.
+ * Deletes a contact from the database and updates related tasks.
+ *
+ * @async
+ * @returns {Promise<void>|null} A Promise that resolves when the contact is successfully deleted, or null if an error occurs.
+ */
+async function deleteContact() {
+    let fetchContactData = await fetchContactColorAndName();
+    let deleteUserColor = fetchContactData.UserColor;
+    let deleteUserName = fetchContactData.UserName;
+    let taskIdsWithContactNamesToDelete = await fetchTaskIds(deleteUserColor, deleteUserName);
+    await createNewColorAndNameArrays(deleteUserColor, deleteUserName, taskIdsWithContactNamesToDelete);
+    await deleteContactFromDatabase();
+}
+
+/**
+ * Fetches the color and name of a specific contact from the server.
+ *
+ * @async
+ * @returns {Promise<{UserColor: string, UserName: string}|null>} A Promise that resolves to an object containing the contact's color and name, or null if an error occurs.
+ */
+async function fetchContactColorAndName() {
+    try {
+        const response = await fetch(`${BASE_URL}/${`contacts`}.json`);               
+        const contactData = await response.json();
+        let UserColor = contactData[currentContactId].color;
+        let UserName = contactData[currentContactId].name;
+        return {UserColor, UserName};
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+        return null;
+    }
+}
+
+/**
+ * Fetches IDs of tasks that match the provided color and name.
+ *
+ * @async
+ * @param {string} deleteUserColor The color to match against tasks.
+ * @param {string} deleteUserName The name to match against tasks.
+ * @returns {Promise<string[]>|null} A Promise that resolves to an array of task IDs that match the criteria, 
+ * or null if an error occurs during the fetch operation.
+ */
+async function fetchTaskIds(deleteUserColor, deleteUserName) {
+    try {
+        const response = await fetch(`${BASE_URL}.json`);
+        const data = await response.json();
+        const tasks = data.tasks;
+        let taskIdArray = [];
+        for (const taskId in tasks) {
+            const task = tasks[taskId];
+            if (task.name && task.name.includes(deleteUserName) && task.color.includes(deleteUserColor)) {
+                taskIdArray.push(taskId);
+            }
+        }
+        return taskIdArray;
+    } catch (error) {
+        console.error("Error while fetching data:", error);
+        return null;
+    }
+}
+
+/**
+ * Updates color and name arrays of tasks based on a deleted contact.
+ *
+ * @async
+ * @param {string} deleteUserColor The color of the deleted contact.
+ * @param {string} deleteUserName The name of the deleted contact.
+ * @param {string[]} taskIdsWithContactNamesToDelete An array of task IDs containing the deleted contact's name.
+ * @returns {Promise<void>|null} A Promise that resolves to nothing (void) if successful, 
+ *  or null if an error occurs during the fetch operation.
+ */
+async function createNewColorAndNameArrays(deleteUserColor, deleteUserName, taskIdsWithContactNamesToDelete) {
+    try {
+        const response = await fetch(`${BASE_URL}.json`);
+        const data = await response.json(); 
+        for (let i=0; i<taskIdsWithContactNamesToDelete.length; i++) {
+            const taskId = taskIdsWithContactNamesToDelete[i];
+            const task = data.tasks[taskId];
+            const newColorArray = task.color.filter(user => user !== deleteUserColor)
+            const newNameArray = task.name.filter(user => user !== deleteUserName)
+            await deleteColorAndContactFromTask(taskId, newColorArray, newNameArray, deleteUserColor, deleteUserName);
+        }
+    } catch (error) {
+        console.error("Error deleting contact:", error);
+    }
+}
+    
+/**
+ * Updates a task by removing a specific color and name from its respective arrays.
+ *
+ * @async
+ * @param {string} taskId The ID of the task to be updated.
+ * @param {string[]} newColorArray The new color array for the task.
+ * @param {string[]} newNameArray The new name array for the task.
+ * @param {string} deleteUserColor The color to be removed.
+ * @param {string} deleteUserName The name to be removed.
+ * @returns {Promise<void>} A Promise that resolves when the update is successful, or throws an error otherwise.
+ */
+async function deleteColorAndContactFromTask(taskId, newColorArray, newNameArray, deleteUserColor, deleteUserName) {
+    const patchResponse = await fetch(`${BASE_URL}/${`tasks`}/${taskId}.json`, {
+        method: 'PATCH',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        color: newColorArray,
+        name: newNameArray
+        })
+    });
+    if (!patchResponse.ok) {
+        throw new Error(`Error while deleting contact color and contact name from task ${taskId}`);
+    }
+}
+
+/**
+ * Deletes an existing contact using the 'DELETE' method. 
  * Upon successful deletion, the contact list and the UI are refreshed.
  *
  * @throws {Error} Throws an error if the deletion from Firebase fails.
  * @returns {Promise<void>} Returns a promise that resolves when the contact is deleted.
  */
-async function deleteContact() {
-    let deleteUserName;
+async function deleteContactFromDatabase() {
     try {
-        const response = await fetch(`${BASE_URL}/${`contacts`}.json`);
-        const contactData = await response.json();
-        deleteUserName = contactData[currentContactId].name;
-        console.log("delete Username:", deleteUserName)
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-        return null;
-    }
-
-    let taskIdsWithContactNamesToDelete = [];
-    try {
-        const response = await fetch(`${BASE_URL}.json`);
-        const data = await response.json();
-
-        const tasks = data.tasks;
-
-        for (const taskId in tasks) {
-            const task = tasks[taskId];
-            if (task.name.includes(deleteUserName)) {
-                taskIdsWithContactNamesToDelete.push(taskId);
-            }
-        }
-        console.log("task IDs:", taskIdsWithContactNamesToDelete);
-    } catch (error) {
-        console.error("Error while fetching data:", error);
-        return null;
-    }
-
-    try {
-        const response = await fetch(`${BASE_URL}.json`);
-        const data = await response.json();
-
-        for (let i = 0; i < taskIdsWithContactNamesToDelete.length; i++) {
-            const taskId = taskIdsWithContactNamesToDelete[i];
-            const task = data.tasks[taskId];
-            console.log("task name array:", task.name);
-            const TaskUserNameIndex = task.name.indexOf(deleteUserName);
-            console.log("task name array index", TaskUserNameIndex);
-            console.log("task name array before:", task.name);
-            // const newTaskUserNameArray = task.name.splice(TaskUserNameIndex, 1);
-            const newTaskUserNameArray = task.name.filter(user => user !== deleteUserName)
-            console.log("task name array after:", newTaskUserNameArray);
-
-            const patchResponse = await fetch(`${BASE_URL}/${`tasks`}/${taskId}.json`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: newTaskUserNameArray
-                })
-            });
-
-            if (patchResponse.ok) {
-                console.log(`Contact ${deleteUserName} has been deleted from Task with ID ${taskId}.`);
-            }
-
-            if (!patchResponse.ok) {
-                throw new Error(`Error deleting contact from task ${taskId}`);
-            }
-        }
-    } catch (error) {
-        console.error("Error deleting contact:", error);
-    }
-
-    const url = `${BASE_URL}contacts/${currentContactId}.json`;
-    try {
+        const url = `${BASE_URL}contacts/${currentContactId}.json`;
         const response = await fetch(url, {
             method: 'DELETE'
         });
         if (response.ok) {
             handleDeleteContact();
-
         } else {
             console.error('Failed to delete contact');
         }
@@ -273,9 +320,6 @@ async function deleteContact() {
         console.error('Error:', error);
     }
 }
-
-
-
 
 /**
  * Handles the deletion of a contact by updating the UI and refreshing the contact list.
@@ -305,6 +349,7 @@ async function handleDeleteContact() {
         contactList.click();
     }
 }
+
 /**
  * Asynchronously loads and inserts HTML content into elements with the `includeHTML` attribute.
  * Fetches the HTML file specified in the `includeHTML` attribute and replaces the element's innerHTML.
