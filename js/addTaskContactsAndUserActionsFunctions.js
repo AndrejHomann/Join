@@ -156,36 +156,97 @@ function removeColorOfBorderAssignedContainer() {
     selectContactsContainer.style.border = "";
 }
 
-/**
- * Displays the selected contacts as colored circles with their initials.
- */
 function showCirclesOfSelectedContacts() {
+    /**
+     * The container where the contact circles will be rendered.
+     * @type {HTMLElement}
+     */
     let circleContainer = document.getElementById("selected-contacts-circle-container");
     circleContainer.innerHTML = "";
 
+    /**
+     * Maximum number of circles to display.
+     * @const {number}
+     */
     let maxCircles = 6;
+
+    /**
+     * Number of contacts that exceed the maximum displayed circles.
+     * @type {number}
+     */
     let remainingContacts = selectedContacts.length - maxCircles;
 
+    // Loop through selected contacts and render up to the maximum limit
     for (let i = 0; i < selectedContacts.length; i++) {
-        let contact = selectedContacts[i];
-        let choosenContact = contactList.indexOf(contact);
-        let [firstName, lastName] = contact.split(" ");
-        let firstLetter = firstName.charAt(0).toUpperCase();
-        let lastLetter = lastName.charAt(0).toUpperCase();
-        let color = colors[choosenContact];
+        if (i >= maxCircles) break;
 
-        if (i >= maxCircles) {
-            break;
-        }
-
-        let contactHTML = /*html*/ `<div class="circle" style="background-color: ${color}">${firstLetter}${lastLetter}</div>`;
+        /**
+         * HTML for a single contact circle.
+         * @type {string}
+         */
+        let contactHTML = generateContactCircleHTML(selectedContacts[i]);
         circleContainer.innerHTML += contactHTML;
     }
 
+    // If there are more contacts, append the "+X more" indicator
     if (remainingContacts > 0) {
-        let remainingText = /*html*/ `<div class="moreCirlce">+${remainingContacts} weitere</div>`;
+        /**
+         * HTML for the remaining contacts indicator.
+         * @type {string}
+         */
+        let remainingText = generateRemainingContactsHTML(remainingContacts);
         circleContainer.innerHTML += remainingText;
     }
+}
+
+/**
+ * Generates the HTML string for a contact circle.
+ *
+ * @param {string} contact - The full name of the contact (e.g., "John Doe").
+ * @returns {string} HTML string for a single contact circle.
+ */
+function generateContactCircleHTML(contact) {
+    /**
+     * Index of the contact in the contact list.
+     * @type {number}
+     */
+    let choosenContact = contactList.indexOf(contact);
+
+    /**
+     * Split the contact name into first and last names.
+     * @type {string[]}
+     */
+    let [firstName, lastName] = contact.split(" ");
+
+    /**
+     * The first letter of the contact's first name.
+     * @type {string}
+     */
+    let firstLetter = firstName.charAt(0).toUpperCase();
+
+    /**
+     * The first letter of the contact's last name.
+     * @type {string}
+     */
+    let lastLetter = lastName.charAt(0).toUpperCase();
+
+    /**
+     * Background color for the contact circle.
+     * @type {string}
+     */
+    let color = colors[choosenContact];
+
+    return /*html*/ `<div class="circle" style="background-color: ${color}">${firstLetter}${lastLetter}</div>`;
+}
+
+/**
+ * Generates the HTML string for the "+X more" indicator.
+ *
+ * @param {number} remainingContacts - The number of additional contacts not displayed as circles.
+ * @returns {string} HTML string for the "+X more" indicator.
+ */
+function generateRemainingContactsHTML(remainingContacts) {
+    return /*html*/ `<div class="moreCirlce">+${remainingContacts} weitere</div>`;
 }
 
 /**
