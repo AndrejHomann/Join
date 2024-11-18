@@ -14,29 +14,50 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(startAnimations, 100);
 
     /**
-     * Pushes user data to the Firebase database.
-     * 
-     * @param {string} name - The name of the user.
-     * @param {string} email - The email of the user.
-     * @param {string} password - The password of the user.
-     * @returns {Promise<void>}
-     * @throws {Error} Throws an error if the data fetching fails.
+ * Creates a user data object.
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ * @param {boolean} [isRegistered=true] - Indicates if the user is registered.
+ * @param {string} [session='inactive'] - The session status of the user.
+ * @returns {Object} The user data object.
+ */
+    function createUserData(name, email, password, isRegistered = true, session = 'inactive') {
+        const color = generateRandomColor();
+        return { name, email, password, color, isRegistered, session };
+    }
+
+    /**
+     * Sends user data to the server.
+     * @param {Object} userData - The user data object to send.
+     * @returns {Promise<Object>} The response data from the server.
+     * @throws Will throw an error if the request fails.
+     */
+    async function sendUserDataToServer(userData) {
+        const response = await fetch(`${BASE_URL}contacts.json`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save data');
+        }
+        return response.json();
+    }
+
+    /**
+     * Handles user data creation and submission to the server.
+     * @param {string} name - The user's name.
+     * @param {string} email - The user's email.
+     * @param {string} password - The user's password.
+     * @param {boolean} [isRegistered=true] - Indicates if the user is registered.
+     * @param {string} [session='inactive'] - The session status of the user.
      */
     async function pushUserData(name, email, password, isRegistered = true, session = 'inactive') {
-        const color = generateRandomColor();
-        userData = { name, email, password, color, isRegistered, session };
         try {
-            const response = await fetch(`${BASE_URL}contacts.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-            if (!response.ok) {
-                throw new Error('Failed to save data');
-            }
-            const data = await response.json();
+            const userData = createUserData(name, email, password, isRegistered, session);
+            await sendUserDataToServer(userData);
             console.log('Success:', userData);
             saveSignUpData(email, password); // save sign up data to local storage
             showSignUpOverlay();
