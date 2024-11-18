@@ -13,7 +13,6 @@ let isContactDetailOpen = false;
 function displayContacts(contacts) {
     const contactList = document.getElementById('contactList');
     contactList.innerHTML = ''; // Clear any existing contacts
-
     const groupedContacts = groupContactsByFirstLetter(contacts);
     appendContactSections(groupedContacts, contactList);
     addContactListEventListener(contactList);
@@ -24,8 +23,7 @@ function displayContacts(contacts) {
  * 
  * @param {Object[]} contacts - An array of contact objects.
  * @param {string} contacts[].name - The name of the contact.
- * @returns {Object} An object where each key is a letter, and each value is an array of contacts
- *                   whose names start with that letter.
+ * @returns {Object} An object where each key is a letter, and each value is an array of contacts whose names start with that letter.
  * 
  * The function iterates over the array of contacts and groups them by the first letter of their names.
  * The result is an object where the keys are uppercase letters, and the values are arrays of contacts.
@@ -43,11 +41,9 @@ function groupContactsByFirstLetter(contacts) {
 
 /**
  * Appends alphabetically sorted contact sections to the contact list. 
- * Each section is identified by the first letter of the contact names and contains a title 
- * (the letter) and a separator line.
+ * Each section is identified by the first letter of the contact names and contains a title (the letter) and a separator line.
  * 
- * @param {Object} groupedContacts - An object where each key is a letter, and each value is an array 
- *                                   of contacts whose names start with that letter.
+ * @param {Object} groupedContacts - An object where each key is a letter, and each value is an array of contacts whose names start with that letter.
  * @param {HTMLElement} contactList - The DOM element representing the contact list.
  * 
  * The function sorts the contact sections alphabetically, creates a title and separator for each section,
@@ -57,10 +53,8 @@ function appendContactSections(groupedContacts, contactList) {
     Object.keys(groupedContacts).sort().forEach(letter => {
         const sectionTitle = createSectionTitle(letter);
         const separator = createSeparator();
-
         contactList.appendChild(sectionTitle);
         contactList.appendChild(separator);
-
         appendContactElements(groupedContacts[letter], contactList);
     });
 }
@@ -68,8 +62,7 @@ function appendContactSections(groupedContacts, contactList) {
 /**
  * Adds an event listener to the contact list element that listens for click events. 
  * When a contact list item is clicked, it triggers the `hideContactDetails()` function 
- * to hide the currently displayed contact details and remove the active state from 
- * the list element.
+ * to hide the currently displayed contact details and remove the active state from the list element.
  * 
  * @param {HTMLElement} contactList - The DOM element representing the contact list.
  * @listens click - The event type being listened for on the contact list element.
@@ -85,8 +78,7 @@ function addContactListEventListener(contactList) {
 
 /**
  * Appends contact elements to the contact list by converting each contact into a 
- * visual list item. Each contact element is made clickable, allowing the user to 
- * view the contact details.
+ * visual list item. Each contact element is made clickable, allowing the user to view the contact details.
  * 
  * @param {Array<Object>} contacts - The array of contact objects to be displayed.
  * @param {HTMLElement} contactList - The DOM element representing the contact list.
@@ -159,7 +151,6 @@ function addContactClickListener(contactElement, contact) {
 /**
  * Handles the click event on a contact element by toggling the visibility 
  * of the contact's details and updating the element's active state. 
- * 
  * Also updates the `isContactDetailOpen` flag to reflect whether the contact 
  * details are currently open (true) or closed (false).
  * 
@@ -188,7 +179,6 @@ function handleContactClick(contactElement, contact) {
  * Handles the action of returning to the contact list from the contact details view
  * in responsive design. Hides the contact details, removes the 'active' state from
  * the contact, and resets the currently displayed contact.
- * 
  * This function is primarily triggered when the user clicks the back arrow in the 
  * contact details header on smaller screens.
  * 
@@ -208,7 +198,6 @@ function goBackToContactList(contactElement, contact) {
  * Displays the detailed contact information in the contact detail section after a contact 
  * list item is clicked. This function generates a contact icon with the contact's initials 
  * and assigned color, and populates the contact details like name, email, and phone.
- * 
  * It also assigns event handlers to the edit and delete buttons, allowing the user to load 
  * the contact data into the edit form or delete the contact.
  * 
@@ -240,17 +229,14 @@ function createContactDetail(contact) {
  * into view from the right side of the screen. This function manages the CSS classes 
  * responsible for the slide-in effect, ensuring any previous animations are cleared 
  * before applying the new one.
- * 
  * The method `offsetWidth` is used to force a reflow, ensuring the slide-out 
  * animation is fully removed before the slide-in animation is added.
  */
 function slideInContactDetails() {
     const contactDetails = document.getElementById('contactDetailInformation');
-
     // Entferne vorherige Animationsklassen
     contactDetails.classList.remove('slide-out');
     void contactDetails.offsetWidth; // Reflow, um die Klasse zu entfernen
-
     // Füge die Klasse für den Slide-In-Effekt hinzu
     contactDetails.classList.add('slide-in');
 }
@@ -263,16 +249,13 @@ function slideInContactDetails() {
  */
 function hideContactDetails() {
     const contactDetails = document.getElementById('contactDetailInformation');
-
     contactDetails.classList.remove('slide-in');
     contactDetails.classList.add('slide-out');
     currentContactId = null;
     currentlyDisplayedContact = null;
-
     setTimeout(() => {
         contactDetails.innerHTML = '';
     }, 300);
-
     fetchContacts()
 }
 
@@ -284,11 +267,9 @@ function hideContactDetails() {
  */
 function showSuccessAlert() {
     const successAlert = document.getElementById('successAlert');
-
     successAlert.classList.remove('slide-out');
     void successAlert.offsetWidth;
     successAlert.classList.add('slide-in');
-
     setTimeout(() => {
         successAlert.classList.remove('slide-in');
         successAlert.classList.add('slide-out');
@@ -298,7 +279,6 @@ function showSuccessAlert() {
 /**
  * Handles the process after a contact has been updated. 
  * This function is triggered by the `updateContact()` function after an update to a contact's information.
- * 
  * It locates the updated contact in the `contactsArray` using the current contact ID, then updates the 
  * contact details displayed on the screen by calling the `createContactDetail()` function.
  * Finally, it closes the edit popup by triggering the `closeEditPopup()` function.
@@ -318,12 +298,10 @@ function handleContactUpdate() {
 function openPopup() {
     const overlay = document.getElementById('add-contact-pop-up-overlay');
     const popup = document.querySelector('.add-contact-pop-up');
-
     overlay.classList.remove('active');
     popup.classList.remove('animate');
     void overlay.offsetWidth;
     void popup.offsetWidth;
-
     overlay.style.display = 'flex';
     setTimeout(() => {
         overlay.classList.add('active');
@@ -340,12 +318,10 @@ function openPopup() {
 function openEditPopup() {
     const overlay = document.getElementById('edit-contact-pop-up-overlay');
     const popup = document.querySelector('.edit-contact-pop-up');
-
     overlay.classList.remove('active');
     popup.classList.remove('animate');
     void overlay.offsetWidth;
     void popup.offsetWidth;
-
     overlay.style.display = 'flex';
     setTimeout(() => {
         overlay.classList.add('active');
@@ -366,10 +342,8 @@ function openEditPopup() {
 function closePopup() {
     const overlay = document.getElementById('add-contact-pop-up-overlay');
     const popup = document.querySelector('.add-contact-pop-up');
-
     popup.classList.add('closing');
     overlay.classList.add('closing');
-
     setTimeout(() => {
         popup.classList.remove('animate', 'closing');
         overlay.classList.remove('active', 'closing');
@@ -390,10 +364,8 @@ function closePopup() {
 function closeEditPopup() {
     const overlay = document.getElementById('edit-contact-pop-up-overlay');
     const popup = document.querySelector('.edit-contact-pop-up');
-
     popup.classList.add('closing');
     overlay.classList.add('closing');
-
     setTimeout(() => {
         popup.classList.remove('animate', 'closing');
         overlay.classList.remove('active', 'closing');
@@ -404,6 +376,7 @@ function closeEditPopup() {
 /**
  * Listens to a click event outside of the popup and within the overlay to trigger the `closePopup()`
  * function. This will close the popup when the user clicks on the overlay background.
+ * 
  * @listens click - The event type being listened for on the overlay.
  */
 document.getElementById('add-contact-pop-up-overlay').addEventListener('click', (event) => {
@@ -415,6 +388,7 @@ document.getElementById('add-contact-pop-up-overlay').addEventListener('click', 
 /**
  * Listens to a click event outside of the popup and within the overlay to trigger the `closePopup()`
  * function. This will close the popup when the user clicks on the overlay background.
+ * 
  * @listens click - The event type being listened for on the overlay.
  */
 document.getElementById('edit-contact-pop-up-overlay').addEventListener('click', (event) => {

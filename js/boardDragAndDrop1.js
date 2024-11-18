@@ -380,6 +380,15 @@ function cleanupAfterTouchEnd() {
     removePlaceholder();
 }
 
+
+
+
+
+
+
+
+
+
 /**
  * Highlights the target column by adding the `highlight-drop-zone` 
  * class to it and removes the highlight from all other columns.
