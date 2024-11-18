@@ -1,0 +1,42 @@
+@media (max-width: 425px) {
+    .contacts {
+        padding-left: 0;
+        padding: 8px;
+        max-height: calc(100vh - 180px);
+    }
+    .contact-item {
+        width: 100%;
+    }
+    .contact-item p {
+        font-size: 16px;
+    }
+    .contact-details-header p{
+        font-size: 28px;
+    }
+    .contact-details-header span{
+        font-size: 16px;
+    }
+    .line-mobile{
+        width: 72px;
+        height: 2px;
+    }
+    .contact-information-user-name{
+        font-size: 20px;        
+    }
+    .contact-icon-large{
+        height: 64px;
+        width: 64px;
+        font-size: 20px;
+    }
+    .contact-information-title{
+        font-size: 16px;
+        margin: 24px 0px;
+    }
+    .contact-information-item h4{
+        font-size: 16px;
+    }
+    .contact-information-item span,
+    .contact-information-item p{
+        font-size: 14px;
+    }
+}

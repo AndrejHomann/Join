@@ -1,0 +1,134 @@
+.contact-item p{
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.contact-item span{
+    color: #007CEE;
+}
+
+.contact-item.active {
+    background-color: #2A3647; /* Hintergrundfarbe des aktiven Kontakts */
+    color: white; /* Falls erforderlich */
+}
+
+.contact-information-user-name{
+    font-size: 47px;
+    font-weight: 500;
+}
+
+.contact-information-title{
+    font-size: 20px;
+    margin: 52px 0px;
+}
+
+.contact-information-data{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.contact-information-item{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-information-item h4{
+    margin-top: 0;
+}
+
+.contact-information-item span{
+    color: #007CEE
+}
+
+.contact-information-btn-group{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.btn-edit{
+    display: flex;
+    gap: 8px;
+    border: none;
+    background-color: transparent;
+    color: #2A3647;
+    font-weight: 400;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-edit:hover{
+    color: #29abe2;
+    font-weight: 600;
+}
+
+.btn-edit:hover svg path{
+    fill: #29abe2;
+}
+
+/* Edit-Modus (Delete Button) */
+.delete-btn-style {
+    width: 80px;
+    /* spezielle Stile für den Edit-Modus */
+}
+
+/* Edit-Modus (Save Button) */
+.save-btn-style {
+    width: 140px;
+}
+
+.close-contact-form svg path{
+    fill: black;
+}
+
+.success-alert-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 632px;
+    left: 55px;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    width: 100%;
+}
+
+/* .success-alert-container.slide-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.success-alert-container.slide-out {
+    transform: translateX(100%);
+    opacity: 0;
+} */
+
+.success-alert {
+    width: 326px;
+    height: 74px;
+    background-color: #2A3647;
+    color: white;
+    border-radius: 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-alert-container.slide-in {
+    transform: translateX(0); /* In den Bildschirm sliden */
+    opacity: 1; /* Sichtbar */
+}
+
+.success-alert-container.slide-out {
+    transform: translateX(100%); /* Aus dem Bildschirm sliden */
+    opacity: 0; /* Unsichtbar */
+}
+
+#contactsID{
+    background-color: #091931;
+    color: white;
+}

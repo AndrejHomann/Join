@@ -1,0 +1,393 @@
+.add-contact-pop-up-overlay,
+.edit-contact-pop-up-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    display: none;
+}
+
+.add-contact-pop-up,
+.edit-contact-pop-up {
+    width: 1212px;
+    border-radius: 30px;
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 100%; /* Startet außerhalb des sichtbaren Bereichs */
+    transform: translateY(-50%); /* Zentriert vertikal */
+    z-index: 1000;
+    box-sizing: border-box;
+    display: flex;
+}
+
+@keyframes slideInFromRight {
+    0% {
+        left: 100%; /* Startposition (außerhalb des Bildschirms) */
+    }
+    100% {
+        left: 50%; /* Endposition (zentriert) */
+        transform: translateX(-50%) translateY(-50%);
+    }
+}
+
+.add-contact-pop-up.animate,
+.edit-contact-pop-up.animate {
+    animation: slideInFromRight 0.5s ease-out forwards;
+}
+
+@keyframes fadeInOverlay {
+    0% {
+        background: transparent; /* Startpunkt: komplett transparent */
+    }
+    100% {
+        background: rgba(0, 0, 0, 0.3); /* Endpunkt: halbdurchsichtige schwarze Farbe */
+    }
+}
+
+@keyframes slideOutToRight {
+    0% {
+        left: 50%; /* Startposition (zentriert) */
+        transform: translateX(-50%) translateY(-50%);
+    }
+    100% {
+        left: 100%; /* Endposition (außerhalb des Bildschirms rechts) */
+        transform: translateX(0%) translateY(-50%);
+    }
+}
+
+@keyframes fadeOutContactOverlay {
+    0% {
+        background: rgba(0, 0, 0, 0.3); /* Startpunkt: halbdurchsichtige schwarze Farbe */
+    }
+    100% {
+        background: transparent; /* Endpunkt: komplett transparent */
+    }
+}
+
+.add-contact-pop-up.closing,
+.edit-contact-pop-up.closing {
+    animation: slideOutToRight 0.5s ease-out forwards; /* Korrekte Animation */
+}
+
+.add-contact-pop-up-overlay.active,
+.edit-contact-pop-up-overlay.active {
+    animation: fadeInOverlay 0.5s ease-out forwards;
+    display: flex; /* Stellt sicher, dass das Overlay sichtbar bleibt */
+}
+
+.add-contact-pop-up-overlay.closing,
+.edit-contact-pop-up-overlay.closing {
+    animation: fadeOutContactOverlay 0.5s ease-out forwards;
+    display: flex; /* Overlay sichtbar während der Animation */
+}
+
+.add-contact-pop-up-left{
+    display: flex;
+    width: 467px;
+    height: 594px;
+    border-radius: 30px  0 0 30px;
+    background-color: #2A3647;
+}
+
+.add-contact-pop-up-left-title{
+    top: 154px;
+    left: 45.5px;
+    height: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-contact-pop-up-img{
+    width: 55.6px;
+    }
+
+.h1-contact{
+    color: white;
+    font-size: 61px;
+    margin: 8px 0 8px 0;
+}
+
+.p-contact{
+    color: white;
+    font-size: 27px;
+}
+
+.add-contact-pop-up-mid{
+    top: 204px;
+    padding: 0 83px 0 83px;
+    position: relative;
+    height: 0px;
+}
+
+.contact-circle-grey{
+    width: 120px;
+    height: 120px;
+    border-radius: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 47px;
+    font-weight: 500;
+    border: 3px solid white;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    background-color: #D1D1D1;
+}
+
+.close-contact-form{
+    width: 32px;
+    height: 32px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 48px;
+    left: 1126px;
+}
+
+.close-contact-form:hover{
+    background-color: #D9D9D9;
+    border-radius: 50%;
+}
+
+.add-contact-container{
+    border-radius: 30px;
+    padding: 32px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+    top: 137px;
+}
+
+.contact-form-btn-container{
+    display: flex;
+    gap: 24px;
+}
+
+.btn-cancel-contact-form{
+    width: 126px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* Wichtig: Das Hover-Ereignis auf den Button anwenden und das SVG ansprechen */
+.btn-guest-log-in:hover #cancel-icon path {
+    stroke: #29ABE2;
+}
+
+.btn-create-contact-form{
+    width: 214px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.contacts-container{
+    display: flex;
+    flex-direction: row;
+    margin-left: 232px;
+    max-width: 1440px;
+    top: 100px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.contacts{
+    padding-top: 23px;
+    padding-right: 4px;
+    width: 400px;
+    max-height: calc(100vh - 123px);
+    overflow: hidden;
+    padding-left: 52px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px -1px 4px 0px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.contactlist{
+    width: 400px;
+    height: 100%;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.contactlist::-webkit-scrollbar {
+    width: 10px;
+}
+.contactlist::-webkit-scrollbar-track {
+    background: #f6f7f8; 
+    border-radius: 5px;
+}
+.contactlist::-webkit-scrollbar-thumb {
+    background: #d1d1d1; 
+    border-radius: 10px;
+    position: relative;
+}
+
+.contactlist::-webkit-scrollbar-thumb:hover {
+    background: #c9c8c8; 
+}
+
+.contact-detail-section {
+    flex: 1;
+    max-height: calc(100vh - 100px); /* Höhe der Seite minus Header */
+    overflow: auto;
+    box-sizing: border-box;
+    margin: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.contact-details-header{
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 106px;
+    left: 55px;
+    gap: 30px;
+}
+
+.contact-details-header p{
+    font-size: 61px;
+    font-weight: 700;
+}
+
+.contact-details-header span{
+    font-size: 27px;
+}
+
+.contact-details-header img {
+    position: absolute;
+    right: 60px;
+    cursor: pointer;
+}
+
+.line-full{
+    height: 59px;
+    width: 3px;
+    background-color: #29abe2;
+    display: flex;
+}
+
+.line-mobile {
+    width: 90px;
+    height: 3px;
+    background-color: #29abe2;
+    display: none;
+}
+
+#backToContactlist{
+    display: none;
+}
+
+.contact-detail-information{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 160px;
+    left: 55px;
+}
+
+.contact-information-header{
+    display: flex;
+    position: relative;
+    gap: 54px;
+}
+
+.contact-information-edit-section{
+    display: block;
+}
+
+.btn-add-new-contact{
+    width: 352px;
+    margin-bottom: 32px;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.btn-add-new-contact-mobile {
+  display: none;
+}
+
+.order{
+    margin-left: 52px;
+}
+
+.underline{
+    height: 1px;
+    background-color: #d1d1d1;
+    width: 352px;
+    margin: 8px 0;
+}
+
+.abc-order{
+    font-size: 20px;
+    padding: 17px 36px;
+    margin-left: 8px;
+    width: 352px;
+    box-sizing: border-box;
+}
+
+.contact-item{
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding: 15px 24px;
+    width: 352px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.contact-item:hover{
+    background-color: #D9D9D9;
+    cursor: pointer;
+}
+
+.contact-header {
+    display: flex;
+    align-items: center;
+}
+
+.contact-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+    flex-shrink: 0;
+    border: 2px solid white;
+}
+
+.contact-icon-large{
+    width: 120px;
+    height: 120px;
+    border-radius: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 47px;
+    font-weight: 500;
+    border: 3px solid white;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+}

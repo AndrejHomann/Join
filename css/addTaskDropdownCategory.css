@@ -1,0 +1,236 @@
+/* dropdown contacts*/
+
+#dropdown-list,
+#edit-dropdown-list,
+#board-dropdown-list {
+    max-height: 160px;
+    overflow-y: auto;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    top: 100%;
+    background-color: white;
+}
+
+.dropdown-item {
+    padding: 12px 16px 12px 16px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#dropdown-arrow {
+    width: 7.21px;
+    height: 4.6px;
+}
+
+#contacts-dropwdown-arrow-container,
+#edit-contacts-dropwdown-arrow-container,
+#board-contacts-dropwdown-arrow-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contactsDropdownNameSpan {
+    margin-left: 8px;
+}
+
+#contacts-dropwdown-arrow-container:hover,
+#edit-contacts-dropwdown-arrow-container:hover,
+#board-contacts-dropwdown-arrow-container:hover {
+    background: lightgray;
+    border-radius: 100%;
+}
+
+#dropdown-list div:not(.contactListBackground):hover,
+#edit-dropdown-list div:not(.contactListBackground):hover,
+#board-dropdown-list div:not(.contactListBackground):hover {
+    background: lightgray;
+}
+
+.dropdown-list-hover {
+    background: lightgray;
+    border-radius: 100%;
+}
+
+#selected-contacts-circle-container,
+#edit-selected-contacts-circle-container,
+#board-selected-contacts-circle-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.uncheckedBox {
+    height: 20px;
+    width: 20px;
+}
+
+.circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    border: 2px solid white;
+    margin-right: -8px;
+}
+
+.circle:hover {
+    border-radius: 50%;
+}
+
+/* category-container */
+
+#category-container,
+#board-category-container {
+    position: relative;
+    height: 80px;
+}
+
+#category-dropdown-arrow-container,
+#board-category-dropdown-arrow-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#category-dropdown-arrow-container:hover,
+#board-category-dropdown-arrow-container:hover {
+    background: lightgray;
+    border-radius: 100%;
+}
+
+#category-dropdown-list,
+#board-category-dropdown-list {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    top: 100%;
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 8px;
+}
+
+#category-dropdown-list div:hover,
+#board-category-dropdown-list div:hover {
+    background: lightgray;
+}
+
+#missing-category-message {
+    position: absolute;
+    top: 100%;
+}
+
+/* classes */
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-none {
+    display: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.gap8px {
+    gap: 8px;
+}
+
+.heightAuto {
+    height: auto !important;
+}
+
+/* addTask submit icon */
+
+.style-effects-success-message-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(100vh);
+    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+    display: none;
+    z-index: 11;
+}
+
+#success-message {
+    width: 326px;
+    height: 74px;
+    align-items: center;
+    background-color: #2a3647;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 29.5px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.slideInFromButton {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+    display: block;
+}
+
+#subtask-relative-container {
+    position: relative;
+    height: 48px;
+    margin-bottom: 8px;
+}
+
+#missing-subtask-message {
+    position: absolute;
+    font-size: 12px;
+    color: #ff8190;
+}
+
+/* scrollbar */
+
+::placeholder {
+    color: #d1d1d1;
+}
+
+input[type="date"]:invalid::-webkit-datetime-edit {
+    color: #d1d1d1;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #a8a8a8;
+    border-radius: 8px;
+}
