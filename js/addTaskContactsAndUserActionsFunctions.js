@@ -279,7 +279,7 @@ function showSuccessMessage() {
         if (createTask && createTask.classList.contains("board-mode")) {
             closeBoardAddTaskIfNeeded();
         }
-        window.location.href = "/boardTest/board2.html";
+        window.location.href = "/html/board.html";
     }, 2500);
 }
 
