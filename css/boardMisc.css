@@ -47,7 +47,7 @@
 }
 
 .task-priority-icon {
-    margin-left: -12px;
+    margin-left: -20px;
 }
 
 .moreContactsText {
@@ -396,6 +396,6 @@ label {
     color: #cdcdcd !important;
 }
 
-#addTask:hover{
+#addTask:hover {
     background-color: #2a3d59 !important;
 }
