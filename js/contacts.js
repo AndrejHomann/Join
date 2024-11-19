@@ -92,7 +92,6 @@ async function pushContactData(name, email, phone, color, isRegistered = false, 
         if (!response.ok) throw new Error('Failed to save contact data');
 
         const data = await response.json();
-        console.log('Success:', contactData);
         await handleContactAdd(); // Refresh the contact list
         processNewContact(data, contactData);
         showSuccessAlert();
@@ -206,11 +205,11 @@ async function deleteContact() {
  */
 async function fetchContactColorAndName() {
     try {
-        const response = await fetch(`${BASE_URL}/${`contacts`}.json`);               
+        const response = await fetch(`${BASE_URL}/${`contacts`}.json`);
         const contactData = await response.json();
         let UserColor = contactData[currentContactId].color;
         let UserName = contactData[currentContactId].name;
-        return {UserColor, UserName};
+        return { UserColor, UserName };
     } catch (error) {
         console.error("Error while fetching data:", error);
         return null;
@@ -258,8 +257,8 @@ async function fetchTaskIds(deleteUserColor, deleteUserName) {
 async function createNewColorAndNameArrays(deleteUserColor, deleteUserName, taskIdsWithContactNamesToDelete) {
     try {
         const response = await fetch(`${BASE_URL}.json`);
-        const data = await response.json(); 
-        for (let i=0; i<taskIdsWithContactNamesToDelete.length; i++) {
+        const data = await response.json();
+        for (let i = 0; i < taskIdsWithContactNamesToDelete.length; i++) {
             const taskId = taskIdsWithContactNamesToDelete[i];
             const task = data.tasks[taskId];
             const newColorArray = task.color.filter(user => user !== deleteUserColor)
@@ -270,7 +269,7 @@ async function createNewColorAndNameArrays(deleteUserColor, deleteUserName, task
         console.error("Error deleting contact:", error);
     }
 }
-    
+
 /**
  * Updates a task by removing a specific color and name from its respective arrays.
  *
@@ -286,11 +285,11 @@ async function deleteColorAndContactFromTask(taskId, newColorArray, newNameArray
     const patchResponse = await fetch(`${BASE_URL}/${`tasks`}/${taskId}.json`, {
         method: 'PATCH',
         headers: {
-        'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-        color: newColorArray,
-        name: newNameArray
+            color: newColorArray,
+            name: newNameArray
         })
     });
     if (!patchResponse.ok) {
