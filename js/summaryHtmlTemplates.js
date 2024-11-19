@@ -50,6 +50,12 @@ function priorityUser(nextTaskPriority, urgent, medium, low) {
         <div> <span class="mainContentLineTextBottom">${nextTaskPriority}</span> </div>
         `;
     }
+    if (nextTaskPriority === "") {
+        priority.innerHTML = /*html*/ `
+        <div class="center"> <span class="mainContentLineTextTop" style="font-size: 21px;">upcoming task has no priority</span> </div>          
+        <div> <span class="mainContentLineTextBottom"></span> </div>
+        `;
+    }
 }
 
 
@@ -108,31 +114,4 @@ function mobileGreetingTextAndName() {
         <span id="greetingTextMobile">${greetingText}</span>
         <span id="greetingNameMobile">${userName}</span>
     `;
-}
-
-
-function createPriorityLogoAndColor() {
-    let priority = document.getElementById('createPriorityLogoAndColor');
-    if (nextTaskPriority === "low") {
-        priority.innerHTML = /*html*/ `
-        <div id="mainContentLine2Circle">
-            <img id="priorityIcon" src="../img/summary/low_white.svg" alt="Priority Icon">
-        </div>
-    `;
-    }
-    if (nextTaskPriority === "medium") {
-        priority.innerHTML = /*html*/ `
-        <div id="mainContentLine2Circle">
-            <img id="priorityIcon" src="../img/summary/medium_white.svg" alt="Priority Icon">
-        </div>
-    `;
-    }
-    if (nextTaskPriority === "urgent") {
-        priority.innerHTML = /*html*/ `
-        <div id="mainContentLine2Circle">
-            <img id="priorityIcon" src="../img/summary/urgent_white.svg" alt="Priority Icon">
-        </div>
-    `;
-    }
-    changePriorityLogoAndColor(nextTaskPriority);
 }
