@@ -2,6 +2,10 @@ body {
     margin: 0 !important;
 }
 
+.no-border-box * {
+    box-sizing: initial;
+}
+
 .board-header {
     display: flex;
     position: relative;
