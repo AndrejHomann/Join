@@ -346,7 +346,6 @@ a{
     display: flex;
     position: relative;
     top: 100px;
-    overflow: auto;
     flex-direction: column;
 }
 
@@ -354,7 +353,7 @@ a{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    top: 206px;
+    top: 106px;
     left: 328px;
     position: relative;
     max-width: 1014px;
@@ -368,7 +367,7 @@ a{
 
 .legal-text, .help-text{
     gap: 24px;
-    top: 311px;
+    top: 211px;
     left: 328px;
     position: relative;
     max-width: 1014px;
