@@ -385,3 +385,17 @@ label {
     width: 0px;
     display: none;
 }
+
+#board {
+    background-color: #091931;
+    color: white;
+}
+
+#addTask {
+    background-color: #2a3647 !important;
+    color: #cdcdcd !important;
+}
+
+#addTask:hover{
+    background-color: #2a3d59 !important;
+}
