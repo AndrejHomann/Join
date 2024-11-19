@@ -154,3 +154,8 @@ h1 {
     text-align: left;
     cursor: pointer;
 }
+
+#addTask {
+    background-color: #091931;
+    color: white;
+}
