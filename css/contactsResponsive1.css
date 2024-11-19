@@ -342,6 +342,9 @@
         transform: translateY(100%);
         opacity: 0;
     }
+    .contact-item{
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
