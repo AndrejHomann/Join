@@ -129,21 +129,37 @@ async function includeHTML() {
  */
 function goBack() {
     if (document.referrer) {
-        window.location.href = document.referrer; // Leitet zur vorherigen Seite zurück
+        history.back();
     } else {
-        window.location.href = 'index.html'; // Fallback: Zur Hauptseite leiten, falls keine Referrer vorhanden ist
+        window.location.href = "/index.html";
+        window.close();
     }
-    window.close();
 }
 
-// Funktion zum Speichern der Initialen im Local Storage
+/**
+ * Saves the initials of a user in the local storage.
+ * 
+ * @param {string} name - The full name of the user.
+ * @example
+ * // Assuming the name is ‘Max Mustermann’:
+ * storeUserInitials(‘Max Mustermann’);
+ * // Stores ‘MM’ in the local storage under the key ‘userInitials’.
+ */
 function storeUserInitials(name) {
     const initials = getInitials(name);
     localStorage.setItem('userInitials', initials);
     console.log(`Initialen des Users gespeichert: ${initials}`);
 }
 
-// Funktion zum Ermitteln der Initialen
+/**
+ * Extracts the initials from a full name.
+ * 
+ * @param {string} name - The full name, e.g. ‘Max Mustermann’.
+ * @returns {string} The initials in capital letters, e.g. ‘MM’.
+ * @example
+ * getInitials(‘Max Mustermann’);
+ * // Returns ‘MM’.
+ */
 function getInitials(name) {
     const nameParts = name.split(' ');
     const initials = nameParts.map(part => part[0]).join('');
