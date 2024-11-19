@@ -273,7 +273,7 @@ function showSuccessAlert() {
     setTimeout(() => {
         successAlert.classList.remove('slide-in');
         successAlert.classList.add('slide-out');
-    }, 800);
+    }, 1100);
 }
 
 /**
