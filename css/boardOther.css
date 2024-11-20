@@ -297,11 +297,11 @@
     }
     
     .board-header { 
-        top: 75px;
+        top: 90px;
     }
     .board-overview {
         transform: scale(0.95);
-        top: 80px;
+        top: 90px;
         max-height: calc(100vh - 246px);
         margin-left: 10px;
         margin-right: 10px; 
