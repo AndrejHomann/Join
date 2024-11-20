@@ -26,7 +26,6 @@ function createPriorityLogoAndColor() {
         </div>
         `;
     }
-    
     changePriorityLogoAndColor(nextTaskPriority);
 }
 

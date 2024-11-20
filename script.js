@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const userData = createUserData(name, email, password, isRegistered, session);
             await sendUserDataToServer(userData);
-            console.log('Success:', userData);
             saveSignUpData(email, password); // save sign up data to local storage
             showSignUpOverlay();
         } catch (error) {

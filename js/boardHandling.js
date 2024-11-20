@@ -5,7 +5,6 @@
  * class to make the task creation form visible to the user.
  */
 function showTaskForm() {
-    console.log("showTaskForm() wurde aufgerufen");
     const taskContainer = document.getElementById("addTaskFromBoard");
     taskContainer.classList.add("show");
 }

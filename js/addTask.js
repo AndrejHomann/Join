@@ -117,7 +117,6 @@ async function addTask(path, data) {
     });
     if (response.ok) {
         let responseToJson = await response.json();
-        console.log(responseToJson);
         showSuccessMessage();
     } else {
         console.error("Error");
