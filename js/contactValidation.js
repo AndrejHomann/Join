@@ -41,14 +41,19 @@ function validateField(inputField, errorId, validationFn) {
 }
 
 /**
- * Checks if a given value is not empty.
+ * Validates if a given value is not empty and consists of at least two words (e.g., first and last name).
  * 
  * @function
- * @param {string} value - The value to check.
- * @returns {boolean} - Returns `true` if the value is not empty, otherwise `false`.
+ * @param {string} value - The value to validate.
+ * @returns {boolean} - Returns `true` if the value is not empty and contains at least two words, otherwise `false`.
  */
 function isNotEmpty(value) {
-    return value !== '';
+    if (value.trim() === '') {
+        return false;
+    }
+
+    const nameParts = value.trim().split(' ');
+    return nameParts.length >= 2;
 }
 
 /**
