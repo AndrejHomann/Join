@@ -316,7 +316,7 @@ function checkTaskOnKeystrokeInsideElementBoard(input, message, bordercolor1, bo
  */
 function checkTaskOnKeystrokeInsideElementBoardDescription(input, bordercolor) {
     input.addEventListener("input", () => {
-        input.style = `border: 1px solid ${bordercolor1};`;
+        input.style = `border: 1px solid ${bordercolor};`;
     });
 }
 
