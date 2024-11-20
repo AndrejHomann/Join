@@ -148,7 +148,6 @@ function goBack() {
 function storeUserInitials(name) {
     const initials = getInitials(name);
     localStorage.setItem('userInitials', initials);
-    console.log(`Initialen des Users gespeichert: ${initials}`);
 }
 
 /**
