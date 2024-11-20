@@ -46,22 +46,34 @@ async function fetchContacts() {
 }
 
 /**
- * Listens for the submission event of the contact form, prevents the default form submission,
- * retrieves input values for the new contact, generates a random color, and triggers the 
- * pushContactData() function to save the contact data to the database.
- *
- * @param {Event} event - The event object representing the form submission.
- * @listens submit - The event type being listened for on the form element.
+ * Event listener for the Add Contact form submission.
+ * Prevents the default form submission behavior and validates the form.
+ * If all fields are valid, processes the form data.
+ * 
+ * @param {SubmitEvent} event - The submit event object.
  */
-addContactForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const name = document.getElementById('addNewName').value;
-    const email = document.getElementById('addNewEmail').value;
-    const phone = document.getElementById('addNewPhone').value;
-
-    const color = generateRandomColor();
-    pushContactData(name, email, phone, color);
+document.getElementById('createContact').addEventListener('click', (event) => {
+    event.preventDefault(); // Wichtig, um Standardaktion zu verhindern
+    if (validateForm()) {
+        processForm(); // Speichert die Daten
+    }
 });
+
+/**
+ * Processes the Add Contact form data.
+ * Extracts values from the form, generates a random color, 
+ * and sends the data to the server or storage.
+ * 
+ * @function
+ */
+function processForm() {
+    const name = document.getElementById('addNewName').value.trim();
+    const email = document.getElementById('addNewEmail').value.trim();
+    const phone = document.getElementById('addNewPhone').value.trim();
+    const color = generateRandomColor();
+
+    pushContactData(name, email, phone, color);
+}
 
 /**
  * Adds a newly created contact to the Firebase contacts database.
@@ -172,7 +184,7 @@ async function sendUpdateRequest(contactId, updatedContact) {
  */
 async function updateContact() {
     try {
-        const updatedContact = getUpdatedContactData();
+        const updatedContact = processEditForm();
         updateContactInArray(currentContactId, updatedContact);
         await sendUpdateRequest(currentContactId, updatedContact);
         handleContactUpdate();
