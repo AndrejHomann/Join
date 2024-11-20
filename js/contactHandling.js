@@ -98,42 +98,6 @@ function loadContact(id, contact) {
 }
 
 /**
- * Collects the updated contact data from the edit form, preserving the originally set color 
- * and registration status. The collected data is then returned as an object, ready to be 
- * passed to the `updateContact` function for saving to Firebase.
- * 
- * @returns {Object} An object containing the updated contact data.
- * @returns {string} return.name - The updated name of the contact.
- * @returns {string} return.email - The updated email of the contact.
- * @returns {string} return.phone - The updated phone number of the contact.
- * @returns {string} return.color - The color associated with the contact.
- * @returns {boolean} return.isRegistered - Indicates whether the contact is a registered user.
- */
-function getUpdatedContactData() {
-    const iconColor = document.getElementById('editContactIcon').dataset.color || '#D1D1D1';
-    const isRegistered = document.getElementById('editIsRegistered').value === 'true';
-    return {
-        name: document.getElementById('editName').value,
-        email: document.getElementById('editEmail').value,
-        phone: document.getElementById('editPhone').value,
-        color: iconColor,
-        isRegistered: isRegistered
-    };
-}
-
-/**
- * Listens for the submission event of the edit contact form, prevents the default form submission, 
- * and triggers the `updateContact()` function to replace the old data with the new data.
- * 
- * @param {Event} event - The event object representing the form submission.
- * @listens submit - The event type being listened for on the form element.
- */
-document.getElementById('editContactForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    updateContact();
-});
-
-/**
  * Listens for the click event on the delete button and triggers the `deleteContact()` function
  * to remove the selected contact from Firebase and refresh the contact list. Calling the function
  * `closeEditPopup()` will cause the closing of the edit popup.
@@ -188,7 +152,6 @@ function closeMoreOnClickOutside() {
 
     if (btnGroup) {
         document.addEventListener('click', function (event) {
-            // Schließe die Box
             closeMoreBox();
         }, { once: true }); // Der Listener wird nur einmal ausgeführt
     }
