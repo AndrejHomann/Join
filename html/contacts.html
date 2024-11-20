@@ -40,26 +40,30 @@
                     </svg>
             </div>
             <div class="add-contact-container" id="addContactContainer">     
-            <form id="addContactForm">
+            <form id="addContactForm" novalidate>
                 <div class="input-field">
                     <input id="addNewName" class="input-log-in" type="text" placeholder="Name" required>
                     <img src="/img/user.png" alt="user icon" class="icon">
                 </div>
+                <div id="addNameError" class="error-message">Please enter your name.</div>
+
                 <div class="input-field">
                     <input id="addNewEmail" class="input-log-in" type="email" placeholder="Email" required>
                     <img src="/img/mail.png" alt="mail icon" class="icon">
                 </div>
+                <div id="addEmailError" class="error-message">Please enter a valid email.</div>
     
                 <div class="input-field">
                     <input id="addNewPhone" class="input-log-in" type="tel" placeholder="Phone" pattern="[0-9]*">
                     <img src="/img/phone.png" alt="phone icon" class="icon">
-                </div>    
+                </div> 
+                <div id="addPhoneError" class="error-message">Please enter digits only.</div>   
     
                 <div class="contact-form-btn-container">
-                    <button type="submit" class="btn-guest-log-in btn-cancel-contact-form" id="cancelContact">cancel <svg id="cancel-icon" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button class="btn-guest-log-in btn-cancel-contact-form" id="cancelContact">cancel <svg id="cancel-icon" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.001 6.50008L12.244 11.7431M1.758 11.7431L7.001 6.50008L1.758 11.7431ZM12.244 1.25708L7 6.50008L12.244 1.25708ZM7 6.50008L1.758 1.25708L7 6.50008Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg></button>
-                    <button class="btn-log-in btn-create-contact-form" id="createContact">Create contact <img src="/img/check.png" alt=""></button>
+                    <button type="submit" class="btn-log-in btn-create-contact-form" id="createContact">Create contact <img src="/img/check.png" alt=""></button>
                 </div>              
             </form>
     
@@ -86,34 +90,36 @@
                     </svg>
             </div>
             <div class="add-contact-container" id="addContactContainer">     
-            <form id="editContactForm">
+            <form id="editContactForm" novalidate>
                 <div class="input-field">
                     <input id="editName" class="input-log-in" type="text" placeholder="Name" required>
                     <img src="/img/user.png" alt="user icon" class="icon">
                 </div>
+                <div id="editNameError" class="error-message">Please enter your name.</div>
+
                 <div class="input-field">
                     <input id="editEmail" class="input-log-in" type="email" placeholder="Email" required>
                     <img src="/img/mail.png" alt="mail icon" class="icon">
                 </div>
+                <div id="editEmailError" class="error-message">Please enter a valid email.</div>
     
                 <div class="input-field">
                     <input id="editPhone" class="input-log-in" type="tel" placeholder="Phone" pattern="[0-9]*">
                     <img src="/img/phone.png" alt="phone icon" class="icon">
-                </div>  
+                </div>
+                <div id="editPhoneError" class="error-message">Please enter digits only.</div>
 
                 <input type="hidden" id="editIsRegistered" name="isRegistered">
     
                 <div class="contact-form-btn-container">
                     <button type="button" id="deleteContactButton" class="btn-guest-log-in btn-cancel-contact-form">Delete</button>
-                    <button type="submit" id="updateButton" class="btn-log-in btn-create-contact-form">Save <img src="/img/check.png" alt=""></button>
+                    <button type="button" id="updateButton" class="btn-log-in btn-create-contact-form">Save <img src="/img/check.png" alt=""></button>
                 </div>              
             </form>
     
             </div>
         </div>
-    </div>
-    
-
+    </div>  
 
     <div class="contacts-container">
         <div class="contacts" id="contacts">
@@ -146,5 +152,6 @@
     <script src="/js/contactsUI.js"></script>
     <script src="/js/contacts.js"></script>
     <script src="/js/contactHandling.js"></script>
+    <script src="/js/contactValidation.js"></script>
 </body>
 </html>
