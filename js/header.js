@@ -11,7 +11,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         highlightActiveLink();
-        hideHelpAndUserProfileOnSpecialPages();
+        // hideHelpAndUserProfileOnSpecialPages();
     }, 20);
     const currentPage = window.location.pathname;
     let delay = 100;
