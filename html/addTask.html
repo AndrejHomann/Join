@@ -142,6 +142,11 @@
                 includeHTML();
                 checkAddTaskChanges();
             });
+            document.addEventListener("DOMContentLoaded", () => {
+                const dateInput = document.getElementById("date-input");
+                const today = new Date().toISOString().split("T")[0];
+                dateInput.setAttribute("min", today);
+            });
         </script>
         <script src="/js/addTaskContactsAndUserActionsFunctions.js"></script>
         <script src="/js/addTaskValidationAndClearingFunctions.js"></script>
