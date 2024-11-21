@@ -12,5 +12,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (fromLoginPage === 'true' && sidebarPolicyAndNotice) {
             sidebarPolicyAndNotice.style.display = 'none';
         }
-    }, 30);
+
+        const userProfile = document.querySelector('.userProfile');
+        if (fromLoginPage === 'true' && userProfile) {
+            userProfile.style.display = 'none';
+        }
+
+        const helpDiv = document.querySelector('.helpDiv');
+        if (fromLoginPage === 'true' && userProfile) {
+            helpDiv.style.display = 'none';
+        }
+
+        const helpDivFromLogin = document.querySelector('.from-login');
+        if (fromLoginPage === 'true' && userProfile) {
+            helpDivFromLogin.style.display = 'flex';
+        }
+    }, 45);
 });
