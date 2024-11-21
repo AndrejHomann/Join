@@ -63,6 +63,10 @@ header {
     cursor: pointer;
 }
 
+.from-login{
+    display: none;
+}
+
 .sideBar {
     background-color: #2a3647;
     position: fixed;
