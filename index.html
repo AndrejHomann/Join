@@ -22,7 +22,7 @@
             <h1>Log in</h1>
             <div class="separator"></div>
 
-            <form id="loginForm">
+            <form id="loginForm" novalidate>
                 <div class="input-field">
                     <input id="loginEmail" class="input-log-in" type="email" placeholder="Email" required>
                     <img src="./img/mail.png" alt="email icon" class="icon">
@@ -52,24 +52,30 @@
             <h1>Sign up</h1>
             <div class="separator"></div>
 
-            <form id="signUpForm">
+            <form id="signUpForm" novalidate>
                 <div class="input-field">
                     <input required minlength="3" class="input-log-in" type="text" placeholder="Name" id="signUpName">
                     <img src="./img/user.png" alt="user icon" class="icon">
                 </div>
+                <div id="inputNameError" class="error-message">Please enter both a first and last name.</div>
+
                 <div class="input-field">
                     <input required class="input-log-in" type="email" placeholder="Email" id="signUpEmail">
                     <img src="./img/mail.png" alt="email icon" class="icon">
                 </div>
+                <div id="inputEmailError" class="error-message">Please enter a valid email.</div>
+
                 <div class="input-field">
                     <input required minlength="8" class="input-log-in" type="password" placeholder="Password" id="signUpPassword">
                     <img src="./img/lock.png" alt="password icon" class="icon">
                 </div>
+                <div id="inputPasswordError" class="error-message">Please enter a password with at least 8 characters.</div>
+
                 <div class="input-field">
                     <input required minlength="8" class="input-log-in" type="password" placeholder="Confirm Password" id="signUpConfirmPassword">
                     <img src="./img/lock.png" alt="password icon" class="icon">                    
                 </div>
-                <div id="confirmPasswordError" class="error-message"></div>
+                <div id="confirmPasswordError" class="error-message">Ups! Your password does not match</div>
 
                 <div class="checkbox">
                     <label for="privacy-policy">
@@ -78,9 +84,10 @@
                         I accept the<a class="privacy-policy-link" href="./html/privacypolicy.html?fromLogin=true">Privacy Policy</a>
                     </label>
                 </div>
+                <div id="checkboxError" class="error-message checkbox-error">Please accept the Privacy Policy.</div>
 
                 <div class="sign-up-btn-container">
-                    <button type="submit" id="signUpButton" class="btn-log-in">Sign up</button>
+                    <button id="signUpButton" class="btn-log-in">Sign up</button>
                 </div>              
             </form>
         </div>
@@ -95,7 +102,9 @@
         </div>
     </div>    
 
+   
     <script src="/js/utils.js"></script>
     <script src="script.js"></script>    
+    <script src="/js/loginValidation.js"></script>
 </body>
 </html>
