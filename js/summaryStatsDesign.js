@@ -5,27 +5,12 @@
  */
 function createPriorityLogoAndColor() {
     let priority = document.getElementById('createPriorityLogoAndColor');
-    if (nextTaskPriority === "low") {
-        priority.innerHTML = /*html*/ `
+    priority.innerHTML = /*html*/ `
         <div id="mainContentLine2Circle">
-            <img id="priorityIcon" src="../img/summary/low_white.svg" alt="Priority Icon">
+            <!-- <img id="priorityIcon" src="../img/summary/${nextTaskPriority}_white.svg" alt="Priority Icon"> -->
+            <img id="priorityIcon" alt="Priority Icon">
         </div>
-        `;
-    }
-    if (nextTaskPriority === "medium") {
-        priority.innerHTML = /*html*/ `
-        <div id="mainContentLine2Circle">
-            <img id="priorityIcon" src="../img/summary/medium_white.svg" alt="Priority Icon">
-        </div>
-        `;
-    }
-    if (nextTaskPriority === "urgent") {
-        priority.innerHTML = /*html*/ `
-        <div id="mainContentLine2Circle">
-            <img id="priorityIcon" src="../img/summary/urgent_white.svg" alt="Priority Icon">
-        </div>
-        `;
-    }
+    `;
     changePriorityLogoAndColor(nextTaskPriority);
 }
 
@@ -37,17 +22,31 @@ function createPriorityLogoAndColor() {
 function changePriorityLogoAndColor(nextTaskPriority) { 
     let priorityLogo = document.getElementById('priorityIcon');
     let priorityLogoBackground = document.getElementById('mainContentLine2Circle');
-    if (nextTaskPriority === 'urgent') {
-        priorityLogo.src = '../img/summary/urgent_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(255, 60, 0)';
-    } else if (nextTaskPriority === 'medium') {
-        priorityLogo.src = '../img/summary/medium_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(255, 166, 0)';
-    } else if (nextTaskPriority === 'low') {
-        priorityLogo.src = '../img/summary/low_white.svg';
-        priorityLogoBackground.style = 'background-color: rgb(121, 227, 41)';
+    if (nextTaskPriority !== '') { 
+        changePriorityLogoBackgroundColor(priorityLogo, priorityLogoBackground, nextTaskPriority);
+    }
+    if (nextTaskPriority === '') {
+        priorityLogo.style = 'display: none';
+        priorityLogoBackground.style = 'display: none';
     }
     return;
+}
+
+
+/**
+ * Updates the background color of the priority logo based on the next task's priority.
+
+ * @param {string} nextTaskPriority - The priority of the next task ("low", "medium", "urgent", or an empty string).
+ */
+function changePriorityLogoBackgroundColor(priorityLogo, priorityLogoBackground, nextTaskPriority) {
+    priorityLogo.src = `../img/summary/${nextTaskPriority}_white.svg`;
+    if (nextTaskPriority === 'low') { 
+        priorityLogoBackground.style = 'background-color: rgb(121, 227, 41)';
+    } else if (nextTaskPriority === 'medium') {
+        priorityLogoBackground.style = 'background-color: rgb(255, 166, 0)';
+    } else if (nextTaskPriority === 'urgent') {
+        priorityLogoBackground.style = 'background-color: rgb(255, 60, 0)';
+    } 
 }
 
 
