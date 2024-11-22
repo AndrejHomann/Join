@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
     const rememberMeCheckbox = document.getElementById('rememberMe');
+
     const BASE_URL = 'https://join285-60782-default-rtdb.europe-west1.firebasedatabase.app/';
 
     let userData = {
@@ -154,6 +155,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
+     * Event listener for the "Sign Up" button click event.
+     * Validates the sign-up form before calling the submitSignUp function.
+     * 
+     * @listens click#signUpButton
+     * @param {Event} event - The click event triggered when the user clicks the "Sign Up" button.
+     */
+    const updateButton = document.getElementById('signUpButton');
+    updateButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        if (validateSignUpForm()) {
+            submitSignUp(event);
+        }
+    });
+
+    /**
      * Validates that all required sign-up fields have been filled out and the privacy policy has been checked.
      * 
      * @returns {Object} An object containing the values of the sign-up form fields:
@@ -163,9 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
     * - {string} confirmPassword: The user's password confirmation.
     * - {boolean} privacyPolicyChecked: Whether the privacy policy checkbox is checked.
      */
-    function validateSignUpFields() {
-        const name = document.getElementById('signUpName').value;
-        const email = document.getElementById('signUpEmail').value;
+    function processSignUpForm() {
+        const name = document.getElementById('signUpName').value.trim();
+        const email = document.getElementById('signUpEmail').value.trim();
         const password = document.getElementById('signUpPassword').value;
         const confirmPassword = document.getElementById('signUpConfirmPassword').value;
         const privacyPolicyChecked = document.getElementById('privacy-policy').checked;
@@ -185,15 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         passwordInput.classList.add("error");
 
         errorMessageDiv.textContent = "Check your email and password. Please try again.";
-    }
-
-    /**
-     * Displays an error message when the confirmed password does not match the original password entry.
-     */
-    function displayPasswordError() {
-        const confirmPasswordError = document.getElementById('confirmPasswordError');
-        confirmPasswordError.textContent = 'Ups! Your password does not match';
-        document.getElementById('signUpConfirmPassword').classList.add('error');
+        errorMessageDiv.style.display = 'block';
     }
 
     /**
@@ -223,23 +232,29 @@ document.addEventListener('DOMContentLoaded', () => {
      * @returns {Promise<void}
      */
     async function submitSignUp(e) {
-        e.preventDefault(); // Prevents the default form submission action.
-        const { name, email, password, confirmPassword, privacyPolicyChecked } = validateSignUpFields();
+        e.preventDefault();
 
-        document.getElementById('confirmPasswordError').textContent = '';
-        document.getElementById('signUpConfirmPassword').classList.remove('error');
+        const { name, email, password, confirmPassword, privacyPolicyChecked } = processSignUpForm();
+
+        hideCheckboxError();
 
         if (name && email && password && confirmPassword && privacyPolicyChecked) {
-            if (password === confirmPassword) {
-                await handleSignUp({ name, email, password, confirmPassword });
-            } else {
-                displayPasswordError();
-            }
+            await handleSignUp({ name, email, password, confirmPassword });
         } else {
-            alert('Please fill in all required fields and accept the privacy policy');
+            if (!privacyPolicyChecked) {
+                showCheckboxError();
+            }
         }
     }
 
+    /**
+     * Handles the login process when the user submits the login form.
+     * It validates the required fields, attempts to log the user in, and saves login data if the login is successful.
+     * If there is an error, an error message is shown.
+     * 
+     * @async
+     * @param {Event} e - The submit event triggered when the user clicks the login button.
+     */
     async function submitLogin(e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
@@ -249,17 +264,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (email && password) {
             try {
                 await loginUser(email, password);
-
                 saveLoginData(email, password, rememberMe);
             } catch (error) {
                 console.error('Error:', error);
                 alert('An error occurred during login');
             }
         } else {
-            alert('Please fill in all required fields');
+            displayLoginError();
         }
     }
 
+    /**
+     * Saves the login data (email, password, and remember me choice) to localStorage.
+     * 
+     * @param {string} email - The email address entered by the user.
+     * @param {string} password - The password entered by the user.
+     * @param {boolean} rememberMe - The state of the "Remember Me" checkbox.
+     */
     function saveLoginData(email, password, rememberMe) {
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
@@ -283,6 +304,13 @@ document.addEventListener('DOMContentLoaded', () => {
             rememberMeCheckbox.checked = true;
         }
     }
+
+    /**
+     * Saves the checkbox status with every change and controls whether the user data is saved in local storage.
+     */
+    rememberMeCheckbox.addEventListener('change', () => {
+        localStorage.setItem('rememberMe', rememberMeCheckbox.checked);
+    });
 
     /**
      * Saves the user's sign-up data in the local storage.
