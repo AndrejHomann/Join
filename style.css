@@ -132,10 +132,15 @@ input:focus{
     font-size: 14px;
     margin-top: -27px;
     margin-bottom: 32px;
+    display: none;
 }
 
 input.error {
     border-color: #ff8190;
+}
+
+.checkbox-error{
+    text-align: center;
 }
 
 .icon {
@@ -510,7 +515,7 @@ h2, h3{
         width: 180px;
     }
     .sign-up-box{
-        top: 728px;
+        top: 708px;
         justify-content: center;
         align-items: center;
         right: auto;
@@ -518,7 +523,7 @@ h2, h3{
     .login-container,
     .signup-container{
         width: 396px;
-        top: 185.5px;
+        top: 160px;
     }
     #logInContent,
     #signUpContent{
@@ -526,8 +531,10 @@ h2, h3{
     }
     .terms{
         margin: 0;
-        bottom: 16px;
+        top: 280px;
         gap: 32px;
+        position: relative;
+        margin-bottom: 16px;
     }
     .terms-link{
         font-size: 14px;
